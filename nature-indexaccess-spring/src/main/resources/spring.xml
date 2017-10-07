@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+        
+    <context:component-scan base-package="pers.linhai.nature.indexaccess.spring.test.services" />
+    
+    <!-- look! IndexAccess-framework can be managed by spring container like this. -->
+    <bean class="pers.linhai.nature.indexaccess.spring.IndexAccessDefinitionFactory">
+    	
+    	<!-- here! you can custom your index entity package which the spring application will auto scan. then it will resolve the index bellow the package. -->
+    	<property name="indexScan" value="pers.linhai.nature.indexaccess.spring.test.index" />
+    </bean>
+</beans>

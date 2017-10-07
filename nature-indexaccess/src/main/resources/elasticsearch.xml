@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<client>
+	<settings>
+		<!-- Set to true to ignore cluster name validation of connected nodes. (since 0.19.4) -->
+<!-- 		<parameter name="client.transport.ignore_cluster_name" value="false" />
+		
+		In order to enable sniffing, set client.transport.sniff to true
+		<parameter name="client.transport.sniff" value="true" />
+		
+		Note that you have to set the cluster name if you use one different than "elasticsearch"
+		<parameter name="cluster.name" value="elasticsearch" /> -->
+	</settings>
+	
+	<addresses>
+		<address ip="127.0.0.1" port="9300" />
+	</addresses>
+</client>

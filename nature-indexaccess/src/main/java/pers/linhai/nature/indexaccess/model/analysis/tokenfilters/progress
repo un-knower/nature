@@ -1,0 +1,25 @@
+left:
+Synonym Token Filter
+Synonym Graph Token Filter
+Compound Word Token Filters
+Reverse Token Filter
+Elision Token Filter
+Truncate Token Filter
+Unique Token Filter
+Pattern Capture Token Filter
+Pattern Replace Token Filter
+Trim Token Filter
+Limit Token Count Token Filter
+Hunspell Token Filter
+Common Grams Token Filter
+Normalization Token Filter
+CJK Width Token Filter
+CJK Bigram Token Filter
+Delimited Payload Token Filter
+Keep Words Token Filter
+Keep Types Token Filter
+Classic Token Filter
+Apostrophe Token Filter
+Decimal Digit Token Filter
+Fingerprint Token Filter
+Minhash Token Filter
