@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>pers.linhai.nature</groupId>
@@ -12,90 +10,90 @@
 
 	<!-- 公共变量定义，定义各大模块的版本号等属性 -->
 	<properties>
-	    <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
-	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	    <maven.compiler.source>1.8</maven.compiler.source>
-	    <maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<java.version>1.8</java.version>
 		<junit.version>4.12</junit.version>
 		<spring.boot.version>1.5.6.RELEASE</spring.boot.version>
 		<springframework.version>4.3.9.RELEASE</springframework.version>
-		
+
 		<indecaccess.version>1.0.0-SNAPSHOT</indecaccess.version>
 		<indecaccess.log4jappender.version>1.0.0-SNAPSHOT</indecaccess.log4jappender.version>
 	</properties>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-			    <groupId>org.springframework.boot</groupId>
-			    <artifactId>spring-boot-starter-parent</artifactId>
-			    <version>${spring.boot.version}</version>
-			    <type>pom</type>
-			    <scope>import</scope>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-parent</artifactId>
+				<version>${spring.boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
 				<version>${springframework.version}</version>
-			    <type>jar</type>
-			    <scope>import</scope>
+				<type>jar</type>
+				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-beans</artifactId>
 				<version>${springframework.version}</version>
-			    <type>jar</type>
-			    <scope>import</scope>
+				<type>jar</type>
+				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context</artifactId>
 				<version>${springframework.version}</version>
-			    <type>jar</type>
-			    <scope>import</scope>
+				<type>jar</type>
+				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.elasticsearch.client</groupId>
 				<artifactId>transport</artifactId>
 				<version>5.5.0</version>
-			    <type>jar</type>
-			    <scope>import</scope>
+				<type>jar</type>
+				<scope>import</scope>
 			</dependency>
 			<dependency>
-			    <groupId>org.elasticsearch</groupId>
-			    <artifactId>elasticsearch</artifactId>
-			    <version>5.5.0</version><!--$NO-MVN-MAN-VER$-->
-			    <type>jar</type>
-			    <scope>import</scope>
+				<groupId>org.elasticsearch</groupId>
+				<artifactId>elasticsearch</artifactId>
+				<version>5.5.0</version><!--$NO-MVN-MAN-VER$ -->
+				<type>jar</type>
+				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.esotericsoftware</groupId>
 				<artifactId>reflectasm</artifactId>
 				<version>1.11.3</version>
-			    <type>jar</type>
-			    <scope>import</scope>
+				<type>jar</type>
+				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-api</artifactId>
 				<version>2.8.2</version>
-			    <type>jar</type>
-			    <scope>import</scope>
+				<type>jar</type>
+				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-core</artifactId>
 				<version>2.8.2</version>
-			    <type>jar</type>
-			    <scope>import</scope>
+				<type>jar</type>
+				<scope>import</scope>
 			</dependency>
 			<dependency>
-			    <groupId>com.lmax</groupId>
-			    <artifactId>disruptor</artifactId>
-			    <version>3.3.6</version>
-			    <type>jar</type>
-			    <scope>import</scope>
+				<groupId>com.lmax</groupId>
+				<artifactId>disruptor</artifactId>
+				<version>3.3.6</version>
+				<type>jar</type>
+				<scope>import</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -106,7 +104,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit.version}</version><!--$NO-MVN-MAN-VER$-->
+			<version>${junit.version}</version><!--$NO-MVN-MAN-VER$ -->
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
