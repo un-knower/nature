@@ -19,6 +19,8 @@
 		<spring.boot.version>1.5.6.RELEASE</spring.boot.version>
 		<springframework.version>4.3.9.RELEASE</springframework.version>
 
+		<nature.core.version>1.0.0-SNAPSHOT</nature.core.version>
+		<indecaccess.spring.version>1.0.0-SNAPSHOT</indecaccess.spring.version>
 		<indecaccess.version>1.0.0-SNAPSHOT</indecaccess.version>
 		<indecaccess.log4jappender.version>1.0.0-SNAPSHOT</indecaccess.log4jappender.version>
 	</properties>
@@ -113,5 +115,6 @@
 		<module>nature-indexaccess</module>
 		<module>nature-indexaccess-log4jappender</module>
 		<module>nature-indexaccess-spring</module>
-	</modules>
+    <module>nature-core</module>
+  </modules>
 </project>

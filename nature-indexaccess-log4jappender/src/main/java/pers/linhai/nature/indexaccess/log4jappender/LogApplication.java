@@ -25,7 +25,7 @@ import org.apache.logging.log4j.core.config.plugins.util.PluginManager;
 
 import pers.linhai.nature.indexaccess.log4jappender.hook.IndexAccessShutdownHook;
 import pers.linhai.nature.indexaccess.log4jappender.plugins.IndexAccessAppenderPlugin;
-import pers.linhai.nature.indexaccess.utils.ResourceUtils;
+import pers.linhai.nature.utils.ResourceUtils;
 
 /**
  * 

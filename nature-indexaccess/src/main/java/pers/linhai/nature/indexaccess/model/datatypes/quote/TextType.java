@@ -34,7 +34,7 @@ import pers.linhai.nature.indexaccess.model.enumer.SearchQuoteAnalyzer;
 import pers.linhai.nature.indexaccess.model.enumer.Similarity;
 import pers.linhai.nature.indexaccess.model.enumer.Store;
 import pers.linhai.nature.indexaccess.model.enumer.TermVector;
-import pers.linhai.nature.indexaccess.utils.StringUtils;
+import pers.linhai.nature.utils.StringUtils;
 
 /**
  * @Description: <一句话功能简述>

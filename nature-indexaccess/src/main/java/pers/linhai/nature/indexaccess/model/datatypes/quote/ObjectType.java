@@ -21,8 +21,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.settings.Settings.Builder;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
-import com.esotericsoftware.reflectasm.ConstructorAccess;
-
+import pers.linhai.nature.core.reflect.ConstructorAccess;
 import pers.linhai.nature.indexaccess.core.DataTypeParser;
 import pers.linhai.nature.indexaccess.core.impls.ObjectFieldConverterImpl;
 import pers.linhai.nature.indexaccess.interfaces.ObjectFieldConverter;

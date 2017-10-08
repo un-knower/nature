@@ -8,7 +8,7 @@
  * 修改时间:  2017年7月15日
  * 修改内容:  创建
  */
-package pers.linhai.nature.indexaccess.utils;
+package pers.linhai.nature.utils;
 
 import java.beans.Introspector;
 import java.lang.reflect.Array;

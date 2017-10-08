@@ -1,4 +1,4 @@
-package pers.linhai.nature.indexaccess.utils;
+package pers.linhai.nature.utils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

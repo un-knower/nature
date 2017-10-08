@@ -20,7 +20,7 @@ import pers.linhai.nature.indexaccess.model.core.DataTypeCollection;
 import pers.linhai.nature.indexaccess.model.datatypes.DataType;
 import pers.linhai.nature.indexaccess.model.index.Index;
 import pers.linhai.nature.indexaccess.utils.NamingUtils;
-import pers.linhai.nature.indexaccess.utils.StringUtils;
+import pers.linhai.nature.utils.StringUtils;
 
 /**
  * 根据实体类对象初始化实体配置信息

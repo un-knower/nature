@@ -34,7 +34,7 @@ import pers.linhai.nature.indexaccess.model.index.section.IndexSection.StaticSet
 import pers.linhai.nature.indexaccess.model.type.MappingConfiguration;
 import pers.linhai.nature.indexaccess.model.type.Type;
 import pers.linhai.nature.indexaccess.utils.NamingUtils;
-import pers.linhai.nature.indexaccess.utils.StringUtils;
+import pers.linhai.nature.utils.StringUtils;
 
 /**
  * 索引库配置

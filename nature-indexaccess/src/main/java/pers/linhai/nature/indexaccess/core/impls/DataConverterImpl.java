@@ -17,8 +17,7 @@ import java.util.Map.Entry;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 
-import com.esotericsoftware.reflectasm.ConstructorAccess;
-
+import pers.linhai.nature.core.reflect.ConstructorAccess;
 import pers.linhai.nature.indexaccess.exception.TypeAccessorException;
 import pers.linhai.nature.indexaccess.interfaces.DataConverter;
 import pers.linhai.nature.indexaccess.model.core.DataTypeCollection;

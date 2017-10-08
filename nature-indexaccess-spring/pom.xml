@@ -9,6 +9,7 @@
 	</parent>
 	
 	<artifactId>nature-indexaccess-spring</artifactId>
+	<version>${indecaccess.spring.version}</version>
 	<name>nature-indexaccess-spring</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>

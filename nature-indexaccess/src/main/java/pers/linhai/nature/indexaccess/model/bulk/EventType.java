@@ -12,7 +12,7 @@ package pers.linhai.nature.indexaccess.model.bulk;
 
 import org.apache.logging.log4j.LogManager;
 
-import pers.linhai.nature.indexaccess.utils.StringUtils;
+import pers.linhai.nature.utils.StringUtils;
 
 /**
  * 

@@ -24,8 +24,8 @@ import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import pers.linhai.nature.indexaccess.core.ClientConfigParser;
 import pers.linhai.nature.indexaccess.exception.EsClientInitializationException;
 import pers.linhai.nature.indexaccess.model.core.ClientConfiguration;
-import pers.linhai.nature.indexaccess.utils.IOUtils;
-import pers.linhai.nature.indexaccess.utils.ResourceUtils;
+import pers.linhai.nature.utils.IOUtils;
+import pers.linhai.nature.utils.ResourceUtils;
 
 /**
  * ES client link single object

@@ -23,7 +23,7 @@ import pers.linhai.nature.indexaccess.exception.DateFieldValueInvalidException;
 import pers.linhai.nature.indexaccess.model.datatypes.quote.DateType.Date;
 import pers.linhai.nature.indexaccess.model.datatypes.quote.ObjectType.ObjectField;
 import pers.linhai.nature.indexaccess.model.enumer.Index;
-import pers.linhai.nature.indexaccess.utils.StringUtils;
+import pers.linhai.nature.utils.StringUtils;
 
 /**
  * @Description: <一句话功能简述>

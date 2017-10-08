@@ -28,8 +28,7 @@ import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.elasticsearch.index.reindex.DeleteByQueryRequestBuilder;
 import org.elasticsearch.rest.RestStatus;
 
-import com.esotericsoftware.reflectasm.ConstructorAccess;
-
+import pers.linhai.nature.core.reflect.ConstructorAccess;
 import pers.linhai.nature.indexaccess.core.AccessorFactory;
 import pers.linhai.nature.indexaccess.core.BulkProcessorListener;
 import pers.linhai.nature.indexaccess.core.processor.TransportClientProcessor;

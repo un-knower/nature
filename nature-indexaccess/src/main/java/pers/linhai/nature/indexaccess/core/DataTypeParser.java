@@ -18,8 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.esotericsoftware.reflectasm.MethodAccess;
-
+import pers.linhai.nature.core.reflect.MethodAccess;
 import pers.linhai.nature.indexaccess.exception.FieldParseException;
 import pers.linhai.nature.indexaccess.model.core.DataTypeCollection;
 import pers.linhai.nature.indexaccess.model.datatypes.DataType;
