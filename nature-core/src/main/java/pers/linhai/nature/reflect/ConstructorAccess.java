@@ -52,7 +52,7 @@ public abstract class ConstructorAccess<T>
     abstract public T newInstance(Object enclosingInstance);
 
     @SuppressWarnings("unchecked")
-    static public <T> ConstructorAccess<T> get(Class<T> type)
+    public static <T> ConstructorAccess<T> get(Class<T> type)
     {
         Class<?> enclosingType = type.getEnclosingClass();
         boolean isNonStaticMemberClass = enclosingType != null && type.isMemberClass() && !Modifier.isStatic(type.getModifiers());
