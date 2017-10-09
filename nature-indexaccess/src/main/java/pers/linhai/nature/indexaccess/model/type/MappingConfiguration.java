@@ -94,7 +94,7 @@ public class MappingConfiguration<T extends Type>
             enabledAll = t.enabledAll();
         }
         
-        typeName = StringUtils.isEmpty(typeName) ? NamingUtils.name(typeClass.getSimpleName()) : typeName;
+        typeName = StringUtils.isEmpty(typeName) ? NamingUtils.fieldName(typeClass.getSimpleName()) : typeName;
         
         // 解析该type实体的注解字段
         parse();

@@ -89,7 +89,7 @@ public abstract class Index
         
         if (StringUtils.isEmpty(name))
         {
-            name = NamingUtils.name(indexClass.getSimpleName());
+            name = NamingUtils.fieldName(indexClass.getSimpleName());
         }
         
         if (StringUtils.isEmpty(alias))

@@ -16,7 +16,7 @@ public abstract class NamingUtils
 	 * @param name
 	 * @return
 	 */
-	public static final String name(String name)
+	public static final String fieldName(String name)
 	{
 		StringBuffer s = new StringBuffer();
 		for (int i = 0; i < name.length(); i++)
@@ -40,9 +40,28 @@ public abstract class NamingUtils
 		return s.toString();
 	}
 	
+	/**
+     * 将类名转换成变量名：把首字母大写转换成小写
+     * 
+     * @param name
+     * @return
+     */
+    public static final String variableName(String name)
+    {
+        StringBuffer s = new StringBuffer();
+        s.append(Character.toLowerCase(name.charAt(0))).append(name.substring(1));
+        return s.toString();
+    }
 	
+    /**
+     * <p>Title         : accessorName cdlilinhai1 2017年10月9日 下午5:39:11</p>
+     * <p>Description   : <pre>转换成访问器的变量名，该名字对应成员变量名</pre></p>
+     * @param c
+     * @return 
+     * String
+     */
 	public static final String accessorName(Class<?> c)
 	{
-	    return name(c.getSimpleName()) + "_accessor";
+	    return variableName(c.getSimpleName()) + "Accessor";
 	}
 }

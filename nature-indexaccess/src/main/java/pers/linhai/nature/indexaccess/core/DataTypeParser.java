@@ -84,7 +84,7 @@ public final class DataTypeParser
             }
             
             DataType dt = DataType.transfer(field);
-            dt.setName(NamingUtils.name(field.getName()));
+            dt.setName(NamingUtils.fieldName(field.getName()));
             dt.setAccess(access);
             dt.setGetterIndex(access.getIndex(getMethod.getName()));
             dt.setSetterIndex(access.getIndex(setMethod.getName()));
