@@ -21,7 +21,6 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.settings.Settings.Builder;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
-import pers.linhai.nature.core.reflect.ConstructorAccess;
 import pers.linhai.nature.indexaccess.core.DataTypeParser;
 import pers.linhai.nature.indexaccess.core.impls.ObjectFieldConverterImpl;
 import pers.linhai.nature.indexaccess.interfaces.ObjectFieldConverter;
@@ -30,6 +29,7 @@ import pers.linhai.nature.indexaccess.model.datatypes.DataType;
 import pers.linhai.nature.indexaccess.model.datatypes.quote.ObjectType.ObjectField;
 import pers.linhai.nature.indexaccess.model.enumer.Dynamic;
 import pers.linhai.nature.indexaccess.model.enumer.Enabled;
+import pers.linhai.nature.reflect.ConstructorAccess;
 
 /**
  * @Description: 对象类型，该对象里面的属性是任意字段类型的组合。对象里面的字段也可以是对象类型

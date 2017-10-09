@@ -28,7 +28,6 @@ import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.elasticsearch.index.reindex.DeleteByQueryRequestBuilder;
 import org.elasticsearch.rest.RestStatus;
 
-import pers.linhai.nature.core.reflect.ConstructorAccess;
 import pers.linhai.nature.indexaccess.core.AccessorFactory;
 import pers.linhai.nature.indexaccess.core.BulkProcessorListener;
 import pers.linhai.nature.indexaccess.core.processor.TransportClientProcessor;
@@ -40,6 +39,7 @@ import pers.linhai.nature.indexaccess.interfaces.TypeAccessor;
 import pers.linhai.nature.indexaccess.model.bulk.BulkProcessorConfiguration;
 import pers.linhai.nature.indexaccess.model.type.MappingConfiguration;
 import pers.linhai.nature.indexaccess.model.type.Type;
+import pers.linhai.nature.reflect.ConstructorAccess;
 
 /**
  * DAO实现

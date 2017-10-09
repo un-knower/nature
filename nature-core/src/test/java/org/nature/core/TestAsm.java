@@ -12,8 +12,8 @@ package org.nature.core;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Opcodes;
+import pers.linhai.nature.asm.ClassWriter;
+import pers.linhai.nature.asm.Opcodes;
 
 
 /**

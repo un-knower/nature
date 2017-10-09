@@ -9,7 +9,7 @@
 
 package org.nature.core;
 
-import pers.linhai.nature.core.reflect.ConstructorAccess;
+import pers.linhai.nature.reflect.ConstructorAccess;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -24,7 +24,7 @@ public class Test
     {
         ConstructorAccess<Persion> pc = ConstructorAccess.get(Persion.class);
         long s = System.currentTimeMillis();
-        for (int i = 0; i < 1000000000l; i++ )
+        for (long i = 0; i < 100000000; i++ )
         {
             pc.newInstance();
         }
@@ -34,7 +34,7 @@ public class Test
         long s1 = System.currentTimeMillis();
 //        Constructor<Persion> c = Persion.class.getConstructor();
 //        c.setAccessible(false);
-        for (int i = 0; i < 1000000000l; i++ )
+        for (long i = 0; i < 100000000; i++ )
         {
             new Persion();
         }

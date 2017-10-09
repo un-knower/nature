@@ -10,10 +10,5 @@
 	<version>${nature.core.version}</version>
 	<name>nature-core</name>
 	<dependencies>
-<dependency>
-    <groupId>org.ow2.asm</groupId>
-    <artifactId>asm</artifactId>
-    <version>6.0</version>
-</dependency>
 	</dependencies>
 </project>

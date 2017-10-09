@@ -17,7 +17,7 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package pers.linhai.nature.core.reflect;
+package pers.linhai.nature.reflect;
 
 public abstract class PublicConstructorAccess extends ConstructorAccess<Object>
 {

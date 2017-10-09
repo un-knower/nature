@@ -17,17 +17,17 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package pers.linhai.nature.core.reflect;
+package pers.linhai.nature.reflect;
 
 
-import static org.objectweb.asm.Opcodes.*;
+import static pers.linhai.nature.asm.Opcodes.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
+import pers.linhai.nature.asm.ClassWriter;
+import pers.linhai.nature.asm.MethodVisitor;
+import pers.linhai.nature.asm.Opcodes;
 
 
 public abstract class ConstructorAccess<T>

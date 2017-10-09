@@ -18,13 +18,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import pers.linhai.nature.core.reflect.MethodAccess;
 import pers.linhai.nature.indexaccess.exception.FieldParseException;
 import pers.linhai.nature.indexaccess.model.core.DataTypeCollection;
 import pers.linhai.nature.indexaccess.model.datatypes.DataType;
 import pers.linhai.nature.indexaccess.model.datatypes.DataTypeMap;
 import pers.linhai.nature.indexaccess.model.datatypes.quote.ObjectType.ObjectField;
 import pers.linhai.nature.indexaccess.utils.NamingUtils;
+import pers.linhai.nature.reflect.MethodAccess;
 
 /**
  * mapping映射解析器

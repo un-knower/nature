@@ -16,12 +16,12 @@ import java.util.Map.Entry;
 
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
-import pers.linhai.nature.core.reflect.ConstructorAccess;
 import pers.linhai.nature.indexaccess.exception.TypeAccessorException;
 import pers.linhai.nature.indexaccess.interfaces.ObjectFieldConverter;
 import pers.linhai.nature.indexaccess.model.core.DataTypeCollection;
 import pers.linhai.nature.indexaccess.model.datatypes.DataType;
 import pers.linhai.nature.indexaccess.model.datatypes.quote.ObjectType.ObjectField;
+import pers.linhai.nature.reflect.ConstructorAccess;
 
 /**
  * 数据转换器
