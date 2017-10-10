@@ -16,20 +16,12 @@ import java.util.logging.Logger;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
-import org.springframework.beans.factory.annotation.AnnotatedGenericBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.config.ConstructorArgumentValues;
-import org.springframework.beans.factory.config.ConstructorArgumentValues.ValueHolder;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionReaderUtils;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
-import org.springframework.beans.factory.support.BeanNameGenerator;
-import org.springframework.context.annotation.AnnotationBeanNameGenerator;
-import org.springframework.context.annotation.AnnotationConfigUtils;
-import org.springframework.context.annotation.AnnotationScopeMetadataResolver;
-import org.springframework.context.annotation.ScopeMetadata;
-import org.springframework.context.annotation.ScopeMetadataResolver;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
@@ -57,9 +49,6 @@ import pers.linhai.nature.indexaccess.utils.NamingUtils;
 @SuppressWarnings("unchecked")
 public class IndexAccessDefinitionFactory implements BeanDefinitionRegistryPostProcessor 
 {
-    private ScopeMetadataResolver scopeMetadataResolver = new AnnotationScopeMetadataResolver();
-    private BeanNameGenerator beanNameGenerator = new AnnotationBeanNameGenerator();
-    
     /**
      * 扫描哪个包下的索引注解
      */
@@ -84,7 +73,7 @@ public class IndexAccessDefinitionFactory implements BeanDefinitionRegistryPostP
         try
         {
             //typeAccessorInitialization初始化器spring实现
-            TypeAccessorInitialization typeAccessorInitialization = new SpringTypeAccessorInitializationImpl(registry, scopeMetadataResolver, beanNameGenerator);
+            TypeAccessorInitialization typeAccessorInitialization = new SpringTypeAccessorInitializationImpl(registry);
             
             if(indexScan == null)
             {
@@ -99,23 +88,17 @@ public class IndexAccessDefinitionFactory implements BeanDefinitionRegistryPostP
             
             for (Class<? extends Index> indexClass : indexClassList)
             {
-                Index index = indexClass.newInstance();
-                AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(IndexAccessorImpl.class);
-                ConstructorArgumentValues ca = new ConstructorArgumentValues();
-                ca.addIndexedArgumentValue(0, new ValueHolder(index));
-                ca.addIndexedArgumentValue(1, new ValueHolder(typeAccessorInitialization));
-                abd.setConstructorArgumentValues(ca);
-                ScopeMetadata scopeMetadata = scopeMetadataResolver.resolveScopeMetadata(abd);
-                abd.setScope(scopeMetadata.getScopeName());
+                BeanDefinitionBuilder bdb = BeanDefinitionBuilder.genericBeanDefinition(IndexAccessorImpl.class);
+                
+                //添加构造函数参数，需要顺序添加
+                bdb.addConstructorArgValue(indexClass.newInstance());
+                bdb.addConstructorArgValue(typeAccessorInitialization);
                 String name = NamingUtils.accessorName(indexClass);
                 
                 // 可以自动生成name
-                String beanName = (name != null ? name : beanNameGenerator.generateBeanName(abd, registry));
-                AnnotationConfigUtils.processCommonDefinitionAnnotations(abd);
-                BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(abd, beanName);
+                BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(bdb.getRawBeanDefinition(), name);
                 BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, registry);
-                
-                Logger.getLogger(getClass().getName()).info("[spring] Register index-bean-definition[" + beanName + "] successfully. ");
+                Logger.getLogger(getClass().getName()).info("[spring] Register index-bean-definition[" + name + "] successfully. ");
             }
         }
         catch (Throwable e)

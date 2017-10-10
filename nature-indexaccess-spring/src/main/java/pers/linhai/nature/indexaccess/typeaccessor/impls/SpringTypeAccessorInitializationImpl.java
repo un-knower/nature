@@ -12,16 +12,10 @@ package pers.linhai.nature.indexaccess.typeaccessor.impls;
 
 import java.util.logging.Logger;
 
-import org.springframework.beans.factory.annotation.AnnotatedGenericBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
-import org.springframework.beans.factory.config.ConstructorArgumentValues;
-import org.springframework.beans.factory.config.ConstructorArgumentValues.ValueHolder;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionReaderUtils;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.BeanNameGenerator;
-import org.springframework.context.annotation.AnnotationConfigUtils;
-import org.springframework.context.annotation.ScopeMetadata;
-import org.springframework.context.annotation.ScopeMetadataResolver;
 
 import pers.linhai.nature.indexaccess.core.impls.TypeAccessorImpl;
 import pers.linhai.nature.indexaccess.core.processor.IndicesAdminClientProcessor;
@@ -40,10 +34,6 @@ import pers.linhai.nature.indexaccess.utils.NamingUtils;
 public class SpringTypeAccessorInitializationImpl implements TypeAccessorInitialization
 {
     
-    private ScopeMetadataResolver scopeMetadataResolver;
-    
-    private BeanNameGenerator beanNameGenerator;
-    
     /**
      * spring bean定义注册器
      */
@@ -53,16 +43,11 @@ public class SpringTypeAccessorInitializationImpl implements TypeAccessorInitial
      * <默认构造函数>
      *
      * @param registry
-     * @param scopeMetadataResolver
-     * @param beanNameGenerator
      */
-    public SpringTypeAccessorInitializationImpl(BeanDefinitionRegistry registry
-            , ScopeMetadataResolver scopeMetadataResolver, BeanNameGenerator beanNameGenerator)
+    public SpringTypeAccessorInitializationImpl(BeanDefinitionRegistry registry)
     {
         super();
         this.registry = registry;
-        this.scopeMetadataResolver = scopeMetadataResolver;
-        this.beanNameGenerator = beanNameGenerator;
     }
 
     /**
@@ -94,21 +79,16 @@ public class SpringTypeAccessorInitializationImpl implements TypeAccessorInitial
      */
     private <T extends Type> void createTypeAccessor(MappingConfiguration<T> tec, TransportClientProcessor typeProcessor)
     {
-        AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(TypeAccessorImpl.class);
-        ConstructorArgumentValues ca = new ConstructorArgumentValues();
-        ca.addIndexedArgumentValue(0, new ValueHolder(tec));
-        ca.addIndexedArgumentValue(1, new ValueHolder(typeProcessor));
-        abd.setConstructorArgumentValues(ca);
-        ScopeMetadata scopeMetadata = scopeMetadataResolver.resolveScopeMetadata(abd);
-        abd.setScope(scopeMetadata.getScopeName());
+        BeanDefinitionBuilder bdb = BeanDefinitionBuilder.genericBeanDefinition(TypeAccessorImpl.class);
+        
+        //添加构造函数参数，需要顺序添加
+        bdb.addConstructorArgValue(tec);
+        bdb.addConstructorArgValue(typeProcessor);
         String name = NamingUtils.accessorName(tec.getTypeClass());
         
         // 可以自动生成name
-        String beanName = (name != null ? name : beanNameGenerator.generateBeanName(abd, registry));
-        AnnotationConfigUtils.processCommonDefinitionAnnotations(abd);
-        BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(abd, beanName);
+        BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(bdb.getRawBeanDefinition(), name);
         BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, registry);
-        
-        Logger.getLogger(getClass().getName()).info("[spring] Register mapping-bean-definition[" + beanName + "] successfully. ");
+        Logger.getLogger(getClass().getName()).info("[spring] Register mapping-bean-definition[" + name + "] successfully. ");
     }
 }
