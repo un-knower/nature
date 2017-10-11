@@ -37,7 +37,7 @@ import pers.linhai.nature.indexaccess.core.impls.IndexAccessorImpl;
 import pers.linhai.nature.indexaccess.exception.IndexScanException;
 import pers.linhai.nature.indexaccess.interfaces.TypeAccessorInitialization;
 import pers.linhai.nature.indexaccess.model.index.Index;
-import pers.linhai.nature.indexaccess.typeaccessor.impls.SpringTypeAccessorInitializationImpl;
+import pers.linhai.nature.indexaccess.typeaccessor.impls.TypeAccessorInitializationSpringImpl;
 import pers.linhai.nature.indexaccess.utils.NamingUtils;
 
 /**
@@ -73,7 +73,7 @@ public class IndexAccessDefinitionFactory implements BeanDefinitionRegistryPostP
         try
         {
             //typeAccessorInitialization初始化器spring实现
-            TypeAccessorInitialization typeAccessorInitialization = new SpringTypeAccessorInitializationImpl(registry);
+            TypeAccessorInitialization typeAccessorInitialization = new TypeAccessorInitializationSpringImpl(registry);
             
             if(indexScan == null)
             {

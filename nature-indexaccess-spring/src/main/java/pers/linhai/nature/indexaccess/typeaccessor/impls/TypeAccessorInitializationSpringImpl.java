@@ -31,7 +31,7 @@ import pers.linhai.nature.indexaccess.utils.NamingUtils;
  * @author  lilinhai
  * @version  V100R001C00
  */
-public class SpringTypeAccessorInitializationImpl implements TypeAccessorInitialization
+public class TypeAccessorInitializationSpringImpl implements TypeAccessorInitialization
 {
     
     /**
@@ -44,7 +44,7 @@ public class SpringTypeAccessorInitializationImpl implements TypeAccessorInitial
      *
      * @param registry
      */
-    public SpringTypeAccessorInitializationImpl(BeanDefinitionRegistry registry)
+    public TypeAccessorInitializationSpringImpl(BeanDefinitionRegistry registry)
     {
         super();
         this.registry = registry;
