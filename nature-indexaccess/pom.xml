@@ -6,14 +6,14 @@
 	<parent>
 		<groupId>pers.linhai.nature</groupId>
 		<artifactId>nature</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>nature-framework</version>
 	</parent>
 	
 	<artifactId>nature-indexaccess</artifactId>
 	<version>${indecaccess.version}</version>
 	<packaging>jar</packaging>
 
-	<name>nature-indexaccess</name>
+	<name>${project.artifactId}</name>
 	<url>http://maven.apache.org</url>
 
 	<dependencies>

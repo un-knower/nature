@@ -6,13 +6,13 @@
 	<parent>
 		<groupId>pers.linhai.nature</groupId>
 		<artifactId>nature</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>nature-framework</version>
 	</parent>
 	
 	<artifactId>nature-indexaccess-log4jappender</artifactId>
 	<version>${indecaccess.log4jappender.version}</version>
 	<packaging>jar</packaging>
-	<name>nature-indexaccess-log4jappender</name>
+	<name>${project.artifactId}</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<!-- 异步日志组件 -->

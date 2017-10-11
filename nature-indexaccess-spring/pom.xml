@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>pers.linhai.nature</groupId>
 		<artifactId>nature</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>nature-framework</version>
 	</parent>
 	
 	<artifactId>nature-indexaccess-spring</artifactId>
 	<version>${indecaccess.spring.version}</version>
-	<name>nature-indexaccess-spring</name>
+	<name>${project.artifactId}</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>

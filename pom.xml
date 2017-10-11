@@ -4,9 +4,9 @@
 
 	<groupId>pers.linhai.nature</groupId>
 	<artifactId>nature</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>nature-framework</version>
 	<packaging>pom</packaging>
-	<name>nature</name>
+	<name>${project.artifactId}</name>
 
 	<!-- 公共变量定义，定义各大模块的版本号等属性 -->
 	<properties>
