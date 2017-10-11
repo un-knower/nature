@@ -49,7 +49,7 @@ public class IndexAccessAppenderTest
         LogInfo loginfo = new LogInfo();
         loginfo.setMessage("test msg");
         loginfo.setLoggerName("testroot");
-        LOG.info(new LogMessage(new LogInfo()));
+        LOG.info(new LogMessage(loginfo));
     }
     
     @Test

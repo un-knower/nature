@@ -151,6 +151,10 @@ public class IndexAccessAppenderPlugin extends AbstractAppender
                 li.setContextId(DEFAULT_CONTEXT_ID);
             }
             
+            if (li.getLogDate() == null)
+            {
+                li.setLogDate(new Date(System.currentTimeMillis()));
+            }
             
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(li.getLogDate().getMilliseconds());
