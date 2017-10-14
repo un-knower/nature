@@ -9,7 +9,7 @@
 	</parent>
 	
 	<artifactId>nature-indexaccess-spring</artifactId>
-	<version>${indecaccess.spring.version}</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
@@ -34,7 +34,7 @@
 		<dependency>
 			<groupId>pers.linhai.nature</groupId>
 			<artifactId>nature-indexaccess</artifactId>
-			<version>${indecaccess.version}</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

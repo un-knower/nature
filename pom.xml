@@ -20,85 +20,61 @@
 		<junit.version>4.12</junit.version>
 		<spring.boot.version>1.5.7.RELEASE</spring.boot.version>
 		<springframework.version>4.3.12.RELEASE</springframework.version>
-
-		<nature.core.version>1.0.0-SNAPSHOT</nature.core.version>
-		<indecaccess.spring.version>1.0.0-SNAPSHOT</indecaccess.spring.version>
-		<indecaccess.version>1.0.0-SNAPSHOT</indecaccess.version>
-		<indecaccess.log4jappender.version>1.0.0-SNAPSHOT</indecaccess.log4jappender.version>
 		<elasticsearch.version>5.6.3</elasticsearch.version>
 	</properties>
 
+	<!-- 所需依赖声明 -->
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-parent</artifactId>
 				<version>${spring.boot.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
+			</dependency>
+			<dependency>
+			    <groupId>org.springframework.boot</groupId>
+			    <artifactId>spring-boot-starter-web</artifactId>
+			    <version>1.5.7.RELEASE</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
 				<version>${springframework.version}</version>
-				<type>jar</type>
-				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-beans</artifactId>
 				<version>${springframework.version}</version>
-				<type>jar</type>
-				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context</artifactId>
 				<version>${springframework.version}</version>
-				<type>jar</type>
-				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.elasticsearch.client</groupId>
 				<artifactId>transport</artifactId>
 				<version>${elasticsearch.version}</version>
-				<type>jar</type>
-				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.elasticsearch</groupId>
 				<artifactId>elasticsearch</artifactId>
 				<version>${elasticsearch.version}</version>
-				<type>jar</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.esotericsoftware</groupId>
-				<artifactId>reflectasm</artifactId>
-				<version>1.11.3</version>
-				<type>jar</type>
-				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-api</artifactId>
 				<version>2.9.1</version>
-				<type>jar</type>
-				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-core</artifactId>
 				<version>2.9.1</version>
-				<type>jar</type>
-				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.lmax</groupId>
 				<artifactId>disruptor</artifactId>
 				<version>3.3.6</version>
-				<type>jar</type>
-				<scope>import</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -115,6 +91,7 @@
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-test</artifactId>
+		    <version>${springframework.version}</version>
 		    <scope>test</scope>
 		</dependency>
         <dependency>
@@ -161,6 +138,74 @@
 		<module>nature-indexaccess</module>
 		<module>nature-indexaccess-log4jappender</module>
 		<module>nature-indexaccess-spring</module>
-    <module>nature-core</module>
-  </modules>
+    	<module>nature-core</module>
+  	</modules>
+  	
+	<!-- 公共插件定义 -->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.7.0</version>
+                    <configuration>
+                        <source>${jdk.version}</source>
+                        <target>${jdk.version}</target>
+                        <encoding>${maven.compiler.encoding}</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.0.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.20.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>2.7</version>
+                    <configuration>
+                        <formats>
+                            <format>html</format>
+                        </formats>
+                        <aggregate>true</aggregate>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+    </build>
 </project>
