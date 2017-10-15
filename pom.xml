@@ -7,6 +7,7 @@
 	<version>nature-framework</version>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
+	<url>http://maven.apache.org</url>
 
 	<!-- 公共变量定义，定义各大模块的版本号等属性 -->
 	<properties>
@@ -16,11 +17,14 @@
 		<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
 		
 		<junit.version>4.12</junit.version>
 		<spring.boot.version>1.5.7.RELEASE</spring.boot.version>
 		<springframework.version>4.3.12.RELEASE</springframework.version>
 		<elasticsearch.version>5.6.3</elasticsearch.version>
+		
+		<project.organization.name>pers.linhai</project.organization.name>
 	</properties>
 
 	<!-- 所需依赖声明 -->
@@ -160,6 +164,37 @@
                     <artifactId>maven-war-plugin</artifactId>
                     <version>3.1.0</version>
                 </plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>3.0.2</version>
+					<configuration>
+						<archive>
+							<manifest>
+								<addClasspath>true</addClasspath>
+								<!-- 所依赖的jar包位于哪里？即前缀 -->
+								<classpathPrefix></classpathPrefix>
+								<!-- 当用户使用 lib命令执行JAR文件时，使用该元素定义将要执行的类名 <mainClass>fully.qualified.MainClass</mainClass> -->
+								<addDefaultImplementationEntries>false</addDefaultImplementationEntries>
+								<addDefaultSpecificationEntries>false</addDefaultSpecificationEntries>
+							</manifest>  
+							<manifestEntries>
+								<url>${project.url}</url> 
+								<build-time>${maven.build.timestamp}</build-time>
+								<Specification-Title>${project.name}</Specification-Title>
+								<Specification-Version>${project.version}</Specification-Version>
+								<Specification-Vendor>${project.organization.name}</Specification-Vendor>
+								<Implementation-Title>${project.name}</Implementation-Title>
+								<Implementation-Version>${project.version}</Implementation-Version>
+								<Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+								<Implementation-Vendor-Id>${project.organization.name}</Implementation-Vendor-Id>
+								<X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
+								<X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
+								<Multi-Release>true</Multi-Release>
+							</manifestEntries>
+						</archive>
+					</configuration>
+				</plugin>
                 <plugin>
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>3.1.0</version>
@@ -172,6 +207,9 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.20.1</version>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -183,6 +221,14 @@
                         </formats>
                         <aggregate>true</aggregate>
                     </configuration>
+	                <executions>  
+	                    <execution>  
+	                        <phase>integration-test</phase>  
+	                        <goals>  
+	                            <goal>cobertura</goal>  
+	                        </goals>  
+	                    </execution>  
+	                </executions>  
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -201,10 +247,7 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
+				<artifactId>maven-jar-plugin</artifactId>
 			</plugin>
 		</plugins>
     </build>

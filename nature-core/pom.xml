@@ -9,6 +9,8 @@
 	<artifactId>nature-core</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
+	<packaging>jar</packaging>
+	
 	<dependencies>
 	</dependencies>
 </project>
