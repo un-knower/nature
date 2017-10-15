@@ -1,151 +1,151 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>pers.linhai.nature</groupId>
-	<artifactId>nature</artifactId>
-	<version>nature-framework</version>
-	<packaging>pom</packaging>
-	<name>${project.artifactId}</name>
-	<url>https://github.com/lilinhai/nature/tree/master</url>
+    <groupId>pers.linhai.nature</groupId>
+    <artifactId>nature</artifactId>
+    <version>nature-framework</version>
+    <packaging>pom</packaging>
+    <name>${project.artifactId}</name>
+    <url>https://github.com/lilinhai/nature/tree/master</url>
 
-	<!-- 公共变量定义，定义各大模块的版本号等属性 -->
-	<properties>
+    <!-- 公共变量定义，定义各大模块的版本号等属性 -->
+    <properties>
         <jdk.version>1.8</jdk.version>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
-		
-		<junit.version>4.12</junit.version>
-		<spring.boot.version>1.5.7.RELEASE</spring.boot.version>
-		<springframework.version>4.3.12.RELEASE</springframework.version>
-		<elasticsearch.version>5.6.3</elasticsearch.version>
-		
-		<project.organization.name>pers.linhai</project.organization.name>
-	</properties>
+        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
 
-	<!-- 所需依赖声明 -->
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-parent</artifactId>
-				<version>${spring.boot.version}</version>
-			</dependency>
-			<dependency>
-			    <groupId>org.springframework.boot</groupId>
-			    <artifactId>spring-boot-starter-web</artifactId>
-			    <version>1.5.7.RELEASE</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-core</artifactId>
-				<version>${springframework.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-beans</artifactId>
-				<version>${springframework.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-context</artifactId>
-				<version>${springframework.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.elasticsearch.client</groupId>
-				<artifactId>transport</artifactId>
-				<version>${elasticsearch.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.elasticsearch</groupId>
-				<artifactId>elasticsearch</artifactId>
-				<version>${elasticsearch.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.logging.log4j</groupId>
-				<artifactId>log4j-api</artifactId>
-				<version>2.9.1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.logging.log4j</groupId>
-				<artifactId>log4j-core</artifactId>
-				<version>2.9.1</version>
-			</dependency>
-			<dependency>
-				<groupId>com.lmax</groupId>
-				<artifactId>disruptor</artifactId>
-				<version>3.3.6</version>
-			</dependency>
-			
-			<!-- junit测试用例需要用到的依赖，其他模块通过继承获得，是test级别 -->
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${junit.version}</version><!--$NO-MVN-MAN-VER$ -->
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-			    <groupId>org.springframework</groupId>
-			    <artifactId>spring-test</artifactId>
-			    <version>${springframework.version}</version>
-			    <scope>test</scope>
-			</dependency>
-	        <dependency>
-	            <groupId>org.mockito</groupId>
-	            <artifactId>mockito-all</artifactId>
-	            <version>1.10.19</version>
-	            <scope>test</scope>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.powermock</groupId>
-	            <artifactId>powermock-module-junit4</artifactId>
-	            <version>1.6.5</version>
-	            <scope>test</scope>
-	            <exclusions>
-	                <exclusion>
-	                    <groupId>cglib</groupId>
-	                    <artifactId>cglib-nodep</artifactId>
-	                </exclusion>
-	                <exclusion>
-	                    <groupId>org.powermock</groupId>
-	                    <artifactId>powermock-core</artifactId>
-	                </exclusion>
-	                <exclusion>
-	                    <groupId>org.powermock</groupId>
-	                    <artifactId>powermock-reflect</artifactId>
-	                </exclusion>
-	            </exclusions>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.powermock</groupId>
-	            <artifactId>powermock-api-mockito</artifactId>
-	            <version>1.6.5</version>
-	            <scope>test</scope>
-	            <exclusions>
-	                <exclusion>
-	                    <groupId>org.mockito</groupId>
-	                    <artifactId>mockito-core</artifactId>
-	                </exclusion>
-	            </exclusions>
-	        </dependency>
-		</dependencies>
-	</dependencyManagement>
+        <junit.version>4.12</junit.version>
+        <spring.boot.version>1.5.7.RELEASE</spring.boot.version>
+        <springframework.version>4.3.12.RELEASE</springframework.version>
+        <elasticsearch.version>5.6.3</elasticsearch.version>
 
-	<!-- 即使在子项目中不写该依赖项，那么子项目仍然会从父项目中继承该依赖项。 -->
-	<dependencies>
-		<!-- junit测试用例需要用到的依赖，其他模块通过继承获得，是test级别 -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-test</artifactId>
-		</dependency>
+        <project.organization.name>pers.linhai</project.organization.name>
+    </properties>
+
+    <!-- 所需依赖声明 -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>1.5.7.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${springframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${springframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${springframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>transport</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>2.9.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>2.9.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>3.3.6</version>
+            </dependency>
+
+            <!-- junit测试用例需要用到的依赖，其他模块通过继承获得，是test级别 -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version><!--$NO-MVN-MAN-VER$ -->
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${springframework.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.10.19</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-module-junit4</artifactId>
+                <version>1.6.5</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cglib</groupId>
+                        <artifactId>cglib-nodep</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.powermock</groupId>
+                        <artifactId>powermock-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.powermock</groupId>
+                        <artifactId>powermock-reflect</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-api-mockito</artifactId>
+                <version>1.6.5</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.mockito</groupId>
+                        <artifactId>mockito-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- 即使在子项目中不写该依赖项，那么子项目仍然会从父项目中继承该依赖项。 -->
+    <dependencies>
+        <!-- junit测试用例需要用到的依赖，其他模块通过继承获得，是test级别 -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
@@ -158,16 +158,16 @@
             <groupId>org.powermock</groupId>
             <artifactId>powermock-api-mockito</artifactId>
         </dependency>
-	</dependencies>
+    </dependencies>
 
-	<modules>
-		<module>nature-indexaccess</module>
-		<module>nature-indexaccess-log4jappender</module>
-		<module>nature-indexaccess-spring</module>
-    	<module>nature-core</module>
-  	</modules>
-  	
-	<!-- 公共插件定义 -->
+    <modules>
+        <module>nature-indexaccess</module>
+        <module>nature-indexaccess-log4jappender</module>
+        <module>nature-indexaccess-spring</module>
+        <module>nature-core</module>
+    </modules>
+
+    <!-- 公共插件定义 -->
     <build>
         <pluginManagement>
             <plugins>
@@ -186,37 +186,37 @@
                     <artifactId>maven-war-plugin</artifactId>
                     <version>3.1.0</version>
                 </plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-jar-plugin</artifactId>
-					<version>3.0.2</version>
-					<configuration>
-						<archive>
-							<manifest>
-								<addClasspath>true</addClasspath>
-								<!-- 所依赖的jar包位于哪里？即前缀 -->
-								<classpathPrefix></classpathPrefix>
-								<!-- 当用户使用 lib命令执行JAR文件时，使用该元素定义将要执行的类名 <mainClass>fully.qualified.MainClass</mainClass> -->
-								<addDefaultImplementationEntries>false</addDefaultImplementationEntries>
-								<addDefaultSpecificationEntries>false</addDefaultSpecificationEntries>
-							</manifest>  
-							<manifestEntries>
-								<url>${project.url}</url> 
-								<build-time>${maven.build.timestamp}</build-time>
-								<Specification-Title>${project.name}</Specification-Title>
-								<Specification-Version>${project.version}</Specification-Version>
-								<Specification-Vendor>${project.organization.name}</Specification-Vendor>
-								<Implementation-Title>${project.name}</Implementation-Title>
-								<Implementation-Version>${project.version}</Implementation-Version>
-								<Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
-								<Implementation-Vendor-Id>${project.organization.name}</Implementation-Vendor-Id>
-								<X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
-								<X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
-								<Multi-Release>true</Multi-Release>
-							</manifestEntries>
-						</archive>
-					</configuration>
-				</plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.2</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <addClasspath>true</addClasspath>
+                                <!-- 所依赖的jar包位于哪里？即前缀 -->
+                                <classpathPrefix></classpathPrefix>
+                                <!-- 当用户使用 lib命令执行JAR文件时，使用该元素定义将要执行的类名 <mainClass>fully.qualified.MainClass</mainClass> -->
+                                <addDefaultImplementationEntries>false</addDefaultImplementationEntries>
+                                <addDefaultSpecificationEntries>false</addDefaultSpecificationEntries>
+                            </manifest>
+                            <manifestEntries>
+                                <url>${project.url}</url>
+                                <build-time>${maven.build.timestamp}</build-time>
+                                <Specification-Title>${project.name}</Specification-Title>
+                                <Specification-Version>${project.version}</Specification-Version>
+                                <Specification-Vendor>${project.organization.name}</Specification-Vendor>
+                                <Implementation-Title>${project.name}</Implementation-Title>
+                                <Implementation-Version>${project.version}</Implementation-Version>
+                                <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+                                <Implementation-Vendor-Id>${project.organization.name}</Implementation-Vendor-Id>
+                                <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
+                                <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
+                                <Multi-Release>true</Multi-Release>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
+                </plugin>
                 <plugin>
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>3.1.0</version>
@@ -229,9 +229,9 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.20.1</version>
-					<configuration>
-						<skip>true</skip>
-					</configuration>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -243,34 +243,34 @@
                         </formats>
                         <aggregate>true</aggregate>
                     </configuration>
-	                <executions>  
-	                    <execution>  
-	                        <phase>integration-test</phase>  
-	                        <goals>  
-	                            <goal>cobertura</goal>  
-	                        </goals>  
-	                    </execution>  
-	                </executions>  
+                    <executions>
+                        <execution>
+                            <phase>integration-test</phase>
+                            <goals>
+                                <goal>cobertura</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cobertura-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-			</plugin>
-		</plugins>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 </project>
