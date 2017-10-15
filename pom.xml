@@ -80,6 +80,58 @@
 				<artifactId>disruptor</artifactId>
 				<version>3.3.6</version>
 			</dependency>
+			
+			<!-- junit测试用例需要用到的依赖，其他模块通过继承获得，是test级别 -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version><!--$NO-MVN-MAN-VER$ -->
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+			    <groupId>org.springframework</groupId>
+			    <artifactId>spring-test</artifactId>
+			    <version>${springframework.version}</version>
+			    <scope>test</scope>
+			</dependency>
+	        <dependency>
+	            <groupId>org.mockito</groupId>
+	            <artifactId>mockito-all</artifactId>
+	            <version>1.10.19</version>
+	            <scope>test</scope>
+	        </dependency>
+	        <dependency>
+	            <groupId>org.powermock</groupId>
+	            <artifactId>powermock-module-junit4</artifactId>
+	            <version>1.6.5</version>
+	            <scope>test</scope>
+	            <exclusions>
+	                <exclusion>
+	                    <groupId>cglib</groupId>
+	                    <artifactId>cglib-nodep</artifactId>
+	                </exclusion>
+	                <exclusion>
+	                    <groupId>org.powermock</groupId>
+	                    <artifactId>powermock-core</artifactId>
+	                </exclusion>
+	                <exclusion>
+	                    <groupId>org.powermock</groupId>
+	                    <artifactId>powermock-reflect</artifactId>
+	                </exclusion>
+	            </exclusions>
+	        </dependency>
+	        <dependency>
+	            <groupId>org.powermock</groupId>
+	            <artifactId>powermock-api-mockito</artifactId>
+	            <version>1.6.5</version>
+	            <scope>test</scope>
+	            <exclusions>
+	                <exclusion>
+	                    <groupId>org.mockito</groupId>
+	                    <artifactId>mockito-core</artifactId>
+	                </exclusion>
+	            </exclusions>
+	        </dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -89,52 +141,22 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit.version}</version><!--$NO-MVN-MAN-VER$ -->
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-test</artifactId>
-		    <version>${springframework.version}</version>
-		    <scope>test</scope>
 		</dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
-            <version>1.10.19</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-module-junit4</artifactId>
-            <version>1.6.5</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>cglib</groupId>
-                    <artifactId>cglib-nodep</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.powermock</groupId>
-                    <artifactId>powermock-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.powermock</groupId>
-                    <artifactId>powermock-reflect</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-api-mockito</artifactId>
-            <version>1.6.5</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.mockito</groupId>
-                    <artifactId>mockito-core</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 	</dependencies>
 
