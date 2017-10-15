@@ -7,7 +7,7 @@
 	<version>nature-framework</version>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
-	<url>http://maven.apache.org</url>
+	<url>https://github.com/lilinhai/nature/tree/master</url>
 
 	<!-- 公共变量定义，定义各大模块的版本号等属性 -->
 	<properties>
