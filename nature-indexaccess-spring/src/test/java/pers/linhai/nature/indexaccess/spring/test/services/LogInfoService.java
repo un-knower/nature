@@ -10,7 +10,8 @@
  */
 package pers.linhai.nature.indexaccess.spring.test.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
 import pers.linhai.nature.indexaccess.interfaces.TypeAccessor;
@@ -25,17 +26,17 @@ import pers.linhai.nature.indexaccess.spring.test.type.LogInfo;
 @Service
 public class LogInfoService
 {
-    @Autowired
-    private TypeAccessor<LogInfo> typeIndexAccessor;
+    @Resource(name = "logInfoAccessor")
+    private TypeAccessor<LogInfo> logInfoAccessor;
 
     /**
      * 返回 ltypeIndexAccessor
      *
      * @return ltypeIndexAccessor
      */
-    public TypeAccessor<LogInfo> gettypeIndexAccessor()
+    public TypeAccessor<LogInfo> getLogInfoAccessor()
     {
-        return typeIndexAccessor;
+        return logInfoAccessor;
     }
     
 }

@@ -28,10 +28,10 @@ public class XmlAppContextTest
     public static void main(String[] args)
     {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
-        System.out.println(context.getBean(UserIndexService.class).getUserIndexAccessor().index());
-        System.out.println(context.getBean(LogIndexService.class).getLogIndexAccessor().index());
-        System.out.println(context.getBean(LogInfoService.class).gettypeIndexAccessor().typeName());
-        System.out.println(context.getBean(UserInfoService.class).getUserIndexAccessor().typeName());
+        System.out.println(context.getBean("logIndexService", LogIndexService.class).getLogIndexAccessor().index());
+        System.out.println(context.getBean("userIndexService", UserIndexService.class).getUserIndexAccessor().index());
+        System.out.println(context.getBean("userInfoService", UserInfoService.class).getUserInfoAccessor().typeName());
+        System.out.println(context.getBean("logInfoService", LogInfoService.class).getLogInfoAccessor().typeName());
         context.close();
     }
 }
