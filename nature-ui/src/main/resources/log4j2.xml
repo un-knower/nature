@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Configuration status="OFF">
+    <Properties>
+        <Property name="logDir">target</Property>
+        <Property name="logFile">nature-ui</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="CONSOLE" target="SYSTEM_ERR">
+            <PatternLayout pattern="%d %p %C [%t] %m%n" />
+        </Console>
+
+        <RollingFile name="RollingFile" fileName="${logDir}/${logFile}.log"
+                     filePattern="${logDir}/$${date:yyyy-MM}/${logFile}.%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d %p %C [%t] %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="500 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="100">
+                <Delete basePath="${logDir}" maxDepth="2">
+                    <IfFileName glob="*.log.gz">
+                        <IfLastModified age="7d">
+                            <IfAny>
+                                <!--keep <= 5GB,线上Docker容器只有10G容量 -->
+                                <IfAccumulatedFileSize exceeds="5 GB" />
+                                <!--keep file count <=100 -->
+                                <IfAccumulatedFileCount exceeds="100" />
+                            </IfAny>
+                        </IfLastModified>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.springframework" level="INFO"/>
+        <Logger name="org.springframework.boot" level="INFO"/>
+        <Logger name="org.mongodb" level="WARN"/>
+        <Logger name="org.apache" level="WARN"/>
+        <Logger name="org.opensymphony" level="WARN"/>
+        <Logger name="org.mybatis" level="WARN"/>
+        <Logger name="com.alibaba.druid" level="WARN"/>
+        <Logger name="org.hibernate" level="WARN"/>
+        <Logger name="httpclient.wire.content" level="WARN"/>
+        <Logger name="httpclient.wire.header" level="WARN"/>
+        <Logger name="org.apache.commons.httpclient" level="WARN"/>
+        <Logger name="net.sf.ehcache" level="WARN"/>
+        <Logger name="org.elasticsearch" level="WARN"/>
+        <Logger name="io.netty" level="WARN"/>
+        <Logger name="org.apache.ibatis" level="WARN"/>
+
+        <Root level="debug">
+            <AppenderRef ref="CONSOLE" />
+            <AppenderRef ref="RollingFile" />
+        </Root>
+    </Loggers>
+</Configuration>
+

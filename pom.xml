@@ -178,11 +178,12 @@
     </dependencies>
 
     <modules>
+        <module>nature-ui</module>
         <module>nature-indexaccess</module>
         <module>nature-indexaccess-log4jappender</module>
         <module>nature-indexaccess-spring</module>
         <module>nature-core</module>
-    </modules>
+  </modules>
 
     <!-- 公共插件定义 -->
     <build>
@@ -212,7 +213,7 @@
                             <manifest>
                                 <addClasspath>true</addClasspath>
                                 <!-- 所依赖的jar包位于哪里？即前缀 -->
-                                <classpathPrefix></classpathPrefix>
+                                <classpathPrefix/>
                                 <!-- 当用户使用 lib命令执行JAR文件时，使用该元素定义将要执行的类名 <mainClass>fully.qualified.MainClass</mainClass> -->
                                 <addDefaultImplementationEntries>false</addDefaultImplementationEntries>
                                 <addDefaultSpecificationEntries>false</addDefaultSpecificationEntries>

@@ -1,0 +1,84 @@
+@CHARSET "UTF-8";
+
+html, body {
+	width: 100%;
+	height: 100%;
+}
+
+html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, iframe, input, select, button, p, blockquote, table, th, td, label, span {
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 13px;
+	font-family: Arial, Tahoma, Verdana, Helvetica, sans-serif;
+	color: rgb(37, 37, 37);
+	text-align: left;
+	box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+* {
+	outline: none;
+}
+
+img {
+	border: 0px;
+}
+
+address, caption, cite, code, dfn, em, strong, th, var {
+	font-style: normal;
+	font-weight: normal;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-size: 100%;
+}
+
+caption, th {
+	text-align: center;
+}
+
+/*面具*/
+div.mask_container {
+	position: absolute;
+	z-index: 10000000;
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	background-color: #FFFFFF;
+}
+
+.mask_container .mask_table {
+	table-layout: fixed;
+	border: 0px;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	top: 40%;
+}
+
+.mask_table td {
+	text-align: center;
+	height: 22px;
+	font-style: italic;
+	color: gray;
+	position: relative;
+}
+
+.mask_table .mask_loading {
+	height: 100%;
+	background-image: url("../images/loading/loading.gif");
+	background-repeat: no-repeat;
+	background-position: center;
+}

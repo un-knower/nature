@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>分页表格控件</title>
+<style type="text/css">
+html,body{
+	overflow: hidden;
+}
+</style>
+<script type="text/javascript" src="nature/Nature.js" data-imports="pers.linhai.nature.grid.GridTable" data-show-mask="true"></script>
+<script type="text/javascript">
+	Nature.ready(function(){
+		var data = [
+			{ftest1:'ftest1', ftest2:'ftefffffffffffffff-ffffffffffff sssssssssssssssssd st2', test1:'qqqqqqqqq9999999999999999999999999999qqqq', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'wwwwwwwwwww', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'},
+			{ftest1:'ftest1', ftest2:'ftest2', test1:'test1', test2:'test2', test3:'test3', test4:'test4', test5:'test5', test6:'test6', test7:'test7', test8:'test8'}
+		];
+	
+		var heads = [
+		];
+		
+		new pers.linhai.nature.grid.GridTable({
+			searchable: true,
+			fixedColumns: [
+				{
+					columnName: '<a style="color:red">FTest1_ftest1_ftest1_ftest1_ftest1_ftest1_ftest1_ftest1_ftest1</a>',
+					fieldName: 'ftest1',
+					fieldType: 'string',
+					sortable: true,
+					defaultSortOrder: "asc",
+					align: 'center',
+					width: 200,
+					formatter: function(value){
+						return value;
+					}
+				}, {
+					columnName: '测试表头2',
+					fieldName: 'ftest2',
+					fieldType: 'string',
+					sortable: true,
+					defaultSortOrder: "asc",
+					align: 'left',
+					width: 150,
+					formatter: function(value){
+						return value;
+					}
+				}
+			],
+			columns: [
+				{
+					columnName: 'Test1',
+					fieldName: 'test1',
+					fieldType: 'string',
+					sortable: true,
+					defaultSortOrder: "asc",
+					width: 200,
+					formatter: function(value){
+						return value;
+					}
+				}, {
+					columnName: 'Test2',
+					fieldName: 'test2',
+					fieldType: 'string',
+					sortable: true,
+					defaultSortOrder: "asc",
+					width: 200,
+					formatter: function(value){
+						return value;
+					}
+				}, {
+					columnName: 'Test3',
+					fieldName: 'test3',
+					fieldType: 'string',
+					sortable: true,
+					defaultSortOrder: "asc",
+					width: 200,
+					formatter: function(value){
+						return value;
+					}
+				}, {
+					columnName: 'Test4',
+					fieldName: 'test4',
+					fieldType: 'string',
+					sortable: true,
+					defaultSortOrder: "desc",
+					width: 200,
+					formatter: function(value){
+						return value;
+					}
+				}, {
+					columnName: 'Test5',
+					fieldName: 'test5',
+					fieldType: 'string',
+					sortable: true,
+					defaultSortOrder: "desc",
+					width: 200,
+					formatter: function(value){
+						return value;
+					}
+				}, {
+					columnName: 'Test6',
+					fieldName: 'test6',
+					fieldType: 'string',
+					sortable: true,
+					defaultSortOrder: "asc",
+					width: 200,
+					formatter: function(value){
+						return value;
+					}
+				}, {
+					columnName: 'Test7',
+					fieldName: 'test7',
+					fieldType: 'string',
+					sortable: true,
+					defaultSortOrder: "asc",
+					width: 200,
+					formatter: function(value){
+						return value;
+					}
+				}, {
+					columnName: 'Test8',
+					fieldName: 'test8',
+					fieldType: 'string',
+					sortable: true,
+					defaultSortOrder: "asc",
+					width: 200,
+					formatter: function(value){
+						return value;
+					}
+				}
+			],
+			data:data,
+			pagination: true,
+			renderTo: 'tablerenderdiv'
+		});
+	});
+	
+</script>
+</head>
+<body>
+	<div id="tablerenderdiv" style="height:400px;width:95%;margin:auto;border:0px solid gray;margin:auto;margin-top:20px;">
+		
+	</div>
+</body>
+</html>
