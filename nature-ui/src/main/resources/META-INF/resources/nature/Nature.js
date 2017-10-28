@@ -250,7 +250,7 @@ window.Nature = function Nature()
 
 		if (!(classpathObj.name))
 		{
-			throw new Error("classpath'name can't be empty!");
+			throw new Error("classpath.name can't be empty!");
 		}
 		var __classpath = classpathObj.classpath.startsWith("/") ? classpathObj.classpath : Nature.baseInfo.basePath + classpathObj.classpath;
 		var _classpath = __classpath.endsWith("/") ? __classpath : __classpath + "/";
@@ -259,7 +259,7 @@ window.Nature = function Nature()
 		{
 			classpathObj.resourcesPath = _classpath + "../resources/";
 		}
-		var __resourcesPath = classpathObj.resourcesPath.startsWith("/") ? classpathObj.resourcesPath : Nature.baseInfo.basePath + classpathObj.resourcesPath;
+		var __resourcesPath = (classpathObj.resourcesPath.startsWith("/") || classpathObj.resourcesPath.startsWith("file:")) ? classpathObj.resourcesPath : Nature.baseInfo.basePath + classpathObj.resourcesPath;
 		var _resourcesPath = __resourcesPath.endsWith("/") ? __resourcesPath : __resourcesPath + "/";
 		var classpathInfo = {
 			classpath: _classpath,
@@ -344,7 +344,7 @@ window.Nature = function Nature()
 		Nature.addClasspath(Nature.baseClasspathInfo);
 
 		// 导入Nature.css主框架样式
-		Nature.CSSLoader.load(Nature.getClasspath("baseClasspath").resourcesPath + "/style/Nature.css", function()
+		Nature.CSSLoader.load(Nature.getClasspath("baseClasspath").resourcesPath + "style/Nature.css", function()
 		{
 			Nature.isReady = 2;
 
