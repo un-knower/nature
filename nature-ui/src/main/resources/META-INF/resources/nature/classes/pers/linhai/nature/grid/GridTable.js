@@ -110,7 +110,7 @@ Nature.create({
 
 		// 添加刷新按钮
 		new pers.linhai.nature.form.IconButton({
-			iconUrl: Nature.baseClasspath.resourcesPath + "images/table/refresh.png",
+			iconUrl: Nature.getClasspath("baseClasspath").resourcesPath + "images/table/refresh.png",
 			width: 40,
 			height: 22,
 			title: "Refresh current page",
@@ -122,7 +122,7 @@ Nature.create({
 		});
 
 		new pers.linhai.nature.form.IconButton({
-			iconUrl: Nature.baseClasspath.resourcesPath + "images/table/page-first.png",
+			iconUrl: Nature.getClasspath("baseClasspath").resourcesPath + "images/table/page-first.png",
 			width: 40,
 			height: 22,
 			click: function()
@@ -133,7 +133,7 @@ Nature.create({
 		});
 
 		new pers.linhai.nature.form.IconButton({
-			iconUrl: Nature.baseClasspath.resourcesPath + "images/table/page-prev.png",
+			iconUrl: Nature.getClasspath("baseClasspath").resourcesPath + "images/table/page-prev.png",
 			width: 40,
 			height: 22,
 			click: function()
@@ -153,7 +153,7 @@ Nature.create({
 		pageNumberInput.style("text-align", "center");
 
 		new pers.linhai.nature.form.IconButton({
-			iconUrl: Nature.baseClasspath.resourcesPath + "images/table/page-next.png",
+			iconUrl: Nature.getClasspath("baseClasspath").resourcesPath + "images/table/page-next.png",
 			width: 40,
 			height: 22,
 			click: function()
@@ -164,7 +164,7 @@ Nature.create({
 		});
 
 		new pers.linhai.nature.form.IconButton({
-			iconUrl: Nature.baseClasspath.resourcesPath + "images/table/page-last.png",
+			iconUrl: Nature.getClasspath("baseClasspath").resourcesPath + "images/table/page-last.png",
 			width: 40,
 			height: 22,
 			click: function()

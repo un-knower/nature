@@ -211,7 +211,6 @@ window.Nature = function Nature()
 	this.doc = window.document;
 	this.isStrict = this.doc.compatMode === "CSS1Compat";
 	this.head = this.doc.head || this.doc.getElementsByTagName("head").item(0) || this.doc.documentElement;
-	this.sourceMap = {};
 	this.Node = {
 		ELEMENT_NODE: 1,
 		ATTRIBUTE_NODE: 2,
@@ -227,9 +226,11 @@ window.Nature = function Nature()
 		NOTATION_NODE: 12
 	};
 	this.classMap = {},
+	this.classpathMap = {},
 	this.baseClasspathInfo = {
+		"name": "baseClasspath",
 		"classpath": "./classes",
-		"resources": "./resources",
+		"resourcesPath": "./resources",
 		"classes": [
 			"pers.linhai.nature.form.FormElement",
 			"pers.linhai.nature.form.IconButton",
@@ -244,21 +245,27 @@ window.Nature = function Nature()
 		if (!classpathObj || !(classpathObj.classpath)){
 			throw new Error("classpath attr can't be empty!");
 		}
+		
+		if (!(classpathObj.name)){
+			throw new Error("classpath'name can't be empty!");
+		}
 		var __classpath = classpathObj.classpath.startsWith("/") ? classpathObj.classpath : Nature.baseInfo.basePath + classpathObj.classpath;
 		var _classpath = __classpath.endsWith("/") ? __classpath : __classpath + "/";
 		
-		if (classpathObj.resources){
-			classpathObj.resources = _classpath + "../resources/";
+		if (classpathObj.resourcesPath){
+			classpathObj.resourcesPath = _classpath + "../resources/";
 		}
-		var __resourcesPath = classpathObj.resources.startsWith("/") ? classpathObj.resources : Nature.baseInfo.basePath + classpathObj.resources;
+		var __resourcesPath = classpathObj.resourcesPath.startsWith("/") ? classpathObj.resourcesPath : Nature.baseInfo.basePath + classpathObj.resourcesPath;
 		var _resourcesPath = __resourcesPath.endsWith("/") ? __resourcesPath : __resourcesPath + "/";
 		var classpathInfo = {
 			classpath: _classpath,
 			resourcesPath: _resourcesPath
 		};
 		
-		if (!this.baseClasspath){
-			this.baseClasspath = classpathInfo;
+		if (this[classpathObj.name]){
+			throw new Error("classpath name exists, it can't be repeated!");
+		}else{
+			this.classpathMap[classpathObj.name] = classpathInfo;
 		}
 		
 		var classes = classpathObj.classes;
@@ -266,6 +273,9 @@ window.Nature = function Nature()
 		{
 			this.classMap[classes[i]] = classpathInfo;
 		}
+	},
+	this.getClasspath = function(name){
+		return this.classpathMap[name];
 	},
 	this.setDebug = function(_d)
 	{
@@ -282,18 +292,6 @@ window.Nature = function Nature()
 	this.checkReference = function(v, c, f)
 	{
 		if (!(v instanceof c)) throw new Error("The the param in the method '" + f + "' must be a instance of the Class[" + c + "].");
-	};
-	this.registerSource = function(_name, _path)
-	{
-		var source = {}, keys = _name.split(";");
-		source.sourcePath = _path.endsWith("/") ? _path : _path + "/";
-		source.classPath = source.sourcePath + "classes/";
-		source.resourcesPath = source.sourcePath + "resources/";
-		keys.each(function(i, _v)
-		{
-			if (Nature.sourceMap[_v]) throw new Error("The source '" + _v + "' exists!");
-			Nature.sourceMap[_v] = source;
-		});
 	};
 	this.namespace = function(namespace)
 	{
@@ -338,7 +336,7 @@ window.Nature = function Nature()
 		Nature.addClasspath(Nature.baseClasspathInfo);
 
 		// 导入Nature.css主框架样式
-		Nature.CSSLoader.load(Nature.baseClasspath.resourcesPath + "/style/Nature.css", function()
+		Nature.CSSLoader.load(Nature.getClasspath("baseClasspath").resourcesPath + "/style/Nature.css", function()
 		{
 			Nature.isReady = 2;
 
