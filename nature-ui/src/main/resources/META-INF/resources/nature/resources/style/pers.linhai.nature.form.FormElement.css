@@ -1,5 +1,4 @@
 @CHARSET "UTF-8";
-
 input.common_input, select.common_input {
 	background-image: url("../images/form/text-bg.png");
 	background-repeat: repeat-x;

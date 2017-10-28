@@ -226,6 +226,47 @@ window.Nature = function Nature()
 		DOCUMENT_FRAGEMENT_NODE: 11,
 		NOTATION_NODE: 12
 	};
+	this.classMap = {},
+	this.baseClasspathInfo = {
+		"classpath": "./classes",
+		"resources": "./resources",
+		"classes": [
+			"pers.linhai.nature.form.FormElement",
+			"pers.linhai.nature.form.IconButton",
+			"pers.linhai.nature.form.Select",
+			"pers.linhai.nature.form.Text",
+			"pers.linhai.nature.grid.GridTable",
+			"pers.linhai.nature.util.BubbleTip",
+			"pers.linhai.nature.util.Processor"
+		]	
+	},
+	this.addClasspath = function(classpathObj){
+		if (!classpathObj || !(classpathObj.classpath)){
+			throw new Error("classpath attr can't be empty!");
+		}
+		var __classpath = classpathObj.classpath.startsWith("/") ? classpathObj.classpath : Nature.baseInfo.basePath + classpathObj.classpath;
+		var _classpath = __classpath.endsWith("/") ? __classpath : __classpath + "/";
+		
+		if (classpathObj.resources){
+			classpathObj.resources = _classpath + "../resources/";
+		}
+		var __resourcesPath = classpathObj.resources.startsWith("/") ? classpathObj.resources : Nature.baseInfo.basePath + classpathObj.resources;
+		var _resourcesPath = __resourcesPath.endsWith("/") ? __resourcesPath : __resourcesPath + "/";
+		var classpathInfo = {
+			classpath: _classpath,
+			resourcesPath: _resourcesPath
+		};
+		
+		if (!this.baseClasspath){
+			this.baseClasspath = classpathInfo;
+		}
+		
+		var classes = classpathObj.classes;
+		for (var i = 0; i < classes.length; i++)
+		{
+			this.classMap[classes[i]] = classpathInfo;
+		}
+	},
 	this.setDebug = function(_d)
 	{
 		this._debug = _d == true;
@@ -292,56 +333,46 @@ window.Nature = function Nature()
 			return;
 		}
 		Nature.isReady = 1;
+		
+		//将框架自身类路径加入系统
+		Nature.addClasspath(Nature.baseClasspathInfo);
 
-		// Loading the class-path config
-		Nature.ScriptLoader.load(Nature.baseInfo.basePath + "classpath.js", function()
+		// 导入Nature.css主框架样式
+		Nature.CSSLoader.load(Nature.baseClasspath.resourcesPath + "/style/Nature.css", function()
 		{
-			var base_class_path = Nature.classpath[Nature.BASE_SOURCE_KEY];
-			if (!base_class_path) base_class_path = Nature.baseInfo.basePath;
-			else base_class_path = Nature.baseInfo.basePath + base_class_path;
-			Nature.registerSource(Nature.BASE_SOURCE_KEY, base_class_path);
-			for ( var k in Nature.classpath)
+			Nature.isReady = 2;
+
+			var _IE = (function()
 			{
-				if (k != Nature.BASE_SOURCE_KEY) Nature.registerSource(k, Nature.classpath[k]);
+				var v = 3, div = Nature.doc.createElement("div");
+				while(div.innerHTML = "<!--[if gt IE " + (++v) + "]><i></i><![endif]-->", div.getElementsByTagName("i")[0])
+					;
+				return v > 4 ? v : false;
+			})();
+
+			// 不支持IE7及已下版本
+			if ((_IE && _IE < 8) || (Nature.doc.documentMode && Nature.doc.documentMode < 8))
+			{
+				var err_msg = "Note that this framework does not support IE7 and the following versions of the browser!";
+				new Nature.Mask({
+					message: err_msg,
+					renderTo: Nature.getBody()
+				});
+				throw new Error(err_msg);
 			}
 
-			// 导入Nature.css主框架样式
-			Nature.CSSLoader.load(Nature.sourceMap[Nature.BASE_SOURCE_KEY].resourcesPath + "style/Nature.css", function()
+			function _exe_cbs()
 			{
-				Nature.isReady = 2;
+				var _cb = undefined;
+				while((_cb = readyCallbackCache.pop()) != undefined)
+					Nature.ready(_cb);
+			}
 
-				var _IE = (function()
-				{
-					var v = 3, div = Nature.doc.createElement("div");
-					while(div.innerHTML = "<!--[if gt IE " + (++v) + "]><i></i><![endif]-->", div.getElementsByTagName("i")[0])
-						;
-					return v > 4 ? v : false;
-				})();
-
-				// 不支持IE7及已下版本
-				if ((_IE && _IE < 8) || (Nature.doc.documentMode && Nature.doc.documentMode < 8))
-				{
-					var err_msg = "Note that this framework does not support IE7 and the following versions of the browser!";
-					new Nature.Mask({
-						message: err_msg,
-						renderTo: Nature.getBody()
-					});
-					throw new Error(err_msg);
-				}
-
-				function _exe_cbs()
-				{
-					var _cb = undefined;
-					while((_cb = readyCallbackCache.pop()) != undefined)
-						Nature.ready(_cb);
-				}
-
-				if (Nature.baseInfo.imports)
-				{
-					Nature.ClassLoader.load(Nature.baseInfo.imports.split(/ *, */), _exe_cbs, Nature.baseInfo.showMask === "true");
-				}
-				else _exe_cbs();
-			});
+			if (Nature.baseInfo.imports)
+			{
+				Nature.ClassLoader.load(Nature.baseInfo.imports.split(/ *, */), _exe_cbs, Nature.baseInfo.showMask === "true");
+			}
+			else _exe_cbs();
 		});
 	}
 	this.eventUtil.addListener(this.doc, "DOMContentLoaded", docOnLoaded);
@@ -670,9 +701,13 @@ Nature.create({
 		this._set_mask_msg("Please wait, the class ' " + _class_name + " ' is in loading...");
 
 		// 查找该类对应的路径资源信息，以便进行加载
-		var _source = this._get_source(_class_name, _class_name), _this = this;
+		var _source = Nature.classMap[_class_name], _this = this;
+		
+		if(!_source){
+			throw new Error("ClassNotFoundException: " + _class_name);
+		}
 
-		Nature.ScriptLoader.load(this._to_visit_path(_source.classPath, _class_name), function()
+		Nature.ScriptLoader.load(this._to_visit_path(_source.classpath, _class_name), function()
 		{
 			var _cc = new Function("try{return this." + _class_name + ";}catch(e){return undefined;}").call(window);
 			if (_cc == undefined) throw new Error("Import the class '" + _class_name + "' failed!");

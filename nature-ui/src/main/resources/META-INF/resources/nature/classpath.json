@@ -1,0 +1,14 @@
+[
+	{
+		"classpath": "./classes",
+		"classes": [
+			"pers.linhai.nature.form.FormElement",
+			"pers.linhai.nature.form.IconButton",
+			"pers.linhai.nature.form.Select",
+			"pers.linhai.nature.form.Text",
+			"pers.linhai.nature.grid.GridTable",
+			"pers.linhai.nature.util.BubbleTip",
+			"pers.linhai.nature.util.Processor"
+		]
+	}
+]
