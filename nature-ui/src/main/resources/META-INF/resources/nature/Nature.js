@@ -107,7 +107,7 @@ window.Nature = function Nature()
 		},
 		toJSON: function()
 		{
-			if ( window.JSON && window.JSON.parse ) return window.JSON.parse(this);
+			if (window.JSON && window.JSON.parse) return window.JSON.parse(this);
 			return new Function("return " + this + ";").call(window);
 		},
 		contains: function(pattern)
@@ -225,34 +225,38 @@ window.Nature = function Nature()
 		DOCUMENT_FRAGEMENT_NODE: 11,
 		NOTATION_NODE: 12
 	};
-	this.classMap = {},
-	this.classpathMap = {},
+	this.classMap = {};
+	this.classpathMap = {};
 	this.baseClasspathInfo = {
 		"name": "baseClasspath",
 		"classpath": "./classes",
 		"resourcesPath": "./resources",
 		"classes": [
-			"pers.linhai.nature.form.FormElement",
-			"pers.linhai.nature.form.IconButton",
-			"pers.linhai.nature.form.Select",
-			"pers.linhai.nature.form.Text",
+			"pers.linhai.nature.form.FormElement", 
+			"pers.linhai.nature.form.IconButton", 
+			"pers.linhai.nature.form.Select", 
+			"pers.linhai.nature.form.Text", 
 			"pers.linhai.nature.grid.GridTable",
-			"pers.linhai.nature.util.BubbleTip",
+			"pers.linhai.nature.util.BubbleTip", 
 			"pers.linhai.nature.util.Processor"
-		]	
-	},
-	this.addClasspath = function(classpathObj){
-		if (!classpathObj || !(classpathObj.classpath)){
+		]
+	};
+	this.addClasspath = function(classpathObj)
+	{
+		if (!classpathObj || !(classpathObj.classpath))
+		{
 			throw new Error("classpath attr can't be empty!");
 		}
-		
-		if (!(classpathObj.name)){
+
+		if (!(classpathObj.name))
+		{
 			throw new Error("classpath'name can't be empty!");
 		}
 		var __classpath = classpathObj.classpath.startsWith("/") ? classpathObj.classpath : Nature.baseInfo.basePath + classpathObj.classpath;
 		var _classpath = __classpath.endsWith("/") ? __classpath : __classpath + "/";
-		
-		if (classpathObj.resourcesPath){
+
+		if (classpathObj.resourcesPath)
+		{
 			classpathObj.resourcesPath = _classpath + "../resources/";
 		}
 		var __resourcesPath = classpathObj.resourcesPath.startsWith("/") ? classpathObj.resourcesPath : Nature.baseInfo.basePath + classpathObj.resourcesPath;
@@ -261,22 +265,26 @@ window.Nature = function Nature()
 			classpath: _classpath,
 			resourcesPath: _resourcesPath
 		};
-		
-		if (this[classpathObj.name]){
+
+		if (this[classpathObj.name])
+		{
 			throw new Error("classpath name exists, it can't be repeated!");
-		}else{
+		}
+		else
+		{
 			this.classpathMap[classpathObj.name] = classpathInfo;
 		}
-		
+
 		var classes = classpathObj.classes;
 		for (var i = 0; i < classes.length; i++)
 		{
 			this.classMap[classes[i]] = classpathInfo;
 		}
-	},
-	this.getClasspath = function(name){
+	};
+	this.getClasspath = function(name)
+	{
 		return this.classpathMap[name];
-	},
+	};
 	this.setDebug = function(_d)
 	{
 		this._debug = _d == true;
@@ -331,8 +339,8 @@ window.Nature = function Nature()
 			return;
 		}
 		Nature.isReady = 1;
-		
-		//将框架自身类路径加入系统
+
+		// 将框架自身类路径加入系统
 		Nature.addClasspath(Nature.baseClasspathInfo);
 
 		// 导入Nature.css主框架样式
@@ -700,8 +708,9 @@ Nature.create({
 
 		// 查找该类对应的路径资源信息，以便进行加载
 		var _source = Nature.classMap[_class_name], _this = this;
-		
-		if(!_source){
+
+		if (!_source)
+		{
 			throw new Error("ClassNotFoundException: " + _class_name);
 		}
 
