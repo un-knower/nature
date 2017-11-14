@@ -9,6 +9,7 @@
  */
 Nature.create({
 	packages: 'pers.linhai.nature.util',
+	css: "pers.linhai.nature.util.BubbleTip.css",
 	className: 'BubbleTip',
 	extend: "Nature.DOMElement",
 	BubbleTip: function()

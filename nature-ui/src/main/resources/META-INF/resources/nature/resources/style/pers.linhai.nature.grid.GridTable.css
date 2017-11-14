@@ -276,3 +276,23 @@ div.table_container {
 .pagination_btn_td div[id^=icon_btn_], .pagination_btn_td input {
 	margin-right: 15px;
 }
+
+.icon-refresh {
+	background:url("../images/table/refresh.png") no-repeat center center;
+}
+
+.icon-page-first{
+	background:url("../images/table/page-first.png") no-repeat center center;
+}
+
+.icon-page-prev{
+	background:url("../images/table/page-prev.png") no-repeat center center;
+}
+
+.icon-page-next{
+	background:url("../images/table/page-next.png") no-repeat center center;
+}
+
+.icon-page-last{
+	background:url("../images/table/page-last.png") no-repeat center center;
+}

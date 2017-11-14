@@ -3,6 +3,7 @@
  */
 Nature.create({
 	packages: 'pers.linhai.nature.form',
+	css: "pers.linhai.nature.form.FormElement.css",
 	className: 'FormElement',
 	extend: "Nature.DOMElement",
 	FormElement: function()

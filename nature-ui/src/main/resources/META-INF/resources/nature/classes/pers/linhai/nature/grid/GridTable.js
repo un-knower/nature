@@ -4,6 +4,7 @@
 Nature.create({
 	packages: 'pers.linhai.nature.grid',
 	imports: ['pers.linhai.nature.form.Text', 'pers.linhai.nature.util.BubbleTip', 'pers.linhai.nature.util.Processor', 'pers.linhai.nature.form.Select', 'pers.linhai.nature.form.IconButton'],
+	css: "pers.linhai.nature.grid.GridTable.css",
 	className: 'GridTable',
 	GridTable: function(obj)
 	{
@@ -110,7 +111,7 @@ Nature.create({
 
 		// 添加刷新按钮
 		new pers.linhai.nature.form.IconButton({
-			iconUrl: Nature.getClasspath("baseClasspath").resourcesPath + "images/table/refresh.png",
+			iconCls: "icon-refresh",
 			width: 40,
 			height: 22,
 			title: "Refresh current page",
@@ -122,7 +123,7 @@ Nature.create({
 		});
 
 		new pers.linhai.nature.form.IconButton({
-			iconUrl: Nature.getClasspath("baseClasspath").resourcesPath + "images/table/page-first.png",
+			iconCls: "icon-page-first",
 			width: 40,
 			height: 22,
 			click: function()
@@ -133,7 +134,7 @@ Nature.create({
 		});
 
 		new pers.linhai.nature.form.IconButton({
-			iconUrl: Nature.getClasspath("baseClasspath").resourcesPath + "images/table/page-prev.png",
+			iconCls: "icon-page-prev",
 			width: 40,
 			height: 22,
 			click: function()
@@ -153,18 +154,18 @@ Nature.create({
 		pageNumberInput.style("text-align", "center");
 
 		new pers.linhai.nature.form.IconButton({
-			iconUrl: Nature.getClasspath("baseClasspath").resourcesPath + "images/table/page-next.png",
+			iconCls: "icon-page-next",
 			width: 40,
 			height: 22,
 			click: function()
 			{
-
+				
 			},
 			renderTo: pagination_cell
 		});
 
 		new pers.linhai.nature.form.IconButton({
-			iconUrl: Nature.getClasspath("baseClasspath").resourcesPath + "images/table/page-last.png",
+			iconCls: "icon-page-last",
 			width: 40,
 			height: 22,
 			click: function()

@@ -7,6 +7,7 @@
  */
 Nature.create({
 	packages: 'pers.linhai.nature.form',
+	css: "pers.linhai.nature.form.IconButton.css",
 	className: 'IconButton',
 	extend: "pers.linhai.nature.form.FormElement",
 	IconButton: function()
@@ -17,7 +18,14 @@ Nature.create({
 		this.iconElement = new Nature.DOMElement(Nature.createDom('div'));
 		this.iconElement.attr("id", "icon_" + (Math.round(Math.random() * 10000000)));
 		
-		this.setIcon(this.iconUrl);
+		if (this.iconUrl) 
+		{
+			this.setIcon(this.iconUrl);
+		}
+		else if(this.iconCls)
+		{
+			this.iconElement.addClass(this.iconCls);
+		}
 		this.setTitle(this.title);
 		
 		// 设置宽高

@@ -583,6 +583,11 @@ window.Nature = function Nature()
 		};
 
 		_class._call_back = _call_back;
+		
+		if (_attrs.hasOwnProperty("css")) 
+		{
+			_class.css = _attrs["css"];
+		}
 
 		if (!_attrs.hasOwnProperty("extend"))
 		{
@@ -725,8 +730,15 @@ Nature.create({
 				delete load_css_and_next_task.curImportClass._call_back;
 
 				// 如果该类存在有与之对应的css文件，则进行导入
-				var cssUrl = load_css_and_next_task.classSource.resourcesPath + "style/" + load_css_and_next_task.curImportClass.getName() + ".css";
-				Nature.CSSLoader.load(cssUrl, load_css_and_next_task.classLoader._load_next.bind(load_css_and_next_task.classLoader));
+				if (load_css_and_next_task.curImportClass.css)
+				{
+					var cssUrl = load_css_and_next_task.classSource.resourcesPath + "style/" + load_css_and_next_task.curImportClass.css;
+					Nature.CSSLoader.load(cssUrl, load_css_and_next_task.classLoader._load_next.bind(load_css_and_next_task.classLoader));
+				}
+				else
+				{
+					load_css_and_next_task.classLoader._load_next();
+				}
 			};
 
 			load_css_and_next_task.classLoader = _this;
