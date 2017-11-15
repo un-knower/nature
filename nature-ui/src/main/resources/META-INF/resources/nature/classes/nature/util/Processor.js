@@ -2,7 +2,7 @@
  * 节流类throttle
  */
 Nature.create({
-	packages: 'pers.linhai.nature.util',
+	packages: 'nature.util',
 	className: "Processor",
 	timeout: 100,
 	Processor: function()

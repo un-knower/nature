@@ -2,11 +2,11 @@
  * 通用GridTable组件
  */
 Nature.create({
-	packages: 'pers.linhai.nature.grid',
-	imports: ['pers.linhai.nature.form.Text', 'pers.linhai.nature.util.BubbleTip', 'pers.linhai.nature.util.Processor', 'pers.linhai.nature.form.Select', 'pers.linhai.nature.form.IconButton'],
-	css: "pers.linhai.nature.grid.GridTable.css",
+	packages: 'nature.grid',
+	imports: ['nature.form.Text', 'nature.util.BubbleTip', 'nature.util.Processor', 'nature.form.Select', 'nature.form.IconButton'],
+	css: "nature.grid.GridTable.css",
 	className: 'GridTable',
-	GridTable: function(obj)
+	GridTable: function()
 	{
 		this.container_div = Nature.createDom('div', 'table_container');
 
@@ -14,18 +14,18 @@ Nature.create({
 		this._init_control_frame();
 
 		// 2.初始化表头
-		this._init_header(obj.fixedColumns, obj.columns);
+		this._init_header();
 
 		// 3.初始化表体
 		this._init_body();
 
 		// 4.渲染到页面
-		this.render(obj.renderTo);
+		this.render();
 
 		// 5.初始化水平方向滚动条
 		this._init_bottom_scroll_bar();
 
-		if (obj.pagination === true)
+		if (this.pagination === true)
 		{
 			this._init_page_bar();
 		}
@@ -34,7 +34,7 @@ Nature.create({
 		this._init_resize_listener();
 
 		// 7.渲染table body中的数据
-		this._set_data(obj.data);
+		this._set_data(this.data);
 	},
 	_init_control_frame: function()
 	{
@@ -48,7 +48,7 @@ Nature.create({
 			return false;
 		};
 
-		// 用于添加fixedTable和Table对象的div，该div高度是自然高度，没有滚动条
+		// 用于添加frozenTable和Table对象的div，该div高度是自然高度，没有滚动条
 		this.table_body_container_div = Nature.createDom('div', 'table_body_container');
 
 		// 用于添加table_body_container_div的div对象，该div的高度为父容器的100%，滚动条overflow=auto
@@ -94,7 +94,7 @@ Nature.create({
 		var pagination_size_cell = pagination_bar_row.insertCell(1);
 		pagination_size_cell.style.textAlign = "right";
 		pagination_size_cell.innerHTML = "<label>Page Size: </label>";
-		new pers.linhai.nature.form.Select({
+		this.pageSizeSelect = new nature.form.Select({
 			width: 50,
 			data: [[10, 10], [15, 15], [20, 20, true], [50, 50], [100, 100]],
 			listeners: {
@@ -110,7 +110,7 @@ Nature.create({
 		pagination_cell.className = "pagination_btn_td";
 
 		// 添加刷新按钮
-		new pers.linhai.nature.form.IconButton({
+		this.refreshIconBtn = new nature.form.IconButton({
 			iconCls: "icon-refresh",
 			width: 40,
 			height: 22,
@@ -122,7 +122,8 @@ Nature.create({
 			renderTo: pagination_cell
 		});
 
-		new pers.linhai.nature.form.IconButton({
+		//首页
+		this.pageFirstIconBtn = new nature.form.IconButton({
 			iconCls: "icon-page-first",
 			width: 40,
 			height: 22,
@@ -133,7 +134,8 @@ Nature.create({
 			renderTo: pagination_cell
 		});
 
-		new pers.linhai.nature.form.IconButton({
+		//上一页
+		this.pagePrevIconBtn = new nature.form.IconButton({
 			iconCls: "icon-page-prev",
 			width: 40,
 			height: 22,
@@ -145,15 +147,17 @@ Nature.create({
 		});
 
 		// 添加页码输入框
-		var pageNumberInput = new pers.linhai.nature.form.Text({
+		var pageNumberInput = new nature.form.Text({
 			helpTip: "",
 			width: 80,
 			height: 22,
 			renderTo: pagination_cell
 		});
 		pageNumberInput.style("text-align", "center");
+		this.pageNumberInput = pageNumberInput;
 
-		new pers.linhai.nature.form.IconButton({
+		//下一页
+		this.pageNextIconBtn = new nature.form.IconButton({
 			iconCls: "icon-page-next",
 			width: 40,
 			height: 22,
@@ -164,7 +168,8 @@ Nature.create({
 			renderTo: pagination_cell
 		});
 
-		new pers.linhai.nature.form.IconButton({
+		//最后一页
+		this.pageLastIconBtn = new nature.form.IconButton({
 			iconCls: "icon-page-last",
 			width: 40,
 			height: 22,
@@ -174,21 +179,19 @@ Nature.create({
 			},
 			renderTo: pagination_cell
 		});
-		window.setTimeout(function()
-		{
-			new pers.linhai.nature.util.BubbleTip({
-				width: 300,
-				height: 100,
-				aimAt: pageNumberInput
-			});
-		}, 1000);
 
 		this.bottom_container_div.appendChild(this.pagination_bar_div);
+		
+		new nature.util.BubbleTip({
+			width: 300,
+			height: 100,
+			aimAt: pageNumberInput
+		});
 	},
 	_init_bottom_scroll_bar: function()
 	{
 		this.horizontal_scroll_bar_div = Nature.createDom('div', "horizontal_scroll_bar");
-		this.horizontal_scroll_bar_div.style.marginLeft = this.fixed_header_total_width + 'px';
+		this.horizontal_scroll_bar_div.style.marginLeft = this.frozen_header_total_width + 'px';
 		this.horizontal_scroll_bar_div.tbObj = this;
 		this.horizontal_scroll_bar_div.onscroll = function()
 		{
@@ -208,7 +211,7 @@ Nature.create({
 	},
 	_init_resize_listener: function()
 	{
-		var processor = new pers.linhai.nature.util.Processor({
+		var processor = new nature.util.Processor({
 			handler: this.reValidate.bind(this)
 		});
 		Nature.eventUtil.addListener(window, 'resize', function(e)
@@ -239,26 +242,26 @@ Nature.create({
 		// 刷新滚动位置
 		this.horizontal_scroll_bar_div.onscroll();
 	},
-	_init_header: function(fixedColumns, columns)
+	_init_header: function()
 	{
-		this.fixed_header_total_width = 0;
+		this.frozen_header_total_width = 0;
 		this.drawable_header_total_width = 0;
-		if (Array.isArray(fixedColumns) && fixedColumns.length > 0)
+		if (Array.isArray(this.frozenColumns) && this.frozenColumns.length > 0)
 		{
-			if (fixedColumns.length > 5) throw new Error("The length of fixed-head cant't exceed 5!");
-			this.fixed_header_div = Nature.createDom('div', 'fixed_header');
-			this._init_fixed_header(fixedColumns);
-			this.fixed_header_div.appendChild(this.fixed_head_table);
-			this.table_header_container_div.appendChild(this.fixed_header_div);
+			if (this.frozenColumns.length > 5) throw new Error("The length of frozen-head cant't exceed 5!");
+			this.frozen_header_div = Nature.createDom('div', 'frozen_header');
+			this._init_frozen_header();
+			this.frozen_header_div.appendChild(this.frozen_head_table);
+			this.table_header_container_div.appendChild(this.frozen_header_div);
 		}
 
-		if (!Array.isArray(columns) || columns.length == 0)
+		if (!Array.isArray(this.columns) || this.columns.length == 0)
 		{
 			throw new Error("The length of drawable-head must be at least one!");
 		}
 
 		this.drawable_header_div = Nature.createDom('div', 'drawable_header');
-		this._init_drawable_header(columns);
+		this._init_drawable_header();
 		this.drawable_header_div.appendChild(this.drawable_head_table);
 		this.table_header_container_div.appendChild(this.drawable_header_div);
 	},
@@ -310,7 +313,7 @@ Nature.create({
 	},
 	_bind_column_click: function(head_cell)
 	{
-		head_cell.processor = new pers.linhai.nature.util.Processor({
+		head_cell.processor = new nature.util.Processor({
 			handler: this._sort_by_column,
 			timeout: 300
 		});
@@ -347,37 +350,37 @@ Nature.create({
 		alert(head_cell.sort_div.sortStatus);
 		head_cell.isRunning = false;
 	},
-	_init_fixed_header: function(fixedColumns)
+	_init_frozen_header: function()
 	{
-		this.fixed_head_table = this._create_table('header_table');
+		this.frozen_head_table = this._create_table('header_table');
 
 		// 将表格宽度设置为0 ，表格不会自适应
-		this.fixed_head_table.style.width = '0px';
-		var fixed_header_col_group_obj = Nature.createDom('colgroup');
-		this.fixed_body_col_group_obj = Nature.createDom('colgroup');
-		this.fixed_head_table.appendChild(fixed_header_col_group_obj);
-		this.fixed_head_cells = [];
-		var head_row_obj = this.fixed_head_table.insertRow(this.fixed_head_table.rows.length);
-		for (var i = 0; i < fixedColumns.length; i++)
+		this.frozen_head_table.style.width = '0px';
+		var frozen_header_col_group_obj = Nature.createDom('colgroup');
+		this.frozen_body_col_group_obj = Nature.createDom('colgroup');
+		this.frozen_head_table.appendChild(frozen_header_col_group_obj);
+		this.frozen_head_cells = [];
+		var head_row_obj = this.frozen_head_table.insertRow(this.frozen_head_table.rows.length);
+		for (var i = 0; i < this.frozenColumns.length; i++)
 		{
-			var _head = fixedColumns[i];
+			var _head = this.frozenColumns[i];
 			var head_cell = head_row_obj.insertCell(i);
 			this._bind_column_bg(head_cell);
 			this._bind_column_attrs(head_cell, _head);
 			this._bind_column_content(head_cell, _head.columnName);
 			this._bind_column_click(head_cell);
-			if (i == fixedColumns.length - 1) head_cell.style.borderRight = '1px solid #BFBFBF';
+			if (i == this.frozenColumns.length - 1) head_cell.style.borderRight = '1px solid #BFBFBF';
 			if (typeof _head.formatter == 'function') head_cell.convert = _head.formatter;
-			this.fixed_head_cells.push(head_cell);
-			fixed_header_col_group_obj.appendChild(this._create_col(_head.width));
-			this.fixed_body_col_group_obj.appendChild(this._create_col(_head.width));
-			this.fixed_header_total_width += _head.width;
+			this.frozen_head_cells.push(head_cell);
+			frozen_header_col_group_obj.appendChild(this._create_col(_head.width));
+			this.frozen_body_col_group_obj.appendChild(this._create_col(_head.width));
+			this.frozen_header_total_width += _head.width;
 		}
 
 		// 设置最外层容器的最小宽度为锁定列宽总和
-		if (this.fixed_header_total_width > 700) this.container_div.style.minWidth = this.fixed_header_total_width + 'px';
+		if (this.frozen_header_total_width > 700) this.container_div.style.minWidth = this.frozen_header_total_width + 'px';
 	},
-	_init_drawable_header: function(columns)
+	_init_drawable_header: function()
 	{
 		this.drawable_head_table = this._create_table('header_table');
 		this.drawable_head_table.style.width = '100%';
@@ -385,11 +388,11 @@ Nature.create({
 		this.drawable_body_col_group_obj = Nature.createDom('colgroup');
 		this.drawable_head_table.appendChild(drawable_head_col_group_obj);
 		this.drawable_head_cells = [];
-		if (this.fixed_header_div) this.drawable_header_div.style.marginLeft = this.fixed_header_total_width + 'px';
+		if (this.frozen_header_div) this.drawable_header_div.style.marginLeft = this.frozen_header_total_width + 'px';
 		var head_row_obj = this.drawable_head_table.insertRow(this.drawable_head_table.rows.length);
-		for (var i = 0; i < columns.length; i++)
+		for (var i = 0; i < this.columns.length; i++)
 		{
-			var _head = columns[i];
+			var _head = this.columns[i];
 			var head_cell = head_row_obj.insertCell(i);
 			this._bind_column_bg(head_cell);
 			this._bind_column_attrs(head_cell, _head);
@@ -401,36 +404,36 @@ Nature.create({
 			drawable_head_col_group_obj.appendChild(this._create_col(_head.width));
 			this.drawable_body_col_group_obj.appendChild(this._create_col(_head.width));
 			this.drawable_header_total_width += _head.width;
-			if (i == columns.length - 1) head_cell.style.borderRight = '0px';
+			if (i == this.columns.length - 1) head_cell.style.borderRight = '0px';
 		}
 	},
 	_init_body: function()
 	{
-		if (Array.isArray(this.fixed_head_cells) && this.fixed_head_cells.length > 0)
+		if (Array.isArray(this.frozen_head_cells) && this.frozen_head_cells.length > 0)
 		{
-			this.fixed_body_div = Nature.createDom('div', 'fixed_body');
-			this._init_fixed_body();
-			this.table_body_container_div.appendChild(this.fixed_body_div);
+			this.frozen_body_div = Nature.createDom('div', 'frozen_body');
+			this._init_frozen_body();
+			this.table_body_container_div.appendChild(this.frozen_body_div);
 		}
 
 		this.drawable_body_div = Nature.createDom('div', 'drawable_body');
 		this._init_drawable_body();
 		this.table_body_container_div.appendChild(this.drawable_body_div);
 	},
-	_init_fixed_body: function()
+	_init_frozen_body: function()
 	{
-		this.fixed_body_table = this._create_table('body_table');
+		this.frozen_body_table = this._create_table('body_table');
 
 		// 将表格宽度设置为0 ，表格不会自适应
-		this.fixed_body_table.style.width = '0px';
-		this.fixed_body_table.appendChild(this.fixed_body_col_group_obj);
+		this.frozen_body_table.style.width = '0px';
+		this.frozen_body_table.appendChild(this.frozen_body_col_group_obj);
 	},
 	_init_drawable_body: function()
 	{
 		this.drawable_body_table = this._create_table('body_table');
 		this.drawable_body_table.style.width = '100%';
 		this.drawable_body_table.appendChild(this.drawable_body_col_group_obj);
-		if (this.fixed_body_div) this.drawable_body_div.style.marginLeft = this.fixed_header_total_width + 'px';
+		if (this.frozen_body_div) this.drawable_body_div.style.marginLeft = this.frozen_header_total_width + 'px';
 	},
 	_bind_row_bg: function(_row_obj)
 	{
@@ -439,27 +442,27 @@ Nature.create({
 		var _this = this;
 		_row_obj.onmouseover = function(e)
 		{
-			if (this._is_fixed_table) this.className = _this.drawable_body_table.rows[this.rowIndex].className = 'row_bg_hover';
-			else this.className = (_this.fixed_head_table ? (_this.fixed_body_table.rows[this.rowIndex].className = 'row_bg_hover') : 'row_bg_hover');
+			if (this._is_frozen_table) this.className = _this.drawable_body_table.rows[this.rowIndex].className = 'row_bg_hover';
+			else this.className = (_this.frozen_head_table ? (_this.frozen_body_table.rows[this.rowIndex].className = 'row_bg_hover') : 'row_bg_hover');
 		}
 		_row_obj.onmouseout = function(e)
 		{
 			var _class_name_value = this.rowIndex % 2 == 0 ? 'row_odd_bg' : 'row_double_bg';
-			if (this._is_fixed_table) this.className = _this.drawable_body_table.rows[this.rowIndex].className = _class_name_value;
-			else this.className = (_this.fixed_head_table ? (_this.fixed_body_table.rows[this.rowIndex].className = _class_name_value) : _class_name_value);
+			if (this._is_frozen_table) this.className = _this.drawable_body_table.rows[this.rowIndex].className = _class_name_value;
+			else this.className = (_this.frozen_head_table ? (_this.frozen_body_table.rows[this.rowIndex].className = _class_name_value) : _class_name_value);
 		}
 	},
 	_clear_data: function()
 	{
-		if (Array.isArray(this.fixed_head_cells) && this.fixed_head_cells.length > 0)
+		if (Array.isArray(this.frozen_head_cells) && this.frozen_head_cells.length > 0)
 		{
-			if (this.fixed_body_table.parentNode == this.fixed_body_div) this.fixed_body_div.removeChild(this.fixed_body_table);
+			if (this.frozen_body_table.parentNode == this.frozen_body_div) this.frozen_body_div.removeChild(this.frozen_body_table);
 		}
 		if (this.drawable_body_table.parentNode == this.drawable_body_div) this.drawable_body_div.removeChild(this.drawable_body_table);
 		var _table_rows = this.drawable_body_table.rows;
 		while(_table_rows.length > 0)
 		{
-			this.fixed_body_table.deleteRow(0);
+			this.frozen_body_table.deleteRow(0);
 			this.drawable_body_table.deleteRow(0);
 		}
 	},
@@ -479,9 +482,9 @@ Nature.create({
 				var _actual_data_load_num_each_cycle = 0;
 				if (_data_index >= data.length)
 				{
-					if (Array.isArray(this.fixed_head_cells) && this.fixed_head_cells.length > 0)
+					if (Array.isArray(this.frozen_head_cells) && this.frozen_head_cells.length > 0)
 					{
-						this.fixed_body_div.appendChild(this.fixed_body_table);
+						this.frozen_body_div.appendChild(this.frozen_body_table);
 					}
 					this.drawable_body_div.appendChild(this.drawable_body_table);
 					// 设置body横向滚动初始值为header当前横向滚动值
@@ -497,21 +500,21 @@ Nature.create({
 				for (var i = 0; i < _actual_data_load_num_each_cycle; i++)
 				{
 					_row_data = data[_data_index];
-					if (this.fixed_head_table)
+					if (this.frozen_head_table)
 					{
-						body_row_obj = this.fixed_body_table.insertRow(this.fixed_body_table.rows.length);
-						body_row_obj._is_fixed_table = true;
+						body_row_obj = this.frozen_body_table.insertRow(this.frozen_body_table.rows.length);
+						body_row_obj._is_frozen_table = true;
 						this._bind_row_bg(body_row_obj);
-						for (var j = 0; j < this.fixed_head_cells.length; j++)
+						for (var j = 0; j < this.frozen_head_cells.length; j++)
 						{
-							_head_cell = this.fixed_head_cells[j];
+							_head_cell = this.frozen_head_cells[j];
 							_body_cell = body_row_obj.insertCell(j);
 							this._set_cell_htmldata(_head_cell, _body_cell, _row_data[_head_cell.fieldName]);
-							if (j == this.fixed_head_cells.length - 1) _body_cell.style.borderRight = '1px solid #DFDFDF';
+							if (j == this.frozen_head_cells.length - 1) _body_cell.style.borderRight = '1px solid #DFDFDF';
 						}
 					}
 					body_row_obj = this.drawable_body_table.insertRow(this.drawable_body_table.rows.length);
-					body_row_obj._is_fixed_table = false;
+					body_row_obj._is_frozen_table = false;
 					this._bind_row_bg(body_row_obj);
 					for (var j = 0; j < this.drawable_head_cells.length; j++)
 					{
@@ -529,19 +532,19 @@ Nature.create({
 		}
 		else
 		{
-			this._set_no_record(this.fixed_body_table, this.fixed_head_cells, true);
+			this._set_no_record(this.frozen_body_table, this.frozen_head_cells, true);
 			this._set_no_record(this.drawable_body_table, this.drawable_head_cells, false);
 
-			this.fixed_body_div.appendChild(this.fixed_body_table);
+			this.frozen_body_div.appendChild(this.frozen_body_table);
 			this.drawable_body_div.appendChild(this.drawable_body_table);
 		}
 	},
-	_set_no_record: function(_table, _head_cells, _is_fixed_table)
+	_set_no_record: function(_table, _head_cells, _is_frozen_table)
 	{
 		if (_table && _head_cells)
 		{
 			var body_row_obj = _table.insertRow(_table.rows.length);
-			body_row_obj._is_fixed_table = _is_fixed_table;
+			body_row_obj._is_frozen_table = _is_frozen_table;
 			this._bind_row_bg(body_row_obj);
 			var _body_cell = body_row_obj.insertCell(0);
 			_body_cell.colSpan = _head_cells.length;
@@ -568,14 +571,14 @@ Nature.create({
 	},
 	_create_col: function(_width)
 	{
-		Nature.checkType(_width, "number", "pers.linhai.nature.grid.GridTable._create_col");
+		Nature.checkType(_width, "number", "nature.grid.GridTable._create_col");
 		var _col_obj = Nature.createDom('col');
 		if (typeof _width == "number") _col_obj.width = _width;
 		return _col_obj;
 	},
-	render: function(_container)
+	render: function()
 	{
-		var container = Nature.getDom(_container);
+		var container = Nature.getDom(this.renderTo);
 		if (container)
 		{
 			container.style.overflow = "hidden";

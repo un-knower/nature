@@ -6,10 +6,10 @@
  * @iconHeight:
  */
 Nature.create({
-	packages: 'pers.linhai.nature.form',
-	css: "pers.linhai.nature.form.IconButton.css",
+	packages: 'nature.form',
+	css: "nature.form.IconButton.css",
 	className: 'IconButton',
-	extend: "pers.linhai.nature.form.FormElement",
+	extend: "nature.form.FormElement",
 	IconButton: function()
 	{
 		this.dom = Nature.createDom('div', 'icon_button');

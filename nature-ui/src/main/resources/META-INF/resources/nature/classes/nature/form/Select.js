@@ -8,9 +8,9 @@
  * @url: http://...
  */
 Nature.create({
-	packages: 'pers.linhai.nature.form',
+	packages: 'nature.form',
 	className: 'Select',
-	extend: 'pers.linhai.nature.form.FormElement',
+	extend: 'nature.form.FormElement',
 	Select: function()
 	{
 		this.dom = Nature.createDom('select', "common_input");

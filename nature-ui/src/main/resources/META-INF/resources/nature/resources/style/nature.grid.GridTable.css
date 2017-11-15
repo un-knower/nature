@@ -46,7 +46,7 @@ div.table_container {
 	background-repeat: repeat-x;
 }
 
-.table_header_container .fixed_header {
+.table_header_container .frozen_header {
 	position: absolute;
 	left: 0px;
 	top: 0px;
@@ -128,7 +128,7 @@ div.table_container {
 	height: 100%;
 }
 
-.table_body_container .fixed_body {
+.table_body_container .frozen_body {
 	position: absolute;
 	left: 0px;
 	top: 0px;
@@ -140,7 +140,7 @@ div.table_container {
 }
 
 /*抽取四个表格对象外层div容器共有属性overflow*/
-.drawable_header, .drawable_body, .fixed_header, .fixed_body {
+.drawable_header, .drawable_body, .frozen_header, .frozen_body {
 	overflow: hidden;
 }
 

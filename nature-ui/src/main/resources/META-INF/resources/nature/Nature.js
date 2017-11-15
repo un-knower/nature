@@ -206,7 +206,6 @@ window.Nature = function Nature()
 	this.CLASS_NAME_REG_EXP = /^[A-Z]+[a-zA-Z]*$/;
 	this.BELONG_TO_REG_EXP = /^([a-z]+(\.[a-z]+))*(\.*[A-Z]+[a-zA-Z]*)*$/;
 	this.PACKAGE_NAME_REG_EXP = /^[a-z]+(\.[a-z]+)*$/;
-	this.BASE_SOURCE_KEY = "pers.linhai.nature";
 	this.agent = window.navigator.userAgent.toLowerCase();
 	this.doc = window.document;
 	this.isStrict = this.doc.compatMode === "CSS1Compat";
@@ -232,13 +231,13 @@ window.Nature = function Nature()
 		"classpath": "./classes",
 		"resourcesPath": "./resources",
 		"classes": [
-			"pers.linhai.nature.form.FormElement", 
-			"pers.linhai.nature.form.IconButton", 
-			"pers.linhai.nature.form.Select", 
-			"pers.linhai.nature.form.Text", 
-			"pers.linhai.nature.grid.GridTable",
-			"pers.linhai.nature.util.BubbleTip", 
-			"pers.linhai.nature.util.Processor"
+			"nature.form.FormElement", 
+			"nature.form.IconButton", 
+			"nature.form.Select", 
+			"nature.form.Text", 
+			"nature.grid.GridTable",
+			"nature.util.BubbleTip", 
+			"nature.util.Processor"
 		]
 	};
 	this.addClasspath = function(classpathObj)
@@ -491,7 +490,7 @@ window.Nature = function Nature()
 	// abstract class
 	this.AbstractObject = function(obj)
 	{
-		// make self extend the first argument whose type is object
+		// make self extend the first argument while type is object
 		if (typeof obj === "object" && !("nodeType" in obj)) Nature.extend(this, obj);
 	}
 

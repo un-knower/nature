@@ -2,8 +2,8 @@
  * 表单元素
  */
 Nature.create({
-	packages: 'pers.linhai.nature.form',
-	css: "pers.linhai.nature.form.FormElement.css",
+	packages: 'nature.form',
+	css: "nature.form.FormElement.css",
 	className: 'FormElement',
 	extend: "Nature.DOMElement",
 	FormElement: function()

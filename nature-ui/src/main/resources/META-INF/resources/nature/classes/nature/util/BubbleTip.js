@@ -8,8 +8,8 @@
  * @closable：是否支持关闭（true，false）
  */
 Nature.create({
-	packages: 'pers.linhai.nature.util',
-	css: "pers.linhai.nature.util.BubbleTip.css",
+	packages: 'nature.util',
+	css: "nature.util.BubbleTip.css",
 	className: 'BubbleTip',
 	extend: "Nature.DOMElement",
 	BubbleTip: function()
@@ -41,7 +41,7 @@ Nature.create({
 			dom: this
 		});
 
-		var processor = new pers.linhai.nature.util.Processor({
+		var processor = new nature.util.Processor({
 			handler: this._setArrowAimAtPoint.bind(this),
 			timeout: 500
 		});

@@ -9,7 +9,7 @@ html,body{
 	overflow: hidden;
 }
 </style>
-<script type="text/javascript" src="nature/Nature.js" data-imports="pers.linhai.nature.grid.GridTable" data-show-mask="true"></script>
+<script type="text/javascript" src="nature/Nature.js" data-imports="nature.grid.GridTable" data-show-mask="true"></script>
 <script type="text/javascript">
 	Nature.ready(function(){
 		var data = [
@@ -79,9 +79,9 @@ html,body{
 		var heads = [
 		];
 		
-		new pers.linhai.nature.grid.GridTable({
+		new nature.grid.GridTable({
 			searchable: true,
-			fixedColumns: [
+			frozenColumns: [
 				{
 					columnName: '<a style="color:red">FTest1_ftest1_ftest1_ftest1_ftest1_ftest1_ftest1_ftest1_ftest1</a>',
 					fieldName: 'ftest1',

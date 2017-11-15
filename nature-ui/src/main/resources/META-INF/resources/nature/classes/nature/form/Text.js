@@ -2,9 +2,9 @@
  * 文本框输入类
  */
 Nature.create({
-	packages: 'pers.linhai.nature.form',
+	packages: 'nature.form',
 	className: 'Text',
-	extend: 'pers.linhai.nature.form.FormElement',
+	extend: 'nature.form.FormElement',
 	Text: function()
 	{
 		this.dom = Nature.createDom('input', "common_input");
