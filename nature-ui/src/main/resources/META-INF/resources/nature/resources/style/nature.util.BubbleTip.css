@@ -1,184 +1,184 @@
 @CHARSET "UTF-8";
 
 div.bubble_tip {
-	width: 300px;
-	height: 100px;
-	border: 1px solid #800000;
-	background-color: #FBF9F4;
-	position: absolute;
-	left: 0px;
-	top: 0px;
-	z-index: 9990000;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	border-radius: 8px;
-	-moz-box-shadow: 2px 4px 6px #c3c3c3;
-	-webkit-box-shadow: 2px 4px 6px #c3c3c3;
-	box-shadow: 2px 4px 6px #c3c3c3;
+    width: 300px;
+    height: 100px;
+    border: 1px solid #800000;
+    background-color: #FBF9F4;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 9990000;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    -moz-box-shadow: 2px 4px 6px #c3c3c3;
+    -webkit-box-shadow: 2px 4px 6px #c3c3c3;
+    box-shadow: 2px 4px 6px #c3c3c3;
 }
 
 .bubble_tip .arrow {
-	position: absolute;
-	font-size: 0px;
-	line-height: 0px;
+    position: absolute;
+    font-size: 0px;
+    line-height: 0px;
 }
 
 .arrow em, .arrow label {
-	display: block;
-	position: absolute;
-	border-style: solid solid solid solid;
-	font-size: 0px;
-	line-height: 0px;
+    display: block;
+    position: absolute;
+    border-style: solid solid solid solid;
+    font-size: 0px;
+    line-height: 0px;
 }
 
 /*---------------------------------------------------------------------箭头方向：向下，箭头位置：左边---------------------------------------------------------------------*/
 .bubble_tip .down_left {
-	width: 20px;
-	height: 16px;
-	bottom: -16px;
-	left: 10px;
+    width: 20px;
+    height: 16px;
+    bottom: -16px;
+    left: 10px;
 }
 
 .down_left em, .down_left label {
-	left: 0px;
-	border-width: 8px 10px;
-	border-color: #800000 transparent transparent transparent;
+    left: 0px;
+    border-width: 8px 10px;
+    border-color: #800000 transparent transparent transparent;
 }
 
 .down_left label {
-	top: -1px;
-	border-color: #FBF9F4 transparent transparent transparent;
+    top: -1px;
+    border-color: #FBF9F4 transparent transparent transparent;
 }
 
 /*---------------------------------------------------------------------箭头方向：向下，箭头位置：右边---------------------------------------------------------------------*/
 .bubble_tip .down_right {
-	width: 20px;
-	height: 16px;
-	bottom: -16px;
-	right: 10px;
+    width: 20px;
+    height: 16px;
+    bottom: -16px;
+    right: 10px;
 }
 
 .down_right em, .down_right label {
-	left: 0px;
-	border-width: 8px 10px;
-	border-color: #800000 transparent transparent transparent;
+    left: 0px;
+    border-width: 8px 10px;
+    border-color: #800000 transparent transparent transparent;
 }
 
 .down_right label {
-	top: -1px;
-	border-color: #FBF9F4 transparent transparent transparent;
+    top: -1px;
+    border-color: #FBF9F4 transparent transparent transparent;
 }
 
 /*---------------------------------------------------------------------箭头方向：向上，箭头位置：左边---------------------------------------------------------------------*/
 .bubble_tip .up_left {
-	width: 20px;
-	height: 16px;
-	top: -16px;
-	left: 10px;
+    width: 20px;
+    height: 16px;
+    top: -16px;
+    left: 10px;
 }
 
 .up_left em, .up_left label {
-	left: 0px;
-	border-width: 8px 10px;
-	border-color: transparent transparent #800000 transparent;
+    left: 0px;
+    border-width: 8px 10px;
+    border-color: transparent transparent #800000 transparent;
 }
 
 .up_left label {
-	bottom: -1px;
-	border-color: transparent transparent #FBF9F4 transparent;
+    bottom: -1px;
+    border-color: transparent transparent #FBF9F4 transparent;
 }
 
 /*---------------------------------------------------------------------箭头方向：向上，箭头位置：右边---------------------------------------------------------------------*/
 .bubble_tip .up_right {
-	width: 20px;
-	height: 16px;
-	top: -16px;
-	right: 10px;
+    width: 20px;
+    height: 16px;
+    top: -16px;
+    right: 10px;
 }
 
 .up_right em, .up_right label {
-	left: 0px;
-	border-width: 8px 10px;
-	border-color: transparent transparent #800000 transparent;
+    left: 0px;
+    border-width: 8px 10px;
+    border-color: transparent transparent #800000 transparent;
 }
 
 .up_right label {
-	bottom: -1px;
-	border-color: transparent transparent #FBF9F4 transparent;
+    bottom: -1px;
+    border-color: transparent transparent #FBF9F4 transparent;
 }
 
 /*---------------------------------------------------------------------箭头方向：向右，箭头位置：上边---------------------------------------------------------------------*/
 .bubble_tip .right_up {
-	width: 16px;
-	height: 20px;
-	right: -16px;
-	top: 10px;
+    width: 16px;
+    height: 20px;
+    right: -16px;
+    top: 10px;
 }
 
 .right_up em, .right_up label {
-	top: 0px;
-	border-width: 10px 8px;
-	border-color: transparent transparent transparent #800000;
+    top: 0px;
+    border-width: 10px 8px;
+    border-color: transparent transparent transparent #800000;
 }
 
 .right_up label {
-	left: -1px;
-	border-color: transparent transparent transparent #FBF9F4;
+    left: -1px;
+    border-color: transparent transparent transparent #FBF9F4;
 }
 
 /*---------------------------------------------------------------------箭头方向：向右，箭头位置：下边---------------------------------------------------------------------*/
 .bubble_tip .right_down {
-	width: 16px;
-	height: 20px;
-	right: -16px;
-	bottom: 10px;
+    width: 16px;
+    height: 20px;
+    right: -16px;
+    bottom: 10px;
 }
 
 .right_down em, .right_down label {
-	top: 0px;
-	border-width: 10px 8px;
-	border-color: transparent transparent transparent #800000;
+    top: 0px;
+    border-width: 10px 8px;
+    border-color: transparent transparent transparent #800000;
 }
 
 .right_down label {
-	left: -1px;
-	border-color: transparent transparent transparent #FBF9F4;
+    left: -1px;
+    border-color: transparent transparent transparent #FBF9F4;
 }
 
 /*---------------------------------------------------------------------箭头方向：向左，箭头位置：上边---------------------------------------------------------------------*/
 .bubble_tip .left_up {
-	width: 16px;
-	height: 20px;
-	left: -16px;
-	top: 10px;
+    width: 16px;
+    height: 20px;
+    left: -16px;
+    top: 10px;
 }
 
 .left_up em, .left_up label {
-	top: 0px;
-	border-width: 10px 8px;
-	border-color: transparent #800000 transparent transparent;
+    top: 0px;
+    border-width: 10px 8px;
+    border-color: transparent #800000 transparent transparent;
 }
 
 .left_up label {
-	right: -1px;
-	border-color: transparent #FBF9F4 transparent transparent;
+    right: -1px;
+    border-color: transparent #FBF9F4 transparent transparent;
 }
 
 /*---------------------------------------------------------------------箭头方向：向左，箭头位置：下边---------------------------------------------------------------------*/
 .bubble_tip .left_down {
-	width: 16px;
-	height: 20px;
-	left: -16px;
-	bottom: 10px;
+    width: 16px;
+    height: 20px;
+    left: -16px;
+    bottom: 10px;
 }
 
 .left_down em, .left_down label {
-	top: 0px;
-	border-width: 10px 8px;
-	border-color: transparent #800000 transparent transparent;
+    top: 0px;
+    border-width: 10px 8px;
+    border-color: transparent #800000 transparent transparent;
 }
 
 .left_down label {
-	right: -1px;
-	border-color: transparent #FBF9F4 transparent transparent;
+    right: -1px;
+    border-color: transparent #FBF9F4 transparent transparent;
 }
