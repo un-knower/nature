@@ -1,9 +1,9 @@
 /**
- * Nature JavaScript Library v1.1.2
+ * Nature JavaScript Library v1.2.2
  * 
- * Copyright 2015, 2022 jQuery Foundation, Inc. and other contributors Released under the MIT license
+ * Copyright 2017, 2022 Nature Foundation, Inc. and other contributors Released under the MIT license
  * 
- * Date: 2017-2-4
+ * Date: 2017-11-21
  */
 window.Nature = function Nature()
 {
@@ -38,232 +38,6 @@ window.Nature = function Nature()
         return false;
     };
     
-    if (typeof window.JSON !== "object")
-    {
-        window.JSON = {};
-        (function()
-        {
-            "use strict";
-            var rx_one = /^[\],:{}\s]*$/;
-            var rx_two = /\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g;
-            var rx_three = /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g;
-            var rx_four = /(?:^|:|,)(?:\s*\[)+/g;
-            var rx_escapable = /[\\"\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
-            var rx_dangerous = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
-
-            function f(n)
-            {
-                return n < 10 ? "0" + n : n;
-            }
-
-            function this_value()
-            {
-                return this.valueOf();
-            }
-
-            if (typeof Date.prototype.toJSON !== "function")
-            {
-
-                Date.prototype.toJSON = function()
-                {
-                    return isFinite(this.valueOf()) ? this.getUTCFullYear() + "-" + f(this.getUTCMonth() + 1) + "-" + f(this.getUTCDate()) + "T" + f(this.getUTCHours()) + ":" + f(this.getUTCMinutes()) + ":"
-                            + f(this.getUTCSeconds()) + "Z" : null;
-                };
-
-                Boolean.prototype.toJSON = this_value;
-                Number.prototype.toJSON = this_value;
-                String.prototype.toJSON = this_value;
-            }
-
-            var gap;
-            var indent;
-            var meta;
-            var rep;
-
-            function quote(string)
-            {
-                rx_escapable.lastIndex = 0;
-                return rx_escapable.test(string) ? "\"" + string.replace(rx_escapable, function(a)
-                {
-                    var c = meta[a];
-                    return typeof c === "string" ? c : "\\u" + ("0000" + a.charCodeAt(0).toString(16)).slice(-4);
-                }) + "\"" : "\"" + string + "\"";
-            }
-
-            function str(key, holder)
-            {
-                var i; // The loop counter.
-                var k; // The member key.
-                var v; // The member value.
-                var length;
-                var mind = gap;
-                var partial;
-                var value = holder[key];
-                if (value && typeof value === "object" && typeof value.toJSON === "function")
-                {
-                    value = value.toJSON(key);
-                }
-                if (typeof rep === "function")
-                {
-                    value = rep.call(holder, key, value);
-                }
-                switch(typeof value)
-                {
-                    case "string":
-                        return quote(value);
-                    case "number":
-                        return isFinite(value) ? String(value) : "null";
-
-                    case "boolean":
-                    case "null":
-                        return String(value);
-                    case "object":
-                        if (!value)
-                        {
-                            return "null";
-                        }
-                        gap += indent;
-                        partial = [];
-                        if (Object.prototype.toString.apply(value) === "[object Array]")
-                        {
-                            length = value.length;
-                            for (i = 0; i < length; i += 1)
-                            {
-                                partial[i] = str(i, value) || "null";
-                            }
-                            v = partial.length === 0 ? "[]" : gap ? "[\n" + gap + partial.join(",\n" + gap) + "\n" + mind + "]" : "[" + partial.join(",") + "]";
-                            gap = mind;
-                            return v;
-                        }
-                        if (rep && typeof rep === "object")
-                        {
-                            length = rep.length;
-                            for (i = 0; i < length; i += 1)
-                            {
-                                if (typeof rep[i] === "string")
-                                {
-                                    k = rep[i];
-                                    v = str(k, value);
-                                    if (v)
-                                    {
-                                        partial.push(quote(k) + (gap ? ": " : ":") + v);
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            for (k in value)
-                            {
-                                if (Object.prototype.hasOwnProperty.call(value, k))
-                                {
-                                    v = str(k, value);
-                                    if (v)
-                                    {
-                                        partial.push(quote(k) + (gap ? ": " : ":") + v);
-                                    }
-                                }
-                            }
-                        }
-                        v = partial.length === 0 ? "{}" : gap ? "{\n" + gap + partial.join(",\n" + gap) + "\n" + mind + "}" : "{" + partial.join(",") + "}";
-                        gap = mind;
-                        return v;
-                }
-            }
-            if (typeof JSON.stringify !== "function")
-            {
-                meta = { // table of character substitutions
-                    "\b": "\\b",
-                    "\t": "\\t",
-                    "\n": "\\n",
-                    "\f": "\\f",
-                    "\r": "\\r",
-                    "\"": "\\\"",
-                    "\\": "\\\\"
-                };
-                JSON.stringify = function(value, replacer, space)
-                {
-                    var i;
-                    gap = "";
-                    indent = "";
-                    if (typeof space === "number")
-                    {
-                        for (i = 0; i < space; i += 1)
-                        {
-                            indent += " ";
-                        }
-                    }
-                    else if (typeof space === "string")
-                    {
-                        indent = space;
-                    }
-                    rep = replacer;
-                    if (replacer && typeof replacer !== "function" && (typeof replacer !== "object" || typeof replacer.length !== "number"))
-                    {
-                        throw new Error("JSON.stringify");
-                    }
-                    return str("", {
-                        "": value
-                    });
-                };
-            }
-
-            if (typeof JSON.parse !== "function")
-            {
-                JSON.parse = function(text, reviver)
-                {
-                    var j;
-                    function walk(holder, key)
-                    {
-
-                        var k;
-                        var v;
-                        var value = holder[key];
-                        if (value && typeof value === "object")
-                        {
-                            for (k in value)
-                            {
-                                if (Object.prototype.hasOwnProperty.call(value, k))
-                                {
-                                    v = walk(value, k);
-                                    if (v !== undefined)
-                                    {
-                                        value[k] = v;
-                                    }
-                                    else
-                                    {
-                                        delete value[k];
-                                    }
-                                }
-                            }
-                        }
-                        return reviver.call(holder, key, value);
-                    }
-
-                    text = String(text);
-                    rx_dangerous.lastIndex = 0;
-                    if (rx_dangerous.test(text))
-                    {
-                        text = text.replace(rx_dangerous, function(a)
-                        {
-                            return "\\u" + ("0000" + a.charCodeAt(0).toString(16)).slice(-4);
-                        });
-                    }
-
-                    if (rx_one.test(text.replace(rx_two, "@").replace(rx_three, "]").replace(rx_four, "")))
-                    {
-                        j = eval("(" + text + ")");
-
-                        return (typeof reviver === "function") ? walk({
-                            "": j
-                        }, "") : j;
-                    }
-                    throw new SyntaxError("JSON.parse");
-                };
-            }
-        }());
-    }
-
     this.extend = function(curSource, destSource)
     {
         if ((typeof curSource == "object" || typeof curSource == "function") && typeof destSource == "object")
@@ -428,10 +202,10 @@ window.Nature = function Nature()
         return v && typeof v.getFullYear == "function";
     };
 
-    this.VERSION = "1.1.2";
-    this.CLASS_NAME_REG_EXP = /^[A-Z]+[a-zA-Z]*$/;
-    this.BELONG_TO_REG_EXP = /^([a-z]+(\.[a-z]+))*(\.*[A-Z]+[a-zA-Z]*)*$/;
-    this.PACKAGE_NAME_REG_EXP = /^[a-z]+(\.[a-z]+)*$/;
+    this.VERSION = "1.5.2";
+    this.CLASS_NAME_REG_EXP = /^[A-Z]+\w*$/;
+    this.BELONG_TO_REG_EXP = /^([a-z][a-z\d_]+\.?)*([A-Z]+\w+)$/;
+    this.PACKAGE_NAME_REG_EXP = /^([a-z][a-z\d_]+\.?)*([a-z][a-z\d_]+)$/;
     this.agent = window.navigator.userAgent.toLowerCase();
     this.doc = window.document;
     this.isStrict = this.doc.compatMode === "CSS1Compat";
@@ -575,7 +349,7 @@ window.Nature = function Nature()
             })();
 
             // 不支持IE7及已下版本
-            if ((_IE && _IE < 8) || (Nature.doc.documentMode && Nature.doc.documentMode < 8))
+            if ((_IE && _IE < 8) || (Nature.doc.documentMode && Nature.doc.documentMode < 8) || typeof window.JSON !== "object")
             {
                 var err_msg = "Note that this framework does not support IE7 and the following versions of the browser!";
                 new Nature.Mask({
@@ -747,10 +521,10 @@ window.Nature = function Nature()
         else throw new Error("The className can't be empty!");
 
         var _package_name = "", _package_obj = window;
-        if (_attrs.hasOwnProperty("belongs") && this.BELONG_TO_REG_EXP.test(_attrs.belongs))
+        if (_attrs.hasOwnProperty("belongTo") && this.BELONG_TO_REG_EXP.test(_attrs.belongTo))
         {
-            _package_obj = new Function("try{return this." + _attrs.belongs + ";}catch(e){return undefined;}").call(window);
-            Nature.checkType(_package_obj, "function", "Nature.create@belongs");
+            _package_obj = new Function("try{return this." + _attrs.belongTo + ";}catch(e){return undefined;}").call(window);
+            Nature.checkType(_package_obj, "function", "Nature.create@belongTo");
         }
         else if (_attrs.hasOwnProperty("packages"))
         {
@@ -884,7 +658,7 @@ Nature.apply(Nature);
  * @_is_show_mask 是否在导入时显示遮层
  */
 Nature.create({
-    belongs: "Nature",
+    belongTo: "Nature",
     className: "ClassLoader",
     ClassLoader: function(_obj)
     {
@@ -1017,7 +791,7 @@ Nature.create({
  * dom元素扩展
  */
 Nature.create({
-    belongs: "Nature",
+    belongTo: "Nature",
     className: "DOMElement",
     DOMElement: function(dom)
     {
@@ -1346,7 +1120,7 @@ Nature.create({
  * CSS加载器,参数类型
  */
 Nature.create({
-    belongs: "Nature",
+    belongTo: "Nature",
     className: "CSSLoader",
     CSSLoader: function(_url_list, _call_back)
     {
@@ -1399,7 +1173,7 @@ Nature.create({
  * Script加载器,参数类型
  */
 Nature.create({
-    belongs: "Nature",
+    belongTo: "Nature",
     className: "ScriptLoader",
     ScriptLoader: function(_url_list, _call_back)
     {
@@ -1448,7 +1222,7 @@ Nature.create({
  * 哈希表HashTable
  */
 Nature.create({
-    belongs: "Nature",
+    belongTo: "Nature",
     className: "HashTable",
     HashTable: function()
     {
@@ -1491,12 +1265,12 @@ Nature.create({
  * 
  * @url 请求路径
  * @success 响应成功时回调函数
- * @failure 响应失败时回调函数
+ * @fail 响应失败时回调函数
  * @method 请求方法post或get 默认为POST
  * @timeout: 5
  */
 Nature.create({
-    belongs: "Nature",
+    belongTo: "Nature",
     className: "Ajax",
     method: "GET",
     timeout: 30,
@@ -1611,7 +1385,7 @@ Nature.create({
             var _error_msg = this._error_msg_map["status_" + _status];
             if (_error_msg == undefined) _error_msg = "The url address request failed";
             _error_msg += (", errorCode: " + _status + ", url: " + this.url);
-            if (typeof this.failure == "function") this.failure(_error_msg);
+            if (typeof this.fail == "function") this.fail(_error_msg);
             else throw new Error(_error_msg);
         }
 
@@ -1650,7 +1424,7 @@ Nature.create({
         }
         catch(e)
         {
-            if (typeof this.failure == "function") this.failure("The request address: " + this.url + " " + e.description);
+            if (typeof this.fail == "function") this.fail("The request address: " + this.url + " " + e.description);
             else throw e;
         }
     },
@@ -1664,7 +1438,7 @@ Nature.create({
 });
 
 Nature.create({
-    belongs: "Nature",
+    belongTo: "Nature",
     className: 'Mask',
     Mask: function()
     {
@@ -1726,7 +1500,7 @@ Nature.create({
  * 动画类
  */
 Nature.create({
-    belongs: "Nature",
+    belongTo: "Nature",
     className: "Animation",
     duration: 500,
     delay: 0,
