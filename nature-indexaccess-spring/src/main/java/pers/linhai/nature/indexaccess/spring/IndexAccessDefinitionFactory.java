@@ -73,24 +73,22 @@ public class IndexAccessDefinitionFactory implements BeanDefinitionRegistryPostP
     {
         try
         {
-            //typeAccessorInitialization初始化器spring实现
-            TypeAccessorInitialization typeAccessorInitialization = new TypeAccessorInitializationSpringImpl(registry);
-            
             if(indexScan == null)
             {
                 throw new IndexScanException("The package for the indexScan can't be null.");
             }
             
             List<Class<? extends Index>> indexClassList = scan();
-            if(indexClassList.size() == 0)
+            if(indexClassList.isEmpty())
             {
-                throw new IndexScanException("Frame initialization must contain at least one index class, but find nothing in the package: " + indexScan);
+                throw new IndexScanException("IndexAccess-Frame-Initialization must contain at least one index class, but find nothing in the package: " + indexScan);
             }
             
+            //typeAccessorInitialization初始化器spring实现
+            TypeAccessorInitialization typeAccessorInitialization = new TypeAccessorInitializationSpringImpl(registry);
             for (Class<? extends Index> indexClass : indexClassList)
             {
                 BeanDefinitionBuilder bdb = BeanDefinitionBuilder.genericBeanDefinition(IndexAccessorImpl.class);
-                
                 Index index = indexClass.newInstance();
                 
                 // 添加构造函数参数，需要顺序添加
