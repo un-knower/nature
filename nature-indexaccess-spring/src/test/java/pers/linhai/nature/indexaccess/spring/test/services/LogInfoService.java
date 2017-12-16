@@ -10,8 +10,7 @@
  */
 package pers.linhai.nature.indexaccess.spring.test.services;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pers.linhai.nature.indexaccess.interfaces.TypeAccessor;
@@ -26,7 +25,7 @@ import pers.linhai.nature.indexaccess.spring.test.type.LogInfo;
 @Service
 public class LogInfoService
 {
-    @Resource(name = "logInfoAccessor")
+    @Autowired
     private TypeAccessor<LogInfo> logInfoAccessor;
 
     /**

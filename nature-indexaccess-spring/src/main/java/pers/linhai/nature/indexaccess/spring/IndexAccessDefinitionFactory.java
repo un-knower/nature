@@ -34,6 +34,7 @@ import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.util.ClassUtils;
 
 import pers.linhai.nature.indexaccess.core.impls.IndexAccessorImpl;
+import pers.linhai.nature.indexaccess.core.processor.IndicesAdminClientProcessor;
 import pers.linhai.nature.indexaccess.exception.IndexScanException;
 import pers.linhai.nature.indexaccess.interfaces.TypeAccessorInitialization;
 import pers.linhai.nature.indexaccess.model.index.Index;
@@ -90,9 +91,13 @@ public class IndexAccessDefinitionFactory implements BeanDefinitionRegistryPostP
             {
                 BeanDefinitionBuilder bdb = BeanDefinitionBuilder.genericBeanDefinition(IndexAccessorImpl.class);
                 
-                //添加构造函数参数，需要顺序添加
-                bdb.addConstructorArgValue(indexClass.newInstance());
-                bdb.addConstructorArgValue(typeAccessorInitialization);
+                Index index = indexClass.newInstance();
+                
+                // 添加构造函数参数，需要顺序添加
+                bdb.addConstructorArgValue(index);
+                
+                // 需要在依赖注入分析逻辑执行之前将自定义bean进行注册，否则会出现泛型对象注入错误问题
+                bdb.addConstructorArgValue(IndicesAdminClientProcessor.newInstance(index, typeAccessorInitialization));
                 String name = NamingUtils.accessorName(indexClass);
                 
                 // 可以自动生成name

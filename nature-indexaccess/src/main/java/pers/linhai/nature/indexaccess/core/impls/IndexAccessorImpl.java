@@ -49,8 +49,18 @@ public class IndexAccessorImpl<T extends Index> implements IndexAccessor<T>
      */
     public IndexAccessorImpl(T index, TypeAccessorInitialization typeAccessorInitialization)
     {
+        this(index, IndicesAdminClientProcessor.newInstance(index, typeAccessorInitialization));
+    }
+    
+    /**
+     * <p>Title        : IndexAccessorImpl lilinhai 2017年12月16日 下午2:14:34</p>
+     * @param index
+     * @param indicesAdminClientProcessor
+     */
+    public IndexAccessorImpl(T index, IndicesAdminClientProcessor indicesAdminClientProcessor)
+    {
         this.index = index;
-        indicesAdminClientProcessor = IndicesAdminClientProcessor.newInstance(index, typeAccessorInitialization);
+        this.indicesAdminClientProcessor = indicesAdminClientProcessor;
         AccessorFactory.add((Class<T>)index.getClass(), this);
     }
     
