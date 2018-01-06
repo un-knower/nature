@@ -11,6 +11,7 @@
 package pers.linhai.nature.indexaccess.interfaces;
 
 import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 
 import pers.linhai.nature.indexaccess.model.bulk.BulkProcessorConfiguration;
 import pers.linhai.nature.indexaccess.model.type.Type;
@@ -90,6 +91,18 @@ public interface TypeAccessor<T extends Type>
      * @return long
      */
     long hitCount(QueryBuilder qb);
+    
+    /**
+     * 高亮查询
+     * <p>Title         : query lilinhai 2018年1月6日 下午1:35:41</p>
+     * @param queryBuilder
+     * @param hb
+     * @param start
+     * @param howMany
+     * @return 
+     * HitCollection<T>
+     */
+    HitCollection<T> query(QueryBuilder queryBuilder, HighlightBuilder hb, int start, int howMany);
     
     /**
      * 分页查询

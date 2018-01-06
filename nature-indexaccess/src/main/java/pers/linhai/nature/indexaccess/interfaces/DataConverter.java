@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 
 import pers.linhai.nature.indexaccess.model.type.Type;
 
@@ -41,6 +42,16 @@ public interface DataConverter<T extends Type>
      * @return T
      */
     T convert(Map<String, Object> valueMap);
+    
+    /**
+     * 将响应的信息转换成实体bean对象
+     * <p>Title         : convert lilinhai 2018年1月6日 下午1:49:17</p>
+     * @param valueMap
+     * @param highlightFieldMap
+     * @return 
+     * T
+     */
+    T convert(Map<String, Object> valueMap, Map<String, HighlightField> highlightFieldMap);
     
     /**
      * 将响应的信息映射到给定的实体对象成员中

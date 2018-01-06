@@ -14,8 +14,10 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.elasticsearch.common.text.Text;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 
 import pers.linhai.nature.indexaccess.exception.TypeAccessorException;
 import pers.linhai.nature.indexaccess.interfaces.DataConverter;
@@ -94,6 +96,38 @@ public class DataConverterImpl<T extends Type> implements DataConverter<T>
         return t;
     }
     
+    /** 
+     * <p>Overriding Method: lilinhai 2018年1月6日 下午1:49:26</p>
+     * <p>Title: convert</p>
+     * @param valueMap
+     * @param highlightFieldMap
+     * @return 
+     * @see pers.linhai.nature.indexaccess.interfaces.DataConverter#convert(java.util.Map, java.util.Map)
+     */ 
+    public T convert(Map<String, Object> valueMap, Map<String, HighlightField> highlightFieldMap)
+    {
+        T t = entityConstructor.newInstance();
+        for (Entry<String, Object> e : valueMap.entrySet())
+        {
+            HighlightField hf = highlightFieldMap.get(e.getKey());
+            if (hf != null)
+            {
+                Text[] ts =  hf.getFragments();
+                StringBuilder sb = new StringBuilder();
+                for (Text text : ts)
+                {
+                    sb.append(text.string());
+                }
+                dataTypeCollection.get(e.getKey()).setEntityFieldValue(t, sb.toString());
+            }
+            else
+            {
+                dataTypeCollection.get(e.getKey()).setEntityFieldValue(t, e.getValue());
+            }
+        }
+        return t;
+    }
+
     /**
      * 将响应的信息映射到给定的实体对象成员中
      *

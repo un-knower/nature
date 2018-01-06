@@ -10,8 +10,11 @@
  */
 package pers.linhai.nature.indexaccess.core.impls;
 
+import java.util.Map;
+
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 
 import pers.linhai.nature.indexaccess.interfaces.DataConverter;
 import pers.linhai.nature.indexaccess.model.type.Type;
@@ -43,7 +46,7 @@ class HighLightedHitCollectionImpl<T extends Type> extends HitCollectionImpl<T>
         SearchHit[] searchHits = this.searchHits.getHits();
         for (SearchHit searchHit : searchHits)
         {
-            ec.consume(dataConverter.convert(searchHit.getSourceAsMap()));
+            ec.consume(transfer(searchHit));
         }
     }
     
@@ -54,6 +57,37 @@ class HighLightedHitCollectionImpl<T extends Type> extends HitCollectionImpl<T>
      */
     public T get(int i)
     {
-        return dataConverter.convert(this.searchHits.getAt(i).getSourceAsMap());
+        SearchHit searchHit = this.searchHits.getAt(i);
+        return transfer(searchHit);
     }
+    
+    
+    private T transfer(SearchHit searchHit)
+    {
+        Map<String, HighlightField> highlightFieldMap = searchHit.getHighlightFields();
+        return dataConverter.convert(searchHit.getSourceAsMap(), highlightFieldMap);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

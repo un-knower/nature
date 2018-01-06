@@ -19,6 +19,7 @@ import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.action.update.UpdateRequestBuilder;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -27,6 +28,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.elasticsearch.index.reindex.DeleteByQueryRequestBuilder;
 import org.elasticsearch.rest.RestStatus;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 
 import pers.linhai.nature.indexaccess.core.AccessorFactory;
 import pers.linhai.nature.indexaccess.core.BulkProcessorListener;
@@ -270,6 +272,34 @@ public class TypeAccessorImpl<T extends Type> implements TypeAccessor<T>
         SearchRequestBuilder searchRequestBuilder = transportClientProcessor.getSearchRequestBuilder();
         SearchResponse response = searchRequestBuilder.setQuery(qb).setFrom(0).setSize(0).get();
         return response.getHits().getTotalHits();
+    }
+    
+    /**
+     * 高亮查询
+     * <p>Title         : query lilinhai 2018年1月6日 下午1:35:41</p>
+     * @param queryBuilder
+     * @param hb
+     * @param start
+     * @param howMany
+     * @return 
+     * HitCollection<T>
+     */
+    public HitCollection<T> query(QueryBuilder queryBuilder, HighlightBuilder hb, int start, int howMany)
+    {
+        SearchRequestBuilder searchRequestBuilder = transportClientProcessor.getSearchRequestBuilder();
+        
+        // 设置查询类型 
+        //1.SearchType.DFS_QUERY_THEN_FETCH = 精确查询
+        //2.SearchType.SCAN = 扫描查询,无序
+        searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH);
+        
+        // 设置是否按查询匹配度排序
+        searchRequestBuilder.setExplain(true);
+     
+        //设置高亮显示
+        searchRequestBuilder.highlighter(hb);
+        SearchResponse response = searchRequestBuilder.setQuery(queryBuilder).setFrom(start).setSize(howMany).get();
+        return new HighLightedHitCollectionImpl<T>(response.getHits(), dataConverter);
     }
     
     /**
