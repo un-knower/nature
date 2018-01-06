@@ -65,7 +65,9 @@ class HighLightedHitCollectionImpl<T extends Type> extends HitCollectionImpl<T>
     private T transfer(SearchHit searchHit)
     {
         Map<String, HighlightField> highlightFieldMap = searchHit.getHighlightFields();
-        return dataConverter.convert(searchHit.getSourceAsMap(), highlightFieldMap);
+        T t = dataConverter.convert(searchHit.getSourceAsMap(), highlightFieldMap);
+        setCommon(searchHit, t);
+        return t;
     }
     
     

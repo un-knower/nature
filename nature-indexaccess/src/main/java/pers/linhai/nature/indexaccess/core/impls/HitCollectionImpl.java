@@ -55,7 +55,7 @@ class HitCollectionImpl<T extends Type> implements HitCollection<T>
         SearchHit[] searchHits = this.searchHits.getHits();
         for (SearchHit searchHit : searchHits)
         {
-            ec.consume(dataConverter.convert(searchHit.getSourceAsMap()));
+            ec.consume(transfer(searchHit));
         }
     }
     
@@ -76,7 +76,7 @@ class HitCollectionImpl<T extends Type> implements HitCollection<T>
      */
     public T get(int i)
     {
-        return dataConverter.convert(this.searchHits.getAt(i).getSourceAsMap());
+        return transfer(this.searchHits.getAt(i));
     }
     
     /**
@@ -86,5 +86,19 @@ class HitCollectionImpl<T extends Type> implements HitCollection<T>
     public int length()
     {
         return this.searchHits.getHits().length;
+    }
+    
+    private T transfer(SearchHit searchHit)
+    {
+        T t = dataConverter.convert(searchHit.getSourceAsMap());
+        setCommon(searchHit, t);
+        return t;
+    }
+    
+    protected void setCommon(SearchHit searchHit, T t)
+    {
+        t.setVersion(searchHit.getVersion());
+        t.setId(searchHit.getId());
+        t.setScore(searchHit.getScore());
     }
 }

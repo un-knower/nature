@@ -28,6 +28,11 @@ public abstract class Type implements Serializable
     protected String id;
     
     /**
+     * 分数
+     */
+    protected float score;
+    
+    /**
      * 版本号
      */
     protected long version;
@@ -169,6 +174,26 @@ public abstract class Type implements Serializable
     public void setParent(String parent)
     {
         this.parent = parent;
+    }
+    
+    
+
+    /**
+     * <p>Get Method   :   score float</p>
+     * @return score
+     */
+    public float getScore()
+    {
+        return score;
+    }
+
+    /**
+     * <p>Set Method   :   score float</p>
+     * @param score
+     */
+    public void setScore(float score)
+    {
+        this.score = score;
     }
 
     /**
