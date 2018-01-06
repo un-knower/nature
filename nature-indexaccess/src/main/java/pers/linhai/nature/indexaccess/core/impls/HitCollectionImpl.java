@@ -10,6 +10,8 @@
  */
 package pers.linhai.nature.indexaccess.core.impls;
 
+import java.util.Iterator;
+
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 
@@ -22,8 +24,13 @@ import pers.linhai.nature.indexaccess.model.type.Type;
  * @author  shinelon
  * @version  V100R001C00
  */
-class HitCollectionImpl<T extends Type> implements HitCollection<T>
+class HitCollectionImpl<T extends Type> implements HitCollection<T>, Iterator<T>
 {
+    
+    /**
+     * 迭代器下标
+     */
+    private int index;
     
     /**
      * 返回的记录数
@@ -46,6 +53,46 @@ class HitCollectionImpl<T extends Type> implements HitCollection<T>
         this.dataConverter = dataConverter;
     }
     
+    /** 
+     * <p>Overriding Method: lilinhai 2018年1月6日 下午4:09:45</p>
+     * <p>Title: iterator</p>
+     * <p>Description: TODO</p>
+     * @return 
+     * @see java.lang.Iterable#iterator()
+     */ 
+    @Override
+    public Iterator<T> iterator()
+    {
+        return this;
+    }
+
+    /** 
+     * <p>Overriding Method: lilinhai 2018年1月6日 下午4:02:55</p>
+     * <p>Title: hasNext</p>
+     * @return 
+     * @see java.util.Iterator#hasNext()
+     */ 
+    public boolean hasNext()
+    {
+        return index < length();
+    }
+
+    /** 
+     * <p>Overriding Method: lilinhai 2018年1月6日 下午4:02:55</p>
+     * <p>Title: next</p>
+     * <p>Description: TODO</p>
+     * @return 
+     * @see java.util.Iterator#next()
+     */ 
+    public T next()
+    {
+        if (!hasNext())
+        {
+            return null;
+        }
+        return get(index++);
+    }
+
     /**
      * 迭代
      * @param ec void

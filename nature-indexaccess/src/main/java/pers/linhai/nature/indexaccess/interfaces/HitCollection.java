@@ -18,7 +18,7 @@ import pers.linhai.nature.indexaccess.model.type.Type;
  * @author  shinelon
  * @version  V100R001C00
  */
-public interface HitCollection<T extends Type>
+public interface HitCollection<T extends Type> extends Iterable<T>
 {
     
     /**
