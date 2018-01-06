@@ -16,7 +16,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.elasticsearch.common.settings.Settings.Builder;
 import org.elasticsearch.common.xcontent.XContentBuilder;
@@ -230,9 +229,10 @@ public abstract class DataType
         //定义一个新的字段类型
         mappingStructure.startObject(getName());
         
-        for (Entry<String, String> e : getMappingParams().internalMap().entrySet())
+        Builder builder = getMappingParams();
+        for (String key : builder.keys())
         {
-            mappingStructure.field(e.getKey(), e.getValue());
+            mappingStructure.field(key, builder.get(key));
         }
         
         mappingStructure.endObject();

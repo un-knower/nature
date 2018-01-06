@@ -41,18 +41,18 @@ public enum Store
      * no
      * 
      */
-    NO("no"),
+    FALSE(false),
     
     /**
      * yes
      * 
      */
-    YES("yes");
+    TRUE(true);
     
     /**
      * 枚举值
      */
-    private String value;
+    private boolean value;
     
     /**
      * 
@@ -63,7 +63,7 @@ public enum Store
      *       
      * @param value
      */
-    private Store(String value)
+    private Store(boolean value)
     {
         this.value = value;
     }
@@ -85,7 +85,7 @@ public enum Store
      * 
      * @return 返回 name
      */
-    public String value()
+    public boolean value()
     {
         return value;
     }

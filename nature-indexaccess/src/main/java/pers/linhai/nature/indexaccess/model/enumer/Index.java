@@ -37,27 +37,21 @@ public enum Index
     DEFAULT,
     
     /**
-     * the field will not be indexed
-     * 
-     */
-    NO("no"),
-    
-    /**
      * treat as full-text field
      * 
      */
-    ANALYZED("analyzed"),
+    TRUE(true),
     
     /**
      * treat as keyword field
      * 
      */
-    NOT_ANALYZED("not_analyzed");
+    FALSE(false);
     
     /**
      * 枚举值
      */
-    private String value;
+    private boolean value;
     
     /**
      * 
@@ -68,7 +62,7 @@ public enum Index
      *       
      * @param value
      */
-    private Index(String value)
+    private Index(boolean value)
     {
         this.value = value;
     }
@@ -91,7 +85,7 @@ public enum Index
      * 
      * @return 返回 name
      */
-    public String value()
+    public boolean value()
     {
         return value;
     }

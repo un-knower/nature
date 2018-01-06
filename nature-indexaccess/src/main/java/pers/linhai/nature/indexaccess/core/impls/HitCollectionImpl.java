@@ -52,10 +52,10 @@ class HitCollectionImpl<T extends Type> implements HitCollection<T>
      */
     public void each(Consumer<T> ec)
     {
-        SearchHit[] searchHits = this.searchHits.internalHits();
+        SearchHit[] searchHits = this.searchHits.getHits();
         for (SearchHit searchHit : searchHits)
         {
-            ec.consume(dataConverter.convert(searchHit.getSource()));
+            ec.consume(dataConverter.convert(searchHit.getSourceAsMap()));
         }
     }
     
@@ -76,7 +76,7 @@ class HitCollectionImpl<T extends Type> implements HitCollection<T>
      */
     public T get(int i)
     {
-        return dataConverter.convert(this.searchHits.getAt(i).getSource());
+        return dataConverter.convert(this.searchHits.getAt(i).getSourceAsMap());
     }
     
     /**
@@ -85,6 +85,6 @@ class HitCollectionImpl<T extends Type> implements HitCollection<T>
      */
     public int length()
     {
-        return this.searchHits.internalHits().length;
+        return this.searchHits.getHits().length;
     }
 }

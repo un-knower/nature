@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>pers.linhai.nature</groupId>
+    <groupId>pers.linhai</groupId>
     <artifactId>nature</artifactId>
     <version>nature-framework</version>
     <packaging>pom</packaging>
@@ -22,7 +22,7 @@
         <junit.version>4.12</junit.version>
         <spring.boot.version>1.5.8.RELEASE</spring.boot.version>
         <springframework.version>4.3.12.RELEASE</springframework.version>
-        <elasticsearch.version>5.6.3</elasticsearch.version>
+        <elasticsearch.version>6.1.1</elasticsearch.version>
 
         <project.organization.name>pers.linhai</project.organization.name>
     </properties>

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
 
 import pers.linhai.nature.indexaccess.exception.EsClientInitializationException;
 
@@ -65,7 +65,7 @@ public class ClientAddresses
         {
             try
             {
-                client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(address.getIp()), address.getPort()));
+                client.addTransportAddress(new TransportAddress(InetAddress.getByName(address.getIp()), address.getPort()));
             }
             catch (Throwable e)
             {

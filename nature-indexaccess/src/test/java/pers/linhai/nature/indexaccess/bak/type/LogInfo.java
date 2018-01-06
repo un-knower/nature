@@ -30,7 +30,7 @@ public class LogInfo extends Type
      */
     private static final long serialVersionUID = 1L;
 
-    @NumericField(index=Index.ANALYZED, store=Store.YES)
+    @NumericField(index=Index.TRUE, store=Store.TRUE)
     private long date;
     
     @TextField(analyzer=Analyzer.STANDARD)

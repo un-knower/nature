@@ -15,7 +15,6 @@ import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.settings.Settings.Builder;
@@ -138,9 +137,10 @@ public class ObjectType<OF extends ObjectField> extends DataType
         //定义一个新的字段类型
         mappingStructure.startObject(getName());
         
-        for (Entry<String, String> e : getMappingParams().internalMap().entrySet())
+        Builder builder = getMappingParams();
+        for (String key : builder.keys())
         {
-            mappingStructure.field(e.getKey(), e.getValue());
+            mappingStructure.field(key, builder.get(key));
         }
         
         mappingStructure.startObject("properties");

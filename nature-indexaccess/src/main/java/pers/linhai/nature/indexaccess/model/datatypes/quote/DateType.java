@@ -127,7 +127,7 @@ public class DateType extends ObjectType<Date>
         /**
          * 格式化的日期字符串
          */
-        @TextField(index = Index.NO)
+        @TextField(index = Index.FALSE)
         private String formatTime;
         
         /** 
