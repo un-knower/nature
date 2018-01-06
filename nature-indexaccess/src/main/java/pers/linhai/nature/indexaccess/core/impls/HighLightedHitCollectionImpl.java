@@ -37,59 +37,12 @@ class HighLightedHitCollectionImpl<T extends Type> extends HitCollectionImpl<T>
         super(searchHits, dataConverter);
     }
     
-    /**
-     * 迭代
-     * @param ec void
-     */
-    public void each(Consumer<T> ec)
-    {
-        SearchHit[] searchHits = this.searchHits.getHits();
-        for (SearchHit searchHit : searchHits)
-        {
-            ec.consume(transfer(searchHit));
-        }
-    }
-    
-    /**
-     * 返回指定索引下标的实体记录
-     * @param i
-     * @return T
-     */
-    public T get(int i)
-    {
-        SearchHit searchHit = this.searchHits.getAt(i);
-        return transfer(searchHit);
-    }
-    
-    
-    private T transfer(SearchHit searchHit)
+    T transfer(SearchHit searchHit)
     {
         Map<String, HighlightField> highlightFieldMap = searchHit.getHighlightFields();
         T t = dataConverter.convert(searchHit.getSourceAsMap(), highlightFieldMap);
         setCommon(searchHit, t);
         return t;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 }

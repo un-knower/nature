@@ -88,14 +88,14 @@ class HitCollectionImpl<T extends Type> implements HitCollection<T>
         return this.searchHits.getHits().length;
     }
     
-    private T transfer(SearchHit searchHit)
+    T transfer(SearchHit searchHit)
     {
         T t = dataConverter.convert(searchHit.getSourceAsMap());
         setCommon(searchHit, t);
         return t;
     }
     
-    protected void setCommon(SearchHit searchHit, T t)
+    void setCommon(SearchHit searchHit, T t)
     {
         t.setVersion(searchHit.getVersion());
         t.setId(searchHit.getId());
