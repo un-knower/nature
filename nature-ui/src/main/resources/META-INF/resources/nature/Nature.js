@@ -1444,11 +1444,12 @@ Nature.create({
             var _method = this._request_method[this.method.toUpperCase()];
             _method = _method ? _method : this._request_method.POST;
             var data = this._parse_data();
-            if (_method == this._request_method.GET) this.url += (data == null ? "" : ("?" + data));
+            var isGet = _method === this._request_method.GET;
+            if (isGet) this.url += (data === null ? "" : ("?" + data));
             this._xhr.open(_method, this.url, this.async != false);
             this._handle_timeout();
             this._setHeaders();
-            this._xhr.send(_method == this._request_method.GET ? null : data);
+            this._xhr.send(isGet ? null : data);
         }
         catch(e)
         {
