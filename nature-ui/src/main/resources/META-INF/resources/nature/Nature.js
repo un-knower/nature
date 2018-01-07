@@ -627,17 +627,9 @@ window.Nature = function Nature()
     {
         var jScripts = this.doc.scripts || this.doc.getElementsByTagName("script"), cur_import_script = jScripts[jScripts.length - 1], _cur_script_src = cur_import_script.src, _path = _cur_script_src
                 .substring(0, _cur_script_src.lastIndexOf("Nature.js")), _host = window.location.host, _indexOfHost = _path.indexOf(_host);
-        var s_dataset = cur_import_script.dataset, imports, showMask;
-        if (s_dataset)
-        {
-            imports = s_dataset["imports"];
-            showMask = s_dataset["showMask"];
-        }
-        else
-        {
-            if (cur_import_script.attributes["data-imports"]) imports = cur_import_script.attributes["data-imports"].nodeValue;
-            if (cur_import_script.attributes["data-show-mask"]) showMask = cur_import_script.attributes["data-show-mask"].nodeValue;
-        }
+        var imports, showMask, importsScriptAttr = cur_import_script.attributes["imports"], showMaskScriptAttr = cur_import_script.attributes["showMask"];
+        if (importsScriptAttr) imports = importsScriptAttr.value || importsScriptAttr.nodeValue;
+        if (showMaskScriptAttr) showMask = cur_import_script.value || cur_import_script.nodeValue;
         var baseInfo = {};
         if (imports) baseInfo.imports = imports;
         if (showMask) baseInfo.showMask = showMask;
@@ -1306,18 +1298,36 @@ Nature.create({
             }
         }
     },
-    _parse_params: function()
+    _parse_data: function()
     {
-        var paramArray = new Array();
-        var _params = this.params;
-        if (typeof _params == "object")
+        var _data = this.data;
+        if (typeof _data == "object")
         {
-            for ( var name in _params)
+        	var paramArray = new Array();
+            for ( var name in _data)
             {
-                if (_params.hasOwnProperty(name)) paramArray.push(encodeURIComponent(name) + "=" + encodeURIComponent(_params[name]));
+                if (_data.hasOwnProperty(name))
+                {
+                	var val = _data[name];
+                	if (Array.isArray(val))
+                	{
+                		for (var i = 0; i < val.length; i++)
+                		{
+                			paramArray.push(name + "=" + encodeURIComponent(val[i]));
+                		}
+                	}
+                	else
+                	{
+                		paramArray.push(name + "=" + encodeURIComponent(val));
+                	}
+                }
             }
+            return paramArray.length == 0 ? null : paramArray.join("&");
         }
-        return paramArray.length == 0 ? null : paramArray.join("&");
+        else
+        {
+        	return _data;
+        }
     },
     _create_xhr: function()
     {
@@ -1366,15 +1376,43 @@ Nature.create({
             delete this._timeout_timer;
         }
         var _status = this._xhr.status;
-        if (((_status >= 200 && _status < 300) || _status == 304) && typeof this.success == "function")
+        var _statusText = this._xhr.statusText;
+        if (((_status >= 200 && _status < 300) || _status === 304))
         {
             try
             {
-                this.success(this._xhr);
+            	if (typeof this.success == "function")
+        		{
+            		var result;
+            		if((result = this._xhr.responseText))
+            		{
+            			try{
+            				if (typeof result == "string")
+        					{
+            					result = result.toJSON();
+        					}
+            			}
+            			catch (e) 
+            			{
+						}
+            			finally
+						{
+            				this.success(result, _statusText, this._xhr);
+						}
+            		}
+            		else if((result = this._xhr.responseXML) || (result = this._xhr.responseXml))
+            		{
+            			this.success(result, _statusText, this._xhr);
+            		}
+            		else
+            		{
+            			throw new Error("The ajax result can't be processed.");
+            		}
+        		}
             }
             catch(e)
             {
-                var errorMsg = "\nFile url requested by ajax: " + this.url;
+                var errorMsg = "\nUrl requested by ajax: " + this.url;
                 e.description = ((e.description ? e.description : "") + errorMsg);
                 e.message = ((e.message ? e.message : "") + errorMsg);
                 throw e;
@@ -1382,24 +1420,14 @@ Nature.create({
         }
         else
         {
-            var _error_msg = this._error_msg_map["status_" + _status];
-            if (_error_msg == undefined) _error_msg = "The url address request failed";
-            _error_msg += (", errorCode: " + _status + ", url: " + this.url);
-            if (typeof this.fail == "function") this.fail(_error_msg);
+            var _error_msg = "Ajax Request failed";
+            _error_msg += (", errorCode: " + _status + ", statusText: " + _statusText + ", url: " + this.url);
+            if (typeof this.fail == "function") this.fail(_error_msg, this._xhr);
             else throw new Error(_error_msg);
         }
 
         // 需要考虑_xhr_callback为undefined的情况
         delete this._xhr.onreadystatechange;
-    },
-    _error_msg_map: {
-        status_0: "The requested url is not reachable", // 请求地址无效
-        status_12029: "The requested url is not reachable", // 请求地址无效
-        status_403: "The requested url access forbidden", // 你请求的页面禁止访问
-        status_404: "The requested url does not exist", // 你请求的页面不存在
-        status_500: "The requested url generated Web server internal error", // 请求页面产生Web服务器内部错误
-        status_502: "The Web server received an invalid response", // Web服务器收到无效的响应
-        status_503: "Server is busy or unavailable, please try again later" // 服务器繁忙，请稍后再试
     },
     _request_method: {
         HEAD: "HEAD", // 向服务器索要与GET请求相一致的响应，只不过响应体将不会被返回。这一方法可以在不必传输整个响应内容的情况下，就可以获取包含在响应消息头中的元信息。
@@ -1415,12 +1443,12 @@ Nature.create({
             this._create_xhr();
             var _method = this._request_method[this.method.toUpperCase()];
             _method = _method ? _method : this._request_method.POST;
-            var params = this._parse_params();
-            if (_method == this._request_method.GET) this.url += (params == null ? "" : ("?" + params));
+            var data = this._parse_data();
+            if (_method == this._request_method.GET) this.url += (data == null ? "" : ("?" + data));
             this._xhr.open(_method, this.url, this.async != false);
             this._handle_timeout();
             this._setHeaders();
-            this._xhr.send(_method == this._request_method.GET ? null : params);
+            this._xhr.send(_method == this._request_method.GET ? null : data);
         }
         catch(e)
         {
