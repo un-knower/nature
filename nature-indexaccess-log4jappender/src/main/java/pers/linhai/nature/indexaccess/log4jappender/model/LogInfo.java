@@ -41,11 +41,6 @@ public class LogInfo extends Type
     private long wholePointTime;
     
     /**
-     * 同一个上下文中，同一个时间整点下的行号
-     */
-    private int lineNumber;
-    
-    /**
      * logger名字空间的全称
      */
     @TextField(analyzer = Analyzer.CUSTOM, customAnalyzer = "common_pattern_analyzer")
@@ -222,26 +217,6 @@ public class LogInfo extends Type
     }
 
     /**
-     * 返回 lineNumber
-     *
-     * @return lineNumber
-     */
-    public int getLineNumber()
-    {
-        return lineNumber;
-    }
-
-    /**
-     * 对lineNumber进行赋值
-     *
-     * @param lineNumber
-     */
-    public void setLineNumber(int lineNumber)
-    {
-        this.lineNumber = lineNumber;
-    }
-
-    /**
      * 返回 wholePointTime
      *
      * @return wholePointTime
@@ -261,13 +236,17 @@ public class LogInfo extends Type
         this.wholePointTime = wholePointTime;
     }
 
-    /**
-     * @return
-     */
+    /** 
+     * <p>Overriding Method: lilinhai 2018年1月28日 下午3:07:15</p>
+     * <p>Title: toString</p>
+     * <p>Description: TODO</p>
+     * @return 
+     * @see java.lang.Object#toString()
+     */ 
+    @Override
     public String toString()
     {
-        return "LogInfo [contextId=" + contextId + ", wholePointTime=" + wholePointTime + ", lineNumber=" 
-                + lineNumber + ", loggerName=" + loggerName + ", level=" + level + ", thread=" + thread
-                + ", location=" + location + ", message=" + message + ", logDate=" + logDate + "]";
+        return "LogInfo [contextId=" + contextId + ", wholePointTime=" + wholePointTime + ", loggerName=" + loggerName + ", level=" + level + ", thread=" + thread + ", location=" + location
+               + ", message=" + message + ", logDate=" + logDate + "]";
     }
 }

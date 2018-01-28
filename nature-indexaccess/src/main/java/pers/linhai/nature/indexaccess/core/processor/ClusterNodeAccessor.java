@@ -10,8 +10,8 @@
  */
 package pers.linhai.nature.indexaccess.core.processor;
 
-import java.util.logging.Logger;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.elasticsearch.Version;
 import org.elasticsearch.client.AdminClient;
 import org.elasticsearch.client.ClusterAdminClient;
@@ -38,7 +38,7 @@ public abstract class ClusterNodeAccessor
     /**
      * java logger
      */
-    private static final Logger LOGGER = Logger.getLogger(ClusterNodeAccessor.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(ClusterNodeAccessor.class);
     
     /**
      * ES client link single object

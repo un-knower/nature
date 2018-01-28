@@ -11,18 +11,19 @@
 package pers.linhai.nature.indexaccess.log4jappender.plugins;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.core.Filter;
 import org.apache.logging.log4j.core.Layout;
 import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.appender.AbstractAppender;
+import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.DefaultConfiguration;
 import org.apache.logging.log4j.core.config.plugins.Plugin;
 import org.apache.logging.log4j.core.config.plugins.PluginBuilderAttribute;
@@ -36,6 +37,7 @@ import pers.linhai.nature.indexaccess.core.AccessorFactory;
 import pers.linhai.nature.indexaccess.core.BulkProcessorListener;
 import pers.linhai.nature.indexaccess.interfaces.BulkOperation;
 import pers.linhai.nature.indexaccess.interfaces.TypeAccessor;
+import pers.linhai.nature.indexaccess.log4jappender.hook.IndexAccessShutdownHook;
 import pers.linhai.nature.indexaccess.log4jappender.model.LogIndex;
 import pers.linhai.nature.indexaccess.log4jappender.model.LogInfo;
 import pers.linhai.nature.indexaccess.log4jappender.model.LogMessage;
@@ -52,14 +54,14 @@ import pers.linhai.nature.indexaccess.model.datatypes.quote.DateType.Date;
 public class IndexAccessAppenderPlugin extends AbstractAppender
 {
     
-    private static IndexAccessAppenderPlugin INSTANCE;
-    
     /**
      * 默认的日志上下文ID
      */
-    private static String DEFAULT_CONTEXT_ID = UUID.randomUUID().toString();
+    private static final String DEFAULT_CONTEXT_ID = UUID.randomUUID().toString();
     
-    private TypeAccessor<LogInfo> logInfoAccessor;
+    private static TypeAccessor<LogInfo> logInfoAccessor;
+    
+    private static BulkOperation<LogInfo> logInfoBulkOperation;
     
     /**
      * ES批量信息处理器
@@ -80,12 +82,6 @@ public class IndexAccessAppenderPlugin extends AbstractAppender
      */
     private ExtendedThrowablePatternConverter throwablePatternConverter;
     
-    private BulkOperation<LogInfo> logInfoBulkOperation;
-    
-    private int hoursSpan = 12;
-    
-    private Map<String, Map<Long, Integer>> logLineNumberHourMap = new ConcurrentHashMap<String, Map<Long, Integer>>();
-    
     /** 
      * <默认构造函数>
      * @param name
@@ -95,13 +91,33 @@ public class IndexAccessAppenderPlugin extends AbstractAppender
     protected IndexAccessAppenderPlugin(String name, Filter filter, Layout< ? extends Serializable> layout)
     {
         super(name, filter, layout);
-        if(INSTANCE != null)
-        {
-            throw new RuntimeException();
-        }
         datePatternConverter = DatePatternConverter.newInstance(new String[] {"DEFAULT"});
-        throwablePatternConverter = ExtendedThrowablePatternConverter.newInstance(new DefaultConfiguration(), null);
-        INSTANCE = this;
+        try
+        {
+            Method extendedThrowablePatternConverterNewInstanceMethod = ExtendedThrowablePatternConverter.class.getDeclaredMethod("newInstance", Configuration.class, String[].class);
+            throwablePatternConverter = (ExtendedThrowablePatternConverter)extendedThrowablePatternConverterNewInstanceMethod.invoke(null, new DefaultConfiguration(), null);
+        }
+        catch (NoSuchMethodException e)
+        {
+            try
+            {
+                Method extendedThrowablePatternConverterNewInstanceMethod = ExtendedThrowablePatternConverter.class.getDeclaredMethod("newInstance", String[].class);
+                throwablePatternConverter = (ExtendedThrowablePatternConverter)extendedThrowablePatternConverterNewInstanceMethod.invoke(null, (Object) new String[] {});
+            }
+            catch (NoSuchMethodException e1)
+            {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            catch (Exception e1)
+            {
+                e1.printStackTrace();
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
     
     /**
@@ -158,7 +174,7 @@ public class IndexAccessAppenderPlugin extends AbstractAppender
             
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(li.getLogDate().getMilliseconds());
-            calendar.set(Calendar.HOUR_OF_DAY, (calendar.get(Calendar.HOUR_OF_DAY) / hoursSpan) * hoursSpan);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
             calendar.set(Calendar.MINUTE, 0);  
             calendar.set(Calendar.SECOND, 0);  
             calendar.set(Calendar.MILLISECOND, 0); 
@@ -166,39 +182,11 @@ public class IndexAccessAppenderPlugin extends AbstractAppender
             //设置日志发生时间的整点毫秒时间戳
             li.setWholePointTime(calendar.getTimeInMillis());
             
-            Map<Long, Integer> hourMap = logLineNumberHourMap.get(li.getContextId());
-            if (hourMap == null)
-            {
-                hourMap = new HashMap<Long, Integer>();
-                logLineNumberHourMap.put(li.getContextId(), hourMap);
-            }
-            
-            if (hourMap.get(li.getWholePointTime()) == null)
-            {
-                hourMap.put(li.getWholePointTime(), 1);
-                li.setLineNumber(1);
-            }
-            else
-            {
-                li.setLineNumber(hourMap.get(li.getWholePointTime()) + 1);
-                hourMap.put(li.getWholePointTime(), li.getLineNumber());
-            }
-            
             if (!logInfoBulkOperation.isClosed() && li != null)
             {
                 logInfoBulkOperation.add(li);
             }
         }
-    }
-    
-    /**
-     * 返回 logInfoBulkOperation
-     *
-     * @return logInfoBulkOperation
-     */
-    public BulkOperation<LogInfo> getLogInfoBulkOperation()
-    {
-        return logInfoBulkOperation;
     }
 
     /**
@@ -206,21 +194,40 @@ public class IndexAccessAppenderPlugin extends AbstractAppender
      * 
      * void
      */
-    public void initLogInfoAccessor()
+    private void initLogInfoAccessor()
     {
-        if (logInfoAccessor == null)
+        try
         {
-            LogIndex.setIndexDynamicSettings(indexDynamicSettings);
-            LogIndex.setIndexStaticSettings(indexStaticSettings);
-            AccessorFactory.load(LogIndex.class);
-            logInfoAccessor = AccessorFactory.typeAccessor(LogInfo.class);
-            
-            BulkProcessorConfiguration bulkProcessorConfiguration = bulkProcessor.to();
-            BulkProcessorListener bulkProcessorListener = new BulkProcessorListener();
-            bulkProcessorListener.setIndex(logInfoAccessor.indexName());
-            bulkProcessorListener.setType(logInfoAccessor.toString());
-            bulkProcessorConfiguration.setListener(bulkProcessorListener);
-            logInfoBulkOperation = bulkProcessor == null ? logInfoAccessor.bulkOperations() : logInfoAccessor.bulkOperations(bulkProcessorConfiguration);
+            if (logInfoAccessor == null)
+            {
+                LogIndex.setIndexDynamicSettings(indexDynamicSettings);
+                LogIndex.setIndexStaticSettings(indexStaticSettings);
+                AccessorFactory.load(LogIndex.class);
+                logInfoAccessor = AccessorFactory.typeAccessor(LogInfo.class);
+                
+                if (logInfoBulkOperation == null)
+                {
+                    if (bulkProcessor == null)
+                    {
+                        BulkProcessorConfiguration bulkProcessorConfiguration = bulkProcessor.to();
+                        BulkProcessorListener bulkProcessorListener = new BulkProcessorListener();
+                        bulkProcessorListener.setIndex(logInfoAccessor.indexName());
+                        bulkProcessorListener.setType(logInfoAccessor.toString());
+                        bulkProcessorConfiguration.setListener(bulkProcessorListener);
+                        logInfoBulkOperation = logInfoAccessor.bulkOperations(bulkProcessorConfiguration);
+                    }
+                    else
+                    {
+                        logInfoBulkOperation = logInfoAccessor.bulkOperations();
+                    }
+                }
+                
+                Runtime.getRuntime().addShutdownHook(new IndexAccessShutdownHook(logInfoBulkOperation, (LoggerContext)LogManager.getContext(false)));
+            }
+        }
+        catch (Throwable e) 
+        {
+            e.printStackTrace();
         }
     }
     
@@ -270,6 +277,7 @@ public class IndexAccessAppenderPlugin extends AbstractAppender
                 elasticsearchAppender.bulkProcessor = bulkProcessor;
                 elasticsearchAppender.indexDynamicSettings = indexDynamicSettings;
                 elasticsearchAppender.indexStaticSettings = indexStaticSettings;
+                elasticsearchAppender.initLogInfoAccessor();
                 return elasticsearchAppender;
             }
         };

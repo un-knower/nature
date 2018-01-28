@@ -35,6 +35,7 @@ public class IndexAccessAppenderTest
         try
         {
             LogApplication.initialize();
+            System.out.println(1);
         }
         catch (Throwable e)
         {
@@ -55,6 +56,7 @@ public class IndexAccessAppenderTest
     @Test
     public void addMessage()
     {
+        LogManager.getRootLogger().error("fgdfg df", new RuntimeException("dsfjkfhbdjkfhb gf"));
         long start = System.currentTimeMillis();
         for (int i = 0; i < 10; i++)
         {

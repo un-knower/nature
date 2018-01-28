@@ -15,7 +15,6 @@ import java.net.URL;
 import java.util.Objects;
 
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.async.AsyncLoggerContextSelector;
 import org.apache.logging.log4j.core.config.ConfigurationFactory;
@@ -23,7 +22,6 @@ import org.apache.logging.log4j.core.config.ConfigurationSource;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.core.config.plugins.util.PluginManager;
 
-import pers.linhai.nature.indexaccess.log4jappender.hook.IndexAccessShutdownHook;
 import pers.linhai.nature.indexaccess.log4jappender.plugins.IndexAccessAppenderPlugin;
 import pers.linhai.nature.utils.ResourceUtils;
 
@@ -78,26 +76,6 @@ public abstract class LogApplication
         Objects.requireNonNull(confUrl, "Log4j2 configuration source can't be null.");
         ConfigurationSource source = new ConfigurationSource(confUrl.openStream(), confUrl);
         Configurator.initialize(ConfigurationFactory.getInstance().getConfiguration(loggerContext, source)).start();
-        if (loggerContext.getConfiguration().getAppenders() != null)
-        {
-            for (Appender appender : loggerContext.getConfiguration().getAppenders().values())
-            {
-                if (appender instanceof IndexAccessAppenderPlugin)
-                {
-                    indexAccessAppenderPlugin = ((IndexAccessAppenderPlugin)appender);
-                    indexAccessAppenderPlugin.initLogInfoAccessor();
-                    
-                    // 绑定应用程序销毁事件，应用程序一退出，立即销毁log4j上下文，以及ES
-                    if (!loggerContext.getConfiguration().isShutdownHookEnabled())
-                    {
-                        Runtime.getRuntime().addShutdownHook(new IndexAccessShutdownHook(indexAccessAppenderPlugin.getLogInfoBulkOperation(), loggerContext));
-                    }
-                    
-                    break;
-                }
-            }
-        }
-        
         LogManager.getRootLogger().info("Log4j2-ApplicationContext initialized successfully.");
     }
     
