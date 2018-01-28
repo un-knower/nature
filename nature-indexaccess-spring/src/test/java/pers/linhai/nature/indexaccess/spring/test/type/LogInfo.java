@@ -10,7 +10,6 @@
  */
 package pers.linhai.nature.indexaccess.spring.test.type;
 
-import pers.linhai.nature.indexaccess.annotation.datatypes.KeywordField;
 import pers.linhai.nature.indexaccess.annotation.datatypes.TextField;
 import pers.linhai.nature.indexaccess.model.datatypes.quote.DateType.Date;
 import pers.linhai.nature.indexaccess.model.enumer.Analyzer;
@@ -28,12 +27,6 @@ public class LogInfo extends Type
      *
      */
     private static final long serialVersionUID = 1L;
-    
-    /**
-     * 日志记录所属上下文ID
-     */
-    @KeywordField
-    private String contextId;
 
     /**
      * 日志当前小时整点时间，方便查看日志上下文
@@ -80,27 +73,6 @@ public class LogInfo extends Type
      */
     private Date logDate;
     
-    
-    /**
-     * 返回 contextId
-     *
-     * @return contextId
-     */
-    public String getContextId()
-    {
-        return contextId;
-    }
-
-    /**
-     * 对contextId进行赋值
-     *
-     * @param contextId
-     */
-    public void setContextId(String contextId)
-    {
-        this.contextId = contextId;
-    }
-
     /**
      * 返回 loggerName
      *
@@ -266,7 +238,7 @@ public class LogInfo extends Type
      */
     public String toString()
     {
-        return "LogInfo [contextId=" + contextId + ", wholePointTime=" + wholePointTime + ", lineNumber=" 
+        return "LogInfo [wholePointTime=" + wholePointTime + ", lineNumber=" 
                 + lineNumber + ", loggerName=" + loggerName + ", level=" + level + ", thread=" + thread
                 + ", location=" + location + ", message=" + message + ", logDate=" + logDate + "]";
     }

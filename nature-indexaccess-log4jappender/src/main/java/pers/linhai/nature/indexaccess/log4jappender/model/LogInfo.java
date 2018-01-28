@@ -10,7 +10,6 @@
  */
 package pers.linhai.nature.indexaccess.log4jappender.model;
 
-import pers.linhai.nature.indexaccess.annotation.datatypes.KeywordField;
 import pers.linhai.nature.indexaccess.annotation.datatypes.TextField;
 import pers.linhai.nature.indexaccess.model.datatypes.quote.DateType.Date;
 import pers.linhai.nature.indexaccess.model.enumer.Analyzer;
@@ -28,12 +27,6 @@ public class LogInfo extends Type
      *
      */
     private static final long serialVersionUID = 1L;
-    
-    /**
-     * 日志记录所属上下文ID
-     */
-    @KeywordField
-    private String contextId;
 
     /**
      * 日志当前小时整点时间，方便查看日志上下文
@@ -74,27 +67,6 @@ public class LogInfo extends Type
      * 日志发生时间
      */
     private Date logDate;
-    
-    
-    /**
-     * 返回 contextId
-     *
-     * @return contextId
-     */
-    public String getContextId()
-    {
-        return contextId;
-    }
-
-    /**
-     * 对contextId进行赋值
-     *
-     * @param contextId
-     */
-    public void setContextId(String contextId)
-    {
-        this.contextId = contextId;
-    }
 
     /**
      * 返回 loggerName
@@ -237,16 +209,15 @@ public class LogInfo extends Type
     }
 
     /** 
-     * <p>Overriding Method: lilinhai 2018年1月28日 下午3:07:15</p>
+     * <p>Overriding Method: lilinhai 2018年1月28日 下午6:59:57</p>
      * <p>Title: toString</p>
      * <p>Description: TODO</p>
      * @return 
      * @see java.lang.Object#toString()
      */ 
-    @Override
     public String toString()
     {
-        return "LogInfo [contextId=" + contextId + ", wholePointTime=" + wholePointTime + ", loggerName=" + loggerName + ", level=" + level + ", thread=" + thread + ", location=" + location
-               + ", message=" + message + ", logDate=" + logDate + "]";
+        return "LogInfo [wholePointTime=" + wholePointTime + ", loggerName=" + loggerName + ", level=" + level + ", thread=" + thread + ", location=" + location + ", message=" + message + ", logDate="
+               + logDate + "]";
     }
 }

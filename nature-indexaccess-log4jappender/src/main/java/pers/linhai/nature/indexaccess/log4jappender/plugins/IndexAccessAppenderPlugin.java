@@ -13,7 +13,6 @@ package pers.linhai.nature.indexaccess.log4jappender.plugins;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Calendar;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.apache.logging.log4j.LogManager;
@@ -38,6 +37,7 @@ import pers.linhai.nature.indexaccess.core.BulkProcessorListener;
 import pers.linhai.nature.indexaccess.interfaces.BulkOperation;
 import pers.linhai.nature.indexaccess.interfaces.TypeAccessor;
 import pers.linhai.nature.indexaccess.log4jappender.hook.IndexAccessShutdownHook;
+import pers.linhai.nature.indexaccess.log4jappender.model.LogEventMessage;
 import pers.linhai.nature.indexaccess.log4jappender.model.LogIndex;
 import pers.linhai.nature.indexaccess.log4jappender.model.LogInfo;
 import pers.linhai.nature.indexaccess.log4jappender.model.LogMessage;
@@ -53,12 +53,6 @@ import pers.linhai.nature.indexaccess.model.datatypes.quote.DateType.Date;
 @Plugin(name = "IndexAccess", category = "Core", elementType = Appender.ELEMENT_TYPE, printObject = true)
 public class IndexAccessAppenderPlugin extends AbstractAppender
 {
-    
-    /**
-     * 默认的日志上下文ID
-     */
-    private static final String DEFAULT_CONTEXT_ID = UUID.randomUUID().toString();
-    
     private static TypeAccessor<LogInfo> logInfoAccessor;
     
     private static BulkOperation<LogInfo> logInfoBulkOperation;
@@ -91,9 +85,9 @@ public class IndexAccessAppenderPlugin extends AbstractAppender
     protected IndexAccessAppenderPlugin(String name, Filter filter, Layout< ? extends Serializable> layout)
     {
         super(name, filter, layout);
-        datePatternConverter = DatePatternConverter.newInstance(new String[] {"DEFAULT"});
         try
         {
+            datePatternConverter = DatePatternConverter.newInstance(new String[] {"DEFAULT"});
             Method extendedThrowablePatternConverterNewInstanceMethod = ExtendedThrowablePatternConverter.class.getDeclaredMethod("newInstance", Configuration.class, String[].class);
             throwablePatternConverter = (ExtendedThrowablePatternConverter)extendedThrowablePatternConverterNewInstanceMethod.invoke(null, new DefaultConfiguration(), null);
         }
@@ -103,11 +97,6 @@ public class IndexAccessAppenderPlugin extends AbstractAppender
             {
                 Method extendedThrowablePatternConverterNewInstanceMethod = ExtendedThrowablePatternConverter.class.getDeclaredMethod("newInstance", String[].class);
                 throwablePatternConverter = (ExtendedThrowablePatternConverter)extendedThrowablePatternConverterNewInstanceMethod.invoke(null, (Object) new String[] {});
-            }
-            catch (NoSuchMethodException e1)
-            {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
             }
             catch (Exception e1)
             {
@@ -121,11 +110,8 @@ public class IndexAccessAppenderPlugin extends AbstractAppender
     }
     
     /**
-     * 
-     *
      * @param event
      */
-    @Override
     public void append(LogEvent event)
     {
         if (logInfoBulkOperation == null)
@@ -140,31 +126,14 @@ public class IndexAccessAppenderPlugin extends AbstractAppender
             {
                 li = ((LogMessage)message).getLogInfo();
             }
+            else if(message instanceof LogEventMessage)
+            {
+                event = ((LogEventMessage)message).getLogEvent();
+                li = buildLogInfo(event, event.getMessage());
+            }
             else
             {
-                li = new LogInfo();
-                StackTraceElement ste = event.getSource();
-                if (ste != null)
-                {
-                    li.setLocation(ste.toString());
-                }
-                li.setLevel(event.getLevel().name());
-                li.setLoggerName(event.getLoggerName().trim().equals("") ? "root" : event.getLoggerName());
-                li.setThread(event.getThreadName());
-                StringBuilder sb = new StringBuilder();
-                datePatternConverter.format(event.getTimeMillis(), sb);
-                Date d = new Date(event.getTimeMillis());
-                d.setFormatTime(sb.toString());
-                li.setLogDate(d);
-                sb.setLength(0);
-                sb.append(message.getFormattedMessage()).append('\n');
-                throwablePatternConverter.format(event, sb);
-                li.setMessage(sb.toString());
-            }
-            
-            if (li.getContextId() == null)
-            {
-                li.setContextId(DEFAULT_CONTEXT_ID);
+                li = buildLogInfo(event, message);
             }
             
             if (li.getLogDate() == null)
@@ -187,6 +156,38 @@ public class IndexAccessAppenderPlugin extends AbstractAppender
                 logInfoBulkOperation.add(li);
             }
         }
+    }
+
+    /**
+     * <p>Title         : buildLogInfo lilinhai 2018年1月28日 下午11:26:00</p>
+     * <p>Description   : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
+     * @param event
+     * @param message
+     * @return 
+     * LogInfo 
+     */ 
+    private LogInfo buildLogInfo(LogEvent event, Message message)
+    {
+        LogInfo li;
+        li = new LogInfo();
+        StackTraceElement ste = event.getSource();
+        if (ste != null)
+        {
+            li.setLocation(ste.toString());
+        }
+        li.setLevel(event.getLevel().name());
+        li.setLoggerName(event.getLoggerName().trim().equals("") ? "root" : event.getLoggerName());
+        li.setThread(event.getThreadName());
+        StringBuilder sb = new StringBuilder();
+        datePatternConverter.format(event.getTimeMillis(), sb);
+        Date d = new Date(event.getTimeMillis());
+        d.setFormatTime(sb.toString());
+        li.setLogDate(d);
+        sb.setLength(0);
+        sb.append(message.getFormattedMessage()).append('\n');
+        throwablePatternConverter.format(event, sb);
+        li.setMessage(sb.toString());
+        return li;
     }
 
     /**

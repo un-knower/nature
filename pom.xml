@@ -22,7 +22,7 @@
         <junit.version>4.12</junit.version>
         <spring.boot.version>1.5.8.RELEASE</spring.boot.version>
         <springframework.version>4.3.12.RELEASE</springframework.version>
-        <elasticsearch.version>6.1.1</elasticsearch.version>
+        <elasticsearch.version>6.1.2</elasticsearch.version>
 
         <project.organization.name>pers.linhai</project.organization.name>
     </properties>
