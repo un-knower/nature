@@ -66,7 +66,7 @@ public class ConfigurationParser
             InputStream configInput = null;
             try
             {
-                configInput = ResourceUtils.getURL(StringUtils.isEmpty(ClientConfiguration.getConfigFilePath()) ? "classpath:elasticsearch.xml" : ClientConfiguration.getConfigFilePath()).openStream();
+                configInput = ResourceUtils.getURL(StringUtils.isEmpty(ClientConfiguration.getConfigFilePath()) ? "classpath:transport-client.xml" : ClientConfiguration.getConfigFilePath()).openStream();
                 this.document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(configInput);
                 isInited = true;
             }

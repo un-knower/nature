@@ -13,6 +13,6 @@
 	</Settings>
 	
 	<TransportAddresses>
-		<TransportAddress ip="127.0.0.1" port="9300" type="data"/>
+		<TransportAddress ip="127.0.0.1" port="9300" />
 	</TransportAddresses>
 </Configuration>
