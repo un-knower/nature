@@ -19,13 +19,18 @@ package pers.linhai.nature.indexaccess.model.core;
  * @version: [版本号]
  * @since: [产品/模块版本]
  */
-public class ClientConfiguration
+public abstract class ClientConfiguration
 {
-
-    /**
-     * 索引名前缀
-     */
-    private String indexNamePrefix;
+    
+    private static final ClientConfiguration CLIENT_CONFIGURATION = new ClientConfiguration()
+    {};
+    
+    private ClientConfiguration()
+    {
+        
+    }
+    
+    private String configFilePath;
     
     /**
      * Settings
@@ -35,43 +40,46 @@ public class ClientConfiguration
     /**
      * Addresses
      */
-    private ClientAddresses addresses = new ClientAddresses();
+    private ClientTransportAddress addresses = new ClientTransportAddress();
 
     /**
      * 获取 settings
      * @return 返回 settings
      */
-    public ClientSettings getSettings()
+    public static ClientSettings getSettings()
     {
-        return settings;
+        return CLIENT_CONFIGURATION.settings;
     }
 
     /**
      * 获取 addresses
      * @return 返回 addresses
      */
-    public ClientAddresses getAddresses()
+    public static ClientTransportAddress getAddresses()
     {
-        return addresses;
+        return CLIENT_CONFIGURATION.addresses;
+    }
+    
+    /**
+     * <p>Get Method   :   configFilePath String</p>
+     * @return configFilePath
+     */
+    public static String getConfigFilePath()
+    {
+        return CLIENT_CONFIGURATION.configFilePath;
     }
 
     /**
-     * 获取 indexNamePrefix
-     * @return 返回 indexNamePrefix
+     * <p>Set Method   :   configFilePath String</p>
+     * @param configFilePath
      */
-    public String getIndexNamePrefix()
+    public static void setConfigFilePath(String configFilePath)
     {
-        return indexNamePrefix;
+        CLIENT_CONFIGURATION.configFilePath = configFilePath;
     }
 
-    /**
-     * 设置 indexNamePrefix
-     * @param 对indexNamePrefix进行赋值
-     */
-    public void setIndexNamePrefix(String indexNamePrefix)
+    public static ClientConfiguration getInstance()
     {
-        this.indexNamePrefix = indexNamePrefix;
+        return CLIENT_CONFIGURATION;
     }
-    
-    
 }

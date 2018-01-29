@@ -10,6 +10,8 @@
  */
 package pers.linhai.nature.indexaccess.core;
 
+import java.io.InputStream;
+
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
@@ -20,8 +22,11 @@ import org.w3c.dom.NodeList;
 import pers.linhai.nature.indexaccess.exception.EsConfigLoadedException;
 import pers.linhai.nature.indexaccess.exception.EsConfigParseException;
 import pers.linhai.nature.indexaccess.model.core.ClientConfiguration;
-import pers.linhai.nature.indexaccess.model.core.ClientAddresses.Address;
 import pers.linhai.nature.indexaccess.model.core.ClientSettings.Parameter;
+import pers.linhai.nature.indexaccess.model.core.ClientTransportAddress.Address;
+import pers.linhai.nature.utils.IOUtils;
+import pers.linhai.nature.utils.ResourceUtils;
+import pers.linhai.nature.utils.StringUtils;
 
 /**
  * es客戶端配置解析器
@@ -33,18 +38,13 @@ import pers.linhai.nature.indexaccess.model.core.ClientSettings.Parameter;
  * @version: [版本号]
  * @since: [产品/模块版本]
  */
-public class ClientConfigParser
+public class ConfigurationParser
 {
     
     /**
      * xml config file document object
      */
     private Document document;
-    
-    /**
-     * single object
-     */
-    private ClientConfiguration clientConfiguration;
     
     /**
      * Whether the elastic-search configuration file has been loaded
@@ -59,19 +59,24 @@ public class ClientConfigParser
      *        
      * @param clientConfiguration
      */
-    public ClientConfigParser(ClientConfiguration clientConfiguration)
+    public ConfigurationParser()
     {
         if (!isInited)
         {
+            InputStream configInput = null;
             try
             {
-                this.clientConfiguration = clientConfiguration;
-                this.document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(ClientConfigParser.class.getResourceAsStream("/elasticsearch.xml"));
+                configInput = ResourceUtils.getURL(StringUtils.isEmpty(ClientConfiguration.getConfigFilePath()) ? "classpath:elasticsearch.xml" : ClientConfiguration.getConfigFilePath()).openStream();
+                this.document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(configInput);
                 isInited = true;
             }
             catch (Throwable e)
             {
                 throw new EsConfigParseException(e);
+            }
+            finally
+            {
+                IOUtils.close(configInput);
             }
         }
         else
@@ -103,15 +108,11 @@ public class ClientConfigParser
             Node node = nodes.item(i);
             if (node.getNodeType() == Element.ELEMENT_NODE)
             {
-                if (node.getNodeName().equals("index-name-prefix"))
-                {
-                    parseIndexNamePrefix(node);
-                }
-                else if (node.getNodeName().equals("settings"))
+                if (node.getNodeName().equals("Settings"))
                 {
                     parseSettings(node);
                 }
-                else if (node.getNodeName().equals("addresses"))
+                else if (node.getNodeName().equals("TransportAddresses"))
                 {
                     parseAddresses(node);
                 }
@@ -119,27 +120,6 @@ public class ClientConfigParser
         }
         
         this.document = null;
-        this.clientConfiguration = null;
-    }
-    
-    /** 
-     * 解析所有type的索引名前綴
-     * @author: shinelon
-     * @date: 2017年3月4日 下午2:57:27 
-     * @Title: parseIndexNamePrefix
-     *
-     * @param node
-     * @return:	void
-     */
-    private void parseIndexNamePrefix(Node node)
-    {
-        Node valueAttr = node.getAttributes().getNamedItem("value");
-        if(valueAttr == null)
-        {
-            throw new EsConfigParseException("index-name-prefix parsed error: value attribute is null.");
-        }
-        
-        clientConfiguration.setIndexNamePrefix(valueAttr.getNodeValue());
     }
 
     /**
@@ -158,7 +138,7 @@ public class ClientConfigParser
         for (int i = 0; i < nodeList.getLength(); i++)
         {
             Node node = nodeList.item(i);
-            if (node.getNodeType() == Element.ELEMENT_NODE)
+            if (node.getNodeType() == Element.ELEMENT_NODE && node.getNodeName().equals("TransportAddress"))
             {
                 Node ipAttr = node.getAttributes().getNamedItem("ip");
                 Node portAttr = node.getAttributes().getNamedItem("port");
@@ -167,7 +147,7 @@ public class ClientConfigParser
                     throw new EsConfigParseException("Addresses parsed error: ip or port attribute is null.");
                 }
                 
-                clientConfiguration.getAddresses().add(new Address(ipAttr.getNodeValue(), Integer.parseInt(portAttr.getNodeValue())));
+                ClientConfiguration.getAddresses().add(new Address(ipAttr.getNodeValue(), Integer.parseInt(portAttr.getNodeValue())));
             }
         }
     }
@@ -188,7 +168,7 @@ public class ClientConfigParser
         for (int i = 0; i < nodeList.getLength(); i++)
         {
             Node node = nodeList.item(i);
-            if (node.getNodeType() == Element.ELEMENT_NODE)
+            if (node.getNodeType() == Element.ELEMENT_NODE && node.getNodeName().equals("Entry"))
             {
                 Node nameAttr = node.getAttributes().getNamedItem("name");
                 Node valueAttr = node.getAttributes().getNamedItem("value");
@@ -196,7 +176,7 @@ public class ClientConfigParser
                 {
                     throw new EsConfigParseException("Settings parsed error: name or value attribute is null.");
                 }
-                clientConfiguration.getSettings().add(new Parameter(nameAttr.getNodeValue(), valueAttr.getNodeValue()));
+                ClientConfiguration.getSettings().add(new Parameter(nameAttr.getNodeValue(), valueAttr.getNodeValue()));
             }
         }
     }

@@ -1,14 +1,11 @@
 /*
- * 项 目 名:  Storage Tool Service V100R001C00
- * 文 件 名:  esdao.esdao.spring.MyBeanDefinitionRegistryPostProcessor.java
- * 版       权:  XXX Technologies Co., Ltd. Copyright 2017,  All rights reserved.
- * 描       述:  XXX PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- * 修 改 人:  shinelon
- * 修改时间:  2017年7月1日
- * 修改内容:  创建
+ * 项 目 名: Storage Tool Service V100R001C00 文 件 名:
+ * esdao.esdao.spring.MyBeanDefinitionRegistryPostProcessor.java 版 权: XXX Technologies Co., Ltd.
+ * Copyright 2017, All rights reserved. 描 述: XXX PROPRIETARY/CONFIDENTIAL. Use is subject to
+ * license terms. 修 改 人: shinelon 修改时间: 2017年7月1日 修改内容: 创建
  */
 package pers.linhai.nature.indexaccess.spring;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,66 +35,66 @@ import pers.linhai.nature.indexaccess.core.processor.IndicesAdminClientProcessor
 import pers.linhai.nature.indexaccess.exception.IndexScanException;
 import pers.linhai.nature.indexaccess.interfaces.TypeAccessorInitialization;
 import pers.linhai.nature.indexaccess.model.index.Index;
-import pers.linhai.nature.indexaccess.typeaccessor.impls.TypeAccessorInitializationSpringImpl;
+import pers.linhai.nature.indexaccess.spring.typeaccessor.impls.TypeAccessorInitializationSpringImpl;
 import pers.linhai.nature.indexaccess.utils.NamingUtils;
 
+
 /**
- * 
- * 
  * @author  shinelon
  * @version  V100R001C00
  */
 @SuppressWarnings("unchecked")
-public class IndexAccessDefinitionFactory implements BeanDefinitionRegistryPostProcessor 
+public class IndexAccessDefinitionFactory implements BeanDefinitionRegistryPostProcessor
 {
     /**
      * 扫描哪个包下的索引注解
      */
     private String indexScan;
-    
+
     /**
      *
      * @param beanFactory
      * @throws BeansException
      */
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException
-    {
-    }
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
+        throws BeansException
+    {}
 
     /**
      * 
      * @param registry
      * @throws BeansException
      */
-    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException
+    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry)
+        throws BeansException
     {
         try
         {
-            if(indexScan == null)
+            if (indexScan == null)
             {
                 throw new IndexScanException("The package for the indexScan can't be null.");
             }
-            
+
             List<Class<? extends Index>> indexClassList = scan();
-            if(indexClassList.isEmpty())
+            if (indexClassList.isEmpty())
             {
                 throw new IndexScanException("IndexAccess-Frame-Initialization must contain at least one index class, but find nothing in the package: " + indexScan);
             }
-            
-            //typeAccessorInitialization初始化器spring实现
+
+            // typeAccessorInitialization初始化器spring实现
             TypeAccessorInitialization typeAccessorInitialization = new TypeAccessorInitializationSpringImpl(registry);
             for (Class<? extends Index> indexClass : indexClassList)
             {
                 BeanDefinitionBuilder bdb = BeanDefinitionBuilder.genericBeanDefinition(IndexAccessorImpl.class);
                 Index index = indexClass.newInstance();
-                
+
                 // 添加构造函数参数，需要顺序添加
                 bdb.addConstructorArgValue(index);
-                
+
                 // 需要在依赖注入分析逻辑执行之前将自定义bean进行注册，否则会出现泛型对象注入错误问题
                 bdb.addConstructorArgValue(IndicesAdminClientProcessor.newInstance(index, typeAccessorInitialization));
                 String name = NamingUtils.accessorName(indexClass);
-                
+
                 // 可以自动生成name
                 BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(bdb.getRawBeanDefinition(), name);
                 BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, registry);
@@ -109,8 +106,9 @@ public class IndexAccessDefinitionFactory implements BeanDefinitionRegistryPostP
             throw new BeanDefinitionStoreException("Error in postProcessBeanDefinitionRegistry", e);
         }
     }
-    
-    private List<Class<? extends Index>> scan() throws Exception
+
+    private List<Class<? extends Index>> scan()
+        throws Exception
     {
         List<Class<? extends Index>> indexClassList = new ArrayList<Class<? extends Index>>();
         StandardEnvironment sr = new StandardEnvironment();
@@ -118,11 +116,13 @@ public class IndexAccessDefinitionFactory implements BeanDefinitionRegistryPostP
         String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + pck + '/' + "**/*.class";
         ResourceLoader resourceLoader = new DefaultResourceLoader();
         MetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory(resourceLoader);
-        
+
         ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
         Resource[] resources = ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources(packageSearchPath);
-        for (Resource resource : resources) {
-            if (resource.isReadable()) {
+        for (Resource resource : resources)
+        {
+            if (resource.isReadable())
+            {
                 MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(resource);
                 Class<?> resolvedClass = ClassUtils.forName(metadataReader.getAnnotationMetadata().getClassName(), beanClassLoader);
                 if (resolvedClass.getSuperclass() == Index.class)

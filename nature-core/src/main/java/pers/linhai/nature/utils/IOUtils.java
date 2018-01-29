@@ -105,7 +105,7 @@ public abstract class IOUtils
      * @param objects
      *          objects to call <tt>close()</tt> on
      */
-    public static void close(Closeable... objects) throws IOException
+    public static void close(Closeable... objects)
     {
         close(Arrays.asList(objects));
     }
@@ -114,10 +114,8 @@ public abstract class IOUtils
      * Closes all given <tt>Closeable</tt>s.
      * @see #close(Closeable...)
      */
-    public static void close(Iterable< ? extends Closeable> objects) throws IOException
+    public static void close(Iterable< ? extends Closeable> objects)
     {
-        Throwable th = null;
-        
         for (Closeable object : objects)
         {
             try
@@ -129,17 +127,8 @@ public abstract class IOUtils
             }
             catch (Throwable t)
             {
-                addSuppressed(th, t);
-                if (th == null)
-                {
-                    th = t;
-                }
+                t.printStackTrace();
             }
-        }
-        
-        if (th != null)
-        {
-            throw rethrowAlways(th);
         }
     }
     

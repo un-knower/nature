@@ -8,7 +8,7 @@
  * 修改时间:  2017年10月6日
  * 修改内容:  创建
  */
-package pers.linhai.nature.indexaccess.typeaccessor.impls;
+package pers.linhai.nature.indexaccess.spring.typeaccessor.impls;
 
 import java.util.logging.Logger;
 

@@ -28,13 +28,13 @@ import pers.linhai.nature.indexaccess.exception.EsClientInitializationException;
  * @version: [版本号]
  * @since: [产品/模块版本]
  */
-public class ClientAddresses
+public class ClientTransportAddress
 {
 
     /**
      * 客户端地址集合
      */
-    private List<Address> list = new ArrayList<ClientAddresses.Address>();
+    private List<Address> list = new ArrayList<ClientTransportAddress.Address>();
     
     /**
      * 添加一个客户端地址配置信息

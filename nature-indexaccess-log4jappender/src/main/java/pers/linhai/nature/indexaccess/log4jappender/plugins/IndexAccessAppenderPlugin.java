@@ -127,7 +127,7 @@ public class IndexAccessAppenderPlugin extends AbstractAppender
             }
             else
             {
-                li = buildLogInfo(event, message);
+                li = buildLogInfo(event);
             }
             
             if (li.getLogDate() == null)
@@ -156,11 +156,10 @@ public class IndexAccessAppenderPlugin extends AbstractAppender
      * <p>Title         : buildLogInfo lilinhai 2018年1月28日 下午11:26:00</p>
      * <p>Description   : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
      * @param event
-     * @param message
      * @return 
      * LogInfo 
      */ 
-    private LogInfo buildLogInfo(LogEvent event, Message message)
+    private LogInfo buildLogInfo(LogEvent event)
     {
         LogInfo li;
         li = new LogInfo();
@@ -178,7 +177,7 @@ public class IndexAccessAppenderPlugin extends AbstractAppender
         d.setFormatTime(sb.toString());
         li.setLogDate(d);
         sb.setLength(0);
-        sb.append(message.getFormattedMessage()).append('\n');
+        sb.append(event.getMessage().getFormattedMessage()).append('\n');
         throwablePatternConverter.format(event, sb);
         li.setMessage(sb.toString());
         return li;

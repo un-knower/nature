@@ -21,7 +21,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.settings.Settings.Builder;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
-import pers.linhai.nature.indexaccess.core.ClientConfigParser;
+import pers.linhai.nature.indexaccess.core.ConfigurationParser;
 import pers.linhai.nature.indexaccess.exception.EsClientInitializationException;
 import pers.linhai.nature.indexaccess.model.core.ClientConfiguration;
 import pers.linhai.nature.utils.IOUtils;
@@ -85,17 +85,16 @@ public abstract class ClusterNodeAccessor
             LOGGER.info("Elasticsearch-ClusterAccessor is in initializing, elasticsearch-version: " + bigVersion + "." + middleVersion + "." + smallVersion);
             
             //Parse the elastic-search-client configuration
-            ClientConfiguration clientConfiguration = new ClientConfiguration();
-            new ClientConfigParser(clientConfiguration).parse();
+            new ConfigurationParser().parse();
             
             Builder builder = Settings.builder();
-            clientConfiguration.getSettings().configure(builder);
+            ClientConfiguration.getSettings().configure(builder);
             
             //Create the TransportClient Object
             transportClient = new PreBuiltTransportClient(builder.build());
-            
+
             //init the client single-object
-            clientConfiguration.getAddresses().configure(transportClient);
+            ClientConfiguration.getAddresses().configure(transportClient);
             
             adminClient = transportClient.admin();
             
