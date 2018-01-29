@@ -37,7 +37,6 @@ import pers.linhai.nature.indexaccess.core.BulkProcessorListener;
 import pers.linhai.nature.indexaccess.interfaces.BulkOperation;
 import pers.linhai.nature.indexaccess.interfaces.TypeAccessor;
 import pers.linhai.nature.indexaccess.log4jappender.hook.IndexAccessShutdownHook;
-import pers.linhai.nature.indexaccess.log4jappender.model.LogEventMessage;
 import pers.linhai.nature.indexaccess.log4jappender.model.LogIndex;
 import pers.linhai.nature.indexaccess.log4jappender.model.LogInfo;
 import pers.linhai.nature.indexaccess.log4jappender.model.LogMessage;
@@ -125,11 +124,6 @@ public class IndexAccessAppenderPlugin extends AbstractAppender
             if (message instanceof LogMessage)
             {
                 li = ((LogMessage)message).getLogInfo();
-            }
-            else if(message instanceof LogEventMessage)
-            {
-                event = ((LogEventMessage)message).getLogEvent();
-                li = buildLogInfo(event, event.getMessage());
             }
             else
             {

@@ -13,6 +13,7 @@ package pers.linhai.nature.indexaccess.log4jappender.model;
 import pers.linhai.nature.indexaccess.annotation.datatypes.TextField;
 import pers.linhai.nature.indexaccess.model.datatypes.quote.DateType.Date;
 import pers.linhai.nature.indexaccess.model.enumer.Analyzer;
+import pers.linhai.nature.indexaccess.model.enumer.SearchAnalyzer;
 import pers.linhai.nature.indexaccess.model.type.Type;
 
 /**
@@ -36,31 +37,31 @@ public class LogInfo extends Type
     /**
      * logger名字空间的全称
      */
-    @TextField(analyzer = Analyzer.CUSTOM, customAnalyzer = "common_pattern_analyzer")
+    @TextField(analyzer = Analyzer.CUSTOM, customAnalyzer = "common_pattern_analyzer", searchAnalyzer = SearchAnalyzer.CUSTOM, customSearchAnalyzer = "common_pattern_analyzer")
     private String loggerName;
     
     /**
      * 日志输出级别
      */
-    @TextField(analyzer = Analyzer.CUSTOM, customAnalyzer = "common_pattern_analyzer")
+    @TextField(analyzer = Analyzer.CUSTOM, customAnalyzer = "common_pattern_analyzer", searchAnalyzer = SearchAnalyzer.CUSTOM, customSearchAnalyzer = "common_pattern_analyzer")
     private String level;
     
     /**
      * 产生该日志的线程
      */
-    @TextField(analyzer = Analyzer.CUSTOM, customAnalyzer = "common_pattern_analyzer")
+    @TextField(analyzer = Analyzer.CUSTOM, customAnalyzer = "common_pattern_analyzer", searchAnalyzer = SearchAnalyzer.CUSTOM, customSearchAnalyzer = "common_pattern_analyzer")
     private String thread;
     
     /**
      * 输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数
      */
-    @TextField(analyzer = Analyzer.CUSTOM, customAnalyzer = "common_pattern_analyzer")
+    @TextField(analyzer = Analyzer.CUSTOM, customAnalyzer = "common_pattern_analyzer", searchAnalyzer = SearchAnalyzer.CUSTOM, customSearchAnalyzer = "common_pattern_analyzer")
     private String location;
     
     /**
      * 输出消息
      */
-    @TextField(analyzer = Analyzer.CUSTOM, customAnalyzer = "common_pattern_analyzer")
+    @TextField(analyzer = Analyzer.CUSTOM, customAnalyzer = "common_pattern_analyzer", searchAnalyzer = SearchAnalyzer.CUSTOM, customSearchAnalyzer = "common_pattern_analyzer")
     private String message;
     
     /**
