@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.linhai.nature.j2ee.core.dao.IBaseMapper">
+
+	<!-- 公共动态自定义查询条件 -->
+	<sql id="Common_Where">
+        <if test="where != null">
+			<where>
+                <foreach open=" " close=" " collection="where.expressionSegmentList" index="index" item="expressionSegment" separator=" ">
+                    <choose>
+                        <when test="expressionSegment.getClass().getSimpleName() == 'CommonCondition'.toString()">
+                            ${expressionSegment.fieldName} ${expressionSegment.operator} #{expressionSegment.value, jdbcType=${expressionSegment.jdbcType}}
+                        </when>
+                        <when test="expressionSegment.getClass().getSimpleName() == 'InCondition'.toString()">
+                            ${expressionSegment.fieldName} ${expressionSegment.operator}
+                            <foreach open="(" close=")" collection="expressionSegment.valueList" index="index" item="value" separator=", ">
+                                #{value, jdbcType=${expressionSegment.jdbcType}}
+                            </foreach>
+                        </when>
+                        <when test="expressionSegment.getClass().getSimpleName() == 'NullValueCondition'.toString()">
+                            ${expressionSegment.fieldName} ${expressionSegment.operator}
+                        </when>
+                        <otherwise>
+                            ${expressionSegment}
+                        </otherwise>
+                    </choose>
+                </foreach>
+	        </where>
+        </if>
+	</sql>
+	
+	<!-- 根据查询条件删除 -->
+	<delete id="delete" parameterType="pers.linhai.nature.j2ee.core.model.BaseQuery">
+        delete from ${tableName} 
+        
+        <!-- 添加动态自定义查询条件 -->
+        <include refid="Common_Where" />
+    </delete>
+    
+    <!-- 添加 -->
+	<insert id="save" parameterType="pers.linhai.nature.j2ee.core.model.BaseEntity">
+         insert into ${tableName} 
+        <foreach close=")" collection="updateFieldList" index="index" item="updateField" open="(" separator=", ">
+             ${updateField.tableFieldName}
+         </foreach>
+        <foreach close=")" collection="updateFieldList" index="index" item="updateField" open="values (" separator=", ">
+             #{updateField.value, jdbcType=${updateField.jdbcType}}
+         </foreach>
+    </insert>
+    
+    <!-- 修改 -->
+    <update id="update" parameterType="pers.linhai.nature.j2ee.core.model.BaseEntity">
+        update ${tableName} 
+        <set>
+	        <foreach close=" " collection="updateFieldList" index="index" item="updateField" open=" " separator=", ">
+	             ${updateField.tableFieldName} = #{updateField.value, jdbcType=${updateField.jdbcType}}
+	        </foreach>
+        </set>
+        
+        <!-- 添加动态自定义条件 -->
+        <include refid="Common_Where" />
+    </update>
+
+    <!-- 组合查询函数，支持分页功能 -->
+    <select id="query" parameterType="pers.linhai.nature.j2ee.core.model.BaseQuery" resultType="java.util.HashMap">
+         select 
+         
+        <!-- 添加需要返回的字段信息 -->
+        <foreach close=" " collection="returnFieldList" index="index" item="returnField" open=" " separator=", ">
+            ${returnField}
+        </foreach>
+         from ${tableName} 
+        
+        <!-- 添加动态自定义查询条件 -->
+        <include refid="Common_Where" />
+        
+        <!-- 添加排序字段信息 -->
+        <if test="sortFieldList != null">
+            <foreach close=" " collection="sortFieldList" index="index" item="orderField" open=" order by " separator=", ">
+                #{orderField.fieldName} ${orderField.direction}
+            </foreach>
+        </if>
+        
+        <!-- 分页查询参数组件 -->
+        <if test="offset != null and size != null">
+             limit #{offset}, #{size}
+        </if>
+    </select>
+    
+    <!-- 统计数量 -->
+    <select id="count" parameterType="pers.linhai.nature.j2ee.core.model.BaseQuery" resultType="java.lang.Long">
+         select count(*) from ${tableName} 
+        
+        <!-- 添加动态自定义查询条件 -->
+        <include refid="Common_Where" />
+    </select>
+</mapper>
