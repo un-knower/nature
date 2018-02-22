@@ -27,8 +27,9 @@ public class JavaClientGeneratorConfigurationBuilder extends BaseConfigurationBu
 
     /**
      * <p>Title        : JavaClientGeneratorConfigurationBuilder lilinhai 2018年2月5日 上午11:16:56</p>
+     * @param outPutPath 
      */ 
-    public JavaClientGeneratorConfigurationBuilder(String groupId, String projectName)
+    public JavaClientGeneratorConfigurationBuilder(String groupId, String projectName, String outPutPath)
     {
         super();
         propertyHolder = javaClientGeneratorConfiguration;
@@ -36,6 +37,7 @@ public class JavaClientGeneratorConfigurationBuilder extends BaseConfigurationBu
         
         this.groupId = groupId;
         this.projectName = projectName;
+        this.outPutPath = outPutPath;
         moduleName = "dao";
         artifactId = projectName + "-" + moduleName;
         targetPackage(getTargetPackae("mapper"));

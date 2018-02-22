@@ -26,8 +26,9 @@ public class SqlMapGeneratorConfigurationBuilder extends BaseConfigurationBuilde
 
     /**
      * <p>Title        : SqlMapGeneratorConfigurationBuilder lilinhai 2018年2月5日 上午11:16:11</p>
+     * @param outPutPath 
      */ 
-    public SqlMapGeneratorConfigurationBuilder(String groupId, String projectName)
+    public SqlMapGeneratorConfigurationBuilder(String groupId, String projectName, String outPutPath)
     {
         super();
         propertyHolder = sqlMapGeneratorConfiguration;
@@ -35,6 +36,7 @@ public class SqlMapGeneratorConfigurationBuilder extends BaseConfigurationBuilde
         
         this.groupId = groupId;
         this.projectName = projectName;
+        this.outPutPath = outPutPath;
         moduleName = "dao";
         artifactId = projectName + "-" + moduleName;
         targetProject(getTargetProjectResourcesFolder());

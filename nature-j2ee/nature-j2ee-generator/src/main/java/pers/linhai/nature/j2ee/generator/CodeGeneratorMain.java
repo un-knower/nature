@@ -11,6 +11,7 @@ package pers.linhai.nature.j2ee.generator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import com.mysql.jdbc.Driver;
@@ -49,93 +50,90 @@ public class CodeGeneratorMain
 {
 
     private static final Logger LOGGER = Logger.getLogger(CodeGeneratorMain.class.getName());
-    
-    private static final String GROUP_ID = "com.meme";
-    
-    private static final String PROJECT_NAME = "crm";
-    
-    public static void main(String[] args)
+
+    public static void generate(String outPutPath, Map<String, String> params)
     {
         try
         {
             System.setErr(System.out);
             ContextBuilder contextBuilder = new ContextBuilder("MySQL", ModelType.FLAT, TargetRuntime.MY_BATIS3);
-            
+
             // 添加各种插件
             List<Class<? extends PluginAdapter>> pluginClassList = new ArrayList<Class<? extends PluginAdapter>>();
             pluginClassList.add(ToStringPlugin.class);
             pluginClassList.add(ModelPlugin.class);
             pluginClassList.add(MapperPlugin.class);
-            //pluginClassList.add(SqlMapPlugin.class);
+            // pluginClassList.add(SqlMapPlugin.class);
             pluginClassList.add(ServicePlugin.class);
             pluginClassList.add(ControllerPlugin.class);
             for (Class<? extends PluginAdapter> pluginClass : pluginClassList)
             {
                 PluginConfiguration pluginConfiguration = new PluginConfiguration();
                 pluginConfiguration.setConfigurationType(pluginClass.getName());
-                pluginConfiguration.addProperty("groupId", GROUP_ID);
-                pluginConfiguration.addProperty("projectName", PROJECT_NAME);
+                pluginConfiguration.addProperty("groupId", params.get("groupId"));
+                pluginConfiguration.addProperty("projectName", params.get("artifactId"));
+                pluginConfiguration.addProperty("outPutPath", outPutPath);
                 contextBuilder.addPluginConfiguration(pluginConfiguration);
             }
-            
+
             // 添加注释插件
             contextBuilder.commentGeneratorConfiguration(new CommentGeneratorConfigurationBuilder().type(CodeCommentGenerator.class.getName()).build());
-            
+
             // JDBC连接参数配置
             JDBCConnectionConfigurationBuilder jdbcConnectionConfigurationBuilder = new JDBCConnectionConfigurationBuilder();
             jdbcConnectionConfigurationBuilder.driverClass(Driver.class.getName());
-            jdbcConnectionConfigurationBuilder.connectionURL("jdbc:mysql://localhost:3306/crm?useUnicode=true&characterEncoding=utf8&useSSL=false");
-            jdbcConnectionConfigurationBuilder.userId("root").password("LinHai_548");
+            jdbcConnectionConfigurationBuilder.connectionURL("jdbc:mysql://" + params.get("dbIp") + ":" + params.get("dbPort") + "/" + params.get("dbName") + "?useUnicode=true&characterEncoding=utf8&useSSL=false");
+            jdbcConnectionConfigurationBuilder.userId(params.get("dbUsername")).password(params.get("dbPassword"));
             contextBuilder.jdbcConnectionConfiguration(jdbcConnectionConfigurationBuilder.build());
-            
+
             // 模型生成位置
-            JavaModelGeneratorConfigurationBuilder javaModelGeneratorConfigurationBuilder = new JavaModelGeneratorConfigurationBuilder(GROUP_ID, PROJECT_NAME);
+            JavaModelGeneratorConfigurationBuilder javaModelGeneratorConfigurationBuilder = new JavaModelGeneratorConfigurationBuilder(params.get("groupId"), params.get("artifactId"), outPutPath);
             contextBuilder.javaModelGeneratorConfiguration(javaModelGeneratorConfigurationBuilder.build());
-            
+
             // sqlmap 映射文件生成
-            SqlMapGeneratorConfigurationBuilder sqlMapGeneratorConfigurationBuilder = new SqlMapGeneratorConfigurationBuilder(GROUP_ID, PROJECT_NAME);
+            SqlMapGeneratorConfigurationBuilder sqlMapGeneratorConfigurationBuilder = new SqlMapGeneratorConfigurationBuilder(params.get("groupId"), params.get("artifactId"), outPutPath);
             contextBuilder.sqlMapGeneratorConfiguration(sqlMapGeneratorConfigurationBuilder.build());
-            
+
             // mapper生成
-            JavaClientGeneratorConfigurationBuilder javaClientGeneratorConfigurationBuilder = new JavaClientGeneratorConfigurationBuilder(GROUP_ID, PROJECT_NAME);
+            JavaClientGeneratorConfigurationBuilder javaClientGeneratorConfigurationBuilder = new JavaClientGeneratorConfigurationBuilder(params.get("groupId"), params.get("artifactId"), outPutPath);
             javaClientGeneratorConfigurationBuilder.type(ConfigurationType.XMLMAPPER);
             contextBuilder.javaClientGeneratorConfiguration(javaClientGeneratorConfigurationBuilder.build());
-            
+
             // 数据库表配置，默认为所有表生成
             TableConfigurationBuilder TableConfigurationBuilder = new TableConfigurationBuilder(contextBuilder.build());
             contextBuilder.addTableConfiguration(TableConfigurationBuilder.build());
-            
+
             CodeConfigurationBuilder codeConfigurationBuilder = new CodeConfigurationBuilder(contextBuilder.build());
-            
+
             // 是否覆盖式
             boolean overwrite = true;
             DefaultShellCallback callback = new DefaultShellCallback(overwrite);
-            
+
             List<String> warnings = new ArrayList<String>();
             MyBatisGenerator myBatisGenerator = new MyBatisGenerator(codeConfigurationBuilder.build(), callback, warnings);
-            
+
             myBatisGenerator.generate(new ProgressCallback()
             {
                 public void startTask(String taskName)
                 {
                     LOGGER.info("----startTask--------------------taskName: " + taskName);
                 }
-                
+
                 public void saveStarted(int totalTasks)
                 {
                     LOGGER.info("----saveStarted--------------------totalTasks: " + totalTasks);
                 }
-                
+
                 public void introspectionStarted(int totalTasks)
                 {
                     LOGGER.info("----introspectionStarted--------------------totalTasks: " + totalTasks);
                 }
-                
+
                 public void generationStarted(int totalTasks)
                 {
                     LOGGER.info("----generationStarted--------------------totalTasks: " + totalTasks);
                 }
-                
+
                 public void done()
                 {
                     for (String warning : warnings)
@@ -144,10 +142,11 @@ public class CodeGeneratorMain
                     }
                     LOGGER.info("----done--------------------恭喜你，MyBatis代码生成器已为你成功生成dao, model, mapper xml文件~~~~~");
                 }
-                
-                public void checkCancel() throws InterruptedException
+
+                public void checkCancel()
+                    throws InterruptedException
                 {
-                    
+
                 }
             });
         }

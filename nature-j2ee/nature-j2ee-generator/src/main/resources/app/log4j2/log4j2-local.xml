@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Configuration status="WARN">
+	<Properties>
+		<Property name="PID">????</Property>
+		<Property name="LOG_EXCEPTION_CONVERSION_WORD">%xwEx</Property>
+		<Property name="LOG_LEVEL_PATTERN">%5p</Property>
+		<Property name="CONSOLE_LOG_PATTERN">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{${r'${LOG_LEVEL_PATTERN}'}} %clr{${r'${sys:PID}'}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n${r'${sys:LOG_EXCEPTION_CONVERSION_WORD}'}</Property>
+		<Property name="FILE_LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} ${r'${LOG_LEVEL_PATTERN}'} ${r'${sys:PID}'} --- [%t] %-40.40c{1.} : %m%n${r'${sys:LOG_EXCEPTION_CONVERSION_WORD}'}</Property>
+		<Property name="COMMON_LOG_PATTERN">%d %p [%t] %c %m%n</Property>
+        <Property name="logDir">target/logs</Property>
+        <Property name="logFile">${groupId}-${artifactId}-app</Property>
+	</Properties>
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT" follow="true">
+			<PatternLayout pattern="${r'${sys:COMMON_LOG_PATTERN}'}" />
+		</Console>
+        <RollingFile name="RollingFile" fileName="${r'${logDir}'}/${r'${logFile}'}.log" filePattern="${r'${logDir}'}/${r'$${date:yyyy-MM}/${logFile}'}.%d{yyyy-MM-dd}.log.gz">
+            <PatternLayout pattern="${r'${sys:COMMON_LOG_PATTERN}'}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="500 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="100">
+                <Delete basePath="${r'${logDir}'}" maxDepth="2">
+                    <IfFileName glob="*.log.gz">
+                        <IfLastModified age="7d">
+                            <IfAny>
+                                <!--keep <= 5GB,线上Docker容器只有10G容量 -->
+                                <IfAccumulatedFileSize exceeds="5 GB" />
+                                <!--keep file count <=100 -->
+                                <IfAccumulatedFileCount exceeds="100" />
+                            </IfAny>
+                        </IfLastModified>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+	</Appenders>
+	<Loggers>
+		<Logger name="org.apache.catalina.startup.DigesterFactory" level="error" />
+		<Logger name="org.apache.catalina.util.LifecycleBase" level="error" />
+		<Logger name="org.apache.coyote.http11.Http11NioProtocol" level="warn" />
+		<Logger name="org.apache.sshd.common.util.SecurityUtils" level="warn"/>
+		<Logger name="org.apache.tomcat.util.net.NioSelectorPool" level="warn" />
+		<Logger name="org.crsh.plugin" level="warn" />
+		<Logger name="org.crsh.ssh" level="warn"/>
+		<Logger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="error" />
+		<Logger name="org.hibernate.validator.internal.util.Version" level="warn" />
+		<Logger name="org.thymeleaf" level="warn"/>
+		<Logger name="org.mybatis" level="warn" />
+		<Logger name="org.springframework" level="INFO">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Logger name="org.elasticsearch" level="INFO">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Logger name="org.apache" level="INFO">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Logger name="org.mybatis" level="INFO">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Logger name="com" level="DEBUG">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Root level="INFO">
+			<AppenderRef ref="RollingFile" />
+		</Root>
+	</Loggers>
+</Configuration>

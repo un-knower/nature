@@ -45,6 +45,11 @@ public abstract class BasePlugin extends PluginAdapter
     protected String projectName;
     
     /**
+     * 输出路径
+     */
+    protected String outPutPath;
+    
+    /**
      * 模块项目ID
      */
     protected String artifactId;
@@ -71,16 +76,25 @@ public abstract class BasePlugin extends PluginAdapter
         super.setProperties(properties);
         groupId = getProperty("groupId");
         projectName = getProperty("projectName");
+        outPutPath = getProperty("outPutPath");
     }
 
     protected String getTargetProjectJavaSourceFolder()
     {
-        return "../" + artifactId + "/" + JAVA_SOURCE_FOLDER;
+        if (!(outPutPath.endsWith("/") || outPutPath.endsWith("\\")))
+        {
+            outPutPath += "/";
+        }
+        return outPutPath + artifactId + "/" + JAVA_SOURCE_FOLDER;
     }
     
     protected String getTargetProjectResourcesFolder()
     {
-        return "../" + artifactId + "/" + RESOURCES_FOLDER;
+        if (!(outPutPath.endsWith("/") || outPutPath.endsWith("\\")))
+        {
+            outPutPath += "/";
+        }
+        return outPutPath + artifactId + "/" + RESOURCES_FOLDER;
     }
     
     protected String getTargetPackae(String subPackage)

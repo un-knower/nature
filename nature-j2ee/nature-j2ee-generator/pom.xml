@@ -20,5 +20,9 @@
 			<artifactId>nature-j2ee-core</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.freemarker</groupId>
+		    <artifactId>freemarker</artifactId>
+		</dependency>
     </dependencies>
 </project>

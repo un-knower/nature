@@ -28,7 +28,7 @@ public class JavaModelGeneratorConfigurationBuilder extends BaseConfigurationBui
     /**
      * <p>Title        : JavaModelGeneratorConfigurationBuilder lilinhai 2018年2月5日 上午11:08:51</p>
      */ 
-    public JavaModelGeneratorConfigurationBuilder(String groupId, String projectName)
+    public JavaModelGeneratorConfigurationBuilder(String groupId, String projectName, String outPutPath)
     {
         super();
         propertyHolder = javaModelGeneratorConfiguration;
@@ -36,6 +36,7 @@ public class JavaModelGeneratorConfigurationBuilder extends BaseConfigurationBui
         addProperty("enableSubPackages", "false");
         this.groupId = groupId;
         this.projectName = projectName;
+        this.outPutPath = outPutPath;
         moduleName = "model";
         artifactId = projectName + "-" + moduleName;
         targetPackage(getTargetPackae("entity"));
