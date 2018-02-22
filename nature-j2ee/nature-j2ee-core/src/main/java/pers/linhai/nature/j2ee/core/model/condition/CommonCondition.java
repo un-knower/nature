@@ -9,7 +9,7 @@
 
 package pers.linhai.nature.j2ee.core.model.condition;
 
-import pers.linhai.nature.j2ee.core.model.Where.ConditionTemp;
+import pers.linhai.nature.j2ee.core.model.Where.ConditionBean;
 import pers.linhai.nature.j2ee.core.model.datatype.DataType;
 
 /**
@@ -30,7 +30,7 @@ public class CommonCondition extends Condition
      * <p>Title        : CommonCondition lilinhai 2018年2月15日 下午4:23:59</p>
      * @param fieldName 
      */ 
-    public CommonCondition(ConditionTemp conditionTemp)
+    public CommonCondition(ConditionBean conditionTemp)
     {
         super(conditionTemp);
         setValue(conditionTemp.getValue());

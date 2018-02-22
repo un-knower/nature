@@ -40,7 +40,7 @@ public class Where
     /**
      * 查询条件集合
      */
-    private List<ConditionTemp> conditionList;
+    private List<ConditionBean> conditionList;
     
     /**
      * 表达式片段集合
@@ -56,7 +56,7 @@ public class Where
      * <p>Get Method   :   conditionList List<Condition></p>
      * @return conditionList
      */
-    public List<ConditionTemp> getConditionList()
+    public List<ConditionBean> getConditionList()
     {
         return conditionList;
     }
@@ -65,7 +65,7 @@ public class Where
      * <p>Set Method   :   conditionList List<Condition></p>
      * @param conditionList
      */
-    public void setConditionList(List<ConditionTemp> conditionList)
+    public void setConditionList(List<ConditionBean> conditionList)
     {
         this.conditionList = conditionList;
     }
@@ -175,7 +175,7 @@ public class Where
      * @author lilinhai 2018年2月9日 下午5:07:13
      * @version 1.0
      */
-    public static class ConditionTemp
+    public static class ConditionBean
     {
         
         /**

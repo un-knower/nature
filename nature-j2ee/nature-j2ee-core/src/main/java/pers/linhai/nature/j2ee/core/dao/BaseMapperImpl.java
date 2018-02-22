@@ -34,7 +34,7 @@ import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.JdbcModel.UpdateField;
 import pers.linhai.nature.j2ee.core.model.Where;
-import pers.linhai.nature.j2ee.core.model.Where.ConditionTemp;
+import pers.linhai.nature.j2ee.core.model.Where.ConditionBean;
 
 
 /**
@@ -174,8 +174,8 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
         {
             EntityQuery eq = entityQueryConstructor.newInstance();
             Where where = new Where();
-            List<ConditionTemp> conditionList = new ArrayList<ConditionTemp>();
-            ConditionTemp con = new ConditionTemp();
+            List<ConditionBean> conditionList = new ArrayList<ConditionBean>();
+            ConditionBean con = new ConditionBean();
             con.setFieldName("id");
             con.setOperator("=");
             con.setValue(id);
@@ -217,8 +217,8 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
         {
             EntityQuery eq = entityQueryConstructor.newInstance();
             Where where = new Where();
-            List<ConditionTemp> conditionList = new ArrayList<ConditionTemp>();
-            ConditionTemp con = new ConditionTemp();
+            List<ConditionBean> conditionList = new ArrayList<ConditionBean>();
+            ConditionBean con = new ConditionBean();
             con.setFieldName("id");
             con.setOperator("=");
             con.setValue(id);
@@ -393,8 +393,8 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
             if (record.getWhere() == null)
             {
                 Where where = new Where();
-                List<ConditionTemp> conditionList = new ArrayList<ConditionTemp>();
-                ConditionTemp con = new ConditionTemp();
+                List<ConditionBean> conditionList = new ArrayList<ConditionBean>();
+                ConditionBean con = new ConditionBean();
                 con.setFieldName("id");
                 con.setOperator("=");
                 con.setValue(record.getId());

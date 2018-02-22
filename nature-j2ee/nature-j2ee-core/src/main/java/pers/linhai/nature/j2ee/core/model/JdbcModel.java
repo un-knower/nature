@@ -15,7 +15,7 @@ import java.util.Map;
 
 import pers.linhai.nature.j2ee.core.exception.ConditionFormatException;
 import pers.linhai.nature.j2ee.core.exception.ConditionIsNullException;
-import pers.linhai.nature.j2ee.core.model.Where.ConditionTemp;
+import pers.linhai.nature.j2ee.core.model.Where.ConditionBean;
 import pers.linhai.nature.j2ee.core.model.Where.LogicalOperator;
 import pers.linhai.nature.j2ee.core.model.condition.Condition;
 
@@ -101,7 +101,7 @@ public abstract class JdbcModel
      */
     public void setWhere(Where where)
     {
-        List<ConditionTemp> conditionTempList = where.getConditionList();
+        List<ConditionBean> conditionTempList = where.getConditionList();
         if(conditionTempList == null || conditionTempList.isEmpty())
         {
             throw new ConditionIsNullException("Where-Condition can't be empty.");
@@ -111,7 +111,7 @@ public abstract class JdbcModel
         Map<String, Condition> conditionMap = new HashMap<String, Condition>();
         StringBuilder expressionBuff = null;
         int i = 0;
-        for (ConditionTemp conditionTemp : conditionTempList)
+        for (ConditionBean conditionTemp : conditionTempList)
         {
             // 校验字段名
             validField(conditionTemp.getFieldName());

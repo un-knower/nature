@@ -16,7 +16,7 @@ import java.util.Map;
 
 import pers.linhai.nature.j2ee.core.exception.ConditionFormatException;
 import pers.linhai.nature.j2ee.core.exception.IllegalOperatorException;
-import pers.linhai.nature.j2ee.core.model.Where.ConditionTemp;
+import pers.linhai.nature.j2ee.core.model.Where.ConditionBean;
 
 /**
  * 抽象查询条件
@@ -34,7 +34,7 @@ public abstract class Condition
         {
             // 普通条件
             Class<CommonCondition> commonConditionClass = CommonCondition.class;
-            Constructor<CommonCondition> commonConditionConstructor = commonConditionClass.getConstructor(ConditionTemp.class);
+            Constructor<CommonCondition> commonConditionConstructor = commonConditionClass.getConstructor(ConditionBean.class);
             commonConditionConstructor.setAccessible(true);
             
             CONDITION_MAP.put("<>", commonConditionConstructor);
@@ -47,14 +47,14 @@ public abstract class Condition
             
             // in/not in条件
             Class<InCondition> inConditionClass = InCondition.class;
-            Constructor<InCondition> inConditionConstructor = inConditionClass.getConstructor(ConditionTemp.class);
+            Constructor<InCondition> inConditionConstructor = inConditionClass.getConstructor(ConditionBean.class);
             inConditionConstructor.setAccessible(true);
             CONDITION_MAP.put("in", inConditionConstructor);
             CONDITION_MAP.put("not in", inConditionConstructor);
             
             // is null/is not null条件
             Class<NullValueCondition> nullValueConditionClass = NullValueCondition.class;
-            Constructor<NullValueCondition> nullValueConditionConstructor = nullValueConditionClass.getConstructor(ConditionTemp.class);
+            Constructor<NullValueCondition> nullValueConditionConstructor = nullValueConditionClass.getConstructor(ConditionBean.class);
             nullValueConditionConstructor.setAccessible(true);
             CONDITION_MAP.put("is null", nullValueConditionConstructor);
             CONDITION_MAP.put("is not null", nullValueConditionConstructor);
@@ -89,7 +89,7 @@ public abstract class Condition
      * <p>Title        : Condition lilinhai 2018年2月15日 下午4:20:57</p>
      * @param fieldName 
      */ 
-    public Condition(ConditionTemp conditionTemp)
+    public Condition(ConditionBean conditionTemp)
     {
         this.fieldName = conditionTemp.getFieldName();
         setId(conditionTemp.getId());
@@ -160,25 +160,25 @@ public abstract class Condition
         return fieldName;
     }
     
-    public static Condition parse(ConditionTemp conditionTemp)
+    public static Condition parse(ConditionBean conditionBean)
     {
-        if (conditionTemp.getOperator() == null)
+        if (conditionBean.getOperator() == null)
         {
-            throw new IllegalOperatorException("Exist null value of the param operator: " + conditionTemp.getOperator());
+            throw new IllegalOperatorException("Exist null value of the param operator: " + conditionBean.getOperator());
         }
         
-        String operator = conditionTemp.getOperator().toLowerCase(Locale.ENGLISH);
+        String operator = conditionBean.getOperator().toLowerCase(Locale.ENGLISH);
         Constructor<? extends Condition> conditionConstructor = CONDITION_MAP.get(operator);
         if (conditionConstructor == null)
         {
-            throw new IllegalOperatorException("Exist an illegal-operator: " + conditionTemp.getOperator());
+            throw new IllegalOperatorException("Exist an illegal-operator: " + conditionBean.getOperator());
         }
         
-        conditionTemp.setOperator(operator);
+        conditionBean.setOperator(operator);
         
         try
         {
-            return conditionConstructor.newInstance(conditionTemp);
+            return conditionConstructor.newInstance(conditionBean);
         }
         catch (Throwable e)
         {
