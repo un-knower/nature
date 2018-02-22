@@ -46,10 +46,10 @@ import pers.linhai.nature.j2ee.generator.plugins.ServicePlugin;
  * @author lilinhai 2018年2月4日 上午10:05:30
  * @version 1.0
  */
-public class CodeGeneratorMain
+public class CodeGenerator
 {
 
-    private static final Logger LOGGER = Logger.getLogger(CodeGeneratorMain.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CodeGenerator.class.getName());
 
     public static void generate(String outPutPath, Map<String, String> params)
     {

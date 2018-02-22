@@ -1,3 +1,4 @@
+package pers.linhai.nature.j2ee.generator;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,7 +16,6 @@ import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateNotFoundException;
-import pers.linhai.nature.j2ee.generator.CodeGeneratorMain;
 import pers.linhai.nature.utils.FileUtils;
 
 
@@ -32,7 +32,7 @@ import pers.linhai.nature.utils.FileUtils;
  * @author lilinhai 2018年2月22日 下午1:07:16
  * @version 1.0
  */
-public class Test
+public class Main
 {
 
     /**
@@ -66,7 +66,7 @@ public class Test
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
 
         // 设置模板文件的目录
-        cfg.setClassForTemplateLoading(Test.class, "/");
+        cfg.setClassForTemplateLoading(Main.class, "/");
         cfg.setDefaultEncoding("UTF-8");
         cfg.setClassicCompatible(true);
 
@@ -100,7 +100,7 @@ public class Test
         buildWeb(artifactId, params, cfg, artifactDir);
         
         // 生成业务代码
-        CodeGeneratorMain.generate(artifactDir.getAbsolutePath(), params);
+        CodeGenerator.generate(artifactDir.getAbsolutePath(), params);
     }
 
     /**
@@ -300,11 +300,11 @@ public class Test
         
         File appResourcesConfig = new File(appResources, "config");
         FileUtils.createDir(appResourcesConfig);
-        build(cfg, params, new File(Test.class.getResource("app/config").getPath()), appResourcesConfig, "app/config/");
+        build(cfg, params, new File(Main.class.getResource("app/config").getPath()), appResourcesConfig, "app/config/");
         
         File appResourcesLog4j2 = new File(appResources, "log4j2");
         FileUtils.createDir(appResourcesLog4j2);
-        build(cfg, params, new File(Test.class.getResource("app/log4j2").getPath()), appResourcesLog4j2, "app/log4j2/");
+        build(cfg, params, new File(Main.class.getResource("app/log4j2").getPath()), appResourcesLog4j2, "app/log4j2/");
         
         File appJava = new File(appArtifactDir, "src/main/java");
         FileUtils.createDir(appJava);
