@@ -16,6 +16,7 @@ import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateNotFoundException;
+import pers.linhai.nature.utils.ClassUtils;
 import pers.linhai.nature.utils.FileUtils;
 
 
@@ -78,6 +79,16 @@ public class Main
         FileUtils.createDir(artifactDir);
         Template temp = cfg.getTemplate("pom.xml"); // 在模板文件目录中寻找名为"name"的模板文件
         Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(artifactDir, "pom.xml")), "UTF-8"));
+        temp.process(params, out);
+        out.close();
+        
+        temp = cfg.getTemplate("git.ignore"); // 在模板文件目录中寻找名为"name"的模板文件
+        out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(artifactDir, ".gitignore")), "UTF-8"));
+        temp.process(params, out);
+        out.close();
+        
+        temp = cfg.getTemplate("README.md"); // 在模板文件目录中寻找名为"name"的模板文件
+        out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(artifactDir, "README.md")), "UTF-8"));
         temp.process(params, out);
         out.close();
 
@@ -300,11 +311,11 @@ public class Main
         
         File appResourcesConfig = new File(appResources, "config");
         FileUtils.createDir(appResourcesConfig);
-        build(cfg, params, new File(Main.class.getResource("app/config").getPath()), appResourcesConfig, "app/config/");
+        build(cfg, params, new File(ClassUtils.getDefaultClassLoader().getResource("app/config").getPath()), appResourcesConfig, "app/config/");
         
         File appResourcesLog4j2 = new File(appResources, "log4j2");
         FileUtils.createDir(appResourcesLog4j2);
-        build(cfg, params, new File(Main.class.getResource("app/log4j2").getPath()), appResourcesLog4j2, "app/log4j2/");
+        build(cfg, params, new File(ClassUtils.getDefaultClassLoader().getResource("app/log4j2").getPath()), appResourcesLog4j2, "app/log4j2/");
         
         File appJava = new File(appArtifactDir, "src/main/java");
         FileUtils.createDir(appJava);
