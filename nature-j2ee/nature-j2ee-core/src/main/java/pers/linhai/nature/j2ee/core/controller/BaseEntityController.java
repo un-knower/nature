@@ -246,8 +246,8 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * @return 
      * PaginationData<EntityBean>
      */
-    @RequestMapping(value = "/pagequery", method = RequestMethod.POST)
-    protected RestResponse pageQuery(@RequestBody EntityQuery entityQuery)
+    @RequestMapping(value = "/findByPaging", method = RequestMethod.POST)
+    protected RestResponse findByPaging(@RequestBody EntityQuery entityQuery)
     {
         try
         {
