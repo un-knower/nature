@@ -95,6 +95,15 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     {
         return updateTime;
     }
+    
+    /**
+     * <p>Set Method   :   updateTime Date</p>
+     * @param updateTime
+     */
+    public void setUpdateTime(Date updateTime)
+    {
+        this.updateTime = updateTime;
+    }
 
     /** 
      * <p>Overriding Method: lilinhai 2018年2月4日 下午3:00:30</p>

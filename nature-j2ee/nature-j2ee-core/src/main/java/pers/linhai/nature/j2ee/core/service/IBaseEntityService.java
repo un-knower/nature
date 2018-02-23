@@ -55,6 +55,15 @@ public interface IBaseEntityService<Key extends Serializable, Entity extends Bas
     int update(Entity record);
     
     /**
+     * 查询单个实体
+     * <p>Title         : findOne lilinhai 2018年2月23日 上午9:56:30</p>
+     * @param entityQuery
+     * @return 
+     * EntityBean
+     */
+    EntityBean findOne(EntityQuery entityQuery);
+    
+    /**
      * 分页查询
      * <p>Title         : pageQuery lilinhai 2018年2月7日 下午6:36:29</p>
      * @param entityQuery
@@ -70,5 +79,5 @@ public interface IBaseEntityService<Key extends Serializable, Entity extends Bas
      * @return 
      * List<Entity>
      */
-    List<EntityBean> query(EntityQuery entityQuery);
+    List<EntityBean> find(EntityQuery entityQuery);
 }

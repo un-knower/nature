@@ -16,6 +16,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -402,6 +403,9 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                 where.setConditionList(conditionList);
                 record.setWhere(where);
             }
+            
+            // 刷新修改时间
+            record.setUpdateTime(new Date());
 
             return sqlSessionTemplate.update(baseNamespace + ".update", record);
         }
@@ -445,6 +449,9 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                 updateFieldList.add(fv);
             }
             record.setUpdateFieldList(updateFieldList);
+            
+            // 设置创建时间
+            record.setCreateTime(new Date());
             return sqlSessionTemplate.update(baseNamespace + ".save", record);
         }
         catch (Throwable e1)

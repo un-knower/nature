@@ -125,6 +125,24 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable, Entity ext
         }
     }
     
+    public EntityBean findOne(EntityQuery entityQuery)
+    {
+        try
+        {
+            Entity entity = mapper.findOne(entityQuery);
+            if (entity == null)
+            {
+                return null;
+            }
+            return new EntityBean(entity);
+        }
+        catch (Throwable e)
+        {
+            logger.error("[Service] selectByPrimaryKey occor an error", e);
+            return null;
+        }
+    }
+    
     /**
      * 分页查询
      * <p>Title         : pageQuery lilinhai 2018年2月7日 下午6:36:29</p>
@@ -168,7 +186,7 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable, Entity ext
      * @return 
      * List<Entity>
      */
-    public List<EntityBean> query(EntityQuery entityQuery)
+    public List<EntityBean> find(EntityQuery entityQuery)
     {
         try
         {

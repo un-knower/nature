@@ -54,7 +54,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
             int count = entityService.delete(id);
             if (count != 1)
             {
-                RestResponse restResponse = fail(RestErrorCode.DELETE_FAIL, "[Controller] deleteByPrimaryKey occor an error, record：ID" + id);
+                RestResponse restResponse = fail(RestErrorCode.DELETE_FAIL, "[Controller] delete occor an error, record：ID" + id);
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
@@ -62,7 +62,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
         }
         catch (Throwable e)
         {
-            logger.error("[Controller] deleteByPrimaryKey occor an error", e);
+            logger.error("[Controller] delete occor an error", e);
             return fail(RestErrorCode.DELETE_EXCEPTION, e.getMessage() + "，ID：" + id);
         }
     }
@@ -82,7 +82,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
             int count = entityService.save(record);
             if (count != 1)
             {
-                RestResponse restResponse = fail(RestErrorCode.INSERT_FAIL, "[Controller] insert occor an error, record：" + record);
+                RestResponse restResponse = fail(RestErrorCode.INSERT_FAIL, "[Controller] save occor an error, record：" + record);
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
@@ -90,7 +90,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
         }
         catch (Throwable e)
         {
-            logger.error("[Controller] insert occor an error", e);
+            logger.error("[Controller] save occor an error", e);
             return fail(RestErrorCode.INSERT_EXCEPTION, e.getMessage() + "，record：" + record);
         }
     }
@@ -110,7 +110,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
             int count = entityService.saveSelective(record);
             if (count != 1)
             {
-                RestResponse restResponse = fail(RestErrorCode.INSERT_SELECTIVE_FAIL, "[Controller] insertSelective occor an error, record：" + record);
+                RestResponse restResponse = fail(RestErrorCode.INSERT_SELECTIVE_FAIL, "[Controller] saveSelective occor an error, record：" + record);
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
@@ -118,7 +118,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
         }
         catch (Throwable e)
         {
-            logger.error("[Controller] insertSelective occor an error", e);
+            logger.error("[Controller] saveSelective occor an error", e);
             return fail(RestErrorCode.INSERT_SELECTIVE_EXCEPTION, e.getMessage() + "，record：" + record);
         }
     }
@@ -140,7 +140,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
             int count = entityService.updateSelective(record);
             if (count != 1)
             {
-                RestResponse restResponse = fail(10300, "[Controller] updateByPrimaryKeySelective occor an error, record：" + record);
+                RestResponse restResponse = fail(10300, "[Controller] updateSelective occor an error, record：" + record);
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
@@ -148,7 +148,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
         }
         catch (Throwable e)
         {
-            logger.error("[Controller] updateByPrimaryKeySelective occor an error", e);
+            logger.error("[Controller] updateSelective occor an error", e);
             return fail(10301, e.getMessage() + "，record：" + record);
         }
     }
@@ -170,7 +170,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
             int count = entityService.update(record);
             if (count != 1)
             {
-                RestResponse restResponse = fail(10302, "[Controller] updateByPrimaryKey occor an error, record：" + record);
+                RestResponse restResponse = fail(10302, "[Controller] update occor an error, record：" + record);
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
@@ -178,7 +178,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
         }
         catch (Throwable e)
         {
-            logger.error("[Controller] updateByPrimaryKey occor an error", e);
+            logger.error("[Controller] update occor an error", e);
             return fail(10303, e.getMessage() + "，record：" + record);
         }
     }
@@ -198,7 +198,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
             EntityBean record = entityService.find(id);
             if (record == null)
             {
-                RestResponse restResponse = fail(RestErrorCode.GET_FAIL, "[Controller] selectByPrimaryKey occor an error, id：" + id);
+                RestResponse restResponse = fail(RestErrorCode.GET_FAIL, "[Controller] find occor an error, id：" + id);
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
@@ -206,8 +206,36 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
         }
         catch (Throwable e)
         {
-            logger.error("[Controller] selectByPrimaryKey occor an error", e);
+            logger.error("[Controller] find occor an error", e);
             return fail(RestErrorCode.GET_EXCEPTION, e.getMessage() + "，ID：" + id);
+        }
+    }
+    
+    /**
+     * 根据查询条件查找单个记录
+     * <p>Title         : selectByPrimaryKey lilinhai 2018年2月5日 下午11:23:05</p>
+     * @param id
+     * @return 
+     * ResponseResult
+     */
+    @RequestMapping(value = "/findOne", method = RequestMethod.POST)
+    protected RestResponse findOne(@RequestBody EntityQuery entityQuery)
+    {
+        try
+        {
+            EntityBean record = entityService.findOne(entityQuery);
+            if (record == null)
+            {
+                RestResponse restResponse = fail(RestErrorCode.GET_FAIL, "[Controller] findOne occor an error, entityQuery：" + entityQuery);
+                logger.error(JSON.toJSONString(restResponse));
+                return restResponse;
+            }
+            return success(record);
+        }
+        catch (Throwable e)
+        {
+            logger.error("[Controller] findOne occor an error", e);
+            return fail(RestErrorCode.GET_EXCEPTION, e.getMessage() + "，entityQuery：" + entityQuery);
         }
     }
     
@@ -246,12 +274,12 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * @return 
      * RestResponse
      */
-    @RequestMapping(value = "/query", method = RequestMethod.POST)
-    protected RestResponse query(@RequestBody EntityQuery entityQuery)
+    @RequestMapping(value = "/find", method = RequestMethod.POST)
+    protected RestResponse find(@RequestBody EntityQuery entityQuery)
     {
         try
         {
-            List<EntityBean> dataList = entityService.query(entityQuery);
+            List<EntityBean> dataList = entityService.find(entityQuery);
             if (dataList == null)
             {
                 RestResponse restResponse = fail(RestErrorCode.QUERY_FAIL, "[Controller] query occor an error, entityQuery：" + entityQuery);
