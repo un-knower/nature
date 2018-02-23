@@ -61,7 +61,7 @@
 		<Logger name="org.mybatis" level="INFO">
 			<AppenderRef ref="Console" />
 		</Logger>
-		<Logger name="com" level="DEBUG">
+		<Logger name="pers" level="DEBUG">
 			<AppenderRef ref="Console" />
 		</Logger>
 		<Root level="INFO">

@@ -71,17 +71,17 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
     /**
      * 实体的所有字段列表
      */
-    private final Map<String, Field> fieldMap = new HashMap<String, Field>();
+    protected final Map<String, Field> fieldMap = new HashMap<String, Field>();
 
     /**
      * 实体构造函器
      */
-    private Constructor<Entity> entityConstructor;
+    protected Constructor<Entity> entityConstructor;
 
     /**
      * 实体查询条件构造器
      */
-    private Constructor<EntityQuery> entityQueryConstructor;
+    protected Constructor<EntityQuery> entityQueryConstructor;
 
     /**
      * <p>Title        : BaseMapperImpl lilinhai 2018年2月12日 下午2:12:25</p>
