@@ -86,7 +86,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
-            return success(record);
+            return success(new EntityBean(record));
         }
         catch (Throwable e)
         {
@@ -114,7 +114,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
-            return success(record);
+            return success(new EntityBean(record));
         }
         catch (Throwable e)
         {
@@ -144,7 +144,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
-            return success(record);
+            return success(new EntityBean(record));
         }
         catch (Throwable e)
         {
@@ -174,7 +174,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
-            return success(record);
+            return success(new EntityBean(record));
         }
         catch (Throwable e)
         {
