@@ -216,7 +216,7 @@ public class CodeCommentUtils
         sb.append(" * @date ");
         sb.append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         sb.append(" ");
-        topLevelClass.addJavaDocLine(sb.toString());
+        //topLevelClass.addJavaDocLine(sb.toString());
 
         sb = new StringBuilder();
         sb.append(" * @version ");
