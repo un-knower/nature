@@ -9,11 +9,9 @@
 package pers.linhai.nature.j2ee.generator.plugins;
 
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -190,7 +188,7 @@ public class ModelPlugin extends BasePlugin
         field.setVisibility(JavaVisibility.PRIVATE);
         field.addJavaDocLine("\n"); //$NON-NLS-1$
         field.addJavaDocLine("/**"); //$NON-NLS-1$
-        field.addJavaDocLine(" * long serialVersionUID 生成时间：" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()));
+        field.addJavaDocLine(" * long serialVersionUID 序列化版本ID");
         field.addJavaDocLine(" */"); //$NON-NLS-1$
         topLevelClass.addField(field);
         
@@ -501,7 +499,7 @@ public class ModelPlugin extends BasePlugin
         beanClass.addJavaDocLine(" * <pre>"); //$NON-NLS-1$
         beanClass.addJavaDocLine(" *    针对该实体的QueryBean封装，用于接受前端的组合查询请求参数封装。");
         beanClass.addJavaDocLine(" * ClassName: " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBean");
-        beanClass.addJavaDocLine(" * @author " + System.getProperty("user.name") + "  " + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()));
+        beanClass.addJavaDocLine(" * @author " + System.getProperty("user.name"));
         beanClass.addJavaDocLine(" * @version 1.0");
         beanClass.addJavaDocLine(" * </pre>"); //$NON-NLS-1$
         beanClass.addJavaDocLine(" */");

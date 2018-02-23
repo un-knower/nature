@@ -251,7 +251,6 @@ public class CodeCommentUtils
         sb.append(" *   2）该字段对应数据库表中： "); //$NON-NLS-1$
         sb.append(introspectedTable.getFullyQualifiedTable()).append('.').append(introspectedColumn.getActualColumnName());
         field.addJavaDocLine(sb.toString());
-        field.addJavaDocLine(" *   3）生成时间：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         field.addJavaDocLine(" * </pre>"); //$NON-NLS-1$
         field.addJavaDocLine(" */"); //$NON-NLS-1$
     }
