@@ -10,7 +10,9 @@
 package pers.linhai.nature.j2ee.core.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +40,14 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     
     @Autowired
     protected EntityService entityService;
+    
+    /**
+     * 过滤EntityBeanMap中的一些敏感字段，不需要传递到前端去的字段
+     * <p>Title         : entityBeanMapFilter lilinhai 2018年2月10日 下午4:25:09</p>
+     * @param entityBeanMap 
+     * void
+     */
+    protected void entityBeanMapFilter(Map<String, Serializable> entityMap, Entity entity){}
     
     /**
      * 根据主键删除一个实体
@@ -195,13 +205,15 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     {
         try
         {
-            EntityBean record = entityService.find(id);
-            if (record == null)
+            Entity entity = entityService.find(id);
+            if (entity == null)
             {
                 RestResponse restResponse = fail(RestErrorCode.GET_FAIL, "[Controller] find occor an error, id：" + id);
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
+            EntityBean record = new EntityBean(entity);
+            entityBeanMapFilter(record, entity);
             return success(record);
         }
         catch (Throwable e)
@@ -223,13 +235,15 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     {
         try
         {
-            EntityBean record = entityService.findOne(entityQuery);
-            if (record == null)
+            Entity entity = entityService.findOne(entityQuery);
+            if (entity == null)
             {
                 RestResponse restResponse = fail(RestErrorCode.GET_FAIL, "[Controller] findOne occor an error, entityQuery：" + entityQuery);
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
+            EntityBean record = new EntityBean(entity);
+            entityBeanMapFilter(record, entity);
             return success(record);
         }
         catch (Throwable e)
@@ -251,12 +265,21 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     {
         try
         {
-            PaginationData<EntityBean> pageData = entityService.pageQuery(entityQuery);
-            if (pageData == null)
+            PaginationData<EntityBean> pageData = new PaginationData<EntityBean>();
+            int page = entityQuery.getPage() == null ? 0 : entityQuery.getPage();
+            int size = entityQuery.getSize() == null ? 20 : entityQuery.getSize();
+            pageData.setPage(page);
+            pageData.setSize(size);
+            pageData.setTotal(entityService.count(entityQuery));
+            List<Entity> entityList = entityService.find(entityQuery);
+            EntityBean entityBean = null;
+            for (Entity entity : entityList)
             {
-                RestResponse restResponse = fail(RestErrorCode.PAGE_QUERY_FAIL, "[Controller] pageQuery occor an error, entityQuery：" + entityQuery);
-                logger.error(JSON.toJSONString(restResponse));
-                return restResponse;
+                entityBean = new EntityBean(entity);
+                
+                // 过滤EntityBeanMap中的一些敏感字段，不需要传递到前端去的字段
+                entityBeanMapFilter(entityBean, entity);
+                pageData.addData(entityBean);
             }
             return success(pageData);
         }
@@ -279,14 +302,24 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     {
         try
         {
-            List<EntityBean> dataList = entityService.find(entityQuery);
-            if (dataList == null)
+            List<Entity> entityList = entityService.find(entityQuery);
+            if (entityList == null)
             {
                 RestResponse restResponse = fail(RestErrorCode.QUERY_FAIL, "[Controller] query occor an error, entityQuery：" + entityQuery);
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
-            return success(dataList);
+            List<EntityBean> beanList = new ArrayList<EntityBean>();
+            EntityBean entityBean = null;
+            for (Entity entity : entityList)
+            {
+                entityBean = new EntityBean(entity);
+                
+                // 过滤EntityBeanMap中的一些敏感字段，不需要传递到前端去的字段
+                entityBeanMapFilter(entityBean, entity);
+                beanList.add(entityBean);
+            }
+            return success(beanList);
         }
         catch (Throwable e)
         {

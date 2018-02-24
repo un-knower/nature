@@ -10,16 +10,13 @@
 package pers.linhai.nature.j2ee.core.service;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import pers.linhai.nature.j2ee.core.dao.IBaseMapper;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
-import pers.linhai.nature.j2ee.core.model.EntityBean;
 
 /**
  * service基类实现类
@@ -33,14 +30,6 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable, Entity ext
 
     @Autowired
     protected Mapper mapper;
-    
-    /**
-     * 过滤EntityBeanMap中的一些敏感字段，不需要传递到前端去的字段
-     * <p>Title         : entityBeanMapFilter lilinhai 2018年2月10日 下午4:25:09</p>
-     * @param entityBeanMap 
-     * void
-     */
-    protected void entityBeanMapFilter(Map<String, Serializable> entityMap, Entity entity){}
 
     public int delete(Key id)
     {
@@ -81,16 +70,11 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable, Entity ext
         }
     }
 
-    public EntityBean find(Key id)
+    public Entity find(Key id)
     {
         try
         {
-            Entity entity = mapper.find(id);
-            if (entity == null)
-            {
-                return null;
-            }
-            return new EntityBean(entity);
+            return mapper.find(id);
         }
         catch (Throwable e)
         {
@@ -125,16 +109,11 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable, Entity ext
         }
     }
     
-    public EntityBean findOne(EntityQuery entityQuery)
+    public Entity findOne(EntityQuery entityQuery)
     {
         try
         {
-            Entity entity = mapper.findOne(entityQuery);
-            if (entity == null)
-            {
-                return null;
-            }
-            return new EntityBean(entity);
+            return mapper.findOne(entityQuery);
         }
         catch (Throwable e)
         {
@@ -144,39 +123,16 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable, Entity ext
     }
     
     /**
-     * 分页查询
-     * <p>Title         : pageQuery lilinhai 2018年2月7日 下午6:36:29</p>
+     * 统计条目
+     * <p>Overriding Method: lilinhai 2018年2月24日 上午11:14:35</p>
+     * <p>Title: count</p>
      * @param entityQuery
      * @return 
-     * PaginationData<EntityBean>
+     * @see pers.linhai.nature.j2ee.core.service.IBaseEntityService#count(pers.linhai.nature.j2ee.core.model.BaseQuery)
      */
-    public PaginationData<EntityBean> pageQuery(EntityQuery entityQuery)
+    public long count(EntityQuery entityQuery)
     {
-        try
-        {
-            PaginationData<EntityBean> pageData = new PaginationData<EntityBean>();
-            int page = entityQuery.getPage() == null ? 0 : entityQuery.getPage();
-            int size = entityQuery.getSize() == null ? 20 : entityQuery.getSize();
-            pageData.setPage(page);
-            pageData.setSize(size);
-            pageData.setTotal(mapper.count(entityQuery));
-            List<Entity> entityList = mapper.find(entityQuery);
-            EntityBean entityBean = null;
-            for (Entity entity : entityList)
-            {
-                entityBean = new EntityBean(entity);
-                
-                // 过滤EntityBeanMap中的一些敏感字段，不需要传递到前端去的字段
-                entityBeanMapFilter(entityBean, entity);
-                pageData.addData(entityBean);
-            }
-            return pageData;
-        }
-        catch (Throwable e)
-        {
-            logger.error("[Service] pageQuery occor an error", e);
-            return null;
-        }
+        return mapper.count(entityQuery);
     }
     
     /**
@@ -186,25 +142,11 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable, Entity ext
      * @return 
      * List<Entity>
      */
-    public List<EntityBean> find(EntityQuery entityQuery)
+    public List<Entity> find(EntityQuery entityQuery)
     {
         try
         {
-            List<Entity> entityList = mapper.find(entityQuery);
-            List<EntityBean> beanList = new ArrayList<EntityBean>();
-            if (entityList != null)
-            {
-                EntityBean entityBean = null;
-                for (Entity entity : entityList)
-                {
-                    entityBean = new EntityBean(entity);
-                    
-                    // 过滤EntityBeanMap中的一些敏感字段，不需要传递到前端去的字段
-                    entityBeanMapFilter(entityBean, entity);
-                    beanList.add(entityBean);
-                }
-            }
-            return beanList;
+            return mapper.find(entityQuery);
         }
         catch (Throwable e)
         {

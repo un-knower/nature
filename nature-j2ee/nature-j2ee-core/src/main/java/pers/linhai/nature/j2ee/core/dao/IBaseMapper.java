@@ -94,6 +94,34 @@ public interface IBaseMapper<Key extends Serializable, Entity extends BaseEntity
      * void
      */
     void find(EntityQuery entityQueryBean, IEntityProcessor<Entity> entityProcessor);
+    
+    /**
+     * 调用自己写的statment sql语句
+     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
+     * @param statment
+     * @param params
+     * @param entityProcessor 
+     * void
+     */
+    void find(String statment, Object params, IEntityProcessor<Entity> entityProcessor);
+    
+    /**
+     * 调用自己写的statment sql语句
+     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
+     * @param statment
+     * @param params
+     * void
+     */
+    List<Entity> find(String statment, Object params);
+    
+    /**
+     * 调用自己写的statment sql语句
+     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
+     * @param statment
+     * @param params
+     * void
+     */
+    Entity findOne(String statment, Object params);
 
     /**
      * 统计记录条数
