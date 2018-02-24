@@ -31,6 +31,10 @@ public class ShortType extends DataType
         {
             return Short.parseShort(value.toString());
         }
+        else if (value instanceof Integer)
+        {
+            return ((Integer)value).shortValue();
+        }
         return value;
     }
 

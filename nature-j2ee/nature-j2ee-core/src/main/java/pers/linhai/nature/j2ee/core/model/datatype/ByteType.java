@@ -31,6 +31,10 @@ public class ByteType extends DataType
         {
             return Byte.parseByte(value.toString());
         }
+        else if (value instanceof Integer)
+        {
+            return ((Integer)value).byteValue();
+        }
         return value;
     }
 }
