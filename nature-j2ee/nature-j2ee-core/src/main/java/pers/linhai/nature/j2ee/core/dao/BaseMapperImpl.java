@@ -319,6 +319,51 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
         RowDataResultHandler<Entity> myResultHandler = new RowDataResultHandler<Entity>(fieldMap, entityConstructor, entityProcessor);
         sqlSessionTemplate.select(baseNamespace + ".query", entityQuery, myResultHandler);
     }
+    
+    /**
+     * 调用自己写的statment sql语句
+     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
+     * @param statment
+     * @param params
+     * @param entityProcessor 
+     * void
+     */
+    public void find(String statment, Object params, IEntityProcessor<Entity> entityProcessor)
+    {
+        RowDataResultHandler<Entity> myResultHandler = new RowDataResultHandler<Entity>(fieldMap, entityConstructor, entityProcessor);
+        sqlSessionTemplate.select(namespace + "." + statment, params, myResultHandler);
+    }
+    
+    /**
+     * 调用自己写的statment sql语句
+     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
+     * @param statment
+     * @param params
+     * void
+     */
+    public List<Entity> find(String statment, Object params)
+    {
+        DefaultEntityProcessor<Entity> entityProcessor = new DefaultEntityProcessor<Entity>();
+        find(statment, params, entityProcessor);
+        return entityProcessor.getEntityList();
+    }
+    
+    /**
+     * 调用自己写的statment sql语句
+     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
+     * @param statment
+     * @param params
+     * void
+     */
+    public Entity findOne(String statment, Object params)
+    {
+        List<Entity> el = find(statment, params);
+        if (el != null && !el.isEmpty())
+        {
+            return el.get(0);
+        }
+        return null;
+    }
 
     /**
      * 将实体所有字段建立hashMap映射
