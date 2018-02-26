@@ -15,10 +15,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.alibaba.fastjson.JSON;
 
@@ -64,7 +66,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * @return 
      * ResponseResult
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{id}")
     protected RestResponse delete(@PathVariable Key id)
     {
         try
@@ -92,7 +94,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * @return 
      * ResponseResult
      */
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @PostMapping("")
     protected RestResponse save(@RequestBody Entity record)
     {
         try
@@ -123,7 +125,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * @return 
      * ResponseResult
      */
-    @RequestMapping(value = "/selective/{id}", method = RequestMethod.PUT)
+    @PutMapping("/selective/{id}")
     protected RestResponse updateSelective(@RequestBody Entity record, @PathVariable Key id)
     {
         try
@@ -157,7 +159,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * @return 
      * ResponseResult
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PutMapping("/{id}")
     protected RestResponse update(@RequestBody Entity record, @PathVariable Key id)
     {
         try
@@ -188,7 +190,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * @return 
      * ResponseResult
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping("/{id}")
     protected RestResponse find(@PathVariable Key id)
     {
         try
@@ -218,7 +220,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * @return 
      * ResponseResult
      */
-    @RequestMapping(value = "/findOne", method = RequestMethod.POST)
+    @PostMapping("/findOne")
     protected RestResponse findOne(@RequestBody EntityQuery entityQuery)
     {
         try
@@ -248,7 +250,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * @return 
      * PaginationData<EntityBean>
      */
-    @RequestMapping(value = "/findByPaging", method = RequestMethod.POST)
+    @PostMapping("/findByPaging")
     protected RestResponse findByPaging(@RequestBody EntityQuery entityQuery)
     {
         try
@@ -285,7 +287,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * @return 
      * RestResponse
      */
-    @RequestMapping(value = "/find", method = RequestMethod.POST)
+    @PostMapping("/find")
     protected RestResponse find(@RequestBody EntityQuery entityQuery)
     {
         try
