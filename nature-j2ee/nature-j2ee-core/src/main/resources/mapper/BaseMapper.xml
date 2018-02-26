@@ -40,11 +40,11 @@
     <!-- 添加 -->
 	<insert id="save" parameterType="pers.linhai.nature.j2ee.core.model.BaseEntity" useGeneratedKeys="true" keyProperty="id">
          insert into ${tableName} 
-        <foreach close=")" collection="updateFieldList" index="index" item="updateField" open="(" separator=", ">
-             ${updateField.tableFieldName}
+        <foreach close=")" collection="persistentFieldList" index="index" item="persistentField" open="(" separator=", ">
+             ${persistentField.tableFieldName}
          </foreach>
-        <foreach close=")" collection="updateFieldList" index="index" item="updateField" open="values (" separator=", ">
-             #{updateField.value, jdbcType=${updateField.jdbcType}}
+        <foreach close=")" collection="persistentFieldList" index="index" item="persistentField" open="values (" separator=", ">
+             #{persistentField.value, jdbcType=${persistentField.jdbcType}}
          </foreach>
     </insert>
     
@@ -52,8 +52,8 @@
     <update id="update" parameterType="pers.linhai.nature.j2ee.core.model.BaseEntity">
         update ${tableName} 
         <set>
-	        <foreach close=" " collection="updateFieldList" index="index" item="updateField" open=" " separator=", ">
-	             ${updateField.tableFieldName} = #{updateField.value, jdbcType=${updateField.jdbcType}}
+	        <foreach close=" " collection="persistentFieldList" index="index" item="persistentField" open=" " separator=", ">
+	             ${persistentField.tableFieldName} = #{persistentField.value, jdbcType=${persistentField.jdbcType}}
 	        </foreach>
         </set>
         
