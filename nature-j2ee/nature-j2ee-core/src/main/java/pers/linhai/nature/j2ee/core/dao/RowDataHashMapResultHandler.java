@@ -28,7 +28,7 @@ import pers.linhai.nature.j2ee.core.model.BaseEntity;
  * @author lilinhai 2018年2月12日 下午12:55:04
  * @version 1.0
  */
-public class RowDataResultHandler<Entity extends BaseEntity<?>> implements ResultHandler<Map<String, Serializable>>
+public class RowDataHashMapResultHandler<Entity extends BaseEntity<?>> implements ResultHandler<Map<String, Serializable>>
 {
 
     /**
@@ -46,7 +46,7 @@ public class RowDataResultHandler<Entity extends BaseEntity<?>> implements Resul
      * @param entityConstructor
      * @param entityProcessor 
      */ 
-    public RowDataResultHandler(Map<String, Field> fieldMap, Constructor<Entity> entityConstructor, IEntityProcessor<Entity> entityProcessor)
+    public RowDataHashMapResultHandler(Map<String, Field> fieldMap, Constructor<Entity> entityConstructor, IEntityProcessor<Entity> entityProcessor)
     {
         super();
         this.fieldMap = fieldMap;

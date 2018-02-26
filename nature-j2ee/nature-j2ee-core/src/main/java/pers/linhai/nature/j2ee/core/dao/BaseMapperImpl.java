@@ -316,8 +316,8 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
     @Override
     public void find(EntityQuery entityQuery, IEntityProcessor<Entity> entityProcessor)
     {
-        RowDataResultHandler<Entity> myResultHandler = new RowDataResultHandler<Entity>(fieldMap, entityConstructor, entityProcessor);
-        sqlSessionTemplate.select(baseNamespace + ".query", entityQuery, myResultHandler);
+        RowDataHashMapResultHandler<Entity> myResultHandler = new RowDataHashMapResultHandler<Entity>(fieldMap, entityConstructor, entityProcessor);
+        sqlSessionTemplate.select(baseNamespace + ".find", entityQuery, myResultHandler);
     }
     
     /**
@@ -330,7 +330,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
      */
     public void find(String statment, Object params, IEntityProcessor<Entity> entityProcessor)
     {
-        RowDataResultHandler<Entity> myResultHandler = new RowDataResultHandler<Entity>(fieldMap, entityConstructor, entityProcessor);
+        RowDataHashMapResultHandler<Entity> myResultHandler = new RowDataHashMapResultHandler<Entity>(fieldMap, entityConstructor, entityProcessor);
         sqlSessionTemplate.select(namespace + "." + statment, params, myResultHandler);
     }
     
@@ -358,6 +358,51 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
     public Entity findOne(String statment, Object params)
     {
         List<Entity> el = find(statment, params);
+        if (el != null && !el.isEmpty())
+        {
+            return el.get(0);
+        }
+        return null;
+    }
+    
+    /**
+     * 调用自己写的statment sql语句
+     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
+     * @param statment
+     * @param params
+     * @param entityProcessor 
+     * void
+     */
+    public <T> void execFind(String statment, Object params, IEntityProcessor<T> entityProcessor)
+    {
+        RowDataEntityResultHandler<T> myResultHandler = new RowDataEntityResultHandler<T>(entityProcessor);
+        sqlSessionTemplate.select(namespace + "." + statment, params, myResultHandler);
+    }
+    
+    /**
+     * 调用自己写的statment sql语句
+     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
+     * @param statment
+     * @param params
+     * void
+     */
+    public <T> List<T> execFind(String statment, Object params, Class<T> clazz)
+    {
+        CustomEntityProcessor<T> entityProcessor = new CustomEntityProcessor<T>();
+        execFind(statment, params, entityProcessor);
+        return entityProcessor.getEntityList();
+    }
+    
+    /**
+     * 调用自己写的statment sql语句
+     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
+     * @param statment
+     * @param params
+     * void
+     */
+    public <T> T execGet(String statment, Object params, Class<T> clazz)
+    {
+        List<T> el = execFind(statment, params, clazz);
         if (el != null && !el.isEmpty())
         {
             return el.get(0);

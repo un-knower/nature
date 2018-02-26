@@ -9,14 +9,12 @@
 
 package pers.linhai.nature.j2ee.core.dao;
 
-import pers.linhai.nature.j2ee.core.model.BaseEntity;
-
 /**
  * <p>ClassName      : IEntityHandler</p>
  * @author lilinhai 2018年2月13日 下午12:15:34
  * @version 1.0
  */
-public interface IEntityProcessor<Entity extends BaseEntity<?>>
+public interface IEntityProcessor<Entity>
 {
 
     void process(Entity entity);

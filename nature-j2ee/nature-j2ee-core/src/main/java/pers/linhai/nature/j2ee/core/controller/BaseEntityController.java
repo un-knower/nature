@@ -50,6 +50,14 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     protected void entityBeanMapFilter(Map<String, Serializable> entityMap, Entity entity){}
     
     /**
+     * 选择性修改的时候过滤掉某些字段
+     * <p>Title         : updateSelectiveEntityFilter lilinhai 2018年2月26日 下午3:44:10</p>
+     * @param entity 
+     * void
+     */
+    protected void updateSelectiveEntityFilter(Entity entity) {}
+    
+    /**
      * 根据主键删除一个实体
      * <p>Title         : deleteByPrimaryKey lilinhai 2018年2月5日 下午11:23:58</p>
      * @param id
@@ -150,6 +158,8 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     {
         try
         {
+            //选择性修改的时候过滤掉某些字段
+            updateSelectiveEntityFilter(record);
             record.setId(id);
             int count = entityService.updateSelective(record);
             if (count != 1)

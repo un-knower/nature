@@ -62,7 +62,7 @@
     </update>
 
     <!-- 组合查询函数，支持分页功能 -->
-    <select id="query" parameterType="pers.linhai.nature.j2ee.core.model.BaseQuery" resultType="java.util.HashMap">
+    <select id="find" parameterType="pers.linhai.nature.j2ee.core.model.BaseQuery" resultType="java.util.HashMap">
          select 
          
         <!-- 添加需要返回的字段信息 -->
