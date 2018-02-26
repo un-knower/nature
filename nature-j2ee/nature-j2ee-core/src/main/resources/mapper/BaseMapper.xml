@@ -38,7 +38,7 @@
     </delete>
     
     <!-- 添加 -->
-	<insert id="save" parameterType="pers.linhai.nature.j2ee.core.model.BaseEntity">
+	<insert id="save" parameterType="pers.linhai.nature.j2ee.core.model.BaseEntity" useGeneratedKeys="true" keyProperty="id">
          insert into ${tableName} 
         <foreach close=")" collection="updateFieldList" index="index" item="updateField" open="(" separator=", ">
              ${updateField.tableFieldName}
