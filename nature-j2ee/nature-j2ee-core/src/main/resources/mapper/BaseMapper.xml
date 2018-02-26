@@ -77,7 +77,7 @@
         <!-- 添加排序字段信息 -->
         <if test="sortFieldList != null">
             <foreach close=" " collection="sortFieldList" index="index" item="orderField" open=" order by " separator=", ">
-                #{orderField.fieldName} ${orderField.direction}
+                ${orderField.fieldName} ${orderField.direction}
             </foreach>
         </if>
         
