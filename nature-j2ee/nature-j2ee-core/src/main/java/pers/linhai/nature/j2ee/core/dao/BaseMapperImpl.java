@@ -146,19 +146,41 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
      */
     public int save(Entity record)
     {
-        return save0(record, false);
-    }
+        try
+        {
+            if (record == null)
+            {
+                return 0;
+            }
 
-    /** 
-     * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
-     * <p>Title: insertSelective</p>
-     * @param record
-     * @return 
-     * @see com.meme.crm.dao.core.IBaseMapper#saveSelective(com.meme.crm.model.core.BaseEntity)
-     */
-    public int saveSelective(Entity record)
-    {
-        return save0(record, true);
+            // 设置创建时间
+            record.setCreateTime(new Date());
+            
+            // 待更新的字段集合
+            List<UpdateField> updateFieldList = new ArrayList<UpdateField>();
+
+            Object val = null;
+            for (Entry<String, Field> e : fieldMap.entrySet())
+            {
+                if ((val = e.getValue().get(record)) == null)
+                {
+                    continue;
+                }
+                UpdateField fv = new UpdateField();
+                fv.setFieldName(e.getValue().getName());
+                fv.setValue(val);
+                updateFieldList.add(fv);
+            }
+            record.setUpdateFieldList(updateFieldList);
+
+            return sqlSessionTemplate.update(baseNamespace + ".save", record);
+        }
+        catch (Throwable e1)
+        {
+            logger.error("save0 occor an error " , e1);
+            return 0;
+        }
+    
     }
 
     /**
@@ -454,6 +476,9 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
             {
                 return 0;
             }
+            
+            // 刷新修改时间
+            record.setUpdateTime(new Date());
 
             if (record.getUpdateFieldList() == null)
             {
@@ -494,59 +519,11 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                 record.setWhere(where);
             }
             
-            // 刷新修改时间
-            record.setUpdateTime(new Date());
-
             return sqlSessionTemplate.update(baseNamespace + ".update", record);
         }
         catch (Throwable e1)
         {
             logger.error("update0 occor an error, isSelective： " + isSelective, e1);
-            return 0;
-        }
-    }
-
-    /**
-     * 保存数据
-     * <p>Title         : save lilinhai 2018年2月13日 下午6:13:13</p>
-     * @param record
-     * @param Selective
-     * @return 
-     * int
-     */
-    private int save0(Entity record, boolean isSelective)
-    {
-        try
-        {
-            if (record == null)
-            {
-                return 0;
-            }
-
-            // 待更新的字段集合
-            List<UpdateField> updateFieldList = new ArrayList<UpdateField>();
-
-            Object val = null;
-            for (Entry<String, Field> e : fieldMap.entrySet())
-            {
-                if ((val = e.getValue().get(record)) == null && isSelective)
-                {
-                    continue;
-                }
-                UpdateField fv = new UpdateField();
-                fv.setFieldName(e.getValue().getName());
-                fv.setValue(val);
-                updateFieldList.add(fv);
-            }
-            record.setUpdateFieldList(updateFieldList);
-            
-            // 设置创建时间
-            record.setCreateTime(new Date());
-            return sqlSessionTemplate.update(baseNamespace + ".save", record);
-        }
-        catch (Throwable e1)
-        {
-            logger.error("save0 occor an error, isSelective： " + isSelective, e1);
             return 0;
         }
     }

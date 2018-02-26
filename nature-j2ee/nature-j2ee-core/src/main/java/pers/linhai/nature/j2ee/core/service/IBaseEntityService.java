@@ -34,11 +34,6 @@ public interface IBaseEntityService<Key extends Serializable, Entity extends Bas
     int save(Entity record);
 
     /**
-     * 添加单个记录，只将不为空的字段插入表中。
-     */
-    int saveSelective(Entity record);
-
-    /**
      * 根据主键id查找单个记录。
      */
     Entity find(Key id);

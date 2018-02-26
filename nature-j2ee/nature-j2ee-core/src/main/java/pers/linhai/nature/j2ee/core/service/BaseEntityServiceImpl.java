@@ -57,19 +57,6 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable, Entity ext
         }
     }
 
-    public int saveSelective(Entity record)
-    {
-        try
-        {
-            return mapper.saveSelective(record);
-        }
-        catch (Throwable e)
-        {
-            logger.error("[Service] insertSelective occor an error", e);
-            return -1;
-        }
-    }
-
     public Entity find(Key id)
     {
         try

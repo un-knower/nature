@@ -31,11 +31,6 @@ public interface IBaseMapper<Key extends Serializable, Entity extends BaseEntity
     int save(Entity record);
 
     /**
-     * 添加单个记录，只将不为空的字段插入表中。
-     */
-    int saveSelective(Entity record);
-
-    /**
      * 根据主键ID删除单个记录。
      * <p>Title         : delete lilinhai 2018年2月13日 下午2:09:23</p>
      * @param id

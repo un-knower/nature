@@ -116,36 +116,6 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     }
 
     /**
-     * 选择性创建一个实体
-     * <p>Title         : insertSelective lilinhai 2018年2月5日 下午11:23:21</p>
-     * @param record
-     * @return 
-     * ResponseResult
-     */
-    @RequestMapping(value = "/selective", method = RequestMethod.POST)
-    protected RestResponse saveSelective(Entity record)
-    {
-        try
-        {
-            int count = entityService.saveSelective(record);
-            if (count != 1)
-            {
-                RestResponse restResponse = fail(RestErrorCode.INSERT_SELECTIVE_FAIL, "[Controller] saveSelective occor an error, record：" + record);
-                logger.error(JSON.toJSONString(restResponse));
-                return restResponse;
-            }
-            EntityBean bean = new EntityBean(record);
-            entityBeanMapFilter(bean, record);
-            return success(bean);
-        }
-        catch (Throwable e)
-        {
-            logger.error("[Controller] saveSelective occor an error", e);
-            return fail(RestErrorCode.INSERT_SELECTIVE_EXCEPTION, e.getMessage() + "，record：" + record);
-        }
-    }
-
-    /**
      * 根据 主键选择性的更新记录
      * <p>Title         : updateByPrimaryKeySelective lilinhai 2018年2月5日 下午11:22:48</p>
      * @param record
