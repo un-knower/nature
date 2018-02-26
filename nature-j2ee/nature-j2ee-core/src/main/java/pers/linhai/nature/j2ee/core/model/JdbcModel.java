@@ -40,7 +40,7 @@ public abstract class JdbcModel
     /**
      * 待更新的字段的值的集合
      */
-    private List<UpdateField> updateFieldList;
+    private List<PersistentField> persistentFieldList;
     
     /**
      * <p>Title        : JdbcFunctionModel lilinhai 2018年2月15日 上午9:09:43</p>
@@ -174,30 +174,30 @@ public abstract class JdbcModel
     }
 
     /**
-     * <p>Get Method   :   updateFieldList List<FieldValue></p>
-     * @return updateFieldList
+     * <p>Get Method   :   persistentFieldList List<FieldValue></p>
+     * @return persistentFieldList
      */
-    public List<UpdateField> getUpdateFieldList()
+    public List<PersistentField> getPersistentFieldList()
     {
-        return updateFieldList;
+        return persistentFieldList;
     }
 
     /**
      * <p>Set Method   :   updateFieldList List<FieldValue></p>
-     * @param updateFieldList
+     * @param persistentFieldList
      */
-    public void setUpdateFieldList(List<UpdateField> updateFieldList)
+    public void setUpdateFieldList(List<PersistentField> persistentFieldList)
     {
-        if (updateFieldList != null)
+        if (persistentFieldList != null)
         {
-            for (UpdateField updateField : updateFieldList)
+            for (PersistentField persistentField : persistentFieldList)
             {
                 // 校验字段名合法性
-                validField(updateField.getFieldName());
-                updateField.setTableFieldName(getTableField(updateField.getFieldName()));
-                updateField.setJdbcType(getJdbcType(updateField.getFieldName()));
+                validField(persistentField.getFieldName());
+                persistentField.setTableFieldName(getTableField(persistentField.getFieldName()));
+                persistentField.setJdbcType(getJdbcType(persistentField.getFieldName()));
             }
-            this.updateFieldList = updateFieldList;
+            this.persistentFieldList = persistentFieldList;
         }
     }
 
@@ -207,7 +207,7 @@ public abstract class JdbcModel
      * @author lilinhai 2018年2月13日 下午3:29:28
      * @version 1.0
      */
-    public static class UpdateField
+    public static class PersistentField
     {
         /**
          * 数据库表的字段名
@@ -309,7 +309,7 @@ public abstract class JdbcModel
          */
         public String toString()
         {
-            return "UpdateField [value=" + value + ", jdbcType=" + jdbcType + "]";
+            return "PersistentField [value=" + value + ", jdbcType=" + jdbcType + "]";
         }
     }
 }

@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pers.linhai.nature.j2ee.core.exception.MapperException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
-import pers.linhai.nature.j2ee.core.model.JdbcModel.UpdateField;
+import pers.linhai.nature.j2ee.core.model.JdbcModel.PersistentField;
 import pers.linhai.nature.j2ee.core.model.Where;
 import pers.linhai.nature.j2ee.core.model.Where.ConditionBean;
 
@@ -157,7 +157,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
             record.setCreateTime(new Date());
             
             // 待更新的字段集合
-            List<UpdateField> updateFieldList = new ArrayList<UpdateField>();
+            List<PersistentField> persistentFieldList = new ArrayList<PersistentField>();
 
             Object val = null;
             for (Entry<String, Field> e : fieldMap.entrySet())
@@ -166,12 +166,12 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                 {
                     continue;
                 }
-                UpdateField fv = new UpdateField();
+                PersistentField fv = new PersistentField();
                 fv.setFieldName(e.getValue().getName());
                 fv.setValue(val);
-                updateFieldList.add(fv);
+                persistentFieldList.add(fv);
             }
-            record.setUpdateFieldList(updateFieldList);
+            record.setUpdateFieldList(persistentFieldList);
 
             return sqlSessionTemplate.update(baseNamespace + ".save", record);
         }
@@ -480,10 +480,10 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
             // 刷新修改时间
             record.setUpdateTime(new Date());
 
-            if (record.getUpdateFieldList() == null)
+            if (record.getPersistentFieldList() == null)
             {
                 // 待更新的字段集合
-                List<UpdateField> updateFieldList = new ArrayList<UpdateField>();
+                List<PersistentField> persistentFieldList = new ArrayList<PersistentField>();
 
                 Object val = null;
                 for (Entry<String, Field> e : fieldMap.entrySet())
@@ -497,12 +497,12 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                         continue;
                     }
 
-                    UpdateField fv = new UpdateField();
+                    PersistentField fv = new PersistentField();
                     fv.setFieldName(e.getValue().getName());
                     fv.setValue(val);
-                    updateFieldList.add(fv);
+                    persistentFieldList.add(fv);
                 }
-                record.setUpdateFieldList(updateFieldList);
+                record.setUpdateFieldList(persistentFieldList);
             }
 
             // 如果修改条件为空
