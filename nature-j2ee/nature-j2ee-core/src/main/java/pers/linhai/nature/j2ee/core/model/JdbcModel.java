@@ -27,6 +27,13 @@ import pers.linhai.nature.j2ee.core.model.condition.Condition;
 public abstract class JdbcModel
 {
 
+    private static String dbDriverClass;
+    
+    /**
+     * 数据库驱动
+     */
+    private String driverClass;
+    
     /**
      * 查询条件集合
      */
@@ -49,6 +56,7 @@ public abstract class JdbcModel
     public JdbcModel(String tableName)
     {
         this.tableName = tableName;
+        this.driverClass = dbDriverClass;
     }
 
     /**
@@ -199,6 +207,25 @@ public abstract class JdbcModel
             }
             this.persistentFieldList = persistentFieldList;
         }
+    }
+
+    
+    /**
+     * <p>Get Method   :   driverClass String</p>
+     * @return driverClass
+     */
+    public String getDriverClass()
+    {
+        return driverClass;
+    }
+
+    /**
+     * <p>Set Method   :   dbDriverClass String</p>
+     * @param dbDriverClass
+     */
+    public static void setDbDriverClass(String dbDriverClass)
+    {
+        JdbcModel.dbDriverClass = dbDriverClass;
     }
 
     /**

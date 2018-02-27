@@ -62,7 +62,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
      */
     @Autowired
     protected SqlSessionTemplate sqlSessionTemplate;
-
+    
     /**
      * mybatis-mapper的命名空间
      */
@@ -449,7 +449,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                 continue;
             }
 
-            if ("where,tableName,persistentFieldList".contains(field.getName()))
+            if ("where,tableName,persistentFieldList,driverClass".contains(field.getName()))
             {
                 continue;
             }
