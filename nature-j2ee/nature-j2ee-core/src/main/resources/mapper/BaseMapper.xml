@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="pers.linhai.nature.j2ee.core.dao.IBaseMapper">
 
-	<!-- 公共的结果映射类型 -->
-	<resultMap id="BaseResultMap" type="java.util.HashMap" />
+    <!-- 公共的结果映射类型 -->
+    <resultMap id="BaseResultMap" type="java.util.HashMap" />
 
-	<!-- 公共动态自定义查询条件 -->
-	<sql id="Common_Where">
+    <!-- 公共动态自定义查询条件 -->
+    <sql id="Common_Where">
         <if test="where != null">
-			<where>
+            <where>
                 <foreach open=" " close=" " collection="where.expressionSegmentList" index="index" item="expressionSegment" separator=" ">
                     <choose>
                         <when test="expressionSegment.getClass().getName() == 'pers.linhai.nature.j2ee.core.model.condition.CommonCondition'.toString()">
@@ -28,87 +28,87 @@
                         </otherwise>
                     </choose>
                 </foreach>
-	        </where>
+            </where>
         </if>
-	</sql>
-	
-	<!-- 根据查询条件删除 -->
-	<delete id="delete" parameterType="pers.linhai.nature.j2ee.core.model.BaseQuery">
-        delete from ${tableName} 
-        
+    </sql>
+
+    <!-- 根据查询条件删除 -->
+    <delete id="delete" parameterType="pers.linhai.nature.j2ee.core.model.BaseQuery">
+        delete from ${tableName}
+
         <!-- 添加动态自定义查询条件 -->
         <include refid="Common_Where" />
     </delete>
-    
+
     <!-- 添加 -->
-	<insert id="save" parameterType="pers.linhai.nature.j2ee.core.model.BaseEntity" useGeneratedKeys="true" keyProperty="id">
-         insert into ${tableName} 
+    <insert id="save" parameterType="pers.linhai.nature.j2ee.core.model.BaseEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into ${tableName}
         <foreach collection="persistentFieldList" index="index" item="persistentField" open="(" separator=", " close=")">
-             ${persistentField.tableFieldName}
-         </foreach>
+            ${persistentField.tableFieldName}
+        </foreach>
         <foreach collection="persistentFieldList" index="index" item="persistentField" open="values (" separator=", " close=")">
-             #{persistentField.value, jdbcType=${persistentField.jdbcType}}
-         </foreach>
+            #{persistentField.value, jdbcType=${persistentField.jdbcType}}
+        </foreach>
     </insert>
-    
+
     <!-- 修改 -->
     <update id="update" parameterType="pers.linhai.nature.j2ee.core.model.BaseEntity">
-        update ${tableName} 
+        update ${tableName}
         <set>
-	        <foreach collection="persistentFieldList" index="index" item="persistentField" open=" " separator=", " close=" ">
-	             ${persistentField.tableFieldName} = #{persistentField.value, jdbcType=${persistentField.jdbcType}}
-	        </foreach>
+            <foreach collection="persistentFieldList" index="index" item="persistentField" open=" " separator=", " close=" ">
+                ${persistentField.tableFieldName} = #{persistentField.value, jdbcType=${persistentField.jdbcType}}
+            </foreach>
         </set>
-        
+
         <!-- 添加动态自定义条件 -->
         <include refid="Common_Where" />
     </update>
 
     <!-- 组合查询函数，支持分页功能 -->
     <select id="find" parameterType="pers.linhai.nature.j2ee.core.model.BaseQuery" resultMap="BaseResultMap">
-         select 
-         
+        select
+
         <!-- 添加需要返回的字段信息 -->
         <foreach collection="returnFieldList" index="index" item="returnField" open=" " separator=", " close=" ">
             ${returnField}
         </foreach>
-         from ${tableName} 
-        
+        from ${tableName}
+
         <!-- 添加动态自定义查询条件 -->
         <include refid="Common_Where" />
-        
+
         <!-- 添加排序字段信息 -->
         <if test="sortFieldList != null">
             <foreach collection="sortFieldList" index="index" item="orderField" open=" order by " separator=", " close=" ">
                 ${orderField.fieldName} ${orderField.direction}
             </foreach>
         </if>
-        
+
         <!-- 分页查询参数组件 -->
         <include refid="Paging_Component" />
     </select>
-    
-    <sql id="Paging_Component" >
-         <choose>
-             <when test="driverClass == 'com.mysql.jdbc.Driver'.toString()">
-                 <if test="offset != null and size != null">
-		             limit #{offset}, #{size}
-		         </if>
-             </when>
-             <when test="driverClass == 'oracle.jdbc.driver.OracleDriver'.toString()">
-             </when>
-             <otherwise>
-				<if test="offset != null and size != null">
-				    limit #{offset}, #{size}
-				</if>
-             </otherwise>
-         </choose>
+
+    <sql id="Paging_Component">
+        <choose>
+            <when test="driverClass == 'com.mysql.jdbc.Driver'.toString()">
+                <if test="offset != null and size != null">
+                    limit #{offset}, #{size}
+                </if>
+            </when>
+            <when test="driverClass == 'oracle.jdbc.driver.OracleDriver'.toString()">
+            </when>
+            <otherwise>
+                <if test="offset != null and size != null">
+                    limit #{offset}, #{size}
+                </if>
+            </otherwise>
+        </choose>
     </sql>
-    
+
     <!-- 统计数量 -->
     <select id="count" parameterType="pers.linhai.nature.j2ee.core.model.BaseQuery" resultType="java.lang.Long">
-         select count(*) from ${tableName} 
-        
+        select count(*) from ${tableName}
+
         <!-- 添加动态自定义查询条件 -->
         <include refid="Common_Where" />
     </select>
