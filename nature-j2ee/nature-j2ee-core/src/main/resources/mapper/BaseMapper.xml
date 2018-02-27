@@ -3,7 +3,7 @@
 <mapper namespace="pers.linhai.nature.j2ee.core.dao.IBaseMapper">
 
     <!-- 公共的结果映射类型 -->
-    <resultMap id="BaseResultMap" type="java.util.HashMap" />
+    <resultMap id="BaseResultMap" type="HashMap" />
 
     <!-- 公共动态自定义查询条件 -->
     <sql id="Common_Where">
@@ -31,9 +31,27 @@
             </where>
         </if>
     </sql>
+    
+    <!-- 分页组件 -->
+    <sql id="Paging_Component">
+        <choose>
+            <when test="driverClass == 'com.mysql.jdbc.Driver'.toString()">
+                <if test="offset != null and size != null">
+                    limit #{offset}, #{size}
+                </if>
+            </when>
+            <when test="driverClass == 'oracle.jdbc.OracleDriver'.toString() or driverClass == 'oracle.jdbc.driver.OracleDriver'.toString()">
+            </when>
+            <otherwise>
+                <if test="offset != null and size != null">
+                    limit #{offset}, #{size}
+                </if>
+            </otherwise>
+        </choose>
+    </sql>
 
     <!-- 根据查询条件删除 -->
-    <delete id="delete" parameterType="pers.linhai.nature.j2ee.core.model.BaseQuery">
+    <delete id="delete" parameterType="BaseQuery">
         delete from ${tableName}
 
         <!-- 添加动态自定义查询条件 -->
@@ -41,7 +59,7 @@
     </delete>
 
     <!-- 添加 -->
-    <insert id="save" parameterType="pers.linhai.nature.j2ee.core.model.BaseEntity" useGeneratedKeys="true" keyProperty="id">
+    <insert id="save" parameterType="BaseEntity" useGeneratedKeys="true" keyProperty="id">
         insert into ${tableName}
         <foreach collection="persistentFieldList" index="index" item="persistentField" open="(" separator=", " close=")">
             ${persistentField.tableFieldName}
@@ -52,7 +70,7 @@
     </insert>
 
     <!-- 修改 -->
-    <update id="update" parameterType="pers.linhai.nature.j2ee.core.model.BaseEntity">
+    <update id="update" parameterType="BaseEntity">
         update ${tableName}
         <set>
             <foreach collection="persistentFieldList" index="index" item="persistentField" open=" " separator=", " close=" ">
@@ -65,7 +83,7 @@
     </update>
 
     <!-- 组合查询函数，支持分页功能 -->
-    <select id="find" parameterType="pers.linhai.nature.j2ee.core.model.BaseQuery" resultMap="BaseResultMap">
+    <select id="find" parameterType="BaseQuery" resultMap="BaseResultMap">
         select
 
         <!-- 添加需要返回的字段信息 -->
@@ -88,25 +106,8 @@
         <include refid="Paging_Component" />
     </select>
 
-    <sql id="Paging_Component">
-        <choose>
-            <when test="driverClass == 'com.mysql.jdbc.Driver'.toString()">
-                <if test="offset != null and size != null">
-                    limit #{offset}, #{size}
-                </if>
-            </when>
-            <when test="driverClass == 'oracle.jdbc.driver.OracleDriver'.toString()">
-            </when>
-            <otherwise>
-                <if test="offset != null and size != null">
-                    limit #{offset}, #{size}
-                </if>
-            </otherwise>
-        </choose>
-    </sql>
-
     <!-- 统计数量 -->
-    <select id="count" parameterType="pers.linhai.nature.j2ee.core.model.BaseQuery" resultType="java.lang.Long">
+    <select id="count" parameterType="BaseQuery" resultType="Long">
         select count(*) from ${tableName}
 
         <!-- 添加动态自定义查询条件 -->
