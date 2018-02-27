@@ -98,7 +98,7 @@ public class EntityBean extends BaseBean
                 continue;
             }
 
-            if ("where,tableName,updateFieldList".contains(field.getName()))
+            if ("where,tableName,persistentFieldList".contains(field.getName()))
             {
                 continue;
             }

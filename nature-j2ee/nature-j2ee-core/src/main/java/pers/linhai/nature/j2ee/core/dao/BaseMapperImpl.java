@@ -449,7 +449,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                 continue;
             }
 
-            if ("where,tableName,updateFieldList".contains(field.getName()))
+            if ("where,tableName,persistentFieldList".contains(field.getName()))
             {
                 continue;
             }
