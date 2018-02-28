@@ -108,7 +108,7 @@
 
     <!-- 统计数量 -->
     <select id="count" parameterType="BaseQuery" resultType="Long">
-        select count(*) from ${tableName}
+        select count(tb.id) from ${tableName} tb
 
         <!-- 添加动态自定义查询条件 -->
         <include refid="Common_Where" />

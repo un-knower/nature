@@ -207,9 +207,7 @@ public class CodeCommentUtils
     private static void setClassCommonComment(JavaElement topLevelClass, StringBuilder sb)
     {
         topLevelClass.addJavaDocLine("/**"); //$NON-NLS-1$
-        sb.append(" * @author ");
-        sb.append(System.getProperty("user.name"));
-        sb.append(" ");
+        sb.append(" * @author nature-j2ee-code-generator ");
         topLevelClass.addJavaDocLine(sb.toString());
 
         sb = new StringBuilder();
