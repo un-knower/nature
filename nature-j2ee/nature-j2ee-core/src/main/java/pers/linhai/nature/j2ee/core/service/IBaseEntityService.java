@@ -67,6 +67,15 @@ public interface IBaseEntityService<Key extends Serializable, Entity extends Bas
     long count(EntityQuery entityQuery);
     
     /**
+     * 对某一列进行求和
+     * <p>Title         : sum lilinhai 2018年2月28日 下午6:01:21</p>
+     * @param entityQuery
+     * @return 
+     * long
+     */
+    long sum(EntityQuery entityQuery);
+    
+    /**
      * 组合查询记录，返回集合，支持分页
      * <p>Title         : query lilinhai 2018年2月7日 下午5:44:18</p>
      * @param entityQuery

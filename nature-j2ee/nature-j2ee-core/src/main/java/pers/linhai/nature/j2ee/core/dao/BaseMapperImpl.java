@@ -171,7 +171,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                 fv.setValue(val);
                 persistentFieldList.add(fv);
             }
-            record.setUpdateFieldList(persistentFieldList);
+            record.setPersistentFieldList(persistentFieldList);
 
             return sqlSessionTemplate.update(baseNamespace + ".save", record);
         }
@@ -304,13 +304,33 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
      * <p>Title: queryCount</p>
      * @param entityQuery
      * @return 
-     * @see com.meme.crm.dao.core.IBaseMapper#count(com.meme.crm.model.core.BaseQuery)
+     * @see com.meme.crm.dao.core.IBaseMapper#count
      */
     @Override
     public long count(EntityQuery entityQuery)
     {
         final AtomicLong al = new AtomicLong();
         sqlSessionTemplate.select(baseNamespace + ".count", entityQuery, new ResultHandler<Long>()
+        {
+            public void handleResult(ResultContext<? extends Long> resultContext)
+            {
+                al.set(resultContext.getResultObject());
+            }
+        });
+        return al.get();
+    }
+    
+    /** 
+     * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
+     * <p>Title: queryCount</p>
+     * @param entityQuery
+     * @return 
+     * @see com.meme.crm.dao.core.IBaseMapper#sum
+     */
+    public long sum(EntityQuery entityQuery)
+    {
+        final AtomicLong al = new AtomicLong();
+        sqlSessionTemplate.select(baseNamespace + ".sum", entityQuery, new ResultHandler<Long>()
         {
             public void handleResult(ResultContext<? extends Long> resultContext)
             {
@@ -502,7 +522,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                     fv.setValue(val);
                     persistentFieldList.add(fv);
                 }
-                record.setUpdateFieldList(persistentFieldList);
+                record.setPersistentFieldList(persistentFieldList);
             }
 
             // 如果修改条件为空

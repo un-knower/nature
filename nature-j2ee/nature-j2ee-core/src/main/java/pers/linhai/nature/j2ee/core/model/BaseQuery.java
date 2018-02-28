@@ -40,6 +40,11 @@ public abstract class BaseQuery extends JdbcModel
     private Integer size;
     
     /**
+     * 需要求和的列
+     */
+    private String sumFieldName;
+    
+    /**
      * 排序字段集合
      */
     private List<SortField> sortFieldList;
@@ -177,6 +182,25 @@ public abstract class BaseQuery extends JdbcModel
         }
     }
     
+    /**
+     * <p>Get Method   :   sumFieldName String</p>
+     * @return sumFieldName
+     */
+    public String getSumFieldName()
+    {
+        return sumFieldName;
+    }
+
+    /**
+     * <p>Set Method   :   sumFieldName String</p>
+     * @param sumFieldName
+     */
+    public void setSumFieldName(String sumFieldName)
+    {
+        validField(sumFieldName);
+        this.sumFieldName = getTableField(sumFieldName);
+    }
+
     /**
      * 排序字段对象
      * <p>ClassName      : SortField</p>

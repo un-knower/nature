@@ -194,7 +194,7 @@ public abstract class JdbcModel
      * <p>Set Method   :   updateFieldList List<FieldValue></p>
      * @param persistentFieldList
      */
-    public void setUpdateFieldList(List<PersistentField> persistentFieldList)
+    public void setPersistentFieldList(List<PersistentField> persistentFieldList)
     {
         if (persistentFieldList != null)
         {
@@ -208,7 +208,6 @@ public abstract class JdbcModel
             this.persistentFieldList = persistentFieldList;
         }
     }
-
     
     /**
      * <p>Get Method   :   driverClass String</p>
