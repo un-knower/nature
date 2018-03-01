@@ -32,9 +32,9 @@
         </if>
     </sql>
 
-    <!-- 通用的查询部分sql -->    
+    <!-- 通用的查询部分sql -->
     <sql id="Common_Find">
-         select
+        select
 
         <!-- 添加需要返回的字段信息 -->
         <foreach collection="returnFieldList" index="index" item="returnField" open=" " separator=", " close=" ">
@@ -77,7 +77,8 @@
         update ${tableName}
         <set>
             <foreach collection="persistentFieldList" index="index" item="persistentField" open=" " separator=", " close=" ">
-                ${persistentField.tableFieldName} = #{persistentField.value, jdbcType=${persistentField.jdbcType}}
+                ${persistentField.tableFieldName} = #{persistentField.value,
+                jdbcType=${persistentField.jdbcType}}
             </foreach>
         </set>
 
@@ -95,9 +96,16 @@
                 </if>
             </when>
             <when test="driverClass == 'oracle.jdbc.OracleDriver'.toString() or driverClass == 'oracle.jdbc.driver.OracleDriver'.toString()">
-                select * from ( select row_.*, rownum rownum_ from ( 
-                    <include refid="Common_Find" />
-                 ) row_ where rownum <= (${offset} + ${size})); where rownum_ > ${offset}
+                <choose>
+                    <when test="offset != null and size != null">
+                        select * from ( select row_.*, rownum rownum_ from (
+                        <include refid="Common_Find" />
+                        ) row_ where rownum <= (${offset} + ${size})); where rownum_ > ${offset}
+                    </when>
+                    <otherwise>
+                        <include refid="Common_Find" />
+                    </otherwise>
+                </choose>
             </when>
             <otherwise>
                 <include refid="Common_Find" />
@@ -115,7 +123,7 @@
         <!-- 添加动态自定义查询条件 -->
         <include refid="Common_Where" />
     </select>
-    
+
     <!-- 统计数量 -->
     <select id="sum" parameterType="BaseQuery" resultType="Long">
         select sum(tb.${sumFieldName}) from ${tableName} tb
