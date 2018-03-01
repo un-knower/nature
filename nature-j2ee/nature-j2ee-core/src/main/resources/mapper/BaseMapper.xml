@@ -31,23 +31,26 @@
             </where>
         </if>
     </sql>
-    
-    <!-- 分页组件 -->
-    <sql id="Paging_Component">
-        <choose>
-            <when test="driverClass == 'com.mysql.jdbc.Driver'.toString()">
-                <if test="offset != null and size != null">
-                    limit #{offset}, #{size}
-                </if>
-            </when>
-            <when test="driverClass == 'oracle.jdbc.OracleDriver'.toString() or driverClass == 'oracle.jdbc.driver.OracleDriver'.toString()">
-            </when>
-            <otherwise>
-                <if test="offset != null and size != null">
-                    limit #{offset}, #{size}
-                </if>
-            </otherwise>
-        </choose>
+
+    <!-- 通用的查询部分sql -->    
+    <sql id="Common_Find">
+         select
+
+        <!-- 添加需要返回的字段信息 -->
+        <foreach collection="returnFieldList" index="index" item="returnField" open=" " separator=", " close=" ">
+            ${returnField}
+        </foreach>
+        from ${tableName}
+
+        <!-- 添加动态自定义查询条件 -->
+        <include refid="Common_Where" />
+
+        <!-- 添加排序字段信息 -->
+        <if test="sortFieldList != null">
+            <foreach collection="sortFieldList" index="index" item="orderField" open=" order by " separator=", " close=" ">
+                ${orderField.fieldName} ${orderField.direction}
+            </foreach>
+        </if>
     </sql>
 
     <!-- 根据查询条件删除 -->
@@ -84,26 +87,25 @@
 
     <!-- 组合查询函数，支持分页功能 -->
     <select id="find" parameterType="BaseQuery" resultMap="BaseResultMap">
-        select
-
-        <!-- 添加需要返回的字段信息 -->
-        <foreach collection="returnFieldList" index="index" item="returnField" open=" " separator=", " close=" ">
-            ${returnField}
-        </foreach>
-        from ${tableName}
-
-        <!-- 添加动态自定义查询条件 -->
-        <include refid="Common_Where" />
-
-        <!-- 添加排序字段信息 -->
-        <if test="sortFieldList != null">
-            <foreach collection="sortFieldList" index="index" item="orderField" open=" order by " separator=", " close=" ">
-                ${orderField.fieldName} ${orderField.direction}
-            </foreach>
-        </if>
-
-        <!-- 分页查询参数组件 -->
-        <include refid="Paging_Component" />
+        <choose>
+            <when test="driverClass == 'com.mysql.jdbc.Driver'.toString()">
+                <include refid="Common_Find" />
+                <if test="offset != null and size != null">
+                    limit ${offset}, ${size}
+                </if>
+            </when>
+            <when test="driverClass == 'oracle.jdbc.OracleDriver'.toString() or driverClass == 'oracle.jdbc.driver.OracleDriver'.toString()">
+                select * from ( select row_.*, rownum rownum_ from ( 
+                    <include refid="Common_Find" />
+                 ) row_ where rownum <= (${offset} + ${size})); where rownum_ > ${offset}
+            </when>
+            <otherwise>
+                <include refid="Common_Find" />
+                <if test="offset != null and size != null">
+                    limit ${offset}, ${size}
+                </if>
+            </otherwise>
+        </choose>
     </select>
 
     <!-- 统计数量 -->
