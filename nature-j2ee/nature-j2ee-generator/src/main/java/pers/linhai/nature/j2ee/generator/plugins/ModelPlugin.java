@@ -499,7 +499,7 @@ public class ModelPlugin extends BasePlugin
         beanClass.addJavaDocLine(" * <pre>"); //$NON-NLS-1$
         beanClass.addJavaDocLine(" *    针对该实体的QueryBean封装，用于接受前端的组合查询请求参数封装。");
         beanClass.addJavaDocLine(" * ClassName: " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBean");
-        beanClass.addJavaDocLine(" * @author " + System.getProperty("user.name"));
+        beanClass.addJavaDocLine(" * @author nature-j2ee-code-generator");
         beanClass.addJavaDocLine(" * @version 1.0");
         beanClass.addJavaDocLine(" * </pre>"); //$NON-NLS-1$
         beanClass.addJavaDocLine(" */");
