@@ -65,6 +65,11 @@ public class RestResponse implements Serializable
     {
         return new RestResponse(false, code, message, null);
     }
+    
+    public static RestResponse success(int code, String massage, Object data)
+    {
+        return new RestResponse(true, 0, massage, data);
+    }
 
     public static RestResponse success(Object data)
     {
