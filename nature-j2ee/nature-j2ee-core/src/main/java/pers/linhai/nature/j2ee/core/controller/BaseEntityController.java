@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,7 +69,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * ResponseResult
      */
     @DeleteMapping("/{id}")
-    protected RestResponse delete(@PathVariable Key id)
+    protected RestResponse delete(@PathVariable Key id, HttpServletRequest request)
     {
         try
         {
@@ -95,7 +97,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * ResponseResult
      */
     @PostMapping("")
-    protected RestResponse save(@RequestBody Entity record)
+    protected RestResponse save(@RequestBody Entity record, HttpServletRequest request)
     {
         try
         {
@@ -126,7 +128,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * ResponseResult
      */
     @PutMapping("/selective/{id}")
-    protected RestResponse updateSelective(@RequestBody Entity record, @PathVariable Key id)
+    protected RestResponse updateSelective(@RequestBody Entity record, @PathVariable Key id, HttpServletRequest request)
     {
         try
         {
@@ -160,7 +162,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * ResponseResult
      */
     @PutMapping("/{id}")
-    protected RestResponse update(@RequestBody Entity record, @PathVariable Key id)
+    protected RestResponse update(@RequestBody Entity record, @PathVariable Key id, HttpServletRequest request)
     {
         try
         {
@@ -191,7 +193,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * ResponseResult
      */
     @GetMapping("/{id}")
-    protected RestResponse find(@PathVariable Key id)
+    protected RestResponse find(@PathVariable Key id, HttpServletRequest request)
     {
         try
         {
@@ -221,7 +223,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * ResponseResult
      */
     @PostMapping("/findOne")
-    protected RestResponse findOne(@RequestBody EntityQuery entityQuery)
+    protected RestResponse findOne(@RequestBody EntityQuery entityQuery, HttpServletRequest request)
     {
         try
         {
@@ -251,7 +253,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * PaginationData<EntityBean>
      */
     @PostMapping("/findByPaging")
-    protected RestResponse findByPaging(@RequestBody EntityQuery entityQuery)
+    protected RestResponse findByPaging(@RequestBody EntityQuery entityQuery, HttpServletRequest request)
     {
         try
         {
@@ -288,7 +290,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * RestResponse
      */
     @PostMapping("/find")
-    protected RestResponse find(@RequestBody EntityQuery entityQuery)
+    protected RestResponse find(@RequestBody EntityQuery entityQuery, HttpServletRequest request)
     {
         try
         {
