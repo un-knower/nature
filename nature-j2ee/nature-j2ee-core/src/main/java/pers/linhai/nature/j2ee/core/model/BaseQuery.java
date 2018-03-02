@@ -86,7 +86,7 @@ public abstract class BaseQuery extends JdbcModel
      */
     public void setPage(Integer page)
     {
-        this.page = page - 1;
+        this.page = page;
         
         if (size != null && offset == null)
         {
