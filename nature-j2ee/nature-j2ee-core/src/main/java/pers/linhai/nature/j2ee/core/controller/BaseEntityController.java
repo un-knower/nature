@@ -62,6 +62,15 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     protected void updateSelectiveEntityFilter(Entity entity) {}
     
     /**
+     * 处理request请求的通用放飞
+     * <p>Title         : doRequest lilinhai 2018年3月2日 下午9:45:08</p>
+     * <p>Description   : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
+     * @param request 
+     * void
+     */
+    protected void process(HttpServletRequest request) {};
+    
+    /**
      * 根据主键删除一个实体
      * <p>Title         : deleteByPrimaryKey lilinhai 2018年2月5日 下午11:23:58</p>
      * @param id
@@ -73,6 +82,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     {
         try
         {
+            process(request);
             int count = entityService.delete(id);
             if (count != 1)
             {
@@ -101,6 +111,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     {
         try
         {
+            process(request);
             int count = entityService.save(record);
             if (count != 1)
             {
@@ -132,6 +143,8 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     {
         try
         {
+            process(request);
+            
             //选择性修改的时候过滤掉某些字段
             updateSelectiveEntityFilter(record);
             record.setId(id);
@@ -166,6 +179,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     {
         try
         {
+            process(request);
             record.setId(id);
             int count = entityService.update(record);
             if (count != 1)
@@ -197,6 +211,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     {
         try
         {
+            process(request);
             Entity entity = entityService.find(id);
             if (entity == null)
             {
@@ -227,6 +242,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     {
         try
         {
+            process(request);
             Entity entity = entityService.findOne(entityQuery);
             if (entity == null)
             {
@@ -257,6 +273,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     {
         try
         {
+            process(request);
             PaginationData<EntityBean> pageData = new PaginationData<EntityBean>();
             int page = entityQuery.getPage() == null ? 0 : entityQuery.getPage();
             int size = entityQuery.getSize() == null ? 20 : entityQuery.getSize();
@@ -294,6 +311,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     {
         try
         {
+            process(request);
             List<Entity> entityList = entityService.find(entityQuery);
             if (entityList == null)
             {
