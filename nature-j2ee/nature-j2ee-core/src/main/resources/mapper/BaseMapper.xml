@@ -96,16 +96,13 @@
                 </if>
             </when>
             <when test="driverClass == 'oracle.jdbc.OracleDriver'.toString() or driverClass == 'oracle.jdbc.driver.OracleDriver'.toString()">
-                <choose>
-                    <when test="offset != null and size != null">
-                        select * from ( select row_.*, rownum rownum_ from (
-                        <include refid="Common_Find" />
-                        ) row_ where rownum &lt;= (${offset} + ${size})) where rownum_ > ${offset}
-                    </when>
-                    <otherwise>
-                        <include refid="Common_Find" />
-                    </otherwise>
-                </choose>
+                <if test="offset != null and size != null">
+                    select * from ( select row_.*, rownum rownum_ from (
+                </if>
+                <include refid="Common_Find" />
+                <if test="offset != null and size != null">
+                    ) row_ where rownum &lt;= (${offset} + ${size})) where rownum_ > ${offset}
+                </if>
             </when>
             <otherwise>
                 <include refid="Common_Find" />
