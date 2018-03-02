@@ -101,7 +101,9 @@
                 </if>
                 <include refid="Common_Find" />
                 <if test="offset != null and size != null">
-                    ) row_ where rownum &lt;= (${offset} + ${size})) where rownum_ > ${offset}
+                    <![CDATA[
+                        ) row_ where rownum <= (${offset} + ${size})) where rownum_ > ${offset}
+                    ]]>
                 </if>
             </when>
             <otherwise>
