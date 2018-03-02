@@ -277,6 +277,14 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
             PaginationData<EntityBean> pageData = new PaginationData<EntityBean>();
             int page = entityQuery.getPage() == null ? 0 : entityQuery.getPage();
             int size = entityQuery.getSize() == null ? 20 : entityQuery.getSize();
+            if (entityQuery.getPage() == null)
+            {
+                entityQuery.setPage(page);
+            }
+            if (entityQuery.getSize() == null)
+            {
+                entityQuery.setSize(size);
+            }
             pageData.setPage(page);
             pageData.setSize(size);
             pageData.setTotal(entityService.count(entityQuery));

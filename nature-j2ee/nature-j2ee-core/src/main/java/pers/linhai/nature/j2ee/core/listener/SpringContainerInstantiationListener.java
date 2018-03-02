@@ -49,7 +49,7 @@ public class SpringContainerInstantiationListener implements ApplicationListener
      */ 
     public void onApplicationEvent(ContextRefreshedEvent event)
     {
-        JdbcModel.setDbDriverClass(driverClassName);
+        JdbcModel.setDriverClass(driverClassName);
         Map<RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping.getHandlerMethods();
         for (Entry<RequestMappingInfo, HandlerMethod> e : map.entrySet())
         {
