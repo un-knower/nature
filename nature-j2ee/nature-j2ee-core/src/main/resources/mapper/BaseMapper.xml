@@ -100,7 +100,7 @@
                     <when test="offset != null and size != null">
                         select * from ( select row_.*, rownum rownum_ from (
                         <include refid="Common_Find" />
-                        ) row_ where rownum &lt;= (${offset} + ${size})); where rownum_ > ${offset}
+                        ) row_ where rownum &lt;= (${offset} + ${size})) where rownum_ > ${offset}
                     </when>
                     <otherwise>
                         <include refid="Common_Find" />
