@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -20,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-
-import com.alibaba.druid.pool.DruidAbstractDataSource;
 
 import pers.linhai.nature.j2ee.core.cache.RequestMappingCache;
 import pers.linhai.nature.j2ee.core.model.JdbcModel;
@@ -39,8 +38,8 @@ public class SpringContainerInstantiationListener implements ApplicationListener
     @Autowired
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
     
-    @Autowired
-    private DruidAbstractDataSource dataSource;
+    @Value("${spring.datasource.driver-class-name}")
+    private String driverClassName;
     
     /** 
      * <p>Overriding Method: lilinhai 2018年1月24日 上午10:06:03</p>
@@ -50,7 +49,7 @@ public class SpringContainerInstantiationListener implements ApplicationListener
      */ 
     public void onApplicationEvent(ContextRefreshedEvent event)
     {
-        JdbcModel.setDbDriverClass(dataSource.getDriverClassName());
+        JdbcModel.setDbDriverClass(driverClassName);
         Map<RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping.getHandlerMethods();
         for (Entry<RequestMappingInfo, HandlerMethod> e : map.entrySet())
         {
