@@ -183,6 +183,7 @@
         <module>nature-indexaccess-log4jappender</module>
         <module>nature-indexaccess-spring</module>
         <module>nature-core</module>
+        <module>nature-j2ee</module>
   </modules>
 
     <!-- 公共插件定义 -->

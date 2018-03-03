@@ -10,7 +10,10 @@
     <version>1.0.0-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
-
+    <modules>
+        <module>nature-j2ee-core</module>
+        <module>nature-j2ee-generator</module>
+    </modules>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
