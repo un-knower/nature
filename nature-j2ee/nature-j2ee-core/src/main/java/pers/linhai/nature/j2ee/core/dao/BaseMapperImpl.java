@@ -442,9 +442,40 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
      * @param params
      * void
      */
+    public List<Entity> execFind(String statment, Object params)
+    {
+        CustomEntityProcessor<Entity> entityProcessor = new CustomEntityProcessor<Entity>();
+        execFind(statment, params, entityProcessor);
+        return entityProcessor.getEntityList();
+    }
+    
+    /**
+     * 调用自己写的statment sql语句
+     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
+     * @param statment
+     * @param params
+     * void
+     */
     public <T> T execGet(String statment, Object params, Class<T> clazz)
     {
         List<T> el = execFind(statment, params, clazz);
+        if (el != null && !el.isEmpty())
+        {
+            return el.get(0);
+        }
+        return null;
+    }
+    
+    /**
+     * 调用自己写的statment sql语句
+     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
+     * @param statment
+     * @param params
+     * void
+     */
+    public Entity execGet(String statment, Object params)
+    {
+        List<Entity> el = execFind(statment, params);
         if (el != null && !el.isEmpty())
         {
             return el.get(0);
