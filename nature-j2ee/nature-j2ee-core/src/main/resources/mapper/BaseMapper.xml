@@ -89,13 +89,13 @@
     <!-- 组合查询函数，支持分页功能 -->
     <select id="find" parameterType="BaseQuery" resultMap="BaseResultMap">
         <choose>
-            <when test="@pers.linhai.nature.j2ee.core.model.JdbcModel@getDriverClass() == 'com.mysql.jdbc.Driver'.toString()">
+            <when test="@pers.linhai.nature.j2ee.core.model.DatabaseType@isMySQL()">
                 <include refid="Common_Find" />
                 <if test="offset != null and size != null">
                     limit ${offset}, ${size}
                 </if>
             </when>
-            <when test="@pers.linhai.nature.j2ee.core.model.JdbcModel@getDriverClass() == 'oracle.jdbc.OracleDriver'.toString() or @pers.linhai.nature.j2ee.core.model.JdbcModel@getDriverClass() == 'oracle.jdbc.driver.OracleDriver'.toString()">
+            <when test="@pers.linhai.nature.j2ee.core.model.DatabaseType@isOracle()">
                 <if test="offset != null and size != null">
                     select * from ( select row_.*, rownum rownum_ from (
                 </if>

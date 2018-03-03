@@ -12,8 +12,9 @@ package pers.linhai.nature.j2ee.core.listener;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import pers.linhai.nature.j2ee.core.cache.RequestMappingCache;
-import pers.linhai.nature.j2ee.core.model.JdbcModel;
+import pers.linhai.nature.j2ee.core.model.DatabaseType;
 
 /**
  * spring容器初始化完成监听器
@@ -38,8 +39,8 @@ public class SpringContainerInstantiationListener implements ApplicationListener
     @Autowired
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
     
-    @Value("${spring.datasource.driver-class-name}")
-    private String driverClassName;
+    @Autowired
+    private DataSource datasource;
     
     /** 
      * <p>Overriding Method: lilinhai 2018年1月24日 上午10:06:03</p>
@@ -49,17 +50,24 @@ public class SpringContainerInstantiationListener implements ApplicationListener
      */ 
     public void onApplicationEvent(ContextRefreshedEvent event)
     {
-        JdbcModel.setDriverClass(driverClassName);
-        Map<RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping.getHandlerMethods();
-        for (Entry<RequestMappingInfo, HandlerMethod> e : map.entrySet())
+        try
         {
-            for (RequestMethod rm : e.getKey().getMethodsCondition().getMethods())
+            DatabaseType.initialize(datasource.getConnection().getMetaData().getDatabaseProductName());
+            Map<RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping.getHandlerMethods();
+            for (Entry<RequestMappingInfo, HandlerMethod> e : map.entrySet())
             {
-                for (String path : e.getKey().getPatternsCondition().getPatterns())
+                for (RequestMethod rm : e.getKey().getMethodsCondition().getMethods())
                 {
-                    RequestMappingCache.put(e.getValue(), rm.name() + "_" +  path);
+                    for (String path : e.getKey().getPatternsCondition().getPatterns())
+                    {
+                        RequestMappingCache.put(e.getValue(), rm.name() + "_" +  path);
+                    }
                 }
             }
+        }
+        catch (Throwable e1)
+        {
+            e1.printStackTrace();
         }
     }
     
