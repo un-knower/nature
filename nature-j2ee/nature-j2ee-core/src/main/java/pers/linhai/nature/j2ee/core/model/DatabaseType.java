@@ -55,6 +55,10 @@ public class DatabaseType
         {
             isSqlServer = true;
         }
+        else
+        {
+            isMySQL = true;
+        }
     }
 
     /**
