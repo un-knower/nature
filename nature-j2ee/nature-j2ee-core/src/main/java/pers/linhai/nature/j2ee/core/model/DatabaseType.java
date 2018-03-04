@@ -43,15 +43,16 @@ public class DatabaseType
      */
     public static void initialize(String databaseProductName)
     {
-        if (databaseProductName.toLowerCase(Locale.ENGLISH).contains("mysql"))
+        databaseProductName = databaseProductName.toLowerCase(Locale.ENGLISH);
+        if (databaseProductName.contains("mysql"))
         {
             isMySQL = true;
         }
-        else if (databaseProductName.toLowerCase(Locale.ENGLISH).contains("oracle"))
+        else if (databaseProductName.contains("oracle"))
         {
             isOracle = true;
         }
-        else if (databaseProductName.toLowerCase(Locale.ENGLISH).contains("sqlserver"))
+        else if (databaseProductName.contains("sqlserver"))
         {
             isSqlServer = true;
         }
