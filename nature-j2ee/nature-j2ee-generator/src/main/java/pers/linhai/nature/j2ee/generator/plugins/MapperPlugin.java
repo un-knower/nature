@@ -17,8 +17,8 @@ import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 
-import pers.linhai.nature.j2ee.core.dao.BaseMapperImpl;
 import pers.linhai.nature.j2ee.generator.core.api.CommentGenerator;
+import pers.linhai.nature.j2ee.generator.core.api.CoreClassImportConstant;
 import pers.linhai.nature.j2ee.generator.core.api.GeneratedJavaFile;
 import pers.linhai.nature.j2ee.generator.core.api.IntrospectedTable;
 import pers.linhai.nature.j2ee.generator.core.api.dom.DefaultJavaFormatter;
@@ -74,7 +74,7 @@ public class MapperPlugin extends BasePlugin
     public boolean clientGenerated(Interface interfaze, TopLevelClass topLevelClass, IntrospectedTable introspectedTable)
     {
         CodeCommentUtils.addMapperInterfaceComment(interfaze, introspectedTable);
-        interfaze.addImportedType(new FullyQualifiedJavaType("pers.linhai.nature.j2ee.core.dao.IBaseMapper"));
+        interfaze.addImportedType(new FullyQualifiedJavaType(CoreClassImportConstant.IBASE_MAPPER_CLASS));
         interfaze.addImportedType(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"));
         //interfaze.addAnnotation("@Mapper");
         String keyType = introspectedTable.getPrimaryKeyColumns().get(0).getFullyQualifiedJavaType().getShortName();
@@ -132,7 +132,7 @@ public class MapperPlugin extends BasePlugin
         mapperImpl.setVisibility(JavaVisibility.PUBLIC);
         
         // 添加需要依赖的类
-        mapperImpl.addImportedType(new FullyQualifiedJavaType(BaseMapperImpl.class.getName()));
+        mapperImpl.addImportedType(new FullyQualifiedJavaType(CoreClassImportConstant.BASE_MAPPER_IMPL_CLASS));
         mapperImpl.addImportedType(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()));
         mapperImpl.addImportedType(new FullyQualifiedJavaType(Repository.class.getName()));
         mapperImpl.addImportedType(new FullyQualifiedJavaType(getTargetPackae("dao", "mapper") + ".I" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Mapper"));

@@ -15,9 +15,8 @@ import java.util.Properties;
 
 import org.springframework.stereotype.Service;
 
-import pers.linhai.nature.j2ee.core.service.BaseEntityServiceImpl;
-import pers.linhai.nature.j2ee.core.service.IBaseEntityService;
 import pers.linhai.nature.j2ee.generator.core.api.CommentGenerator;
+import pers.linhai.nature.j2ee.generator.core.api.CoreClassImportConstant;
 import pers.linhai.nature.j2ee.generator.core.api.GeneratedJavaFile;
 import pers.linhai.nature.j2ee.generator.core.api.IntrospectedTable;
 import pers.linhai.nature.j2ee.generator.core.api.dom.DefaultJavaFormatter;
@@ -83,7 +82,7 @@ public class ServicePlugin extends BasePlugin
         // 添加需要依赖的类
         serviceImpl.addImportedType(new FullyQualifiedJavaType(Service.class.getName()));
         serviceImpl.addImportedType(new FullyQualifiedJavaType(getTargetPackae("interfaces") + ".I" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Service"));
-        serviceImpl.addImportedType(new FullyQualifiedJavaType(BaseEntityServiceImpl.class.getName()));
+        serviceImpl.addImportedType(new FullyQualifiedJavaType(CoreClassImportConstant.BASE_ENTITY_SERVICE_IMPL_CLASS));
         serviceImpl.addImportedType(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()));
         serviceImpl.addImportedType(new FullyQualifiedJavaType(getTargetPackae("dao", "mapper") + ".I" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Mapper"));
         serviceImpl.addImportedType(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"));
@@ -122,7 +121,7 @@ public class ServicePlugin extends BasePlugin
         serviceInterface.setVisibility(JavaVisibility.PUBLIC);
         
         // 添加需要依赖的类
-        serviceInterface.addImportedType(new FullyQualifiedJavaType(IBaseEntityService.class.getName()));
+        serviceInterface.addImportedType(new FullyQualifiedJavaType(CoreClassImportConstant.IBASE_ENTITY_SERVICE_CLASS));
         serviceInterface.addImportedType(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"));
         serviceInterface.addImportedType(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()));
         

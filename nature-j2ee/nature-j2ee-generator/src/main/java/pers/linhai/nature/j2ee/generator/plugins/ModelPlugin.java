@@ -21,6 +21,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import pers.linhai.nature.j2ee.core.exception.IllegalFieldException;
+import pers.linhai.nature.j2ee.generator.core.api.CoreClassImportConstant;
 import pers.linhai.nature.j2ee.generator.core.api.GeneratedJavaFile;
 import pers.linhai.nature.j2ee.generator.core.api.IntrospectedColumn;
 import pers.linhai.nature.j2ee.generator.core.api.IntrospectedTable;
@@ -156,7 +157,7 @@ public class ModelPlugin extends BasePlugin
      */
     public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable)
     {
-        topLevelClass.addImportedType(new FullyQualifiedJavaType("pers.linhai.nature.j2ee.core.model.BaseEntity"));
+        topLevelClass.addImportedType(new FullyQualifiedJavaType(CoreClassImportConstant.BASE_ENTITY_CLASS));
         topLevelClass.addImportedType(IllegalFieldException.class.getName());
         topLevelClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("enumer") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum"));
         
@@ -478,7 +479,7 @@ public class ModelPlugin extends BasePlugin
         beanClass.setVisibility(JavaVisibility.PUBLIC);
         
         // 添加需要依赖的类
-        beanClass.addImportedType("pers.linhai.nature.j2ee.core.model.BaseQuery");
+        beanClass.addImportedType(CoreClassImportConstant.BASE_QUERY_CLASS);
         beanClass.addImportedType(new FullyQualifiedJavaType(List.class.getName()));
         beanClass.addImportedType(IllegalFieldException.class.getName());
         beanClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("enumer") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum"));
