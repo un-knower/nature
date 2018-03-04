@@ -17,7 +17,7 @@ import java.util.Locale;
  * @author lilinhai 2018年3月3日 上午10:38:01
  * @version 1.0
  */
-public class DatabaseType
+public abstract class DatabaseType
 {
 
     /**
