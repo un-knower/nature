@@ -17,7 +17,7 @@ package pers.linhai.nature.j2ee.generator.core.api;
 public interface CoreClassImportConstant
 {
 
-    String BASE_ENTITY_CONTROLLER_CLASS = "pers" + "." + "linhai" + "." + "nature" + "." + "j2ee" + "." + "core" + "." + "controller" + "." + "Base" + "Entity" + "Controller";
+    String BASE_ENTITY_CONTROLLER_CLASS = "pers" + "." + "linhai" + "." + "nature" + "." + "j2ee" + "." + "core" + ".web." + "controller" + "." + "Base" + "Entity" + "Controller";
 
     String IBASE_MAPPER_CLASS = "pers" + "." + "linhai" + "." + "nature" + "." + "j2ee" + "." + "core" + "." + "dao" + "." + "IBase" + "Mapper";
 
