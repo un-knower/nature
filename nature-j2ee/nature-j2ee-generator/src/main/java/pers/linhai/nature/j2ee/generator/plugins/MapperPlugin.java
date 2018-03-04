@@ -18,7 +18,6 @@ import java.util.Set;
 import org.springframework.stereotype.Repository;
 
 import pers.linhai.nature.j2ee.core.dao.BaseMapperImpl;
-import pers.linhai.nature.j2ee.core.dao.IBaseMapper;
 import pers.linhai.nature.j2ee.generator.core.api.CommentGenerator;
 import pers.linhai.nature.j2ee.generator.core.api.GeneratedJavaFile;
 import pers.linhai.nature.j2ee.generator.core.api.IntrospectedTable;
@@ -75,7 +74,7 @@ public class MapperPlugin extends BasePlugin
     public boolean clientGenerated(Interface interfaze, TopLevelClass topLevelClass, IntrospectedTable introspectedTable)
     {
         CodeCommentUtils.addMapperInterfaceComment(interfaze, introspectedTable);
-        interfaze.addImportedType(new FullyQualifiedJavaType(IBaseMapper.class.getName()));
+        interfaze.addImportedType(new FullyQualifiedJavaType("pers.linhai.nature.j2ee.core.dao.IBaseMapper"));
         interfaze.addImportedType(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"));
         //interfaze.addAnnotation("@Mapper");
         String keyType = introspectedTable.getPrimaryKeyColumns().get(0).getFullyQualifiedJavaType().getShortName();

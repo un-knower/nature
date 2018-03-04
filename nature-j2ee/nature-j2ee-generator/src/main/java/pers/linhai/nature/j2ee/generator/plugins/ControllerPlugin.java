@@ -16,7 +16,6 @@ import java.util.Properties;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import pers.linhai.nature.j2ee.core.controller.BaseEntityController;
 import pers.linhai.nature.j2ee.generator.core.api.CommentGenerator;
 import pers.linhai.nature.j2ee.generator.core.api.GeneratedJavaFile;
 import pers.linhai.nature.j2ee.generator.core.api.IntrospectedTable;
@@ -82,7 +81,7 @@ public class ControllerPlugin extends BasePlugin
         controllerClass.addImportedType(new FullyQualifiedJavaType(RequestMapping.class.getName()));
         controllerClass.addImportedType(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()));
         controllerClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"));
-        controllerClass.addImportedType(new FullyQualifiedJavaType(BaseEntityController.class.getName()));
+        controllerClass.addImportedType(new FullyQualifiedJavaType("pers.linhai.nature.j2ee.core.controller.BaseEntityController"));
         controllerClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("service", "interfaces") + ".I" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Service"));
         
         // 添加范型继承关系BaseService
