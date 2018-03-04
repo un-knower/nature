@@ -23,8 +23,8 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import pers.linhai.nature.j2ee.core.cache.RequestMappingCache;
 import pers.linhai.nature.j2ee.core.model.DatabaseType;
+import pers.linhai.nature.j2ee.core.web.cache.RequestMappingCache;
 
 /**
  * spring容器初始化完成监听器

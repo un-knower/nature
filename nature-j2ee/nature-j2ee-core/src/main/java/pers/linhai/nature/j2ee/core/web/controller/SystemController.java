@@ -7,13 +7,13 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.j2ee.core.controller;
+package pers.linhai.nature.j2ee.core.web.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import pers.linhai.nature.j2ee.core.controller.SystemInfo.MemoryInfo;
+import pers.linhai.nature.j2ee.core.web.controller.SystemInfo.MemoryInfo;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>

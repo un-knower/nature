@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.j2ee.core.controller;
+package pers.linhai.nature.j2ee.core.web.controller;
 
 /**
  * <p>ClassName      : RestErrorCode</p>

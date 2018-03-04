@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.j2ee.core.cache;
+package pers.linhai.nature.j2ee.core.web.cache;
 
 import java.util.HashMap;
 import java.util.HashSet;
