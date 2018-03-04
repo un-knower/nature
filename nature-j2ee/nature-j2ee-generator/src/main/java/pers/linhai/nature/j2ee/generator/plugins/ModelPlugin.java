@@ -21,7 +21,6 @@ import java.util.Properties;
 import java.util.Set;
 
 import pers.linhai.nature.j2ee.core.exception.IllegalFieldException;
-import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.generator.core.api.GeneratedJavaFile;
 import pers.linhai.nature.j2ee.generator.core.api.IntrospectedColumn;
 import pers.linhai.nature.j2ee.generator.core.api.IntrospectedTable;
