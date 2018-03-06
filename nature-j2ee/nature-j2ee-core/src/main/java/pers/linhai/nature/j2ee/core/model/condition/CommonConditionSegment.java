@@ -9,7 +9,7 @@
 
 package pers.linhai.nature.j2ee.core.model.condition;
 
-import pers.linhai.nature.j2ee.core.model.Where.ConditionBean;
+import pers.linhai.nature.j2ee.core.model.Where.Condition;
 import pers.linhai.nature.j2ee.core.model.datatype.DataType;
 
 /**
@@ -18,22 +18,23 @@ import pers.linhai.nature.j2ee.core.model.datatype.DataType;
  * @author lilinhai 2018年2月15日 下午3:40:59
  * @version 1.0
  */
-public class CommonCondition extends Condition
+public class CommonConditionSegment extends ConditionSegment
 {
 
     /**
      * 查询字段的值
      */
     private Object value;
-
+    
     /**
      * <p>Title        : CommonCondition lilinhai 2018年2月15日 下午4:23:59</p>
      * @param fieldName 
      */ 
-    public CommonCondition(ConditionBean conditionTemp)
+    public CommonConditionSegment(Condition conditionTemp)
     {
         super(conditionTemp);
         setValue(conditionTemp.getValue());
+        this.type = 1;
     }
 
     /**

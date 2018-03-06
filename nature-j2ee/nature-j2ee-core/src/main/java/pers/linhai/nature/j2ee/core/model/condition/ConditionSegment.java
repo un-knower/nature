@@ -16,7 +16,7 @@ import java.util.Map;
 
 import pers.linhai.nature.j2ee.core.exception.ConditionFormatException;
 import pers.linhai.nature.j2ee.core.exception.IllegalOperatorException;
-import pers.linhai.nature.j2ee.core.model.Where.ConditionBean;
+import pers.linhai.nature.j2ee.core.model.Where.Condition;
 
 /**
  * 抽象查询条件
@@ -24,17 +24,17 @@ import pers.linhai.nature.j2ee.core.model.Where.ConditionBean;
  * @author lilinhai 2018年2月15日 下午3:39:28
  * @version 1.0
  */
-public abstract class Condition
+public abstract class ConditionSegment
 {
 
-    private static final Map<String, Constructor<? extends Condition>> CONDITION_MAP = new HashMap<String, Constructor<? extends Condition>>();
+    private static final Map<String, Constructor<? extends ConditionSegment>> CONDITION_MAP = new HashMap<String, Constructor<? extends ConditionSegment>>();
     static
     {
         try
         {
             // 普通条件
-            Class<CommonCondition> commonConditionClass = CommonCondition.class;
-            Constructor<CommonCondition> commonConditionConstructor = commonConditionClass.getConstructor(ConditionBean.class);
+            Class<CommonConditionSegment> commonConditionClass = CommonConditionSegment.class;
+            Constructor<CommonConditionSegment> commonConditionConstructor = commonConditionClass.getConstructor(Condition.class);
             commonConditionConstructor.setAccessible(true);
             
             CONDITION_MAP.put("<>", commonConditionConstructor);
@@ -46,15 +46,15 @@ public abstract class Condition
             CONDITION_MAP.put("like", commonConditionConstructor);
             
             // in/not in条件
-            Class<InCondition> inConditionClass = InCondition.class;
-            Constructor<InCondition> inConditionConstructor = inConditionClass.getConstructor(ConditionBean.class);
+            Class<InConditionSegment> inConditionClass = InConditionSegment.class;
+            Constructor<InConditionSegment> inConditionConstructor = inConditionClass.getConstructor(Condition.class);
             inConditionConstructor.setAccessible(true);
             CONDITION_MAP.put("in", inConditionConstructor);
             CONDITION_MAP.put("not in", inConditionConstructor);
             
             // is null/is not null条件
-            Class<NullValueCondition> nullValueConditionClass = NullValueCondition.class;
-            Constructor<NullValueCondition> nullValueConditionConstructor = nullValueConditionClass.getConstructor(ConditionBean.class);
+            Class<NullValueConditionSegment> nullValueConditionClass = NullValueConditionSegment.class;
+            Constructor<NullValueConditionSegment> nullValueConditionConstructor = nullValueConditionClass.getConstructor(Condition.class);
             nullValueConditionConstructor.setAccessible(true);
             CONDITION_MAP.put("is null", nullValueConditionConstructor);
             CONDITION_MAP.put("is not null", nullValueConditionConstructor);
@@ -64,6 +64,8 @@ public abstract class Condition
             e.printStackTrace();
         }
     }
+    
+    protected int type;
     
     /**
      * 子查询条件ID
@@ -89,12 +91,17 @@ public abstract class Condition
      * <p>Title        : Condition lilinhai 2018年2月15日 下午4:20:57</p>
      * @param fieldName 
      */ 
-    public Condition(ConditionBean conditionTemp)
+    protected ConditionSegment(Condition conditionTemp)
     {
         this.fieldName = conditionTemp.getFieldName();
         setId(conditionTemp.getId());
         setJdbcType(conditionTemp.getJdbcType());
         setOperator(conditionTemp.getOperator());
+    }
+    
+    protected ConditionSegment()
+    {
+        
     }
 
     /**
@@ -160,7 +167,16 @@ public abstract class Condition
         return fieldName;
     }
     
-    public static Condition parse(ConditionBean conditionBean)
+    /**
+     * <p>Get Method   :   type int</p>
+     * @return type
+     */
+    public int getType()
+    {
+        return type;
+    }
+
+    public static ConditionSegment parse(Condition conditionBean)
     {
         if (conditionBean.getOperator() == null)
         {
@@ -168,7 +184,7 @@ public abstract class Condition
         }
         
         String operator = conditionBean.getOperator().toLowerCase(Locale.ENGLISH);
-        Constructor<? extends Condition> conditionConstructor = CONDITION_MAP.get(operator);
+        Constructor<? extends ConditionSegment> conditionConstructor = CONDITION_MAP.get(operator);
         if (conditionConstructor == null)
         {
             throw new IllegalOperatorException("Exist an illegal-operator: " + conditionBean.getOperator());

@@ -13,9 +13,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>ClassName      : EntityBean</p>
@@ -23,7 +21,7 @@ import java.util.Map;
  * @version 1.0
  */
 @SuppressWarnings("rawtypes")
-public class EntityBean extends BaseBean
+public class EntityBean extends ModelBean
 {
 
     /**
@@ -31,7 +29,6 @@ public class EntityBean extends BaseBean
      */
     private static final long serialVersionUID = 1L;
     
-    private static final Map<Class<? extends BaseEntity>, List<Field>> ENTITY_FIELD_MAP = new HashMap<Class<? extends BaseEntity>, List<Field>>();
     private static final List<Field> FIELD_LIST = new ArrayList<Field>();
     static
     {
@@ -45,13 +42,9 @@ public class EntityBean extends BaseBean
      */
     public <Entity extends BaseEntity> EntityBean(Entity entity)
     {
+        super(entity);
         try
         {
-            List<Field> fieldList = parse(entity);
-            for (Field field : fieldList)
-            {
-                putAttribute(field.getName(), (Serializable)(field.get(entity)));
-            }
             for (Field field : FIELD_LIST)
             {
                 putAttribute(field.getName(), (Serializable)(field.get(entity)));
@@ -61,24 +54,6 @@ public class EntityBean extends BaseBean
         {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * <p>Title         : g lilinhai 2018年2月21日 上午9:00:10</p>
-     * @param entity
-     * @return 
-     * List<Field> 
-     */ 
-    private <Entity extends BaseEntity> List<Field> parse(Entity entity)
-    {
-        List<Field> fieldList = ENTITY_FIELD_MAP.get(entity.getClass());
-        if (fieldList == null)
-        {
-            fieldList = new ArrayList<Field>(); 
-            parse(entity.getClass().getDeclaredFields(), fieldList);
-            ENTITY_FIELD_MAP.put(entity.getClass(), fieldList);
-        }
-        return fieldList;
     }
 
     /**
@@ -98,7 +73,7 @@ public class EntityBean extends BaseBean
                 continue;
             }
 
-            if ("where,tableName,persistentFieldList,driverClass".contains(field.getName()))
+            if (",persistentFieldList,".contains(field.getName()))
             {
                 continue;
             }

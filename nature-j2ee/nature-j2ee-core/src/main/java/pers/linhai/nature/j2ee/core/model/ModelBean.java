@@ -59,7 +59,7 @@ public class ModelBean extends BaseBean
      * @return 
      * List<Field> 
      */ 
-    private List<Field> parse(Object object)
+    protected List<Field> parse(Object object)
     {
         List<Field> fieldList = ENTITY_FIELD_MAP.get(object.getClass());
         if (fieldList == null)

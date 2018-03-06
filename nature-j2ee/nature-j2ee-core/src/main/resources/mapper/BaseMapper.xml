@@ -9,22 +9,25 @@
     <sql id="Common_Where">
         <if test="where != null">
             <where>
-                <foreach open=" " close=" " collection="where.expressionSegmentList" index="index" item="expressionSegment" separator=" ">
+                <foreach open=" " close=" " collection="where.conditionSegmentList" index="index" item="conditionSegment" separator=" ">
                     <choose>
-                        <when test="expressionSegment.getClass().getName() == 'pers.linhai.nature.j2ee.core.model.condition.CommonCondition'.toString()">
-                            ${expressionSegment.fieldName} ${expressionSegment.operator} #{expressionSegment.value, jdbcType=${expressionSegment.jdbcType}}
+                        <when test="conditionSegment.type == 1">
+                            ${conditionSegment.fieldName} ${conditionSegment.operator} #{conditionSegment.value, jdbcType=${conditionSegment.jdbcType}}
                         </when>
-                        <when test="expressionSegment.getClass().getName() == 'pers.linhai.nature.j2ee.core.model.condition.InCondition'.toString()">
-                            ${expressionSegment.fieldName} ${expressionSegment.operator}
-                            <foreach collection="expressionSegment.valueList" index="index" item="value" open="(" separator=", " close=")">
-                                #{value, jdbcType=${expressionSegment.jdbcType}}
+                        <when test="conditionSegment.type == 2">
+                            ${conditionSegment.fieldName} ${conditionSegment.operator}
+                            <foreach collection="conditionSegment.valueList" index="index" item="value" open="(" separator=", " close=")">
+                                #{value, jdbcType=${conditionSegment.jdbcType}}
                             </foreach>
                         </when>
-                        <when test="expressionSegment.getClass().getName() == 'pers.linhai.nature.j2ee.core.model.condition.NullValueCondition'.toString()">
-                            ${expressionSegment.fieldName} ${expressionSegment.operator}
+                        <when test="conditionSegment.type == 3">
+                            ${conditionSegment.fieldName} ${conditionSegment.operator}
+                        </when>
+                        <when test="conditionSegment.type == 4">
+                            ${conditionSegment.segment}
                         </when>
                         <otherwise>
-                            ${expressionSegment}
+                            ${conditionSegment.segment}
                         </otherwise>
                     </choose>
                 </foreach>

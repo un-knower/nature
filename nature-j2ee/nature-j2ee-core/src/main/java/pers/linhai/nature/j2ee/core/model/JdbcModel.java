@@ -15,9 +15,9 @@ import java.util.Map;
 
 import pers.linhai.nature.j2ee.core.exception.ConditionFormatException;
 import pers.linhai.nature.j2ee.core.exception.ConditionIsNullException;
-import pers.linhai.nature.j2ee.core.model.Where.ConditionBean;
+import pers.linhai.nature.j2ee.core.model.Where.Condition;
 import pers.linhai.nature.j2ee.core.model.Where.LogicalOperator;
-import pers.linhai.nature.j2ee.core.model.condition.Condition;
+import pers.linhai.nature.j2ee.core.model.condition.ConditionSegment;
 
 /**
  * <p>ClassName      : IBaseJdbc</p>
@@ -36,11 +36,6 @@ public abstract class JdbcModel
      * 数据库表名
      */
     private String tableName;
-    
-    /**
-     * 待更新的字段的值的集合
-     */
-    private List<PersistentField> persistentFieldList;
     
     /**
      * <p>Title        : JdbcFunctionModel lilinhai 2018年2月15日 上午9:09:43</p>
@@ -101,17 +96,17 @@ public abstract class JdbcModel
      */
     public void setWhere(Where where)
     {
-        List<ConditionBean> conditionTempList = where.getConditionList();
+        List<Condition> conditionTempList = where.getConditionList();
         if(conditionTempList == null || conditionTempList.isEmpty())
         {
             throw new ConditionIsNullException("Where-Condition can't be empty.");
         }
         
         // 条件集合
-        Map<String, Condition> conditionMap = new HashMap<String, Condition>();
+        Map<String, ConditionSegment> conditionMap = new HashMap<String, ConditionSegment>();
         StringBuilder expressionBuff = null;
         int i = 0;
-        for (ConditionBean conditionTemp : conditionTempList)
+        for (Condition conditionTemp : conditionTempList)
         {
             // 校验字段名
             validField(conditionTemp.getFieldName());
@@ -148,10 +143,10 @@ public abstract class JdbcModel
             conditionTemp.setFieldName(getTableField(conditionTemp.getFieldName()));
             
             // 解析封装成Condition对象
-            Condition condition = Condition.parse(conditionTemp);
+            ConditionSegment condition = ConditionSegment.parse(conditionTemp);
             
             // 存入hashMap集合中，方便快速读取
-            Condition last = conditionMap.put(condition.getId(), condition);
+            ConditionSegment last = conditionMap.put(condition.getId(), condition);
             if (last != null)
             {
                 throw new ConditionFormatException("Condition ID repeats, fieldName:" + conditionTemp.getFieldName() + ", id:" + conditionTemp.getId());
@@ -171,34 +166,6 @@ public abstract class JdbcModel
         where.parseExpression(conditionMap);
         
         this.where = where;
-    }
-
-    /**
-     * <p>Get Method   :   persistentFieldList List<FieldValue></p>
-     * @return persistentFieldList
-     */
-    public List<PersistentField> getPersistentFieldList()
-    {
-        return persistentFieldList;
-    }
-
-    /**
-     * <p>Set Method   :   updateFieldList List<FieldValue></p>
-     * @param persistentFieldList
-     */
-    public void setPersistentFieldList(List<PersistentField> persistentFieldList)
-    {
-        if (persistentFieldList != null)
-        {
-            for (PersistentField persistentField : persistentFieldList)
-            {
-                // 校验字段名合法性
-                validField(persistentField.getFieldName());
-                persistentField.setTableFieldName(getTableField(persistentField.getFieldName()));
-                persistentField.setJdbcType(getJdbcType(persistentField.getFieldName()));
-            }
-            this.persistentFieldList = persistentFieldList;
-        }
     }
 
     /**

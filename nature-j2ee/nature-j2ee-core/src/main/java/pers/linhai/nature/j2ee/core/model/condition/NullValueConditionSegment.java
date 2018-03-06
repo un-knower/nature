@@ -9,7 +9,7 @@
 
 package pers.linhai.nature.j2ee.core.model.condition;
 
-import pers.linhai.nature.j2ee.core.model.Where.ConditionBean;
+import pers.linhai.nature.j2ee.core.model.Where.Condition;
 
 /**
  * 如果表中的某个列是可选的，那么我们可以在不向该列添加值的情况下插入新记录或更新已有的记录。这意味着该字段将以
@@ -17,15 +17,16 @@ import pers.linhai.nature.j2ee.core.model.Where.ConditionBean;
  * @author lilinhai 2018年2月15日 下午3:42:07
  * @version 1.0
  */
-public class NullValueCondition extends Condition
+public class NullValueConditionSegment extends ConditionSegment
 {
 
     /**
      * <p>Title        : NullValueCondition lilinhai 2018年2月15日 下午4:24:26</p>
      * @param fieldName 
      */ 
-    public NullValueCondition(ConditionBean conditionTemp)
+    public NullValueConditionSegment(Condition conditionTemp)
     {
         super(conditionTemp);
+        this.type = 3;
     }
 }

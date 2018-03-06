@@ -16,7 +16,8 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import pers.linhai.nature.j2ee.core.exception.IllegalExpression;
-import pers.linhai.nature.j2ee.core.model.condition.Condition;
+import pers.linhai.nature.j2ee.core.model.condition.ConditionSegment;
+import pers.linhai.nature.j2ee.core.model.condition.StringSegment;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -40,12 +41,12 @@ public class Where
     /**
      * 查询条件集合
      */
-    private List<ConditionBean> conditionList;
+    private List<Condition> conditionList;
     
     /**
-     * 表达式片段集合
+     * 条件片段集合
      */
-    private List<Object> expressionSegmentList;
+    private List<ConditionSegment> conditionSegmentList;
     
     /**
      * 逻辑表达式
@@ -56,7 +57,7 @@ public class Where
      * <p>Get Method   :   conditionList List<Condition></p>
      * @return conditionList
      */
-    public List<ConditionBean> getConditionList()
+    public List<Condition> getConditionList()
     {
         return conditionList;
     }
@@ -65,7 +66,7 @@ public class Where
      * <p>Set Method   :   conditionList List<Condition></p>
      * @param conditionList
      */
-    public void setConditionList(List<ConditionBean> conditionList)
+    public void setConditionList(List<Condition> conditionList)
     {
         this.conditionList = conditionList;
     }
@@ -92,12 +93,12 @@ public class Where
      * <p>Get Method   :   expressionSegmentList List<Object></p>
      * @return expressionSegmentList
      */
-    public List<Object> getExpressionSegmentList()
+    public List<ConditionSegment> getConditionSegmentList()
     {
-        return expressionSegmentList;
+        return conditionSegmentList;
     }
 
-    public void parseExpression(Map<String, Condition> conditionMap)
+    public void parseExpression(Map<String, ConditionSegment> conditionMap)
     {
         if(!CHAR_LIMIT_PATTERN.matcher(expression).matches())
         {
@@ -106,7 +107,7 @@ public class Where
         
         expression = expression.replaceAll("\\(", " ( ").replaceAll("\\)", " ) ").replaceAll("\\s+", " ");
         String[] expressionSegmentArr = expression.split("\\s+");
-        expressionSegmentList = new ArrayList<Object>();
+        conditionSegmentList = new ArrayList<ConditionSegment>();
         for (String expressionSegment : expressionSegmentArr)
         {
             LogicalOperator logicalOperator = LogicalOperator.transfer(expressionSegment);
@@ -115,21 +116,21 @@ public class Where
                 // 如果是condition的id，则替换为实体对象
                 if (CONDITION_ID_PATTERN.matcher(expressionSegment).matches())
                 {
-                    Condition con = conditionMap.get(expressionSegment);
+                    ConditionSegment con = conditionMap.get(expressionSegment);
                     if (con == null)
                     {
                         throw new IllegalExpression("Unable to find an expression with id " + expressionSegment + ", check:" + expression);
                     }
-                    expressionSegmentList.add(con);
+                    conditionSegmentList.add(con);
                 }
                 else
                 {
-                    expressionSegmentList.add(expressionSegment);
+                    conditionSegmentList.add(new StringSegment(expressionSegment));
                 }
             }
             else
             {
-                expressionSegmentList.add(logicalOperator.getValue());
+                conditionSegmentList.add(new StringSegment(logicalOperator.getValue()));
             }
         }
     }
@@ -175,7 +176,7 @@ public class Where
      * @author lilinhai 2018年2月9日 下午5:07:13
      * @version 1.0
      */
-    public static class ConditionBean
+    public static class Condition
     {
         
         /**

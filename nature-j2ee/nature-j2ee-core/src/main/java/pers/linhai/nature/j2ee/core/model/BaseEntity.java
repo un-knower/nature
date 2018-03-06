@@ -11,6 +11,7 @@ package pers.linhai.nature.j2ee.core.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -26,7 +27,12 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
      * <p>Info          : long serialVersionUID lilinhai 2018年2月4日 下午2:36:32</p>
      */
     private static final long serialVersionUID = 1L;
-
+    
+    /**
+     * 待更新的字段的值的集合
+     */
+    private List<PersistentField> persistentFieldList;
+    
     /**
      * 主键ID
      */
@@ -103,6 +109,34 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     public void setUpdateTime(Date updateTime)
     {
         this.updateTime = updateTime;
+    }
+    
+    /**
+     * <p>Get Method   :   persistentFieldList List<FieldValue></p>
+     * @return persistentFieldList
+     */
+    public List<PersistentField> getPersistentFieldList()
+    {
+        return persistentFieldList;
+    }
+
+    /**
+     * <p>Set Method   :   updateFieldList List<FieldValue></p>
+     * @param persistentFieldList
+     */
+    public void setPersistentFieldList(List<PersistentField> persistentFieldList)
+    {
+        if (persistentFieldList != null)
+        {
+            for (PersistentField persistentField : persistentFieldList)
+            {
+                // 校验字段名合法性
+                validField(persistentField.getFieldName());
+                persistentField.setTableFieldName(getTableField(persistentField.getFieldName()));
+                persistentField.setJdbcType(getJdbcType(persistentField.getFieldName()));
+            }
+            this.persistentFieldList = persistentFieldList;
+        }
     }
 
     /** 

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pers.linhai.nature.j2ee.core.exception.ConditionFormatException;
-import pers.linhai.nature.j2ee.core.model.Where.ConditionBean;
+import pers.linhai.nature.j2ee.core.model.Where.Condition;
 import pers.linhai.nature.j2ee.core.model.datatype.DataType;
 
 /**
@@ -22,7 +22,7 @@ import pers.linhai.nature.j2ee.core.model.datatype.DataType;
  * @author lilinhai 2018年2月15日 下午3:41:16
  * @version 1.0
  */
-public class InCondition extends Condition
+public class InConditionSegment extends ConditionSegment
 {
 
     private List<Object> valueList = new ArrayList<Object>();
@@ -31,10 +31,11 @@ public class InCondition extends Condition
      * <p>Title        : InCondition lilinhai 2018年2月15日 下午4:24:19</p>
      * @param fieldName 
      */ 
-    public InCondition(ConditionBean conditionTemp)
+    public InConditionSegment(Condition conditionTemp)
     {
         super(conditionTemp);
         parseValue((String)conditionTemp.getValue());
+        this.type = 2;
     }
 
     /**
