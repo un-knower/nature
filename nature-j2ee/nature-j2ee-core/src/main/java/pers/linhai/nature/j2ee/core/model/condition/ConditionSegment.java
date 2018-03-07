@@ -91,12 +91,12 @@ public abstract class ConditionSegment
      * <p>Title        : Condition lilinhai 2018年2月15日 下午4:20:57</p>
      * @param fieldName 
      */ 
-    protected ConditionSegment(Condition conditionTemp, int type)
+    protected ConditionSegment(Condition condition, int type)
     {
-        this.fieldName = conditionTemp.getFieldName();
-        setId(conditionTemp.getId());
-        setJdbcType(conditionTemp.getJdbcType());
-        setOperator(conditionTemp.getOperator());
+        this.fieldName = condition.getFieldName();
+        setId(condition.getId());
+        setJdbcType(condition.getJdbcType());
+        setOperator(condition.getOperator());
         this.type = type;
     }
     
@@ -179,22 +179,21 @@ public abstract class ConditionSegment
 
     public static ConditionSegment parse(Condition conditionBean)
     {
-        if (conditionBean.getOperator() == null)
-        {
-            throw new IllegalOperatorException("Exist null value of the param operator: " + conditionBean.getOperator());
-        }
-        
-        String operator = conditionBean.getOperator().toLowerCase(Locale.ENGLISH);
-        Constructor<? extends ConditionSegment> conditionConstructor = CONDITION_MAP.get(operator);
-        if (conditionConstructor == null)
-        {
-            throw new IllegalOperatorException("Exist an illegal-operator: " + conditionBean.getOperator());
-        }
-        
-        conditionBean.setOperator(operator);
-        
         try
         {
+            if (conditionBean.getOperator() == null)
+            {
+                throw new IllegalOperatorException("Exist null value of the param operator: " + conditionBean.getOperator());
+            }
+            
+            String operator = conditionBean.getOperator().toLowerCase(Locale.ENGLISH);
+            Constructor<? extends ConditionSegment> conditionConstructor = CONDITION_MAP.get(operator);
+            if (conditionConstructor == null)
+            {
+                throw new IllegalOperatorException("Exist an illegal-operator: " + conditionBean.getOperator());
+            }
+            
+            conditionBean.setOperator(operator);
             return conditionConstructor.newInstance(conditionBean);
         }
         catch (Throwable e)

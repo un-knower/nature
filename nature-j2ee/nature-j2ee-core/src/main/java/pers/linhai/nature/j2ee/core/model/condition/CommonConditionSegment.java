@@ -31,10 +31,10 @@ public class CommonConditionSegment extends ConditionSegment
      * <p>Title        : CommonCondition lilinhai 2018年2月15日 下午4:23:59</p>
      * @param fieldName 
      */
-    public CommonConditionSegment(Condition conditionTemp)
+    public CommonConditionSegment(Condition condition)
     {
-        super(conditionTemp, 1);
-        setValue(conditionTemp.getValue());
+        super(condition, 1);
+        setValue(condition.getValue());
     }
 
     /**

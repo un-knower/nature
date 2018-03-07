@@ -24,8 +24,8 @@ public class NullValueConditionSegment extends ConditionSegment
      * <p>Title        : NullValueCondition lilinhai 2018年2月15日 下午4:24:26</p>
      * @param fieldName 
      */ 
-    public NullValueConditionSegment(Condition conditionTemp)
+    public NullValueConditionSegment(Condition condition)
     {
-        super(conditionTemp, 3);
+        super(condition, 3);
     }
 }

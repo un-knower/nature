@@ -31,10 +31,10 @@ public class InConditionSegment extends ConditionSegment
      * <p>Title        : InCondition lilinhai 2018年2月15日 下午4:24:19</p>
      * @param fieldName 
      */ 
-    public InConditionSegment(Condition conditionTemp)
+    public InConditionSegment(Condition condition)
     {
-        super(conditionTemp, 2);
-        Object value = conditionTemp.getValue();
+        super(condition, 2);
+        Object value = condition.getValue();
         if (!(value instanceof List))
         {
             throw new ConditionFormatException("The type of value must be a array in 'in-operator'.");
