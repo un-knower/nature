@@ -302,11 +302,13 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
             {
                 // 待更新的字段集合
                 List<PersistentField> persistentFieldList = new ArrayList<PersistentField>();
+                Field field = null;
                 for (String fieldName : record.getPersistentFieldNameSet())
                 {
+                    field = fieldMap.get(fieldName);
                     PersistentField fv = new PersistentField();
-                    fv.setFieldName(fieldMap.get(fieldName).getName());
-                    fv.setValue(fieldMap.get(fieldName).get(record));
+                    fv.setFieldName(field.getName());
+                    fv.setValue(field.get(record));
                     persistentFieldList.add(fv);
                 }
                 record.setPersistentFieldList(persistentFieldList);
