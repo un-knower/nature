@@ -70,19 +70,6 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable, Entity ext
         }
     }
 
-    public int updateSelective(Entity record)
-    {
-        try
-        {
-            return mapper.updateSelective(record);
-        }
-        catch (Throwable e)
-        {
-            logger.error("[Service] updateByPrimaryKeySelective occor an error", e);
-            return -1;
-        }
-    }
-
     public int update(Entity record)
     {
         try
@@ -91,7 +78,7 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable, Entity ext
         }
         catch (Throwable e)
         {
-            logger.error("[Service] updateByPrimaryKey occor an error", e);
+            logger.error("[Service] updateByPrimaryKeySelective occor an error", e);
             return -1;
         }
     }

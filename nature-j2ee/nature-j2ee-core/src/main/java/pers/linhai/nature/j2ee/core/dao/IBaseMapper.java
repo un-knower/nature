@@ -47,14 +47,9 @@ public interface IBaseMapper<Key extends Serializable, Entity extends BaseEntity
      * int
      */
     int delete(EntityQuery entityQuery);
-
+    
     /**
      * 修改单个记录，只将不为空的字段更新到记录。
-     */
-    int updateSelective(Entity record);
-
-    /**
-     * 修改单个记录。
      */
     int update(Entity record);
 

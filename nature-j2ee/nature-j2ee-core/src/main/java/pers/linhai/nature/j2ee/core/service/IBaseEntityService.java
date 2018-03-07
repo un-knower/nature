@@ -41,11 +41,6 @@ public interface IBaseEntityService<Key extends Serializable, Entity extends Bas
     /**
      * 修改单个记录，只将不为空的字段更新到记录。
      */
-    int updateSelective(Entity record);
-
-    /**
-     * 修改单个记录。
-     */
     int update(Entity record);
     
     /**

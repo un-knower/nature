@@ -9,6 +9,7 @@
 package pers.linhai.nature.j2ee.core.dao;
 
 
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -27,7 +28,7 @@ import pers.linhai.nature.j2ee.core.model.BaseEntity;
  * @author lilinhai 2018年2月12日 下午12:55:04
  * @version 1.0
  */
-public class RowDataHashMapResultHandler<Entity extends BaseEntity<?>> implements ResultHandler<Map<String, Object>>
+public class RowDataHashMapResultHandler<Key extends Serializable, Entity extends BaseEntity<Key>> implements ResultHandler<Map<String, Object>>
 {
 
     /**

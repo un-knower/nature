@@ -138,8 +138,8 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * @return 
      * ResponseResult
      */
-    @PutMapping("/selective/{id}")
-    protected RestResponse updateSelective(@RequestBody Entity record, @PathVariable Key id, HttpServletRequest request)
+    @PutMapping("/{id}")
+    protected RestResponse update(@RequestBody Entity record, @PathVariable Key id, HttpServletRequest request)
     {
         try
         {
@@ -148,43 +148,10 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
             //选择性修改的时候过滤掉某些字段
             updateSelectiveEntityFilter(record);
             record.setId(id);
-            int count = entityService.updateSelective(record);
-            if (count != 1)
-            {
-                RestResponse restResponse = fail(10300, "[Controller] updateSelective occor an error, record：" + JSON.toJSONString(new EntityBean(record)));
-                logger.error(JSON.toJSONString(restResponse));
-                return restResponse;
-            }
-            EntityBean bean = new EntityBean(record);
-            entityBeanMapFilter(bean, record);
-            return success(bean);
-        }
-        catch (Throwable e)
-        {
-            logger.error("[Controller] updateSelective occor an error", e);
-            return fail(10301, e.getMessage() + "，record：" + JSON.toJSONString(new EntityBean(record)));
-        }
-    }
-
-    /**
-     * 根据主键更新记录
-     * <p>Title         : updateByPrimaryKey lilinhai 2018年2月5日 下午11:22:26</p>
-     * @param record
-     * @param id
-     * @return 
-     * ResponseResult
-     */
-    @PutMapping("/{id}")
-    protected RestResponse update(@RequestBody Entity record, @PathVariable Key id, HttpServletRequest request)
-    {
-        try
-        {
-            process(request);
-            record.setId(id);
             int count = entityService.update(record);
             if (count != 1)
             {
-                RestResponse restResponse = fail(10302, "[Controller] update occor an error, record：" + JSON.toJSONString(new EntityBean(record)));
+                RestResponse restResponse = fail(10300, "[Controller] update occor an error, record：" + JSON.toJSONString(new EntityBean(record)));
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
@@ -195,7 +162,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
         catch (Throwable e)
         {
             logger.error("[Controller] update occor an error", e);
-            return fail(10303, e.getMessage() + "，record：" + JSON.toJSONString(new EntityBean(record)));
+            return fail(10301, e.getMessage() + "，record：" + JSON.toJSONString(new EntityBean(record)));
         }
     }
 

@@ -11,7 +11,9 @@ package pers.linhai.nature.j2ee.core.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -32,6 +34,11 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
      * 待更新的字段的值的集合
      */
     private List<PersistentField> persistentFieldList;
+    
+    /**
+     * 需要持久化的字段名
+     */
+    protected Set<String> persistentFieldNameSet = new HashSet<String>();
     
     /**
      * 主键ID
@@ -73,6 +80,7 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     public void setId(Key id)
     {
         this.id = id;
+        persistentFieldNameSet.add("id");
     }
 
     /**
@@ -91,6 +99,7 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     public void setCreateTime(Date createTime)
     {
         this.createTime = createTime;
+        persistentFieldNameSet.add("create_time");
     }
 
     /**
@@ -109,6 +118,7 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     public void setUpdateTime(Date updateTime)
     {
         this.updateTime = updateTime;
+        persistentFieldNameSet.add("update_time");
     }
     
     /**
@@ -118,6 +128,15 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     public List<PersistentField> getPersistentFieldList()
     {
         return persistentFieldList;
+    }
+    
+    /**
+     * <p>Get Method   :   persistentFieldNameList Set<String></p>
+     * @return persistentFieldNameList
+     */
+    public Set<String> getPersistentFieldNameSet()
+    {
+        return persistentFieldNameSet;
     }
 
     /**
@@ -142,7 +161,6 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     /** 
      * <p>Overriding Method: lilinhai 2018年2月4日 下午3:00:30</p>
      * <p>Title: hashCode</p>
-     * <p>Description: TODO</p>
      * @return 
      * @see java.lang.Object#hashCode()
      */

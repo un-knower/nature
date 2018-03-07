@@ -266,7 +266,7 @@ public class JavaBeansUtil
             sb.append(';');
             method.addBodyLine(sb.toString());
         }
-
+        method.addBodyLine("persistentFieldNameSet.add(\"" + introspectedColumn.getActualColumnName() + "\");");
         return method;
     }
 
