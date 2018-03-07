@@ -10,7 +10,6 @@
 package pers.linhai.nature.j2ee.core.model.condition;
 
 /**
- * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
  * <p>ClassName      : StringConditionSegment</p>
  * @author lilinhai 2018年3月6日 下午10:53:29
  * @version 1.0
@@ -31,10 +30,10 @@ public class StringSegment extends ConditionSegment
      */ 
     public StringSegment(String segment)
     {
+        super(4);
         this.segment = segment;
-        this.type = 4;
     }
-
+    
     /**
      * <p>Get Method   :   segment String</p>
      * @return segment

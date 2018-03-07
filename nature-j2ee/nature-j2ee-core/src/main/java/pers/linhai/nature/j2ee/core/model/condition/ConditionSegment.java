@@ -65,7 +65,7 @@ public abstract class ConditionSegment
         }
     }
     
-    protected int type;
+    private int type;
     
     /**
      * 子查询条件ID
@@ -85,23 +85,24 @@ public abstract class ConditionSegment
     /**
      * 该自定义条件字段对饮的JDBC类型
      */
-    private String jdbcType;
+    protected String jdbcType;
 
     /**
      * <p>Title        : Condition lilinhai 2018年2月15日 下午4:20:57</p>
      * @param fieldName 
      */ 
-    protected ConditionSegment(Condition conditionTemp)
+    protected ConditionSegment(Condition conditionTemp, int type)
     {
         this.fieldName = conditionTemp.getFieldName();
         setId(conditionTemp.getId());
         setJdbcType(conditionTemp.getJdbcType());
         setOperator(conditionTemp.getOperator());
+        this.type = type;
     }
     
-    protected ConditionSegment()
+    protected ConditionSegment(int type)
     {
-        
+        this.type = type;
     }
 
     /**

@@ -33,9 +33,21 @@ public class InConditionSegment extends ConditionSegment
      */ 
     public InConditionSegment(Condition conditionTemp)
     {
-        super(conditionTemp);
-        parseValue((String)conditionTemp.getValue());
-        this.type = 2;
+        super(conditionTemp, 2);
+        Object value = conditionTemp.getValue();
+        if (!(value instanceof List))
+        {
+            throw new ConditionFormatException("The type of value must be a array in 'in-operator'.");
+        }
+        List<?> valueTempList = (List<?>)value;
+        if (valueTempList == null || valueTempList.isEmpty())
+        {
+            throw new ConditionFormatException("The value can't be enmpy, while the condition type is In or Not-in.");
+        }
+        for (Object val : valueTempList)
+        {
+            this.valueList.add(DataType.parse(getJdbcType(), val));
+        }
     }
 
     /**
@@ -45,22 +57,5 @@ public class InConditionSegment extends ConditionSegment
     public List<Object> getValueList()
     {
         return valueList;
-    }
-
-    /**
-     * <p>Set Method   :   valueList List<Serializable></p>
-     * @param valueList
-     */
-    private void parseValue(String value)
-    {
-        if (value == null || value.trim().equals(""))
-        {
-            throw new ConditionFormatException("The value can't be enmpy, while the condition type is In or Not-in.");
-        }
-        String[] values = value.split(",");
-        for (String val : values)
-        {
-            this.valueList.add(DataType.parse(getJdbcType(), val));
-        }
     }
 }

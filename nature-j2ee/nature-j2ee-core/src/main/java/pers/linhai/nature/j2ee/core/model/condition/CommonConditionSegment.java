@@ -1,16 +1,17 @@
-/* 
- * <p>Copyright   : LinHai Technologies Co., Ltd. Copyright 2018, All right reserved.</p>
- * <p>Description : <pre>TODO(用一句话描述该文件做什么)</pre></p>
- * <p>FileName    : CommonCondition.java</p>
- * <p>Package     : com.meme.crm.model.core.condition</p>
+/*
+ * <p>Copyright : LinHai Technologies Co., Ltd. Copyright 2018, All right reserved.</p>
+ * <p>Description : <pre>TODO(用一句话描述该文件做什么)</pre></p> <p>FileName : CommonCondition.java</p>
+ * <p>Package : com.meme.crm.model.core.condition</p>
  * @Creator lilinhai 2018年2月15日 下午3:40:59
- * @Version  V1.0  
- */ 
+ * @Version V1.0
+ */
 
 package pers.linhai.nature.j2ee.core.model.condition;
 
+
 import pers.linhai.nature.j2ee.core.model.Where.Condition;
 import pers.linhai.nature.j2ee.core.model.datatype.DataType;
+
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -25,16 +26,15 @@ public class CommonConditionSegment extends ConditionSegment
      * 查询字段的值
      */
     private Object value;
-    
+
     /**
      * <p>Title        : CommonCondition lilinhai 2018年2月15日 下午4:23:59</p>
      * @param fieldName 
-     */ 
+     */
     public CommonConditionSegment(Condition conditionTemp)
     {
-        super(conditionTemp);
+        super(conditionTemp, 1);
         setValue(conditionTemp.getValue());
-        this.type = 1;
     }
 
     /**

@@ -26,9 +26,7 @@
                         <when test="conditionSegment.type == 4">
                             ${conditionSegment.segment}
                         </when>
-                        <otherwise>
-                            ${conditionSegment.segment}
-                        </otherwise>
+                        <otherwise></otherwise>
                     </choose>
                 </foreach>
             </where>

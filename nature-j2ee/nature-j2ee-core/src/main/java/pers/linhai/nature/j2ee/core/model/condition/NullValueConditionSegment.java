@@ -26,7 +26,6 @@ public class NullValueConditionSegment extends ConditionSegment
      */ 
     public NullValueConditionSegment(Condition conditionTemp)
     {
-        super(conditionTemp);
-        this.type = 3;
+        super(conditionTemp, 3);
     }
 }
