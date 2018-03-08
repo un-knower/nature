@@ -17,7 +17,7 @@ package pers.linhai.nature.j2ee.core.model.datatype;
  */
 public class DoubleType extends DataType
 {
-
+    
     /** 
      * <p>Overriding Method: lilinhai 2018年2月15日 下午6:59:08</p>
      * <p>Title: parse</p>

@@ -12,6 +12,10 @@ package pers.linhai.nature.j2ee.core.model.datatype;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.regex.Pattern;
 
 import pers.linhai.nature.j2ee.core.exception.DataTypeException;
 
@@ -24,10 +28,19 @@ import pers.linhai.nature.j2ee.core.exception.DataTypeException;
 public class DateType extends DataType
 {
 
-    /**
-     * 时间格式化对象
-     */
-    protected final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final Map<Pattern, SimpleDateFormat> MAP = new HashMap<Pattern, SimpleDateFormat>();
+    static
+    {
+        MAP.put(Pattern.compile("^[0-9]{4}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}$"), new SimpleDateFormat("yyyyMMddHHmmss"));
+        MAP.put(Pattern.compile("^[0-9]{4}[0-9]{2}[0-9]{2}$"), new SimpleDateFormat("yyyyMMdd"));
+        MAP.put(Pattern.compile("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$"), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        MAP.put(Pattern.compile("^[0-9]{4}-[0-9]{2}-[0-9]{2}$"), new SimpleDateFormat("yyyy-MM-dd"));
+        MAP.put(Pattern.compile("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{1,2}:[0-9]{1,2}$"), new SimpleDateFormat("yyyy-MM-dd HH:mm"));
+        MAP.put(Pattern.compile("^[0-9]{4}$"), new SimpleDateFormat("yyyy"));
+        MAP.put(Pattern.compile("^[0-9]{2}-[0-9]{2}-[0-9]{2}$"), new SimpleDateFormat("yy-MM-dd"));
+        MAP.put(Pattern.compile("^[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}$"), new SimpleDateFormat("yyyy.MM.dd"));
+        MAP.put(Pattern.compile("^[0-9]{4}/[0-9]{2}/[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$"), new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"));
+    }
     
     /** 
      * <p>Overriding Method: lilinhai 2018年2月15日 下午6:59:08</p>
@@ -40,12 +53,18 @@ public class DateType extends DataType
     {
         try
         {
-            return dateFormat.parse(value.toString());
+            for (Entry<Pattern, SimpleDateFormat> e : MAP.entrySet())
+            {
+                if (e.getKey().matcher(value.toString()).matches())
+                {
+                    return e.getValue().parse(value.toString());
+                }
+            }
+            throw new DataTypeException("Date parse error: " + value);
         }
         catch (ParseException e)
         {
             throw new DataTypeException("The date pared fail:" + value, e);
         }
     }
-
 }
