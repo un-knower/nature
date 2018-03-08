@@ -229,53 +229,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     }
     
     /**
-     * 分页查询
-     * <p>Title         : pageQuery lilinhai 2018年2月7日 下午6:36:29</p>
-     * @param entityQuery
-     * @return 
-     * PaginationData<EntityBean>
-     */
-    @PostMapping("/findByPaging")
-    protected RestResponse findByPaging(@RequestBody EntityQuery entityQuery, HttpServletRequest request)
-    {
-        try
-        {
-            process(request);
-            PaginationData<EntityBean> pageData = new PaginationData<EntityBean>();
-            int page = entityQuery.getPage() == null ? 0 : entityQuery.getPage();
-            int size = entityQuery.getSize() == null ? 20 : entityQuery.getSize();
-            if (entityQuery.getPage() == null)
-            {
-                entityQuery.setPage(page);
-            }
-            if (entityQuery.getSize() == null)
-            {
-                entityQuery.setSize(size);
-            }
-            pageData.setPage(page);
-            pageData.setSize(size);
-            pageData.setTotal(entityService.count(entityQuery));
-            List<Entity> entityList = entityService.find(entityQuery);
-            EntityBean entityBean = null;
-            for (Entity entity : entityList)
-            {
-                entityBean = new EntityBean(entity);
-                
-                // 过滤EntityBeanMap中的一些敏感字段，不需要传递到前端去的字段
-                entityBeanMapFilter(entityBean, entity);
-                pageData.addData(entityBean);
-            }
-            return success(pageData);
-        }
-        catch (Throwable e)
-        {
-            logger.error("[Controller] pageQuery occor an error", e);
-            return fail(RestErrorCode.PAGE_QUERY_EXCEPTION, e.getMessage() + "，entityQuery：" + JSON.toJSONString(entityQuery));
-        }
-    }
-    
-    /**
-     * 普通查询，不带分页
+     * 通用查询，传了分页参数自动分页
      * <p>Title         : query lilinhai 2018年2月8日 上午9:50:54</p>
      * @param entityQuery
      * @return 
@@ -287,13 +241,8 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
         try
         {
             process(request);
+            
             List<Entity> entityList = entityService.find(entityQuery);
-            if (entityList == null)
-            {
-                RestResponse restResponse = fail(RestErrorCode.QUERY_FAIL, "[Controller] query occor an error, entityQuery：" + JSON.toJSONString(entityQuery));
-                logger.error(JSON.toJSONString(restResponse));
-                return restResponse;
-            }
             List<EntityBean> beanList = new ArrayList<EntityBean>();
             EntityBean entityBean = null;
             for (Entity entity : entityList)
@@ -304,7 +253,28 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
                 entityBeanMapFilter(entityBean, entity);
                 beanList.add(entityBean);
             }
-            return success(beanList);
+            
+            // 分页参数为空，则不进行分页查询
+            if (entityQuery.getPage() == null || entityQuery.getSize() == null)
+            {
+                if (entityList == null)
+                {
+                    RestResponse restResponse = fail(RestErrorCode.QUERY_FAIL, "[Controller] query occor an error, entityQuery：" + JSON.toJSONString(entityQuery));
+                    logger.error(JSON.toJSONString(restResponse));
+                    return restResponse;
+                }
+                return success(beanList);
+            }
+            // 分页查询
+            else
+            {
+                PaginationData<EntityBean> pageData = new PaginationData<EntityBean>();
+                pageData.setPage(entityQuery.getPage());
+                pageData.setSize(entityQuery.getSize());
+                pageData.setTotal(entityService.count(entityQuery));
+                pageData.setDataList(beanList);
+                return success(pageData);
+            }
         }
         catch (Throwable e)
         {
