@@ -57,11 +57,11 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable, Entity ext
         }
     }
 
-    public Entity find(Key id)
+    public Entity get(Key id)
     {
         try
         {
-            return mapper.find(id);
+            return mapper.get(id);
         }
         catch (Throwable e)
         {
@@ -83,11 +83,11 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable, Entity ext
         }
     }
     
-    public Entity findOne(EntityQuery entityQuery)
+    public Entity get(EntityQuery entityQuery)
     {
         try
         {
-            return mapper.findOne(entityQuery);
+            return mapper.get(entityQuery);
         }
         catch (Throwable e)
         {

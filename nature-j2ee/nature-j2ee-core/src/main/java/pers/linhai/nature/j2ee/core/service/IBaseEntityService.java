@@ -36,7 +36,7 @@ public interface IBaseEntityService<Key extends Serializable, Entity extends Bas
     /**
      * 根据主键id查找单个记录。
      */
-    Entity find(Key id);
+    Entity get(Key id);
 
     /**
      * 修改单个记录，只将不为空的字段更新到记录。
@@ -50,7 +50,7 @@ public interface IBaseEntityService<Key extends Serializable, Entity extends Bas
      * @return 
      * EntityBean
      */
-    Entity findOne(EntityQuery entityQuery);
+    Entity get(EntityQuery entityQuery);
     
     /**
      * 统计条目

@@ -56,7 +56,7 @@ public interface IBaseMapper<Key extends Serializable, Entity extends BaseEntity
     /**
      * 根据主键id查找单个记录。
      */
-    Entity find(Key id);
+    Entity get(Key id);
 
     /**
      * 根据条件查询单个记录
@@ -65,7 +65,7 @@ public interface IBaseMapper<Key extends Serializable, Entity extends BaseEntity
       * @return 
      * Entity
      */
-    Entity findOne(EntityQuery entityQuery);
+    Entity get(EntityQuery entityQuery);
 
     /**
      * 组合查询记录，返回集合，支持分页

@@ -231,9 +231,9 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
      * <p>Title: selectByPrimaryKey</p>
      * @param id
      * @return 
-     * @see com.meme.crm.dao.core.IBaseMapper#find(java.io.Serializable)
+     * @see com.meme.crm.dao.core.IBaseMapper#get(java.io.Serializable)
      */
-    public Entity find(Key id)
+    public Entity get(Key id)
     {
         try
         {
@@ -247,7 +247,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
             conditionList.add(con);
             where.setConditionList(conditionList);
             eq.setWhere(where);
-            return findOne(eq);
+            return get(eq);
         }
         catch (Throwable e)
         {
@@ -261,9 +261,9 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
      * <p>Title: query</p>
      * @param entityQueryBean
      * @return 
-     * @see com.meme.crm.dao.core.IBaseMapper#find(com.meme.crm.model.core.BaseQuery)
+     * @see com.meme.crm.dao.core.IBaseMapper#get(com.meme.crm.model.core.BaseQuery)
      */
-    public Entity findOne(EntityQuery entityQuery)
+    public Entity get(EntityQuery entityQuery)
     {
         DefaultEntityProcessor<Entity> entityProcessor = new DefaultEntityProcessor<Entity>();
         find(entityQuery, entityProcessor);
@@ -383,7 +383,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
      * <p>Title: query</p>
      * @param entityQueryBean
      * @return 
-     * @see com.meme.crm.dao.core.IBaseMapper#find(com.meme.crm.model.core.BaseQuery)
+     * @see com.meme.crm.dao.core.IBaseMapper#get(com.meme.crm.model.core.BaseQuery)
      */
     @Override
     public List<Entity> find(EntityQuery entityQuery)

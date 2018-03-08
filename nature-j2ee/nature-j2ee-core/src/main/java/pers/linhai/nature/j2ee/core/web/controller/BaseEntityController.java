@@ -174,12 +174,12 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * ResponseResult
      */
     @GetMapping("/{id}")
-    protected RestResponse find(@PathVariable Key id, HttpServletRequest request)
+    protected RestResponse get(@PathVariable Key id, HttpServletRequest request)
     {
         try
         {
             process(request);
-            Entity entity = entityService.find(id);
+            Entity entity = entityService.get(id);
             if (entity == null)
             {
                 RestResponse restResponse = fail(RestErrorCode.GET_FAIL, "[Controller] find occor an error, id：" + id);
@@ -204,13 +204,13 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
      * @return 
      * ResponseResult
      */
-    @PostMapping("/findOne")
-    protected RestResponse findOne(@RequestBody EntityQuery entityQuery, HttpServletRequest request)
+    @PostMapping("/get")
+    protected RestResponse get(@RequestBody EntityQuery entityQuery, HttpServletRequest request)
     {
         try
         {
             process(request);
-            Entity entity = entityService.findOne(entityQuery);
+            Entity entity = entityService.get(entityQuery);
             if (entity == null)
             {
                 RestResponse restResponse = fail(RestErrorCode.GET_FAIL, "[Controller] findOne occor an error, entityQuery：" + JSON.toJSONString(entityQuery));
