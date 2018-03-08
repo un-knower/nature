@@ -20,7 +20,6 @@ import java.util.List;
  * @author lilinhai 2018年2月16日 下午5:00:25
  * @version 1.0
  */
-@SuppressWarnings("rawtypes")
 public class EntityBean extends ModelBean
 {
 
@@ -40,7 +39,7 @@ public class EntityBean extends ModelBean
      * <p>Title        : EntityBean lilinhai 2018年2月17日 下午7:33:13</p>
      * @param entity
      */
-    public <Entity extends BaseEntity> EntityBean(Entity entity)
+    public <Key extends Serializable, Entity extends BaseEntity<Key>> EntityBean(Entity entity)
     {
         super(entity);
         try
@@ -73,7 +72,7 @@ public class EntityBean extends ModelBean
                 continue;
             }
 
-            if (",persistentFieldList,".contains(field.getName()))
+            if (",persistentFieldList,persistentFieldNameSet,".contains(field.getName()))
             {
                 continue;
             }
