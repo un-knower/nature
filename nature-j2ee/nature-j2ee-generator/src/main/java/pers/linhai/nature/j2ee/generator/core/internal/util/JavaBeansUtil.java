@@ -266,7 +266,8 @@ public class JavaBeansUtil
             sb.append(';');
             method.addBodyLine(sb.toString());
         }
-        method.addBodyLine("persistentFieldNameSet.add(\"" + introspectedColumn.getActualColumnName() + "\");");
+        String enumFieldName = introspectedColumn.getActualColumnName().toUpperCase(Locale.ENGLISH);
+        method.addBodyLine("persistentFieldNameSet.add(" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum." + enumFieldName + ".getTableField());");
         return method;
     }
 
