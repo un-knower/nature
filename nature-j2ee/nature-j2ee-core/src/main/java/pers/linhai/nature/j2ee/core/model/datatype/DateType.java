@@ -79,9 +79,4 @@ public class DateType extends DataType
             throw new DataTypeException("The date pared fail:" + value, e);
         }
     }
-    
-    public static void main(String[] args)
-    {
-        System.out.println(new DateType().parse("03/09/2018 10:10:1"));
-    }
 }
