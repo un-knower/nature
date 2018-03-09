@@ -33,13 +33,18 @@ public class DateType extends DataType
     {
         MAP.put(Pattern.compile("^[0-9]{4}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}$"), new SimpleDateFormat("yyyyMMddHHmmss"));
         MAP.put(Pattern.compile("^[0-9]{4}[0-9]{2}[0-9]{2}$"), new SimpleDateFormat("yyyyMMdd"));
-        MAP.put(Pattern.compile("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$"), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-        MAP.put(Pattern.compile("^[0-9]{4}-[0-9]{2}-[0-9]{2}$"), new SimpleDateFormat("yyyy-MM-dd"));
-        MAP.put(Pattern.compile("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{1,2}:[0-9]{1,2}$"), new SimpleDateFormat("yyyy-MM-dd HH:mm"));
+        MAP.put(Pattern.compile("^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}$"), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        MAP.put(Pattern.compile("^[0-9]{1,2}-[0-9]{1,2}-[0-9]{4} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}$"), new SimpleDateFormat("MM-dd-yyyy HH:mm:ss"));
+        MAP.put(Pattern.compile("^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$"), new SimpleDateFormat("yyyy-MM-dd"));
+        MAP.put(Pattern.compile("^[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}$"), new SimpleDateFormat("MM-dd-yyyy"));
+        MAP.put(Pattern.compile("^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}$"), new SimpleDateFormat("yyyy-MM-dd HH:mm"));
+        MAP.put(Pattern.compile("^[0-9]{1,2}-[0-9]{1,2}-[0-9]{4} [0-9]{1,2}:[0-9]{1,2}$"), new SimpleDateFormat("MM-dd-yyyy HH:mm"));
         MAP.put(Pattern.compile("^[0-9]{4}$"), new SimpleDateFormat("yyyy"));
-        MAP.put(Pattern.compile("^[0-9]{2}-[0-9]{2}-[0-9]{2}$"), new SimpleDateFormat("yy-MM-dd"));
-        MAP.put(Pattern.compile("^[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}$"), new SimpleDateFormat("yyyy.MM.dd"));
-        MAP.put(Pattern.compile("^[0-9]{4}/[0-9]{2}/[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$"), new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"));
+        MAP.put(Pattern.compile("^[0-9]{2}-[0-9]{1,2}-[0-9]{1,2}$"), new SimpleDateFormat("yy-MM-dd"));
+        MAP.put(Pattern.compile("^[0-9]{4}\\.[0-9]{1,2}\\.[0-9]{1,2}$"), new SimpleDateFormat("yyyy.MM.dd"));
+        MAP.put(Pattern.compile("^[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{4}$"), new SimpleDateFormat("MM.dd.yyyy"));
+        MAP.put(Pattern.compile("^[0-9]{4}/[0-9]{1,2}/[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}$"), new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"));
+        MAP.put(Pattern.compile("^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}$"), new SimpleDateFormat("MM/dd/yyyy HH:mm:ss"));
     }
     
     /** 
@@ -53,11 +58,18 @@ public class DateType extends DataType
     {
         try
         {
-            for (Entry<Pattern, SimpleDateFormat> e : MAP.entrySet())
+            if (value instanceof Number)
             {
-                if (e.getKey().matcher(value.toString()).matches())
+                return new Date(((Number)value).longValue());
+            }
+            else if (value instanceof String)
+            {
+                for (Entry<Pattern, SimpleDateFormat> e : MAP.entrySet())
                 {
-                    return e.getValue().parse(value.toString());
+                    if (e.getKey().matcher(value.toString()).matches())
+                    {
+                        return e.getValue().parse(value.toString());
+                    }
                 }
             }
             throw new DataTypeException("Date parse error: " + value);
@@ -66,5 +78,10 @@ public class DateType extends DataType
         {
             throw new DataTypeException("The date pared fail:" + value, e);
         }
+    }
+    
+    public static void main(String[] args)
+    {
+        System.out.println(new DateType().parse("03/09/2018 10:10:1"));
     }
 }
