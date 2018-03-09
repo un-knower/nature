@@ -38,6 +38,7 @@ public abstract class ConditionSegment
             commonConditionConstructor.setAccessible(true);
             
             CONDITION_MAP.put("<>", commonConditionConstructor);
+            CONDITION_MAP.put("!=", commonConditionConstructor);
             CONDITION_MAP.put("=", commonConditionConstructor);
             CONDITION_MAP.put("<=", commonConditionConstructor);
             CONDITION_MAP.put(">=", commonConditionConstructor);
