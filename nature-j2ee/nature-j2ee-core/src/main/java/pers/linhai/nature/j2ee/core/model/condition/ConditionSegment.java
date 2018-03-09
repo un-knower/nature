@@ -94,11 +94,11 @@ public abstract class ConditionSegment
      */ 
     protected ConditionSegment(Condition condition, int type)
     {
+        this(type);
         this.fieldName = condition.getFieldName();
         setId(condition.getId());
         setJdbcType(condition.getJdbcType());
         setOperator(condition.getOperator());
-        this.type = type;
     }
     
     protected ConditionSegment(int type)
