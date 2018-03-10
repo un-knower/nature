@@ -305,6 +305,11 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                 Field field = null;
                 for (String fieldName : record.getPersistentFieldNameSet())
                 {
+                    // id不能被修改
+                    if (fieldName.equals("id"))
+                    {
+                        continue;
+                    }
                     field = fieldMap.get(fieldName);
                     PersistentField fv = new PersistentField();
                     fv.setFieldName(field.getName());
