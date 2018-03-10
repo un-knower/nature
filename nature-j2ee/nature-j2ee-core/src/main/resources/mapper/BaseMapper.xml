@@ -107,12 +107,7 @@
                     ]]>
                 </if>
             </when>
-            <otherwise>
-                <include refid="Common_Find" />
-                <if test="offset != null and size != null">
-                    limit ${offset}, ${size}
-                </if>
-            </otherwise>
+            <otherwise></otherwise>
         </choose>
     </select>
 
