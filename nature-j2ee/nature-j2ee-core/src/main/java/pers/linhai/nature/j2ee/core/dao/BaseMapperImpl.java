@@ -291,7 +291,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                 return 0;
             }
             
-            if (record.getPersistentFieldNameSet().isEmpty())
+            if (record.getUpdatedFieldNameSet().isEmpty())
             {
                 return 0;
             }
@@ -303,13 +303,8 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                 // 待更新的字段集合
                 List<PersistentField> persistentFieldList = new ArrayList<PersistentField>();
                 Field field = null;
-                for (String fieldName : record.getPersistentFieldNameSet())
+                for (String fieldName : record.getUpdatedFieldNameSet())
                 {
-                    // id不能被修改
-                    if (fieldName.equals("id"))
-                    {
-                        continue;
-                    }
                     field = fieldMap.get(fieldName);
                     PersistentField fv = new PersistentField();
                     fv.setFieldName(field.getName());

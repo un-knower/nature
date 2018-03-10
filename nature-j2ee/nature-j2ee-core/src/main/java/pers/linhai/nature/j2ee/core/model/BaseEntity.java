@@ -36,9 +36,9 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     private List<PersistentField> persistentFieldList;
     
     /**
-     * 需要持久化的字段名
+     * 需要更新的字段名
      */
-    protected Set<String> persistentFieldNameSet = new HashSet<String>();
+    protected Set<String> updatedFieldNameSet = new HashSet<String>();
     
     /**
      * 主键ID
@@ -80,7 +80,6 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     public void setId(Key id)
     {
         this.id = id;
-        persistentFieldNameSet.add("id");
     }
 
     /**
@@ -99,7 +98,7 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     public void setCreateTime(Date createTime)
     {
         this.createTime = createTime;
-        persistentFieldNameSet.add("create_time");
+        updatedFieldNameSet.add("create_time");
     }
 
     /**
@@ -118,7 +117,7 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     public void setUpdateTime(Date updateTime)
     {
         this.updateTime = updateTime;
-        persistentFieldNameSet.add("update_time");
+        updatedFieldNameSet.add("update_time");
     }
     
     /**
@@ -134,9 +133,9 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
      * <p>Get Method   :   persistentFieldNameList Set<String></p>
      * @return persistentFieldNameList
      */
-    public Set<String> getPersistentFieldNameSet()
+    public Set<String> getUpdatedFieldNameSet()
     {
-        return persistentFieldNameSet;
+        return updatedFieldNameSet;
     }
 
     /**
