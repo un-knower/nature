@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>ClassName      : EntityBean</p>
@@ -78,12 +79,29 @@ public class ModelBean extends BaseBean
      * @param fieldList 
      * void
      */
-    private static void parse(Field[] fs, List<Field> fieldList)
+    protected static void parse(Field[] fs, List<Field> fieldList)
+    {
+        parse(fs, fieldList, null);
+    }
+    
+    /**
+     * 解析
+     * <p>Title         : parse lilinhai 2018年2月21日 上午9:13:25</p>
+     * @param fs
+     * @param fieldList 
+     * void
+     */
+    protected static void parse(Field[] fs, List<Field> fieldList, Set<String> excludeFieldSet)
     {
         for (Field field : fs)
         {
             // 静态成员跳过处理
             if (Modifier.isStatic(field.getModifiers()))
+            {
+                continue;
+            }
+            
+            if (excludeFieldSet != null && excludeFieldSet.contains(field.getName()))
             {
                 continue;
             }

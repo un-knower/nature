@@ -11,9 +11,10 @@ package pers.linhai.nature.j2ee.core.model;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>ClassName      : EntityBean</p>
@@ -31,7 +32,10 @@ public class EntityBean extends ModelBean
     private static final List<Field> FIELD_LIST = new ArrayList<Field>();
     static
     {
-        parse(BaseEntity.class.getDeclaredFields(), FIELD_LIST);
+        Set<String> excludeFieldSet = new HashSet<String>();
+        excludeFieldSet.add("persistentFieldList");
+        excludeFieldSet.add("persistentFieldNameSet");
+        parse(BaseEntity.class.getDeclaredFields(), FIELD_LIST, excludeFieldSet);
     }
     
     /**
@@ -52,33 +56,6 @@ public class EntityBean extends ModelBean
         catch (Throwable e)
         {
             e.printStackTrace();
-        }
-    }
-
-    /**
-     * 解析
-     * <p>Title         : parse lilinhai 2018年2月21日 上午9:13:25</p>
-     * @param fs
-     * @param fieldList 
-     * void
-     */
-    private static void parse(Field[] fs, List<Field> fieldList)
-    {
-        for (Field field : fs)
-        {
-            // 静态成员跳过处理
-            if (Modifier.isStatic(field.getModifiers()))
-            {
-                continue;
-            }
-
-            if (",persistentFieldList,persistentFieldNameSet,".contains(field.getName()))
-            {
-                continue;
-            }
-            
-            field.setAccessible(true);
-            fieldList.add(field);
         }
     }
 }
