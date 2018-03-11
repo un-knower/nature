@@ -39,7 +39,7 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable, Entity ext
         }
         catch (Throwable e)
         {
-            logger.error("[Service] deleteByPrimaryKey occor an error", e);
+            logger.error("[Service] delete(Key id) occor an error", e);
             return -1;
         }
     }
@@ -52,7 +52,7 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable, Entity ext
         }
         catch (Throwable e)
         {
-            logger.error("[Service] insert occor an error", e);
+            logger.error("[Service] save(Entity record) occor an error", e);
             return -1;
         }
     }
@@ -65,7 +65,7 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable, Entity ext
         }
         catch (Throwable e)
         {
-            logger.error("[Service] selectByPrimaryKey occor an error", e);
+            logger.error("[Service] get(Key id) occor an error", e);
             return null;
         }
     }
@@ -78,7 +78,7 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable, Entity ext
         }
         catch (Throwable e)
         {
-            logger.error("[Service] updateByPrimaryKeySelective occor an error", e);
+            logger.error("[Service] update(Entity record) occor an error", e);
             return -1;
         }
     }
@@ -91,7 +91,7 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable, Entity ext
         }
         catch (Throwable e)
         {
-            logger.error("[Service] selectByPrimaryKey occor an error", e);
+            logger.error("[Service] get(EntityQuery entityQuery) occor an error", e);
             return null;
         }
     }
@@ -137,7 +137,7 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable, Entity ext
         }
         catch (Throwable e)
         {
-            logger.error("[Service] query occor an error", e);
+            logger.error("[Service] find(EntityQuery entityQuery) occor an error", e);
             return null;
         }
     }

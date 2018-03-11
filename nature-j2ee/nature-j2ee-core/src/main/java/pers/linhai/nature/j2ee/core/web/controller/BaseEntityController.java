@@ -94,7 +94,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
         }
         catch (Throwable e)
         {
-            logger.error("[Controller] delete occor an error", e);
+            logger.error("[Controller] delete(@PathVariable Key id, HttpServletRequest request) occor an error", e);
             return fail(RestErrorCode.DELETE_EXCEPTION, e.getMessage() + "，ID：" + id);
         }
     }
@@ -125,7 +125,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
         }
         catch (Throwable e)
         {
-            logger.error("[Controller] save occor an error", e);
+            logger.error("[Controller] save(@RequestBody Entity record, HttpServletRequest request) occor an error", e);
             return fail(RestErrorCode.INSERT_EXCEPTION, e.getMessage() + "，record：" + JSON.toJSONString(new EntityBean(record)));
         }
     }
@@ -161,7 +161,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
         }
         catch (Throwable e)
         {
-            logger.error("[Controller] update occor an error", e);
+            logger.error("[Controller] update(@RequestBody Entity record, @PathVariable Key id, HttpServletRequest request) occor an error", e);
             return fail(10301, e.getMessage() + "，record：" + JSON.toJSONString(new EntityBean(record)));
         }
     }
@@ -192,7 +192,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
         }
         catch (Throwable e)
         {
-            logger.error("[Controller] find occor an error", e);
+            logger.error("[Controller] get(@PathVariable Key id, HttpServletRequest request) occor an error", e);
             return fail(RestErrorCode.GET_EXCEPTION, e.getMessage() + "，ID：" + id);
         }
     }
@@ -223,7 +223,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
         }
         catch (Throwable e)
         {
-            logger.error("[Controller] findOne occor an error", e);
+            logger.error("[Controller] get(@RequestBody EntityQuery entityQuery, HttpServletRequest request) occor an error", e);
             return fail(RestErrorCode.GET_EXCEPTION, e.getMessage() + "，entityQuery：" + JSON.toJSONString(entityQuery));
         }
     }
@@ -278,7 +278,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
         }
         catch (Throwable e)
         {
-            logger.error("[Controller] query occor an error", e);
+            logger.error("[Controller] find(@RequestBody EntityQuery entityQuery, HttpServletRequest request) occor an error", e);
             return fail(RestErrorCode.QUERY_EXCEPTION, e.getMessage() + "，entityQuery：" + JSON.toJSONString(entityQuery));
         }
     }

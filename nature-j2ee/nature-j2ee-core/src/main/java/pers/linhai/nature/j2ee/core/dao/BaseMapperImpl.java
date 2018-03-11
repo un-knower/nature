@@ -208,7 +208,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
         }
         catch (Throwable e)
         {
-            logger.error("IBaseMapper.deleteByPrimaryKey", e);
+            logger.error("IBaseMapper.delete(Key id)", e);
         }
         return 0;
     }
@@ -251,7 +251,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
         }
         catch (Throwable e)
         {
-            logger.error("IBaseMapper.selectByPrimaryKey", e);
+            logger.error("IBaseMapper.get(Key id)", e);
         }
         return null;
     }
@@ -332,7 +332,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
         }
         catch (Throwable e1)
         {
-            logger.error("update0 occor an error ", e1);
+            logger.error("update occor an error ", e1);
             return 0;
         }
     }
