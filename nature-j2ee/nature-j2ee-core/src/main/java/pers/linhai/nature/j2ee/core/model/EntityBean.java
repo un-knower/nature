@@ -34,7 +34,7 @@ public class EntityBean extends ModelBean
     {
         Set<String> excludeFieldSet = new HashSet<String>();
         excludeFieldSet.add("persistentFieldList");
-        excludeFieldSet.add("persistentFieldNameSet");
+        excludeFieldSet.add("updatedFieldNameSet");
         parse(BaseEntity.class.getDeclaredFields(), FIELD_LIST, excludeFieldSet);
     }
     
