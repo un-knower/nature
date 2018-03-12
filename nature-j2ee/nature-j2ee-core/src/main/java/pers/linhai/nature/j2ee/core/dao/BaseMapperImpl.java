@@ -538,7 +538,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                 continue;
             }
 
-            if (",persistentFieldList,persistentFieldNameSet,".contains(field.getName()))
+            if (",persistentFieldList,updatedFieldNameSet,".contains(field.getName()))
             {
                 continue;
             }
