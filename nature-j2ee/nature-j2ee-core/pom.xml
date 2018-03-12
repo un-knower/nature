@@ -24,6 +24,10 @@
 		    <artifactId>druid</artifactId>
 		    <version>1.1.8</version>
 		</dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+            </dependency>
 		
         <!-- 默认集成tomcat -->
         <dependency>
