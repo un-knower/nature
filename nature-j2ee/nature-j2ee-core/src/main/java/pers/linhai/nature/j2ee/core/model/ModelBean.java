@@ -33,6 +33,11 @@ public class ModelBean extends BaseBean
     
     private static final Map<Class<?>, List<Field>> ENTITY_FIELD_MAP = new HashMap<Class<?>, List<Field>>();
     
+    public ModelBean()
+    {
+        
+    }
+    
     /**
      * 
      * <p>Title        : EntityBean lilinhai 2018年2月17日 下午7:33:13</p>
