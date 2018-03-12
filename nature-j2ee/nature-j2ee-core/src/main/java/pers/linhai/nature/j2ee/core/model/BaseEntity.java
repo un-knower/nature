@@ -38,7 +38,7 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     /**
      * 需要更新的字段名
      */
-    protected Set<String> updatedFieldNameSet = new HashSet<String>();
+    private Set<String> updatedFieldNameSet = new HashSet<String>();
     
     /**
      * 主键ID
@@ -98,7 +98,7 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     public void setCreateTime(Date createTime)
     {
         this.createTime = createTime;
-        updatedFieldNameSet.add("create_time");
+        addUpdatedFieldName("create_time");
     }
 
     /**
@@ -117,7 +117,7 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     public void setUpdateTime(Date updateTime)
     {
         this.updateTime = updateTime;
-        updatedFieldNameSet.add("update_time");
+        addUpdatedFieldName("update_time");
     }
     
     /**
@@ -136,6 +136,11 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     public Set<String> getUpdatedFieldNameSet()
     {
         return updatedFieldNameSet;
+    }
+    
+    protected void addUpdatedFieldName(String fieldName)
+    {
+        updatedFieldNameSet.add(fieldName);
     }
 
     /**

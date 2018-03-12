@@ -175,7 +175,7 @@ public class ModelPlugin extends BasePlugin
         queryConstructorMethod.setVisibility(JavaVisibility.PUBLIC);
         queryConstructorMethod.setFinal(false);
         queryConstructorMethod.setStatic(false);
-        queryConstructorMethod.addBodyLine("super(\"" + introspectedTable.getFullyQualifiedTableNameAtRuntime() + "\");");
+        queryConstructorMethod.addBodyLine("super("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum.TABLE_NAME);");
         topLevelClass.addMethod(queryConstructorMethod);
         
         Field field = new Field();
@@ -344,6 +344,19 @@ public class ModelPlugin extends BasePlugin
         javaFieldList.setVisibility(JavaVisibility.PRIVATE);
         fieldEnumeration.addField(javaFieldList);
         
+        //数据库表名
+        Field tableNameField = new Field();
+        tableNameField.addJavaDocLine("/**");
+        tableNameField.addJavaDocLine(" * 数据库表名");
+        tableNameField.addJavaDocLine(" */");
+        tableNameField.setFinal(true);
+        tableNameField.setName("TABLE_NAME");
+        tableNameField.setStatic(true);
+        tableNameField.setType(new FullyQualifiedJavaType(String.class.getName()));
+        tableNameField.setInitializationString("\""+introspectedTable.getFullyQualifiedTableNameAtRuntime()+"\"");
+        tableNameField.setVisibility(JavaVisibility.PUBLIC);
+        fieldEnumeration.addField(tableNameField);
+        
         // 添加static块
         InitializationBlock initializationBlock = new InitializationBlock();
         initializationBlock.setStatic(true);
@@ -511,7 +524,7 @@ public class ModelPlugin extends BasePlugin
         queryConstructorMethod.setVisibility(JavaVisibility.PUBLIC);
         queryConstructorMethod.setFinal(false);
         queryConstructorMethod.setStatic(false);
-        queryConstructorMethod.addBodyLine("super(\"" + introspectedTable.getFullyQualifiedTableNameAtRuntime() + "\");");
+        queryConstructorMethod.addBodyLine("super("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum.TABLE_NAME);");
         beanClass.addMethod(queryConstructorMethod);
         
         // validField方法
