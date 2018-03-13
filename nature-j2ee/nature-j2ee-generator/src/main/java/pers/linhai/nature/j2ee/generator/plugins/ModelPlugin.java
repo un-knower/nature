@@ -9,6 +9,7 @@
 package pers.linhai.nature.j2ee.generator.plugins;
 
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,7 +21,10 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import pers.linhai.nature.j2ee.core.exception.IllegalFieldException;
+import pers.linhai.nature.j2ee.core.model.DateJsonDeserializer;
 import pers.linhai.nature.j2ee.generator.core.api.CoreClassImportConstant;
 import pers.linhai.nature.j2ee.generator.core.api.GeneratedJavaFile;
 import pers.linhai.nature.j2ee.generator.core.api.IntrospectedColumn;
@@ -160,6 +164,20 @@ public class ModelPlugin extends BasePlugin
         topLevelClass.addImportedType(new FullyQualifiedJavaType(CoreClassImportConstant.BASE_ENTITY_CLASS));
         topLevelClass.addImportedType(IllegalFieldException.class.getName());
         topLevelClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("enumer") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum"));
+        boolean hasDateField = false;
+        for (Field f : topLevelClass.getFields())
+        {
+            if (f.getType().getFullyQualifiedNameWithoutTypeParameters().equals(Date.class.getName()))
+            {
+                hasDateField = true;
+                break;
+            }
+        }
+        if (hasDateField)
+        {
+            topLevelClass.addImportedType(JsonDeserialize.class.getName());
+            topLevelClass.addImportedType(DateJsonDeserializer.class.getName());
+        }
         
         // 添加范型继承关系BaseService
         if (introspectedTable.getPrimaryKeyColumns() == null || introspectedTable.getPrimaryKeyColumns().isEmpty())

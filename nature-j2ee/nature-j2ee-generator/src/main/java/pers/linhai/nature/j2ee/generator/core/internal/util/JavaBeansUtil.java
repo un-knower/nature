@@ -11,6 +11,7 @@ package pers.linhai.nature.j2ee.generator.core.internal.util;
 
 import static pers.linhai.nature.j2ee.generator.core.internal.util.StringUtility.isTrue;
 
+import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -229,6 +230,10 @@ public class JavaBeansUtil
         field.setVisibility(JavaVisibility.PRIVATE);
         field.setType(fqjt);
         field.setName(property);
+        if (fqjt.getFullyQualifiedNameWithoutTypeParameters().equals(Date.class.getName()))
+        {
+            field.addAnnotation("@JsonDeserialize(using = DateJsonDeserializer.class)");
+        }
         context.getCommentGenerator().addFieldComment(field, introspectedTable, introspectedColumn);
 
         return field;

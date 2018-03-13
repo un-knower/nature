@@ -224,7 +224,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
             }
             
             // 去除ID字段的更新
-            record.getPersistentFieldMap().remove("id");
+            record.removePersistentField("id");
             
             // 刷新修改时间
             record.setUpdateTime(new Date());

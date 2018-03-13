@@ -14,6 +14,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 
 /**
  * 抽象实体
@@ -42,11 +44,13 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     /**
      *  入库时间
      */
+    @JsonDeserialize(using = DateJsonDeserializer.class)
     public Date createTime;
 
     /**
      *  修改时间
      */
+    @JsonDeserialize(using = DateJsonDeserializer.class)
     public Date updateTime;
 
     /**
@@ -122,6 +126,17 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     public Map<String, PersistentField> getPersistentFieldMap()
     {
         return persistentFieldMap;
+    }
+    
+    /**
+     * 移除某个字段的修改
+     * <p>Title         : remove lilinhai 2018年3月13日 下午2:49:26</p>
+     * @param fieldName 
+     * void
+     */
+    public void removePersistentField(String fieldName)
+    {
+        persistentFieldMap.remove(fieldName);
     }
 
     /**
