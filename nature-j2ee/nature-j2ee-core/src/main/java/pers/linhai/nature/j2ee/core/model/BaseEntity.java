@@ -120,15 +120,6 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     }
     
     /**
-     * <p>Get Method   :   persistentFieldMap Map<String,PersistentField></p>
-     * @return persistentFieldMap
-     */
-    public Map<String, PersistentField> getPersistentFieldMap()
-    {
-        return persistentFieldMap;
-    }
-    
-    /**
      * 移除某个字段的修改
      * <p>Title         : remove lilinhai 2018年3月13日 下午2:49:26</p>
      * @param fieldName 
@@ -137,6 +128,17 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     public void removePersistentField(String fieldName)
     {
         persistentFieldMap.remove(fieldName);
+    }
+    
+    /**
+     * 是否有持久化字段
+     * <p>Title         : hasPersistentField lilinhai 2018年3月13日 下午7:39:25</p>
+     * @return 
+     * boolean
+     */
+    public boolean hasPersistentField()
+    {
+        return !persistentFieldMap.isEmpty();
     }
 
     /**

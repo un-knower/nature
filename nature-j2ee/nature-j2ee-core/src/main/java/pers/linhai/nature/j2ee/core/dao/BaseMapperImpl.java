@@ -146,13 +146,17 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
     {
         try
         {
-            if (record == null || record.getPersistentFieldMap().isEmpty())
+            if (record == null || !record.hasPersistentField())
             {
                 return 0;
             }
 
-            // 设置创建时间
-            record.setCreateTime(new Date());
+            if (record.getCreateTime() == null)
+            {
+                // 设置创建时间
+                record.setCreateTime(new Date());
+            }
+            
             return sqlSessionTemplate.update(baseNamespace + ".save", record);
         }
         catch (Throwable e1)
@@ -218,7 +222,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
         try
         {
             // 若ID和where条件都为空，则修改失败，返回0
-            if ((record.getId() == null && record.getWhere() == null) || record.getPersistentFieldMap().isEmpty())
+            if ((record.getId() == null && record.getWhere() == null) || !record.hasPersistentField())
             {
                 return 0;
             }
@@ -226,8 +230,11 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
             // 去除ID字段的更新
             record.removePersistentField("id");
             
-            // 刷新修改时间
-            record.setUpdateTime(new Date());
+            if (record.getUpdateTime() == null)
+            {
+                // 刷新修改时间
+                record.setUpdateTime(new Date());
+            }
 
             // 如果修改条件为空
             if (record.getWhere() == null)

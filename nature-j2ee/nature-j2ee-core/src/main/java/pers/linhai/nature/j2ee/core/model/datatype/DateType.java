@@ -9,7 +9,6 @@
 
 package pers.linhai.nature.j2ee.core.model.datatype;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -71,11 +70,16 @@ public class DateType extends DataType
                         return e.getValue().parse(value.toString());
                     }
                 }
+                return new Date(Long.parseLong(value.toString()));
             }
             throw new DataTypeException("Date parse error: " + value);
         }
-        catch (ParseException e)
+        catch (Throwable e)
         {
+            if (e instanceof DataTypeException)
+            {
+                throw (DataTypeException)e;
+            }
             throw new DataTypeException("The date pared fail:" + value, e);
         }
     }
