@@ -233,14 +233,14 @@ public class ModelPlugin extends BasePlugin
         getJdbcTypeBaseMethod.setFinal(false);
         getJdbcTypeBaseMethod.setStatic(false);
         getJdbcTypeBaseMethod.setVisibility(JavaVisibility.PUBLIC);
-        getJdbcTypeBaseMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "javaField"));
+        getJdbcTypeBaseMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "fieldName"));
         getJdbcTypeBaseMethod.setReturnType(new FullyQualifiedJavaType("String"));
         getJdbcTypeBaseMethod.addBodyLine(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum e = null;");
-        getJdbcTypeBaseMethod.addBodyLine("if ((e = " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum" + ".transfer(javaField)) != null)");
+        getJdbcTypeBaseMethod.addBodyLine("if ((e = " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum" + ".transfer(fieldName)) != null)");
         getJdbcTypeBaseMethod.addBodyLine("{");
         getJdbcTypeBaseMethod.addBodyLine("return e.getJdbcType();");
         getJdbcTypeBaseMethod.addBodyLine("}");
-        getJdbcTypeBaseMethod.addBodyLine("throw new IllegalFieldException(\" Can't find the jdbc-type from the java-field : \" + javaField);");
+        getJdbcTypeBaseMethod.addBodyLine("throw new IllegalFieldException(\" Can't find the jdbc-type from the java-field : \" + fieldName);");
         topLevelClass.addMethod(getJdbcTypeBaseMethod);
 
         Collections.sort(topLevelClass.getFields(), new Comparator<Field>()
@@ -363,6 +363,7 @@ public class ModelPlugin extends BasePlugin
         initializationBlock.addBodyLine("for ("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum"+" fieldEnum : values())");
         initializationBlock.addBodyLine("{");
         initializationBlock.addBodyLine("MAP.put(fieldEnum.getJavaField(), fieldEnum);");
+        initializationBlock.addBodyLine("MAP.put(fieldEnum.getTableField(), fieldEnum);");
         initializationBlock.addBodyLine("TABLE_FIELD_LIST.add(fieldEnum.tableField);");
         initializationBlock.addBodyLine("JAVA_FIELD_LIST.add(fieldEnum.javaField);");
         initializationBlock.addBodyLine("}");

@@ -20,7 +20,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.ibatis.session.ResultContext;
@@ -33,7 +32,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pers.linhai.nature.j2ee.core.exception.MapperException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
-import pers.linhai.nature.j2ee.core.model.JdbcModel.PersistentField;
 import pers.linhai.nature.j2ee.core.model.Where;
 import pers.linhai.nature.j2ee.core.model.Where.Condition;
 
@@ -148,31 +146,13 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
     {
         try
         {
-            if (record == null)
+            if (record == null || record.getPersistentFieldMap().isEmpty())
             {
                 return 0;
             }
 
             // 设置创建时间
             record.setCreateTime(new Date());
-            
-            // 待更新的字段集合
-            List<PersistentField> persistentFieldList = new ArrayList<PersistentField>();
-
-            Object val = null;
-            for (Entry<String, Field> e : fieldMap.entrySet())
-            {
-                if ((val = e.getValue().get(record)) == null)
-                {
-                    continue;
-                }
-                PersistentField fv = new PersistentField();
-                fv.setFieldName(e.getValue().getName());
-                fv.setValue(val);
-                persistentFieldList.add(fv);
-            }
-            record.setPersistentFieldList(persistentFieldList);
-
             return sqlSessionTemplate.update(baseNamespace + ".save", record);
         }
         catch (Throwable e1)
@@ -225,6 +205,52 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
     {
         return sqlSessionTemplate.delete(baseNamespace + ".delete", entityQuery);
     }
+    
+    /** 
+     * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
+     * <p>Title: updateByPrimaryKeySelective</p>
+     * @param record
+     * @return 
+     * @see com.meme.crm.dao.core.IBaseMapper#update(com.meme.crm.model.core.BaseEntity)
+     */
+    public int update(Entity record)
+    {
+        try
+        {
+            // 若ID和where条件都为空，则修改失败，返回0
+            if ((record.getId() == null && record.getWhere() == null) || record.getPersistentFieldMap().isEmpty())
+            {
+                return 0;
+            }
+            
+            // 去除ID字段的更新
+            record.getPersistentFieldMap().remove("id");
+            
+            // 刷新修改时间
+            record.setUpdateTime(new Date());
+
+            // 如果修改条件为空
+            if (record.getWhere() == null)
+            {
+                Where where = new Where();
+                List<Condition> conditionList = new ArrayList<Condition>();
+                Condition con = new Condition();
+                con.setFieldName("id");
+                con.setOperator("=");
+                con.setValue(record.getId());
+                conditionList.add(con);
+                where.setConditionList(conditionList);
+                record.setWhere(where);
+            }
+            
+            return sqlSessionTemplate.update(baseNamespace + ".update", record);
+        }
+        catch (Throwable e1)
+        {
+            logger.error("update occor an error ", e1);
+            return 0;
+        }
+    }
 
     /** 
      * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
@@ -274,69 +300,6 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
         return entityProcessor.getEntityList().get(0);
     }
     
-    /** 
-     * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
-     * <p>Title: updateByPrimaryKeySelective</p>
-     * @param record
-     * @return 
-     * @see com.meme.crm.dao.core.IBaseMapper#update(com.meme.crm.model.core.BaseEntity)
-     */
-    public int update(Entity record)
-    {
-        try
-        {
-            // 若ID和where条件都为空，则修改失败，返回0
-            if (record.getId() == null && record.getWhere() == null)
-            {
-                return 0;
-            }
-            
-            if (record.getUpdatedFieldNameSet().isEmpty())
-            {
-                return 0;
-            }
-            
-            // 刷新修改时间
-            record.setUpdateTime(new Date());
-            if (record.getPersistentFieldList() == null)
-            {
-                // 待更新的字段集合
-                List<PersistentField> persistentFieldList = new ArrayList<PersistentField>();
-                Field field = null;
-                for (String fieldName : record.getUpdatedFieldNameSet())
-                {
-                    field = fieldMap.get(fieldName);
-                    PersistentField fv = new PersistentField();
-                    fv.setFieldName(field.getName());
-                    fv.setValue(field.get(record));
-                    persistentFieldList.add(fv);
-                }
-                record.setPersistentFieldList(persistentFieldList);
-            }
-
-            // 如果修改条件为空
-            if (record.getWhere() == null)
-            {
-                Where where = new Where();
-                List<Condition> conditionList = new ArrayList<Condition>();
-                Condition con = new Condition();
-                con.setFieldName("id");
-                con.setOperator("=");
-                con.setValue(record.getId());
-                conditionList.add(con);
-                where.setConditionList(conditionList);
-                record.setWhere(where);
-            }
-            
-            return sqlSessionTemplate.update(baseNamespace + ".update", record);
-        }
-        catch (Throwable e1)
-        {
-            logger.error("update occor an error ", e1);
-            return 0;
-        }
-    }
-
     /** 
      * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
      * <p>Title: queryCount</p>
@@ -538,7 +501,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                 continue;
             }
 
-            if (",persistentFieldList,updatedFieldNameSet,".contains(field.getName()))
+            if (",persistentFieldMap,".contains(field.getName()))
             {
                 continue;
             }

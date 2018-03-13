@@ -65,10 +65,10 @@
     <!-- 添加 -->
     <insert id="save" parameterType="BaseEntity" useGeneratedKeys="true" keyProperty="id">
         insert into ${tableName}
-        <foreach collection="persistentFieldList" index="index" item="persistentField" open="(" separator=", " close=")">
-            ${persistentField.tableFieldName}
+        <foreach collection="persistentFieldMap" index="index" item="persistentField" open="(" separator=", " close=")">
+            ${persistentField.fieldName}
         </foreach>
-        <foreach collection="persistentFieldList" index="index" item="persistentField" open="values (" separator=", " close=")">
+        <foreach collection="persistentFieldMap" index="index" item="persistentField" open="values (" separator=", " close=")">
             #{persistentField.value, jdbcType=${persistentField.jdbcType}}
         </foreach>
     </insert>
@@ -77,9 +77,8 @@
     <update id="update" parameterType="BaseEntity">
         update ${tableName}
         <set>
-            <foreach collection="persistentFieldList" index="index" item="persistentField" open=" " separator=", " close=" ">
-                ${persistentField.tableFieldName} = #{persistentField.value,
-                jdbcType=${persistentField.jdbcType}}
+            <foreach collection="persistentFieldMap" index="index" item="persistentField" open=" " separator=", " close=" ">
+                ${persistentField.fieldName} = #{persistentField.value, jdbcType=${persistentField.jdbcType}}
             </foreach>
         </set>
 

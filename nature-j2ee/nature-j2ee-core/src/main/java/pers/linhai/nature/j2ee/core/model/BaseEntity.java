@@ -11,9 +11,8 @@ package pers.linhai.nature.j2ee.core.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -31,14 +30,9 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     private static final long serialVersionUID = 1L;
     
     /**
-     * 待更新的字段的值的集合
+     * 待更新的字段的值的Map集合
      */
-    private List<PersistentField> persistentFieldList;
-    
-    /**
-     * 需要更新的字段名
-     */
-    private Set<String> updatedFieldNameSet = new HashSet<String>();
+    private Map<String, PersistentField> persistentFieldMap = new HashMap<String, PersistentField>();
     
     /**
      * 主键ID
@@ -80,6 +74,7 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     public void setId(Key id)
     {
         this.id = id;
+        addPersistentField("id", id);
     }
 
     /**
@@ -98,7 +93,7 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     public void setCreateTime(Date createTime)
     {
         this.createTime = createTime;
-        addUpdatedFieldName("create_time");
+        addPersistentField("create_time", createTime);
     }
 
     /**
@@ -117,49 +112,32 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
     public void setUpdateTime(Date updateTime)
     {
         this.updateTime = updateTime;
-        addUpdatedFieldName("update_time");
+        addPersistentField("update_time", updateTime);
     }
     
     /**
-     * <p>Get Method   :   persistentFieldList List<FieldValue></p>
-     * @return persistentFieldList
+     * <p>Get Method   :   persistentFieldMap Map<String,PersistentField></p>
+     * @return persistentFieldMap
      */
-    public List<PersistentField> getPersistentFieldList()
+    public Map<String, PersistentField> getPersistentFieldMap()
     {
-        return persistentFieldList;
-    }
-    
-    /**
-     * <p>Get Method   :   persistentFieldNameList Set<String></p>
-     * @return persistentFieldNameList
-     */
-    public Set<String> getUpdatedFieldNameSet()
-    {
-        return updatedFieldNameSet;
-    }
-    
-    protected void addUpdatedFieldName(String fieldName)
-    {
-        updatedFieldNameSet.add(fieldName);
+        return persistentFieldMap;
     }
 
     /**
-     * <p>Set Method   :   updateFieldList List<FieldValue></p>
-     * @param persistentFieldList
+     * 添加一个持久化字段
+     * <p>Title         : addPersistentField lilinhai 2018年3月13日 上午9:44:12</p>
+     * @param fieldName
+     * @param value 
+     * void
      */
-    public void setPersistentFieldList(List<PersistentField> persistentFieldList)
+    protected void addPersistentField(String fieldName, Object value)
     {
-        if (persistentFieldList != null)
-        {
-            for (PersistentField persistentField : persistentFieldList)
-            {
-                // 校验字段名合法性
-                validField(persistentField.getFieldName());
-                persistentField.setTableFieldName(getTableField(persistentField.getFieldName()));
-                persistentField.setJdbcType(getJdbcType(persistentField.getFieldName()));
-            }
-            this.persistentFieldList = persistentFieldList;
-        }
+        PersistentField fv = new PersistentField();
+        fv.setFieldName(fieldName);
+        fv.setValue(value);
+        fv.setJdbcType(getJdbcType(fieldName));
+        persistentFieldMap.put(fieldName, fv);
     }
 
     /** 
