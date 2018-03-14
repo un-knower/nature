@@ -6,11 +6,10 @@
  * @Version V1.0
  */
 
-package pers.linhai.nature.j2ee.core.dao;
+package pers.linhai.nature.j2ee.core.dao.resulthandler;
 
 
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -18,8 +17,11 @@ import java.util.Map.Entry;
 import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
 
+import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
 import pers.linhai.nature.j2ee.core.exception.ReflectException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
+import pers.linhai.nature.j2ee.core.model.EntityBean;
+import pers.linhai.nature.reflect.ConstructorAccess;
 
 
 /**
@@ -28,7 +30,7 @@ import pers.linhai.nature.j2ee.core.model.BaseEntity;
  * @author lilinhai 2018年2月12日 下午12:55:04
  * @version 1.0
  */
-public class RowDataHashMapResultHandler<Key extends Serializable, Entity extends BaseEntity<Key>> implements ResultHandler<Map<String, Object>>
+public class RowDataHashMapResultHandler<Key extends Serializable, Entity extends BaseEntity<Key>> implements ResultHandler<EntityBean>
 {
 
     /**
@@ -36,22 +38,22 @@ public class RowDataHashMapResultHandler<Key extends Serializable, Entity extend
      */
     private Map<String, Field> fieldMap;
 
-    private Constructor<Entity> entityConstructor;
+    private ConstructorAccess<Entity> entityConstructor;
     
-    private IEntityProcessor<Entity> entityProcessor;
+    private IRowDataProcessor<Entity> rowDataProcessor;
     
     /**
      * <p>Title        : RowDataResultHandler lilinhai 2018年2月13日 下午12:20:21</p>
      * @param fieldMap
-     * @param entityConstructor
+     * @param entityConstructor2
      * @param entityProcessor 
      */ 
-    public RowDataHashMapResultHandler(Map<String, Field> fieldMap, Constructor<Entity> entityConstructor, IEntityProcessor<Entity> entityProcessor)
+    public RowDataHashMapResultHandler(Map<String, Field> fieldMap, ConstructorAccess<Entity> entityConstructor, IRowDataProcessor<Entity> rowDataProcessor)
     {
         super();
         this.fieldMap = fieldMap;
         this.entityConstructor = entityConstructor;
-        this.entityProcessor = entityProcessor;
+        this.rowDataProcessor = rowDataProcessor;
     }
 
     /** 
@@ -60,17 +62,21 @@ public class RowDataHashMapResultHandler<Key extends Serializable, Entity extend
      * @param resultContext 
      * @see org.apache.ibatis.session.ResultHandler#handleResult(org.apache.ibatis.session.ResultContext)
      */
-    public void handleResult(ResultContext<? extends Map<String, Object>> resultContext)
+    public void handleResult(ResultContext<? extends EntityBean> resultContext)
     {
         try
         {
-            Map<String, Object> rowData = resultContext.getResultObject();
+            EntityBean entityBean = resultContext.getResultObject();
             Entity entity = entityConstructor.newInstance();
-            for (Entry<String, Object> e : rowData.entrySet())
+            Field field = null;
+            for (Entry<String, Serializable> e : entityBean.entrySet())
             {
-                fieldMap.get(e.getKey()).set(entity, e.getValue());
+                if ((field = fieldMap.get(e.getKey())) != null)
+                {
+                    field.set(entity, e.getValue());
+                }
             }
-            entityProcessor.process(entity);
+            rowDataProcessor.process(entityBean, entity);
         }
         catch (Throwable e1)
         {

@@ -14,6 +14,7 @@ import java.util.List;
 
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
+import pers.linhai.nature.j2ee.core.model.EntityBean;
 
 /**
  * <p>ClassName      : BaseService</p>
@@ -78,4 +79,12 @@ public interface IBaseEntityService<Key extends Serializable, Entity extends Bas
      * List<Entity>
      */
     List<Entity> find(EntityQuery entityQuery);
+    
+    /**
+     * 组合条件查询多记录，根据IEntityProcessor的实现，定制化处理返回结果
+     * <p>Title         : query lilinhai 2018年2月13日 下午12:26:15</p>
+     * @param entityQuery
+     * void
+     */
+    List<EntityBean> findEntityBean(EntityQuery entityQuery);
 }

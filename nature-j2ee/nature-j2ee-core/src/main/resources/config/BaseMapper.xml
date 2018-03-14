@@ -3,7 +3,7 @@
 <mapper namespace="pers.linhai.nature.j2ee.core.dao.IBaseMapper">
 
     <!-- 公共的结果映射类型 -->
-    <resultMap id="BaseResultMap" type="HashMap" />
+    <resultMap id="BaseResultMap" type="EntityBean" />
 
     <!-- 公共动态自定义查询条件 -->
     <sql id="Common_Where">

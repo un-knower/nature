@@ -12,7 +12,6 @@ package pers.linhai.nature.j2ee.generator.core.api;
 import static pers.linhai.nature.j2ee.generator.core.internal.util.EqualsUtil.areEqual;
 import static pers.linhai.nature.j2ee.generator.core.internal.util.HashCodeUtil.SEED;
 import static pers.linhai.nature.j2ee.generator.core.internal.util.HashCodeUtil.hash;
-import static pers.linhai.nature.j2ee.generator.core.internal.util.JavaBeansUtil.getCamelCaseString;
 import static pers.linhai.nature.j2ee.generator.core.internal.util.StringUtility.composeFullyQualifiedTableName;
 import static pers.linhai.nature.j2ee.generator.core.internal.util.StringUtility.stringHasValue;
 
@@ -21,6 +20,7 @@ import java.util.regex.Pattern;
 
 import pers.linhai.nature.j2ee.generator.core.config.Context;
 import pers.linhai.nature.j2ee.generator.core.config.DomainObjectRenamingRule;
+import pers.linhai.nature.utils.NamingUtils;
 
 
 /**
@@ -276,11 +276,11 @@ public class FullyQualifiedTable
         String finalDomainObjectName;
         if (stringHasValue(runtimeTableName))
         {
-            finalDomainObjectName = getCamelCaseString(runtimeTableName, true);
+            finalDomainObjectName = NamingUtils.getCamelCaseString(runtimeTableName, true);
         }
         else
         {
-            finalDomainObjectName = getCamelCaseString(introspectedTableName, true);
+            finalDomainObjectName = NamingUtils.getCamelCaseString(introspectedTableName, true);
         }
 
         if (domainObjectRenamingRule != null)

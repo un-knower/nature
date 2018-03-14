@@ -32,6 +32,7 @@
     <typeAliases>
         <typeAlias alias="BaseQuery" type="pers.linhai.nature.j2ee.core.model.BaseQuery" />
         <typeAlias alias="BaseEntity" type="pers.linhai.nature.j2ee.core.model.BaseEntity" />
+        <typeAlias alias="EntityBean" type="pers.linhai.nature.j2ee.core.model.EntityBean" />
         
         <!-- 根据包取别名，把包下面的所有类都按类名来取别名，这用可以简化代码量 -->
         <package name="java.util" />

@@ -12,6 +12,8 @@ package pers.linhai.nature.j2ee.core.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import pers.linhai.nature.j2ee.core.dao.processor.IEntityProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 
@@ -79,11 +81,11 @@ public interface IBaseMapper<Key extends Serializable, Entity extends BaseEntity
     /**
      * 组合条件查询多记录，根据IEntityProcessor的实现，定制化处理返回结果
      * <p>Title         : query lilinhai 2018年2月13日 下午12:26:15</p>
-     * @param entityQueryBean
+     * @param entityQuery
      * @param entityProcessor 
      * void
      */
-    void find(EntityQuery entityQueryBean, IEntityProcessor<Entity> entityProcessor);
+    void find(EntityQuery entityQuery, IRowDataProcessor<Entity> entityProcessor);
     
     /**
      * 调用自己写的statment sql语句

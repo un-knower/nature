@@ -39,6 +39,14 @@ public abstract class NamingUtils
         return s.toString();
     }
     
+    /**
+     * 将数据库中带下划线的字段名计算成java字段名（驼峰命名）
+     * <p>Title         : getCamelCaseString lilinhai 2018年3月14日 上午10:55:59</p>
+     * @param inputString
+     * @param firstCharacterUppercase
+     * @return 
+     * String
+     */
     public static String getCamelCaseString(String inputString, boolean firstCharacterUppercase)
     {
         StringBuilder sb = new StringBuilder();
@@ -92,7 +100,7 @@ public abstract class NamingUtils
      * @param name
      * @return
      */
-    public static final String controllerName(String name)
+    public static final String controllerMappingName(String name)
     {
         StringBuffer s = new StringBuffer();
         for (int i = 0; i < name.length(); i++)

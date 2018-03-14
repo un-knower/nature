@@ -57,6 +57,34 @@ public class CodeCommentUtils
         topLevelClass.addJavaDocLine(" */"); //$NON-NLS-1$
     }
     
+    public static void addInterceptorClassComment(TopLevelClass topLevelClass, IntrospectedTable introspectedTable)
+    {
+        StringBuilder sb = new StringBuilder();
+        setClassCommonComment(topLevelClass, sb);
+        String remarks = introspectedTable.getRemarks();
+        if (StringUtility.stringHasValue(remarks))
+        {
+            topLevelClass.addJavaDocLine(" *   1）实体数据拦截器实现类，对应的实体含义："); //$NON-NLS-1$
+            String[] remarkLines = remarks.split(System.getProperty("line.separator")); //$NON-NLS-1$
+            for (String remarkLine : remarkLines)
+            {
+                topLevelClass.addJavaDocLine(" *      " + remarkLine); //$NON-NLS-1$
+            }
+        }
+        else
+        {
+            topLevelClass.addJavaDocLine(" *   1）<label style=\"color:red\">警告：该实体在数据库表["+introspectedTable.getFullyQualifiedTable().getIntrospectedTableName()+"]中未加注释，请加上！</label>"); //$NON-NLS-1$
+        }
+        topLevelClass.addJavaDocLine(" *"); //$NON-NLS-1$
+
+        sb = new StringBuilder();
+        sb.append(" *   2）实体所对应数据库表："); //$NON-NLS-1$
+        sb.append(introspectedTable.getFullyQualifiedTable());
+        topLevelClass.addJavaDocLine(sb.toString());
+        topLevelClass.addJavaDocLine(" * </pre>"); //$NON-NLS-1$
+        topLevelClass.addJavaDocLine(" */"); //$NON-NLS-1$
+    }
+    
     public static void addServiceClassComment(TopLevelClass topLevelClass, IntrospectedTable introspectedTable)
     {
         StringBuilder sb = new StringBuilder();

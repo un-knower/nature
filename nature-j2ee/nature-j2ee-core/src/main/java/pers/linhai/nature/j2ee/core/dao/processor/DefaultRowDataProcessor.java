@@ -7,12 +7,13 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.j2ee.core.dao;
+package pers.linhai.nature.j2ee.core.dao.processor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
+import pers.linhai.nature.j2ee.core.model.EntityBean;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -20,7 +21,7 @@ import pers.linhai.nature.j2ee.core.model.BaseEntity;
  * @author lilinhai 2018年2月13日 下午12:22:43
  * @version 1.0
  */
-public class DefaultEntityProcessor<Entity extends BaseEntity<?>> implements IEntityProcessor<Entity>
+public class DefaultRowDataProcessor<Entity extends BaseEntity<?>> implements IRowDataProcessor<Entity>
 {
 
     private List<Entity> entityList = new ArrayList<Entity>();
@@ -29,9 +30,9 @@ public class DefaultEntityProcessor<Entity extends BaseEntity<?>> implements IEn
      * <p>Overriding Method: lilinhai 2018年2月13日 下午12:23:02</p>
      * <p>Title: process</p>
      * @param entity 
-     * @see com.meme.crm.dao.core.IEntityProcessor#process(com.meme.crm.model.core.BaseEntity)
+     * @see com.meme.crm.dao.core.IRowDataProcessor#process(com.meme.crm.model.core.BaseEntity)
      */ 
-    public void process(Entity entity)
+    public void process(EntityBean entityBean, Entity entity)
     {
         entityList.add(entity);
     }

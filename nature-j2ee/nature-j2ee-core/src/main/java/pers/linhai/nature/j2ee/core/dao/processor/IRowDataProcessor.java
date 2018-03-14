@@ -7,15 +7,17 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.j2ee.core.dao;
+package pers.linhai.nature.j2ee.core.dao.processor;
+
+import pers.linhai.nature.j2ee.core.model.EntityBean;
 
 /**
  * <p>ClassName      : IEntityHandler</p>
  * @author lilinhai 2018年2月13日 下午12:15:34
  * @version 1.0
  */
-public interface IEntityProcessor<Entity>
+public interface IRowDataProcessor<Entity>
 {
 
-    void process(Entity entity);
+    void process(EntityBean entityBean, Entity entity);
 }

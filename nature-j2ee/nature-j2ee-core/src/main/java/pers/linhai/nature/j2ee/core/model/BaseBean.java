@@ -44,10 +44,10 @@ public abstract class BaseBean extends HashMap<String, Serializable>
     {
         if (value != null)
         {
-            put(key, value);
+            super.put(key, value);
             if (value instanceof Date)
             {
-                put(key.concat("Str"), DATE_FORMAT.format((Date)value));
+                super.put(key.concat("Str"), DATE_FORMAT.format((Date)value));
             }
         }
     }

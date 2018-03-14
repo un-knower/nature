@@ -16,6 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import pers.linhai.nature.utils.NamingUtils;
+
 /**
  * <p>ClassName      : EntityBean</p>
  * @author lilinhai 2018年2月16日 下午5:00:25
@@ -29,7 +31,7 @@ public class EntityBean extends ModelBean
      */
     private static final long serialVersionUID = 1L;
     
-    private static final List<Field> FIELD_LIST = new ArrayList<Field>();
+    private static final List<Field> FIELD_LIST = new ArrayList<Field>(2);
     static
     {
         Set<String> excludeFieldSet = new HashSet<String>();
@@ -37,6 +39,14 @@ public class EntityBean extends ModelBean
         parse(BaseEntity.class.getDeclaredFields(), FIELD_LIST, excludeFieldSet);
     }
     
+    /**
+     * <p>Title        : EntityBean lilinhai 2018年3月14日 上午11:27:01</p>
+     */ 
+    public EntityBean()
+    {
+        
+    }
+
     /**
      * 
      * <p>Title        : EntityBean lilinhai 2018年2月17日 下午7:33:13</p>
@@ -57,4 +67,19 @@ public class EntityBean extends ModelBean
             e.printStackTrace();
         }
     }
+
+    /** 
+     * <p>Overriding Method: lilinhai 2018年3月14日 上午11:38:38</p>
+     * <p>Title: put</p>
+     * @param key
+     * @param value
+     * @return 
+     * @see java.util.HashMap#put(java.lang.Object, java.lang.Object)
+     */ 
+    public Serializable put(String key, Serializable value)
+    {
+        putAttribute(NamingUtils.getCamelCaseString(key, false), value);
+        return null;
+    }
+    
 }

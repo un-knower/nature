@@ -6,11 +6,13 @@
  * @Version V1.0
  */
 
-package pers.linhai.nature.j2ee.core.dao;
+package pers.linhai.nature.j2ee.core.dao.resulthandler;
 
 
 import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
+
+import pers.linhai.nature.j2ee.core.dao.processor.IEntityProcessor;
 
 
 /**

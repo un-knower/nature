@@ -34,9 +34,8 @@ public abstract class BaseApplication
      */
     protected static void start(Class<? extends BaseApplication> clazz, String[] args)
     {
-     // 异步日志
+        // 异步日志
         System.setProperty("Log4jContextSelector", AsyncLoggerContextSelector.class.getName());
-        
         SpringApplication springApplication = new SpringApplication(clazz);
         
         //关闭spring boot自身横幅打印

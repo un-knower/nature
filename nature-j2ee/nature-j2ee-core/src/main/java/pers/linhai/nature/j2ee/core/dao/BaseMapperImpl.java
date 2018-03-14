@@ -10,7 +10,6 @@ package pers.linhai.nature.j2ee.core.dao;
 
 
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -29,11 +28,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import pers.linhai.nature.j2ee.core.dao.processor.CustomEntityProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.DefaultEntityProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.IEntityProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.resulthandler.RowDataEntityResultHandler;
+import pers.linhai.nature.j2ee.core.dao.resulthandler.RowDataHashMapResultHandler;
 import pers.linhai.nature.j2ee.core.exception.MapperException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.Where;
 import pers.linhai.nature.j2ee.core.model.Where.Condition;
+import pers.linhai.nature.reflect.ConstructorAccess;
 
 
 /**
@@ -44,20 +51,46 @@ import pers.linhai.nature.j2ee.core.model.Where.Condition;
 @SuppressWarnings("unchecked")
 public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery> implements IBaseMapper<Key, Entity, EntityQuery>
 {
-
     /**
      * 父接口的命名空间
      */
-    private final String baseNamespace = IBaseMapper.class.getName();
-
+    private static final String baseNamespace = IBaseMapper.class.getName();
+    
+    /**
+     * 保存方法
+     */
+    private static final String SAVE = baseNamespace.concat(".save");
+    
+    /**
+     * 删除方法
+     */
+    private static final String DELETE = baseNamespace.concat(".delete");
+    
+    /**
+     * 修改方法
+     */
+    private static final String UPDATE = baseNamespace.concat(".update");
+    
+    /**
+     * 查询方法
+     */
+    private static final String FIND = baseNamespace.concat(".find");
+    
+    /**
+     * 计数方法
+     */
+    private static final String COUNT = baseNamespace.concat(".count");
+    
+    /**
+     * 汇总计算方法
+     */
+    private static final String SUM = baseNamespace.concat(".sum");
+    
     /**
      * 日志记录器
      */
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-     * 
-     */
     @Autowired
     protected SqlSessionTemplate sqlSessionTemplate;
     
@@ -74,12 +107,12 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
     /**
      * 实体构造函器
      */
-    protected Constructor<Entity> entityConstructor;
+    protected ConstructorAccess<Entity> entityConstructor;
 
     /**
      * 实体查询条件构造器
      */
-    protected Constructor<EntityQuery> entityQueryConstructor;
+    protected ConstructorAccess<EntityQuery> entityQueryConstructor;
 
     /**
      * <p>Title        : BaseMapperImpl lilinhai 2018年2月12日 下午2:12:25</p>
@@ -113,17 +146,13 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                     Class<?> c = (Class<?>)type;
                     if (c.getSuperclass() == BaseEntity.class)
                     {
-                        entityConstructor = ((Class<Entity>)c).getConstructor();
-                        entityConstructor.setAccessible(true);
-
-                        Entity entity = entityConstructor.newInstance();
-                        mapField(fieldMap, c.getDeclaredFields(), entity);
-                        mapField(fieldMap, BaseEntity.class.getDeclaredFields(), entity);
+                        entityConstructor = ConstructorAccess.get((Class<Entity>)c);
+                        mapField(fieldMap, c.getDeclaredFields());
+                        mapField(fieldMap, BaseEntity.class.getDeclaredFields());
                     }
                     else if (c.getSuperclass() == BaseQuery.class)
                     {
-                        entityQueryConstructor = ((Class<EntityQuery>)c).getConstructor();
-                        entityQueryConstructor.setAccessible(true);
+                        entityQueryConstructor = ConstructorAccess.get((Class<EntityQuery>)c);
                     }
                 }
             }
@@ -157,7 +186,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                 record.setCreateTime(new Date());
             }
             
-            return sqlSessionTemplate.update(baseNamespace + ".save", record);
+            return sqlSessionTemplate.update(SAVE, record);
         }
         catch (Throwable e1)
         {
@@ -207,7 +236,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
      */
     public int delete(EntityQuery entityQuery)
     {
-        return sqlSessionTemplate.delete(baseNamespace + ".delete", entityQuery);
+        return sqlSessionTemplate.delete(DELETE, entityQuery);
     }
     
     /** 
@@ -250,7 +279,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                 record.setWhere(where);
             }
             
-            return sqlSessionTemplate.update(baseNamespace + ".update", record);
+            return sqlSessionTemplate.update(UPDATE, record);
         }
         catch (Throwable e1)
         {
@@ -298,7 +327,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
      */
     public Entity get(EntityQuery entityQuery)
     {
-        DefaultEntityProcessor<Entity> entityProcessor = new DefaultEntityProcessor<Entity>();
+        DefaultRowDataProcessor<Entity> entityProcessor = new DefaultRowDataProcessor<Entity>();
         find(entityQuery, entityProcessor);
         if (entityProcessor.getEntityList().isEmpty())
         {
@@ -318,7 +347,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
     public long count(EntityQuery entityQuery)
     {
         final AtomicLong al = new AtomicLong();
-        sqlSessionTemplate.select(baseNamespace + ".count", entityQuery, new ResultHandler<Long>()
+        sqlSessionTemplate.select(COUNT, entityQuery, new ResultHandler<Long>()
         {
             public void handleResult(ResultContext<? extends Long> resultContext)
             {
@@ -338,7 +367,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
     public long sum(EntityQuery entityQuery)
     {
         final AtomicLong al = new AtomicLong();
-        sqlSessionTemplate.select(baseNamespace + ".sum", entityQuery, new ResultHandler<Long>()
+        sqlSessionTemplate.select(SUM, entityQuery, new ResultHandler<Long>()
         {
             public void handleResult(ResultContext<? extends Long> resultContext)
             {
@@ -358,16 +387,16 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
     @Override
     public List<Entity> find(EntityQuery entityQuery)
     {
-        DefaultEntityProcessor<Entity> entityProcessor = new DefaultEntityProcessor<Entity>();
+        DefaultRowDataProcessor<Entity> entityProcessor = new DefaultRowDataProcessor<Entity>();
         find(entityQuery, entityProcessor);
         return entityProcessor.getEntityList();
     }
 
     @Override
-    public void find(EntityQuery entityQuery, IEntityProcessor<Entity> entityProcessor)
+    public void find(EntityQuery entityQuery, IRowDataProcessor<Entity> entityProcessor)
     {
         RowDataHashMapResultHandler<Key, Entity> myResultHandler = new RowDataHashMapResultHandler<Key, Entity>(fieldMap, entityConstructor, entityProcessor);
-        sqlSessionTemplate.select(baseNamespace + ".find", entityQuery, myResultHandler);
+        sqlSessionTemplate.select(FIND, entityQuery, myResultHandler);
     }
     
     /**
@@ -380,8 +409,8 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
      */
     public void find(String statment, Object params, IEntityProcessor<Entity> entityProcessor)
     {
-        RowDataHashMapResultHandler<Key, Entity> myResultHandler = new RowDataHashMapResultHandler<Key, Entity>(fieldMap, entityConstructor, entityProcessor);
-        sqlSessionTemplate.select(namespace + "." + statment, params, myResultHandler);
+        RowDataEntityResultHandler<Entity> myResultHandler = new RowDataEntityResultHandler<Entity>(entityProcessor);
+        sqlSessionTemplate.select(namespace.concat(".").concat(statment), params, myResultHandler);
     }
     
     /**
@@ -426,7 +455,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
     public <T> void execFind(String statment, Object params, IEntityProcessor<T> entityProcessor)
     {
         RowDataEntityResultHandler<T> myResultHandler = new RowDataEntityResultHandler<T>(entityProcessor);
-        sqlSessionTemplate.select(namespace + "." + statment, params, myResultHandler);
+        sqlSessionTemplate.select(namespace.concat(".").concat(statment), params, myResultHandler);
     }
     
     /**
@@ -498,7 +527,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
      * @param fs 
      * void
      */
-    private void mapField(Map<String, Field> javaFieldMap, Field[] fs, Entity entity)
+    private void mapField(Map<String, Field> javaFieldMap, Field[] fs)
     {
         for (Field field : fs)
         {
@@ -513,7 +542,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                 continue;
             }
             field.setAccessible(true);
-            javaFieldMap.put(entity.getTableField(field.getName()), field);
+            javaFieldMap.put(field.getName(), field);
         }
     }
 }

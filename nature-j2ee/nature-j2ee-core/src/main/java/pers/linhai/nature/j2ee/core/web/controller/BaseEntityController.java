@@ -257,12 +257,6 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
             // 分页参数为空，则不进行分页查询
             if (entityQuery.getPage() == null || entityQuery.getSize() == null)
             {
-                if (entityList == null)
-                {
-                    RestResponse restResponse = fail(RestErrorCode.QUERY_FAIL, "[Controller] query occor an error, entityQuery：" + JSON.toJSONString(entityQuery));
-                    logger.error(JSON.toJSONString(restResponse));
-                    return restResponse;
-                }
                 return success(beanList);
             }
             // 分页查询

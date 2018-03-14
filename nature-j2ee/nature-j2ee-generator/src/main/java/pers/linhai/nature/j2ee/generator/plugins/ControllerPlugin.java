@@ -25,7 +25,7 @@ import pers.linhai.nature.j2ee.generator.core.api.dom.java.FullyQualifiedJavaTyp
 import pers.linhai.nature.j2ee.generator.core.api.dom.java.JavaVisibility;
 import pers.linhai.nature.j2ee.generator.core.api.dom.java.TopLevelClass;
 import pers.linhai.nature.j2ee.generator.utils.CodeCommentUtils;
-import pers.linhai.nature.j2ee.generator.utils.NamingUtils;
+import pers.linhai.nature.utils.NamingUtils;
 
 /**
  * 控制层代码生成器
@@ -93,7 +93,7 @@ public class ControllerPlugin extends BasePlugin
         
         // 添加spring扫描注解
         controllerClass.addAnnotation("@RestController");
-        controllerClass.addAnnotation("@RequestMapping(\"/" + NamingUtils.controllerName(introspectedTable.getFullyQualifiedTable().getDomainObjectName()) + "\")");
+        controllerClass.addAnnotation("@RequestMapping(\"/" + NamingUtils.controllerMappingName(introspectedTable.getFullyQualifiedTable().getDomainObjectName()) + "\")");
         
         //添加注释
         CommentGenerator commentGenerator = context.getCommentGenerator();
