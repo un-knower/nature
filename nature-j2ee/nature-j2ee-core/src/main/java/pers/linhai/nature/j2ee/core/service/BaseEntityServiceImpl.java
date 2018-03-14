@@ -16,7 +16,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import pers.linhai.nature.j2ee.core.dao.IBaseMapper;
-import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.IEntityDataInterceptor;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
@@ -62,11 +63,26 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable
     {
         try
         {
+            entityDataInterceptor.process(record);
             return mapper.save(record);
         }
         catch (Throwable e)
         {
             logger.error("[Service] save(Entity record) occor an error", e);
+            return -1;
+        }
+    }
+    
+    public int update(Entity record)
+    {
+        try
+        {
+            entityDataInterceptor.process(record);
+            return mapper.update(record);
+        }
+        catch (Throwable e)
+        {
+            logger.error("[Service] update(Entity record) occor an error", e);
             return -1;
         }
     }
@@ -83,18 +99,10 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable
             return null;
         }
     }
-
-    public int update(Entity record)
+    
+    public EntityBean getEntityBean(Key id)
     {
-        try
-        {
-            return mapper.update(record);
-        }
-        catch (Throwable e)
-        {
-            logger.error("[Service] update(Entity record) occor an error", e);
-            return -1;
-        }
+        return mapper.get(id, new DefaultRowDataProcessor<Key, Entity>(entityDataInterceptor));
     }
 
     public Entity get(EntityQuery entityQuery)
@@ -108,6 +116,11 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable
             logger.error("[Service] get(EntityQuery entityQuery) occor an error", e);
             return null;
         }
+    }
+    
+    public EntityBean getEntityBean(EntityQuery entityQuery)
+    {
+        return mapper.get(entityQuery, new DefaultRowDataProcessor<Key, Entity>(entityDataInterceptor));
     }
 
     /**
@@ -156,36 +169,25 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable
         }
     }
 
-    /** 
-     * <p>Overriding Method: lilinhai 2018年3月14日 下午5:09:46</p>
-     * <p>Title: find</p>
+    /**
+     * <p>Overriding Method: lilinhai 2018年3月14日 下午11:51:08</p>
+     * <p>Title: findEntityBean</p>
      * @param entityQuery
-     * @see pers.linhai.nature.j2ee.core.service.IBaseEntityService#find(pers.linhai.nature.j2ee.core.model.BaseQuery, pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor)
+     * @return 
+     * @see pers.linhai.nature.j2ee.core.service.IBaseEntityService#findEntityBean(pers.linhai.nature.j2ee.core.model.BaseQuery)
      */
     public List<EntityBean> findEntityBean(EntityQuery entityQuery)
     {
-        List<EntityBean> entityBeanList = new ArrayList<EntityBean>();
         try
         {
-            mapper.find(entityQuery, new IRowDataProcessor<Entity>()
-            {
-                /** 
-                 * <p>Overriding Method: lilinhai 2018年3月14日 下午5:43:55</p>
-                 * <p>Title: process</p>
-                 * @param entityBean
-                 * @param entity 
-                 * @see pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor#process(pers.linhai.nature.j2ee.core.model.EntityBean, java.lang.Object)
-                 */ 
-                public void process(EntityBean entityBean, Entity entity)
-                {
-                    entityDataInterceptor.process(entityBean, entity);
-                }
-            });
+            DefaultRowDataProcessor<Key, Entity> rowDataServiceProcessor = new DefaultRowDataProcessor<Key, Entity>(entityDataInterceptor);
+            mapper.find(entityQuery, rowDataServiceProcessor);
+            return rowDataServiceProcessor.getEntityBeanList();
         }
         catch (Throwable e)
         {
-            logger.error("[Service] find(EntityQuery entityQuery, IRowDataProcessor<Entity> entityProcessor) occor an error", e);
+            logger.error("[Service] findEntityBean(EntityQuery entityQuery) occor an error", e);
+            return new ArrayList<EntityBean>(0);
         }
-        return entityBeanList;
     }
 }

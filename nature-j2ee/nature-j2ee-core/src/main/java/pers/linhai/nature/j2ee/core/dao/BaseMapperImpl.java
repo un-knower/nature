@@ -38,6 +38,7 @@ import pers.linhai.nature.j2ee.core.dao.resulthandler.RowDataHashMapResultHandle
 import pers.linhai.nature.j2ee.core.exception.MapperException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
+import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.model.Where;
 import pers.linhai.nature.j2ee.core.model.Where.Condition;
 import pers.linhai.nature.reflect.ConstructorAccess;
@@ -317,6 +318,29 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
         }
         return null;
     }
+    
+    public EntityBean get(Key id, DefaultRowDataProcessor<Key, Entity> entityProcessor)
+    {
+        try
+        {
+            EntityQuery eq = entityQueryConstructor.newInstance();
+            Where where = new Where();
+            List<Condition> conditionList = new ArrayList<Condition>();
+            Condition con = new Condition();
+            con.setFieldName("id");
+            con.setOperator("=");
+            con.setValue(id);
+            conditionList.add(con);
+            where.setConditionList(conditionList);
+            eq.setWhere(where);
+            return get(eq, entityProcessor);
+        }
+        catch (Throwable e)
+        {
+            logger.error("IBaseMapper.get(Key id, DefaultRowDataProcessor<Key, Entity> entityProcessor)", e);
+        }
+        return null;
+    }
 
     /** 
      * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
@@ -327,13 +351,30 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
      */
     public Entity get(EntityQuery entityQuery)
     {
-        DefaultRowDataProcessor<Entity> entityProcessor = new DefaultRowDataProcessor<Entity>();
+        DefaultRowDataProcessor<Key, Entity> entityProcessor = new DefaultRowDataProcessor<Key, Entity>();
         find(entityQuery, entityProcessor);
         if (entityProcessor.getEntityList().isEmpty())
         {
             return null;
         }
         return entityProcessor.getEntityList().get(0);
+    }
+    
+    /** 
+     * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
+     * <p>Title: query</p>
+     * @param entityQueryBean
+     * @return 
+     * @see com.meme.crm.dao.core.IBaseMapper#get(com.meme.crm.model.core.BaseQuery)
+     */
+    public EntityBean get(EntityQuery entityQuery, DefaultRowDataProcessor<Key, Entity> entityProcessor)
+    {
+        find(entityQuery, entityProcessor);
+        if (entityProcessor.getEntityBeanList().isEmpty())
+        {
+            return null;
+        }
+        return entityProcessor.getEntityBeanList().get(0);
     }
     
     /** 
@@ -387,7 +428,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
     @Override
     public List<Entity> find(EntityQuery entityQuery)
     {
-        DefaultRowDataProcessor<Entity> entityProcessor = new DefaultRowDataProcessor<Entity>();
+        DefaultRowDataProcessor<Key, Entity> entityProcessor = new DefaultRowDataProcessor<Key, Entity>();
         find(entityQuery, entityProcessor);
         return entityProcessor.getEntityList();
     }

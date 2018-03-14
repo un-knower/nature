@@ -16,8 +16,8 @@ import java.util.Properties;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import pers.linhai.nature.j2ee.core.dao.processor.IEntityDataInterceptor;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
-import pers.linhai.nature.j2ee.core.service.IEntityDataInterceptor;
 import pers.linhai.nature.j2ee.generator.core.api.CommentGenerator;
 import pers.linhai.nature.j2ee.generator.core.api.CoreClassImportConstant;
 import pers.linhai.nature.j2ee.generator.core.api.GeneratedJavaFile;

@@ -12,10 +12,12 @@ package pers.linhai.nature.j2ee.core.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.IEntityProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
+import pers.linhai.nature.j2ee.core.model.EntityBean;
 
 
 /**
@@ -59,6 +61,16 @@ public interface IBaseMapper<Key extends Serializable, Entity extends BaseEntity
      * 根据主键id查找单个记录。
      */
     Entity get(Key id);
+    
+    /**
+     * 
+     * <p>Title         : get lilinhai 2018年3月15日 上午12:04:49</p>
+     * @param id
+     * @param entityProcessor
+     * @return 
+     * EntityBean
+     */
+    EntityBean get(Key id, DefaultRowDataProcessor<Key, Entity> entityProcessor);
 
     /**
      * 根据条件查询单个记录
@@ -68,6 +80,15 @@ public interface IBaseMapper<Key extends Serializable, Entity extends BaseEntity
      * Entity
      */
     Entity get(EntityQuery entityQuery);
+    
+    /**
+     * <p>Title         : get lilinhai 2018年3月15日 上午12:00:03</p>
+     * @param entityQuery
+     * @param entityProcessor
+     * @return 
+     * EntityBean
+     */
+    EntityBean get(EntityQuery entityQuery, DefaultRowDataProcessor<Key, Entity> entityProcessor);
 
     /**
      * 组合查询记录，返回集合，支持分页

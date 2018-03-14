@@ -38,6 +38,14 @@ public interface IBaseEntityService<Key extends Serializable, Entity extends Bas
      * 根据主键id查找单个记录。
      */
     Entity get(Key id);
+    
+    /**
+     * <p>Title         : getEntityBean lilinhai 2018年3月15日 上午12:05:39</p>
+     * @param id
+     * @return 
+     * EntityBean
+     */
+    EntityBean getEntityBean(Key id);
 
     /**
      * 修改单个记录，只将不为空的字段更新到记录。
@@ -52,6 +60,15 @@ public interface IBaseEntityService<Key extends Serializable, Entity extends Bas
      * EntityBean
      */
     Entity get(EntityQuery entityQuery);
+    
+    /**
+     * 返回到前端展示专用
+     * <p>Title         : getEntityBean lilinhai 2018年3月14日 下午11:54:51</p>
+     * @param entityQuery
+     * @return 
+     * EntityBean
+     */
+    EntityBean getEntityBean(EntityQuery entityQuery);
     
     /**
      * 统计条目
