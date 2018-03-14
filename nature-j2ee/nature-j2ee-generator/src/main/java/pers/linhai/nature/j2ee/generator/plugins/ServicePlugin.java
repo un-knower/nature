@@ -30,6 +30,7 @@ import pers.linhai.nature.j2ee.generator.core.api.dom.java.Method;
 import pers.linhai.nature.j2ee.generator.core.api.dom.java.Parameter;
 import pers.linhai.nature.j2ee.generator.core.api.dom.java.TopLevelClass;
 import pers.linhai.nature.j2ee.generator.utils.CodeCommentUtils;
+import pers.linhai.nature.utils.NamingUtils;
 
 
 /**
@@ -154,7 +155,7 @@ public class ServicePlugin extends BasePlugin
         processMethod1.setFinal(false);
         processMethod1.setStatic(false);
         processMethod1.setVisibility(JavaVisibility.PUBLIC);
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), "entity"));
+        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
         processMethod1.addBodyLine("");
         interceptor.addMethod(processMethod1);
         
@@ -167,7 +168,7 @@ public class ServicePlugin extends BasePlugin
         processMethod2.setStatic(false);
         processMethod2.setVisibility(JavaVisibility.PUBLIC);
         processMethod2.addParameter(new Parameter(new FullyQualifiedJavaType(EntityBean.class.getName()), "entityBean"));
-        processMethod2.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), "entity"));
+        processMethod2.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
         processMethod2.addBodyLine("");
         interceptor.addMethod(processMethod2);
         
