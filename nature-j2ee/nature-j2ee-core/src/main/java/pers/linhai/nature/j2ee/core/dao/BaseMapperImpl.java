@@ -351,6 +351,8 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
      */
     public Entity get(EntityQuery entityQuery)
     {
+        entityQuery.setPage(0);
+        entityQuery.setSize(1);
         DefaultRowDataProcessor<Entity> entityProcessor = new DefaultRowDataProcessor<Entity>();
         find(entityQuery, entityProcessor);
         if (entityProcessor.getEntityList().isEmpty())
