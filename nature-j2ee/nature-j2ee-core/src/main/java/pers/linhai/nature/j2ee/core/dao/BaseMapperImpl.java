@@ -371,6 +371,8 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
      */
     public EntityBean get(EntityQuery entityQuery, DefaultRowDataProcessor<Entity> entityProcessor)
     {
+        entityQuery.setPage(0);
+        entityQuery.setSize(1);
         find(entityQuery, entityProcessor);
         if (entityProcessor.getEntityBeanList().isEmpty())
         {
