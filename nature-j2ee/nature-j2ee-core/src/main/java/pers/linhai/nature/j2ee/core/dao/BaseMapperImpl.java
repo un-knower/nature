@@ -191,8 +191,8 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
         }
         catch (Throwable e1)
         {
-            logger.error("save0 occor an error " , e1);
-            return 0;
+            logger.error("IBaseMapper.save(Entity record) occor an error " , e1);
+            throw new MapperException(e1);
         }
     }
 
@@ -223,8 +223,8 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
         catch (Throwable e)
         {
             logger.error("IBaseMapper.delete(Key id)", e);
+            throw new MapperException(e);
         }
-        return 0;
     }
 
     /**
@@ -284,8 +284,8 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
         }
         catch (Throwable e1)
         {
-            logger.error("update occor an error ", e1);
-            return 0;
+            logger.error("IBaseMapper.update(Entity record) occor an error ", e1);
+            throw new MapperException(e1);
         }
     }
 

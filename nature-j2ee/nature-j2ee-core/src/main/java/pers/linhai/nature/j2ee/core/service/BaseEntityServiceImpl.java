@@ -18,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pers.linhai.nature.j2ee.core.dao.IBaseMapper;
 import pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.IEntityDataInterceptor;
+import pers.linhai.nature.j2ee.core.exception.EntityPreProcessSaveException;
+import pers.linhai.nature.j2ee.core.exception.EntityPreProcessUpdateException;
+import pers.linhai.nature.j2ee.core.exception.MapperException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
@@ -52,13 +55,25 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable
         {
             return mapper.delete(id);
         }
+        catch (MapperException e) 
+        {
+            throw e;
+        }
         catch (Throwable e)
         {
             logger.error("[Service] delete(Key id) occor an error", e);
-            return -1;
+            return 0;
         }
     }
 
+    /**
+     * 保存方法
+     * <p>Overriding Method: lilinhai 2018年3月15日 下午2:30:26</p>
+     * <p>Title: save</p>
+     * @param record
+     * @return 
+     * @see pers.linhai.nature.j2ee.core.service.IBaseEntityService#save(pers.linhai.nature.j2ee.core.model.BaseEntity)
+     */
     public int save(Entity record)
     {
         try
@@ -66,13 +81,29 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable
             entityDataInterceptor.preProcessSave(record);
             return mapper.save(record);
         }
+        catch (MapperException e) 
+        {
+            throw e;
+        }
+        catch (EntityPreProcessSaveException e) 
+        {
+            throw e;
+        }
         catch (Throwable e)
         {
             logger.error("[Service] save(Entity record) occor an error", e);
-            return -1;
+            return 0;
         }
     }
     
+    /**
+     * 实体修改
+     * <p>Overriding Method: lilinhai 2018年3月15日 下午2:31:58</p>
+     * <p>Title: update</p>
+     * @param record
+     * @return 
+     * @see pers.linhai.nature.j2ee.core.service.IBaseEntityService#update(pers.linhai.nature.j2ee.core.model.BaseEntity)
+     */
     public int update(Entity record)
     {
         try
@@ -80,10 +111,18 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable
             entityDataInterceptor.preProcessUpdate(record);
             return mapper.update(record);
         }
+        catch (MapperException e) 
+        {
+            throw e;
+        }
+        catch (EntityPreProcessUpdateException e) 
+        {
+            throw e;
+        }
         catch (Throwable e)
         {
             logger.error("[Service] update(Entity record) occor an error", e);
-            return -1;
+            return 0;
         }
     }
 

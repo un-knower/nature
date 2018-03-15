@@ -14,7 +14,7 @@ package pers.linhai.nature.j2ee.core.exception;
  * @author lilinhai 2018年3月15日 上午10:32:31
  * @version 1.0
  */
-public class EntityPreProcessSaveException extends Exception
+public class EntityPreProcessSaveException extends RuntimeException
 {
 
     /**
