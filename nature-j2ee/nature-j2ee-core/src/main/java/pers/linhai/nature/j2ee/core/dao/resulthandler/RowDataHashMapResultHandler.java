@@ -30,7 +30,7 @@ import pers.linhai.nature.reflect.ConstructorAccess;
  * @author lilinhai 2018年2月12日 下午12:55:04
  * @version 1.0
  */
-public class RowDataHashMapResultHandler<Key extends Serializable, Entity extends BaseEntity<Key>> implements ResultHandler<EntityBean>
+public class RowDataHashMapResultHandler<Key, Entity extends BaseEntity<Key>> implements ResultHandler<EntityBean>
 {
 
     /**

@@ -9,7 +9,6 @@
 package pers.linhai.nature.j2ee.core.dao;
 
 
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -50,7 +49,7 @@ import pers.linhai.nature.reflect.ConstructorAccess;
  * @version 1.0
  */
 @SuppressWarnings("unchecked")
-public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery> implements IBaseMapper<Key, Entity, EntityQuery>
+public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery> implements IBaseMapper<Key, Entity, EntityQuery>
 {
     /**
      * 父接口的命名空间
