@@ -11,6 +11,8 @@ package pers.linhai.nature.j2ee.core.dao.processor;
 
 import java.io.Serializable;
 
+import pers.linhai.nature.j2ee.core.exception.EntityPreProcessSaveException;
+import pers.linhai.nature.j2ee.core.exception.EntityPreProcessUpdateException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 
@@ -24,19 +26,27 @@ public interface IEntityDataInterceptor<Key extends Serializable, Entity extends
 {
 
     /**
-     * 上行数据拦截处理
+     * 上行数据save拦截处理，数据校验等操作处理
      * <p>Title         : process lilinhai 2018年3月14日 下午7:30:14</p>
      * @param entity 
      * void
      */
-    void process(Entity entity);
+    void preProcessSave(Entity entity) throws EntityPreProcessSaveException;
     
     /**
-     * 下行数据拦截处理
+     * 上行数据update拦截处理，数据校验等操作处理
+     * <p>Title         : process lilinhai 2018年3月14日 下午7:30:14</p>
+     * @param entity 
+     * void
+     */
+    void preProcessUpdate(Entity entity) throws EntityPreProcessUpdateException;
+    
+    /**
+     * 下行数据返回拦截处理
      * <p>Title         : process lilinhai 2018年3月14日 下午7:29:58</p>
      * @param entityBean
      * @param entity 
      * void
      */
-    void process(EntityBean entityBean, Entity entity);
+    void preProcessReturn(EntityBean entityBean, Entity entity);
 }

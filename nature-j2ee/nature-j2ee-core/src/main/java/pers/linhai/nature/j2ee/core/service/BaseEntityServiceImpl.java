@@ -63,7 +63,7 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable
     {
         try
         {
-            entityDataInterceptor.process(record);
+            entityDataInterceptor.preProcessSave(record);
             return mapper.save(record);
         }
         catch (Throwable e)
@@ -77,7 +77,7 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable
     {
         try
         {
-            entityDataInterceptor.process(record);
+            entityDataInterceptor.preProcessUpdate(record);
             return mapper.update(record);
         }
         catch (Throwable e)

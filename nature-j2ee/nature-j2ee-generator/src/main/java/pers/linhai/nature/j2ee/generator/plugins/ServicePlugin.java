@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import pers.linhai.nature.j2ee.core.dao.processor.IEntityDataInterceptor;
+import pers.linhai.nature.j2ee.core.exception.EntityPreProcessSaveException;
+import pers.linhai.nature.j2ee.core.exception.EntityPreProcessUpdateException;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.generator.core.api.CommentGenerator;
 import pers.linhai.nature.j2ee.generator.core.api.CoreClassImportConstant;
@@ -136,6 +138,8 @@ public class ServicePlugin extends BasePlugin
 
         // 添加需要依赖的类
         interceptor.addImportedType(new FullyQualifiedJavaType(Component.class.getName()));
+        interceptor.addImportedType(new FullyQualifiedJavaType(EntityPreProcessSaveException.class.getName()));
+        interceptor.addImportedType(new FullyQualifiedJavaType(EntityPreProcessUpdateException.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(IEntityDataInterceptor.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(EntityBean.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()));
@@ -147,22 +151,36 @@ public class ServicePlugin extends BasePlugin
         String keyType = introspectedTable.getPrimaryKeyColumns().get(0).getFullyQualifiedJavaType().getShortName();
         interceptor.addSuperInterface(new FullyQualifiedJavaType(IEntityDataInterceptor.class.getName() + "<" + keyType + ", " + introspectedTable.getBaseRecordType() + ">"));
 
-        // process1方法
-        Method processMethod1 = new Method("process");
+        // process1添加数据前的校验方法
+        Method processMethod1 = new Method("preProcessSave");
         processMethod1.addJavaDocLine("/**");
-        processMethod1.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]上行数据拦截处理");
+        processMethod1.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]上行数据save拦截处理，数据校验等操作处理");
         processMethod1.addJavaDocLine(" */");
         processMethod1.setFinal(false);
         processMethod1.setStatic(false);
         processMethod1.setVisibility(JavaVisibility.PUBLIC);
+        processMethod1.addException(new FullyQualifiedJavaType(EntityPreProcessSaveException.class.getName()));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
         processMethod1.addBodyLine("");
         interceptor.addMethod(processMethod1);
         
+        // process 修改数据钱的校验处理方法
+        Method processMethod = new Method("preProcessUpdate");
+        processMethod.addJavaDocLine("/**");
+        processMethod.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]上行数据update拦截处理，数据校验等操作处理");
+        processMethod.addJavaDocLine(" */");
+        processMethod.setFinal(false);
+        processMethod.setStatic(false);
+        processMethod.setVisibility(JavaVisibility.PUBLIC);
+        processMethod.addException(new FullyQualifiedJavaType(EntityPreProcessUpdateException.class.getName()));
+        processMethod.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
+        processMethod.addBodyLine("");
+        interceptor.addMethod(processMethod);
+        
         // process2方法
-        Method processMethod2 = new Method("process");
+        Method processMethod2 = new Method("preProcessReturn");
         processMethod2.addJavaDocLine("/**");
-        processMethod2.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]下行数据拦截处理");
+        processMethod2.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]下行数据返回拦截处理");
         processMethod2.addJavaDocLine(" */");
         processMethod2.setFinal(false);
         processMethod2.setStatic(false);

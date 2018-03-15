@@ -29,7 +29,7 @@ public class DefaultEntityProcessor<Entity extends BaseEntity<?>> implements IEn
      * <p>Overriding Method: lilinhai 2018年2月13日 下午12:23:02</p>
      * <p>Title: process</p>
      * @param entity 
-     * @see com.meme.crm.dao.core.IRowDataProcessor#process(com.meme.crm.model.core.BaseEntity)
+     * @see com.meme.crm.dao.core.IRowDataProcessor#preUpdate(com.meme.crm.model.core.BaseEntity)
      */ 
     public void process(Entity entity)
     {
