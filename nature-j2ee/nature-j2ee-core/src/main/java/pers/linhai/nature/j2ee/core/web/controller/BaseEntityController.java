@@ -44,14 +44,6 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     protected EntityService entityService;
     
     /**
-     * 选择性修改的时候过滤掉某些字段
-     * <p>Title         : updateSelectiveEntityFilter lilinhai 2018年2月26日 下午3:44:10</p>
-     * @param entity 
-     * void
-     */
-    protected void updateSelectiveEntityFilter(Entity entity) {}
-    
-    /**
      * 处理request请求的通用放飞
      * <p>Title         : doRequest lilinhai 2018年3月2日 下午9:45:08</p>
      * <p>Description   : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
@@ -133,9 +125,6 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
         try
         {
             process(request);
-            
-            //选择性修改的时候过滤掉某些字段
-            updateSelectiveEntityFilter(record);
             record.setId(id);
             int count = entityService.update(record);
             if (count != 1)

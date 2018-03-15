@@ -127,7 +127,13 @@ public abstract class BaseEntity<Key extends Serializable> extends JdbcModel imp
      */
     public void removePersistentField(String fieldName)
     {
-        persistentFieldMap.remove(fieldName);
+        try
+        {
+            persistentFieldMap.remove(fieldName);
+            String tableField = getTableField(fieldName);
+            persistentFieldMap.remove(tableField);
+        }
+        catch (Throwable e){}
     }
     
     /**
