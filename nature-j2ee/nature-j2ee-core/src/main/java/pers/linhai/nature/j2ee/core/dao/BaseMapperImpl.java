@@ -187,7 +187,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
                 record.setCreateTime(new Date());
             }
             
-            return sqlSessionTemplate.update(SAVE, record);
+            return sqlSessionTemplate.insert(SAVE, record);
         }
         catch (Throwable e1)
         {
