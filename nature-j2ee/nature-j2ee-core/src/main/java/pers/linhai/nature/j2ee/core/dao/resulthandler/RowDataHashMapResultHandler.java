@@ -67,6 +67,7 @@ public class RowDataHashMapResultHandler<Key extends Serializable, Entity extend
         try
         {
             EntityBean entityBean = resultContext.getResultObject();
+            entityBean.setInited(true);
             Entity entity = entityConstructor.newInstance();
             Field field = null;
             for (Entry<String, Serializable> e : entityBean.entrySet())

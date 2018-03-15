@@ -39,6 +39,8 @@ public class EntityBean extends ModelBean
         parse(BaseEntity.class.getDeclaredFields(), FIELD_LIST, excludeFieldSet);
     }
     
+    private boolean isInited;
+    
     /**
      * <p>Title        : EntityBean lilinhai 2018年3月14日 上午11:27:01</p>
      */ 
@@ -78,8 +80,23 @@ public class EntityBean extends ModelBean
      */ 
     public Serializable put(String key, Serializable value)
     {
-        putAttribute(NamingUtils.getCamelCaseString(key, false), value);
+        if (!isInited)
+        {
+            putAttribute(NamingUtils.getCamelCaseString(key, false), value);
+        }
+        else
+        {
+            putAttribute(key, value);
+        }
         return null;
     }
-    
+
+    /**
+     * <p>Set Method   :   isInited boolean</p>
+     * @param isInited
+     */
+    public void setInited(boolean isInited)
+    {
+        this.isInited = isInited;
+    }
 }

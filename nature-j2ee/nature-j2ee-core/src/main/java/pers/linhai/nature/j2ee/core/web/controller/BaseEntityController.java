@@ -10,9 +10,7 @@
 package pers.linhai.nature.j2ee.core.web.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -44,14 +42,6 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
     
     @Autowired
     protected EntityService entityService;
-    
-    /**
-     * 过滤EntityBeanMap中的一些敏感字段，不需要传递到前端去的字段
-     * <p>Title         : entityBeanMapFilter lilinhai 2018年2月10日 下午4:25:09</p>
-     * @param entityBeanMap 
-     * void
-     */
-    protected void entityBeanMapFilter(Map<String, Serializable> entityMap, Entity entity){}
     
     /**
      * 选择性修改的时候过滤掉某些字段
@@ -120,7 +110,6 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
                 return restResponse;
             }
             EntityBean bean = new EntityBean(record);
-            entityBeanMapFilter(bean, record);
             return success(bean);
         }
         catch (Throwable e)
@@ -156,7 +145,6 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
                 return restResponse;
             }
             EntityBean bean = new EntityBean(record);
-            entityBeanMapFilter(bean, record);
             return success(bean);
         }
         catch (Throwable e)
@@ -179,15 +167,13 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
         try
         {
             process(request);
-            Entity entity = entityService.get(id);
-            if (entity == null)
+            EntityBean record = entityService.getEntityBean(id);
+            if (record == null)
             {
                 RestResponse restResponse = fail(RestErrorCode.GET_FAIL, "[Controller] find occor an error, id：" + id);
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
-            EntityBean record = new EntityBean(entity);
-            entityBeanMapFilter(record, entity);
             return success(record);
         }
         catch (Throwable e)
@@ -210,15 +196,13 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
         try
         {
             process(request);
-            Entity entity = entityService.get(entityQuery);
-            if (entity == null)
+            EntityBean record = entityService.getEntityBean(entityQuery);
+            if (record == null)
             {
                 RestResponse restResponse = fail(RestErrorCode.GET_FAIL, "[Controller] findOne occor an error, entityQuery：" + JSON.toJSONString(entityQuery));
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
-            EntityBean record = new EntityBean(entity);
-            entityBeanMapFilter(record, entity);
             return success(record);
         }
         catch (Throwable e)
@@ -241,18 +225,7 @@ public abstract class BaseEntityController<Key extends Serializable, Entity exte
         try
         {
             process(request);
-            
-            List<Entity> entityList = entityService.find(entityQuery);
-            List<EntityBean> beanList = new ArrayList<EntityBean>();
-            EntityBean entityBean = null;
-            for (Entity entity : entityList)
-            {
-                entityBean = new EntityBean(entity);
-                
-                // 过滤EntityBeanMap中的一些敏感字段，不需要传递到前端去的字段
-                entityBeanMapFilter(entityBean, entity);
-                beanList.add(entityBean);
-            }
+            List<EntityBean> beanList = entityService.findEntityBean(entityQuery);
             
             // 分页参数为空，则不进行分页查询
             if (entityQuery.getPage() == null || entityQuery.getSize() == null)
