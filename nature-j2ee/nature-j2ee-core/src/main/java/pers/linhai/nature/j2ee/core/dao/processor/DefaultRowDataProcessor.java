@@ -9,7 +9,6 @@
 
 package pers.linhai.nature.j2ee.core.dao.processor;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,14 +21,14 @@ import pers.linhai.nature.j2ee.core.model.EntityBean;
  * @author lilinhai 2018年2月13日 下午12:22:43
  * @version 1.0
  */
-public class DefaultRowDataProcessor<Key extends Serializable, Entity extends BaseEntity<Key>> implements IRowDataProcessor<Entity>
+public class DefaultRowDataProcessor<Entity extends BaseEntity<?>> implements IRowDataProcessor<Entity>
 {
 
     private List<Entity> entityList = new ArrayList<Entity>();
     
     private List<EntityBean> entityBeanList = new ArrayList<EntityBean>();
     
-    private IEntityDataInterceptor<Key, Entity> entityDataInterceptor;
+    private IEntityDataInterceptor<Entity> entityDataInterceptor;
     
     /**
      * <p>Title        : DefaultRowDataProcessor lilinhai 2018年3月14日 下午11:37:39</p>
@@ -43,7 +42,7 @@ public class DefaultRowDataProcessor<Key extends Serializable, Entity extends Ba
      * <p>Title        : RowDataServiceProcessor lilinhai 2018年3月14日 下午11:21:32</p>
      * @param entityDataInterceptor 
      */ 
-    public DefaultRowDataProcessor(IEntityDataInterceptor<Key, Entity> entityDataInterceptor)
+    public DefaultRowDataProcessor(IEntityDataInterceptor<Entity> entityDataInterceptor)
     {
         this.entityDataInterceptor = entityDataInterceptor;
     }

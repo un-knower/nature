@@ -9,7 +9,6 @@
 
 package pers.linhai.nature.j2ee.core.service;
 
-import java.io.Serializable;
 import java.util.List;
 
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
@@ -21,7 +20,7 @@ import pers.linhai.nature.j2ee.core.model.EntityBean;
  * @author lilinhai 2018年2月4日 下午9:37:41
  * @version 1.0
  */
-public interface IBaseEntityService<Key extends Serializable, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery>
+public interface IBaseEntityService<Key, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery>
 {
 
     /**

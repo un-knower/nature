@@ -9,7 +9,6 @@
 package pers.linhai.nature.j2ee.core.dao;
 
 
-import java.io.Serializable;
 import java.util.List;
 
 import pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor;
@@ -26,7 +25,7 @@ import pers.linhai.nature.j2ee.core.model.EntityBean;
  * @author lilinhai 2018年2月4日 下午4:27:46
  * @version 1.0
  */
-public interface IBaseMapper<Key extends Serializable, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery>
+public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery>
 {
 
     /**
@@ -70,7 +69,7 @@ public interface IBaseMapper<Key extends Serializable, Entity extends BaseEntity
      * @return 
      * EntityBean
      */
-    EntityBean get(Key id, DefaultRowDataProcessor<Key, Entity> entityProcessor);
+    EntityBean get(Key id, DefaultRowDataProcessor<Entity> entityProcessor);
 
     /**
      * 根据条件查询单个记录
@@ -88,7 +87,7 @@ public interface IBaseMapper<Key extends Serializable, Entity extends BaseEntity
      * @return 
      * EntityBean
      */
-    EntityBean get(EntityQuery entityQuery, DefaultRowDataProcessor<Key, Entity> entityProcessor);
+    EntityBean get(EntityQuery entityQuery, DefaultRowDataProcessor<Entity> entityProcessor);
 
     /**
      * 组合查询记录，返回集合，支持分页

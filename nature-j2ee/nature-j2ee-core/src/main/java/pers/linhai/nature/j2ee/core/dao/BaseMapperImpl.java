@@ -319,7 +319,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
         return null;
     }
     
-    public EntityBean get(Key id, DefaultRowDataProcessor<Key, Entity> entityProcessor)
+    public EntityBean get(Key id, DefaultRowDataProcessor<Entity> entityProcessor)
     {
         try
         {
@@ -351,7 +351,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
      */
     public Entity get(EntityQuery entityQuery)
     {
-        DefaultRowDataProcessor<Key, Entity> entityProcessor = new DefaultRowDataProcessor<Key, Entity>();
+        DefaultRowDataProcessor<Entity> entityProcessor = new DefaultRowDataProcessor<Entity>();
         find(entityQuery, entityProcessor);
         if (entityProcessor.getEntityList().isEmpty())
         {
@@ -367,7 +367,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
      * @return 
      * @see com.meme.crm.dao.core.IBaseMapper#get(com.meme.crm.model.core.BaseQuery)
      */
-    public EntityBean get(EntityQuery entityQuery, DefaultRowDataProcessor<Key, Entity> entityProcessor)
+    public EntityBean get(EntityQuery entityQuery, DefaultRowDataProcessor<Entity> entityProcessor)
     {
         find(entityQuery, entityProcessor);
         if (entityProcessor.getEntityBeanList().isEmpty())
@@ -428,7 +428,7 @@ public class BaseMapperImpl<Key extends Serializable, Entity extends BaseEntity<
     @Override
     public List<Entity> find(EntityQuery entityQuery)
     {
-        DefaultRowDataProcessor<Key, Entity> entityProcessor = new DefaultRowDataProcessor<Key, Entity>();
+        DefaultRowDataProcessor<Entity> entityProcessor = new DefaultRowDataProcessor<Entity>();
         find(entityQuery, entityProcessor);
         return entityProcessor.getEntityList();
     }

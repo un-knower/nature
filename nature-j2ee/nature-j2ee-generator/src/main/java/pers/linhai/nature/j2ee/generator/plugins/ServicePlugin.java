@@ -148,8 +148,7 @@ public class ServicePlugin extends BasePlugin
         interceptor.addAnnotation("@Component");
 
         // 添加范型继承关系BaseService
-        String keyType = introspectedTable.getPrimaryKeyColumns().get(0).getFullyQualifiedJavaType().getShortName();
-        interceptor.addSuperInterface(new FullyQualifiedJavaType(IEntityDataInterceptor.class.getName() + "<" + keyType + ", " + introspectedTable.getBaseRecordType() + ">"));
+        interceptor.addSuperInterface(new FullyQualifiedJavaType(IEntityDataInterceptor.class.getName() + "<" + introspectedTable.getBaseRecordType() + ">"));
 
         // process1添加数据前的校验方法
         Method processMethod1 = new Method("preProcessSave");

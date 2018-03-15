@@ -9,7 +9,6 @@
 package pers.linhai.nature.j2ee.core.service;
 
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,11 +31,11 @@ import pers.linhai.nature.j2ee.core.model.EntityBean;
  * @author lilinhai 2018年2月5日 下午3:04:25
  * @version 1.0
  */
-public abstract class BaseEntityServiceImpl<Key extends Serializable
+public abstract class BaseEntityServiceImpl<Key
     , Entity extends BaseEntity<Key>
     , EntityQuery extends BaseQuery
     , Mapper extends IBaseMapper<Key, Entity, EntityQuery>
-    , EntityDataInterceptor extends IEntityDataInterceptor<Key, Entity>> 
+    , EntityDataInterceptor extends IEntityDataInterceptor<Entity>> 
     extends BaseService implements IBaseEntityService<Key, Entity, EntityQuery>
 {
 
@@ -141,7 +140,7 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable
     
     public EntityBean getEntityBean(Key id)
     {
-        return mapper.get(id, new DefaultRowDataProcessor<Key, Entity>(entityDataInterceptor));
+        return mapper.get(id, new DefaultRowDataProcessor<Entity>(entityDataInterceptor));
     }
 
     public Entity get(EntityQuery entityQuery)
@@ -159,7 +158,7 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable
     
     public EntityBean getEntityBean(EntityQuery entityQuery)
     {
-        return mapper.get(entityQuery, new DefaultRowDataProcessor<Key, Entity>(entityDataInterceptor));
+        return mapper.get(entityQuery, new DefaultRowDataProcessor<Entity>(entityDataInterceptor));
     }
 
     /**
@@ -219,7 +218,7 @@ public abstract class BaseEntityServiceImpl<Key extends Serializable
     {
         try
         {
-            DefaultRowDataProcessor<Key, Entity> rowDataServiceProcessor = new DefaultRowDataProcessor<Key, Entity>(entityDataInterceptor);
+            DefaultRowDataProcessor<Entity> rowDataServiceProcessor = new DefaultRowDataProcessor<Entity>(entityDataInterceptor);
             mapper.find(entityQuery, rowDataServiceProcessor);
             return rowDataServiceProcessor.getEntityBeanList();
         }

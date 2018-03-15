@@ -54,7 +54,7 @@ public class EntityBean extends ModelBean
      * <p>Title        : EntityBean lilinhai 2018年2月17日 下午7:33:13</p>
      * @param entity
      */
-    public <Key extends Serializable, Entity extends BaseEntity<Key>> EntityBean(Entity entity)
+    public <Entity extends BaseEntity<?>> EntityBean(Entity entity)
     {
         super(entity);
         try

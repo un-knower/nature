@@ -9,8 +9,6 @@
 
 package pers.linhai.nature.j2ee.core.dao.processor;
 
-import java.io.Serializable;
-
 import pers.linhai.nature.j2ee.core.exception.EntityPreProcessSaveException;
 import pers.linhai.nature.j2ee.core.exception.EntityPreProcessUpdateException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
@@ -22,7 +20,7 @@ import pers.linhai.nature.j2ee.core.model.EntityBean;
  * @author lilinhai 2018年3月14日 下午7:22:00
  * @version 1.0
  */
-public interface IEntityDataInterceptor<Key extends Serializable, Entity extends BaseEntity<Key>>
+public interface IEntityDataInterceptor<Entity extends BaseEntity<?>>
 {
 
     /**

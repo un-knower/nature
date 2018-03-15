@@ -9,7 +9,6 @@
 
 package pers.linhai.nature.j2ee.core.web.controller;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +35,7 @@ import pers.linhai.nature.j2ee.core.service.PaginationData;
  * @author lilinhai 2018年2月5日 下午5:45:55
  * @version 1.0
  */
-public abstract class BaseEntityController<Key extends Serializable, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery, EntityService extends IBaseEntityService<Key, Entity, EntityQuery>> 
+public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery, EntityService extends IBaseEntityService<Key, Entity, EntityQuery>> 
     extends BaseController
 {
     
