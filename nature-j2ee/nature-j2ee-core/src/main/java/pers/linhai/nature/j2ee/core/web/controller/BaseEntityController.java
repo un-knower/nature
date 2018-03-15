@@ -106,7 +106,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         catch (Throwable e)
         {
             logger.error("[Controller] save(@RequestBody Entity record, HttpServletRequest request) occor an error", e);
-            return fail(RestErrorCode.INSERT_EXCEPTION, e.getMessage() + "，record：" + JSON.toJSONString(new EntityBean(record)));
+            return fail(RestErrorCode.INSERT_EXCEPTION, e.getMessage());
         }
     }
 
@@ -138,7 +138,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         catch (Throwable e)
         {
             logger.error("[Controller] update(@RequestBody Entity record, @PathVariable Key id, HttpServletRequest request) occor an error", e);
-            return fail(10301, e.getMessage() + "，record：" + JSON.toJSONString(new EntityBean(record)));
+            return fail(10301, e.getMessage());
         }
     }
 
