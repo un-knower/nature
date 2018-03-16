@@ -53,7 +53,7 @@ public class DateType extends DataType
      * @return 
      * @see com.meme.crm.model.core.datatype.DataType#parse(java.lang.String)
      */ 
-    public synchronized Date parse(Object value)
+    public Date parse(Object value)
     {
         try
         {
@@ -71,7 +71,11 @@ public class DateType extends DataType
                 {
                     if (e.getKey().matcher(value.toString()).matches())
                     {
-                        return e.getValue().parse(value.toString());
+                        SimpleDateFormat sdf = e.getValue();
+                        synchronized (sdf)
+                        {
+                            return sdf.parse(value.toString());
+                        }
                     }
                 }
                 return new Date(Long.parseLong(value.toString()));
