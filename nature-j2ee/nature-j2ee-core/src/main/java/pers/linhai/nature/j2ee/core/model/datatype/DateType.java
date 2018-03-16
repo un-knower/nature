@@ -57,7 +57,11 @@ public class DateType extends DataType
     {
         try
         {
-            if (value instanceof Number)
+            if (value instanceof Date)
+            {
+                return (Date)value;
+            }
+            else if (value instanceof Number)
             {
                 return new Date(((Number)value).longValue());
             }
