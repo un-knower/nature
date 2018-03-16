@@ -17,6 +17,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
+import pers.linhai.nature.j2ee.core.exception.DataTypeException;
 import pers.linhai.nature.j2ee.core.model.datatype.DateType;
 
 /**
@@ -44,7 +45,14 @@ public class DateJsonDeserializer extends JsonDeserializer<Date>
         throws IOException,
         JsonProcessingException
     {
-        return dateType.parse(p.getText());
+        try
+        {
+            return dateType.parse(p.getText());
+        }
+        catch (DataTypeException e) 
+        {
+            throw new DataTypeException("fieldName:" + p.getCurrentName(), e);
+        }
     }
 
 }
