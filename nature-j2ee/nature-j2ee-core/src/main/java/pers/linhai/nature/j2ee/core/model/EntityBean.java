@@ -10,11 +10,6 @@
 package pers.linhai.nature.j2ee.core.model;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import pers.linhai.nature.utils.NamingUtils;
 
@@ -31,14 +26,6 @@ public class EntityBean extends ModelBean
      */
     private static final long serialVersionUID = 1L;
     
-    private static final List<Field> FIELD_LIST = new ArrayList<Field>(2);
-    static
-    {
-        Set<String> excludeFieldSet = new HashSet<String>();
-        excludeFieldSet.add("persistentFieldMap");
-        parse(BaseEntity.class.getDeclaredFields(), FIELD_LIST, excludeFieldSet);
-    }
-    
     private boolean isInited;
     
     /**
@@ -47,28 +34,6 @@ public class EntityBean extends ModelBean
     public EntityBean()
     {
         
-    }
-
-    /**
-     * 
-     * <p>Title        : EntityBean lilinhai 2018年2月17日 下午7:33:13</p>
-     * @param entity
-     */
-    public <Entity extends BaseEntity<?>> EntityBean(Entity entity)
-    {
-        super(entity);
-        try
-        {
-            for (Field field : FIELD_LIST)
-            {
-                putAttribute(field.getName(), (Serializable)(field.get(entity)));
-            }
-            setInited(true);
-        }
-        catch (Throwable e)
-        {
-            e.printStackTrace();
-        }
     }
 
     /** 

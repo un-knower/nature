@@ -96,7 +96,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
             int count = entityService.save(record);
             if (count != 1)
             {
-                RestResponse restResponse = fail(RestErrorCode.INSERT_FAIL, "[Controller] save occor an error, record：" + JSON.toJSONString(new EntityBean(record)));
+                RestResponse restResponse = fail(RestErrorCode.INSERT_FAIL, "[Controller] save occor an error, record：" + JSON.toJSONString(record.toEntityBean()));
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
@@ -127,7 +127,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
             int count = entityService.update(record);
             if (count != 1)
             {
-                RestResponse restResponse = fail(10300, "[Controller] update occor an error, record：" + JSON.toJSONString(new EntityBean(record)));
+                RestResponse restResponse = fail(10300, "[Controller] update occor an error, record：" + JSON.toJSONString(record.toEntityBean()));
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
