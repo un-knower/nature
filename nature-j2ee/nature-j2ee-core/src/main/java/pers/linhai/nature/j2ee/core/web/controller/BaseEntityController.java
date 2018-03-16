@@ -100,8 +100,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
-            EntityBean bean = new EntityBean(record);
-            return success(bean);
+            return success(record.toEntityBean());
         }
         catch (Throwable e)
         {
@@ -132,8 +131,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
-            EntityBean bean = new EntityBean(record);
-            return success(bean);
+            return success(record.toEntityBean());
         }
         catch (Throwable e)
         {
