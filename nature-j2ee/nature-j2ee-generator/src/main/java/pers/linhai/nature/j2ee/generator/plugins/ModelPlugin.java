@@ -9,10 +9,10 @@
 package pers.linhai.nature.j2ee.generator.plugins;
 
 
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import pers.linhai.nature.j2ee.core.exception.IllegalFieldException;
 import pers.linhai.nature.j2ee.core.model.DateJsonDeserializer;
+import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.generator.core.api.CoreClassImportConstant;
 import pers.linhai.nature.j2ee.generator.core.api.GeneratedJavaFile;
 import pers.linhai.nature.j2ee.generator.core.api.IntrospectedColumn;
@@ -163,6 +164,8 @@ public class ModelPlugin extends BasePlugin
     {
         topLevelClass.addImportedType(new FullyQualifiedJavaType(CoreClassImportConstant.BASE_ENTITY_CLASS));
         topLevelClass.addImportedType(IllegalFieldException.class.getName());
+        topLevelClass.addImportedType(EntityBean.class.getName());
+        topLevelClass.addImportedType(Date.class.getName());
         topLevelClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("enumer") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum"));
         boolean hasDateField = false;
         for (Field f : topLevelClass.getFields())
@@ -195,6 +198,35 @@ public class ModelPlugin extends BasePlugin
         queryConstructorMethod.setStatic(false);
         queryConstructorMethod.addBodyLine("super("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum.TABLE_NAME);");
         topLevelClass.addMethod(queryConstructorMethod);
+        
+        Method initializeMethod = new Method("initialize");
+        initializeMethod.setConstructor(false);
+        initializeMethod.setVisibility(JavaVisibility.DEFAULT);
+        initializeMethod.setFinal(false);
+        initializeMethod.setStatic(false);
+        initializeMethod.addParameter(new Parameter(new FullyQualifiedJavaType(EntityBean.class.getName()), "entityBean"));
+        for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns())
+        {
+            String enumFieldName = introspectedColumn.getActualColumnName().toUpperCase(Locale.ENGLISH);
+            initializeMethod.addBodyLine("this." + introspectedColumn.getJavaProperty() + " = ("+introspectedColumn.getFullyQualifiedJavaType().getShortName()+")entityBean.get("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum." + enumFieldName + ".getJavaField());");
+        }
+        topLevelClass.addMethod(initializeMethod);
+        
+        Method toEntityBeanMethod = new Method("toEntityBean");
+        toEntityBeanMethod.setConstructor(false);
+        toEntityBeanMethod.setVisibility(JavaVisibility.PUBLIC);
+        toEntityBeanMethod.setFinal(false);
+        toEntityBeanMethod.setStatic(false);
+        toEntityBeanMethod.setReturnType(new FullyQualifiedJavaType(EntityBean.class.getName()));
+        toEntityBeanMethod.addBodyLine("EntityBean entityBean = new EntityBean();");
+        toEntityBeanMethod.addBodyLine("entityBean.setInited(true);");
+        for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns())
+        {
+            String enumFieldName = introspectedColumn.getActualColumnName().toUpperCase(Locale.ENGLISH);
+            toEntityBeanMethod.addBodyLine("entityBean.put(" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum." + enumFieldName + ".getJavaField(), this." + introspectedColumn.getJavaProperty() + ");");
+        }
+        toEntityBeanMethod.addBodyLine("return entityBean;");
+        topLevelClass.addMethod(toEntityBeanMethod);
         
         Field field = new Field();
         field.setFinal(true);

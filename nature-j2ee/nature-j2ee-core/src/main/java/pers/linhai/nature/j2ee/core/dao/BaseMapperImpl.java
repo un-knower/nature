@@ -9,20 +9,16 @@
 package pers.linhai.nature.j2ee.core.dao;
 
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
-import org.mybatis.spring.SqlSessionTemplate;
+import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,37 +50,37 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     /**
      * 父接口的命名空间
      */
-    private static final String baseNamespace = IBaseMapper.class.getName();
+    private static final String BASE_NAME_SPACE = IBaseMapper.class.getName();
     
     /**
      * 保存方法
      */
-    private static final String SAVE = baseNamespace.concat(".save");
+    private static final String SAVE = BASE_NAME_SPACE.concat(".save");
     
     /**
      * 删除方法
      */
-    private static final String DELETE = baseNamespace.concat(".delete");
+    private static final String DELETE = BASE_NAME_SPACE.concat(".delete");
     
     /**
      * 修改方法
      */
-    private static final String UPDATE = baseNamespace.concat(".update");
+    private static final String UPDATE = BASE_NAME_SPACE.concat(".update");
     
     /**
      * 查询方法
      */
-    private static final String FIND = baseNamespace.concat(".find");
+    private static final String FIND = BASE_NAME_SPACE.concat(".find");
     
     /**
      * 计数方法
      */
-    private static final String COUNT = baseNamespace.concat(".count");
+    private static final String COUNT = BASE_NAME_SPACE.concat(".count");
     
     /**
      * 汇总计算方法
      */
-    private static final String SUM = baseNamespace.concat(".sum");
+    private static final String SUM = BASE_NAME_SPACE.concat(".sum");
     
     /**
      * 日志记录器
@@ -92,7 +88,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    protected SqlSessionTemplate sqlSessionTemplate;
+    protected SqlSession sqlSession;
     
     /**
      * mybatis-mapper的命名空间
@@ -100,20 +96,15 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     protected String namespace;
 
     /**
-     * 实体的所有字段列表
+     * 实体反射器
      */
-    protected final Map<String, Field> fieldMap = new HashMap<String, Field>();
-
-    /**
-     * 实体构造函器
-     */
-    protected ConstructorAccess<Entity> entityConstructor;
+    private EntityReflecter<Entity> entityReflecter;
 
     /**
      * 实体查询条件构造器
      */
     protected ConstructorAccess<EntityQuery> entityQueryConstructor;
-
+    
     /**
      * <p>Title        : BaseMapperImpl lilinhai 2018年2月12日 下午2:12:25</p>
      * @param namespace 
@@ -146,9 +137,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
                     Class<?> c = (Class<?>)type;
                     if (c.getSuperclass() == BaseEntity.class)
                     {
-                        entityConstructor = ConstructorAccess.get((Class<Entity>)c);
-                        mapField(fieldMap, c.getDeclaredFields());
-                        mapField(fieldMap, BaseEntity.class.getDeclaredFields());
+                        entityReflecter = new EntityReflecter<Entity>((Class<Entity>)c);
                     }
                     else if (c.getSuperclass() == BaseQuery.class)
                     {
@@ -186,7 +175,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
                 record.setCreateTime(new Date());
             }
             
-            return sqlSessionTemplate.insert(SAVE, record);
+            return sqlSession.insert(SAVE, record);
         }
         catch (Throwable e1)
         {
@@ -236,7 +225,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      */
     public int delete(EntityQuery entityQuery)
     {
-        return sqlSessionTemplate.delete(DELETE, entityQuery);
+        return sqlSession.delete(DELETE, entityQuery);
     }
     
     /** 
@@ -279,7 +268,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
                 record.setWhere(where);
             }
             
-            return sqlSessionTemplate.update(UPDATE, record);
+            return sqlSession.update(UPDATE, record);
         }
         catch (Throwable e1)
         {
@@ -391,7 +380,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     public long count(EntityQuery entityQuery)
     {
         final AtomicLong al = new AtomicLong();
-        sqlSessionTemplate.select(COUNT, entityQuery, new ResultHandler<Long>()
+        sqlSession.select(COUNT, entityQuery, new ResultHandler<Long>()
         {
             public void handleResult(ResultContext<? extends Long> resultContext)
             {
@@ -411,7 +400,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     public long sum(EntityQuery entityQuery)
     {
         final AtomicLong al = new AtomicLong();
-        sqlSessionTemplate.select(SUM, entityQuery, new ResultHandler<Long>()
+        sqlSession.select(SUM, entityQuery, new ResultHandler<Long>()
         {
             public void handleResult(ResultContext<? extends Long> resultContext)
             {
@@ -439,8 +428,8 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     @Override
     public void find(EntityQuery entityQuery, IRowDataProcessor<Entity> entityProcessor)
     {
-        RowDataHashMapResultHandler<Key, Entity> myResultHandler = new RowDataHashMapResultHandler<Key, Entity>(fieldMap, entityConstructor, entityProcessor);
-        sqlSessionTemplate.select(FIND, entityQuery, myResultHandler);
+        RowDataHashMapResultHandler<Entity> myResultHandler = new RowDataHashMapResultHandler<Entity>(entityReflecter, entityProcessor);
+        sqlSession.select(FIND, entityQuery, myResultHandler);
     }
     
     /**
@@ -454,7 +443,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     public void find(String statment, Object params, IEntityProcessor<Entity> entityProcessor)
     {
         RowDataEntityResultHandler<Entity> myResultHandler = new RowDataEntityResultHandler<Entity>(entityProcessor);
-        sqlSessionTemplate.select(namespace.concat(".").concat(statment), params, myResultHandler);
+        sqlSession.select(namespace.concat(".").concat(statment), params, myResultHandler);
     }
     
     /**
@@ -499,7 +488,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     public <T> void execFind(String statment, Object params, IEntityProcessor<T> entityProcessor)
     {
         RowDataEntityResultHandler<T> myResultHandler = new RowDataEntityResultHandler<T>(entityProcessor);
-        sqlSessionTemplate.select(namespace.concat(".").concat(statment), params, myResultHandler);
+        sqlSession.select(namespace.concat(".").concat(statment), params, myResultHandler);
     }
     
     /**
@@ -562,31 +551,5 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
             return el.get(0);
         }
         return null;
-    }
-
-    /**
-     * 将实体所有字段建立hashMap映射
-     * <p>Title         : mapField lilinhai 2018年2月13日 上午11:29:47</p>
-     * @param javaFieldMap
-     * @param fs 
-     * void
-     */
-    private void mapField(Map<String, Field> javaFieldMap, Field[] fs)
-    {
-        for (Field field : fs)
-        {
-            // 静态成员跳过处理
-            if (Modifier.isStatic(field.getModifiers()))
-            {
-                continue;
-            }
-
-            if (",persistentFieldMap,".contains(field.getName()))
-            {
-                continue;
-            }
-            field.setAccessible(true);
-            javaFieldMap.put(field.getName(), field);
-        }
     }
 }

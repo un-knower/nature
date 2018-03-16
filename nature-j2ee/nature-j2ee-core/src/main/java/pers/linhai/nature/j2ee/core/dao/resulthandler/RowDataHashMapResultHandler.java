@@ -9,19 +9,14 @@
 package pers.linhai.nature.j2ee.core.dao.resulthandler;
 
 
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
 
+import pers.linhai.nature.j2ee.core.dao.EntityReflecter;
 import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
 import pers.linhai.nature.j2ee.core.exception.ReflectException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
-import pers.linhai.nature.reflect.ConstructorAccess;
 
 
 /**
@@ -30,15 +25,13 @@ import pers.linhai.nature.reflect.ConstructorAccess;
  * @author lilinhai 2018年2月12日 下午12:55:04
  * @version 1.0
  */
-public class RowDataHashMapResultHandler<Key, Entity extends BaseEntity<Key>> implements ResultHandler<EntityBean>
+public class RowDataHashMapResultHandler<Entity extends BaseEntity<?>> implements ResultHandler<EntityBean>
 {
 
     /**
-     * 实体的所有字段列表
+     * 实体反射器
      */
-    private Map<String, Field> fieldMap;
-
-    private ConstructorAccess<Entity> entityConstructor;
+    private EntityReflecter<Entity> entityReflecter;
     
     private IRowDataProcessor<Entity> rowDataProcessor;
     
@@ -48,11 +41,10 @@ public class RowDataHashMapResultHandler<Key, Entity extends BaseEntity<Key>> im
      * @param entityConstructor2
      * @param entityProcessor 
      */ 
-    public RowDataHashMapResultHandler(Map<String, Field> fieldMap, ConstructorAccess<Entity> entityConstructor, IRowDataProcessor<Entity> rowDataProcessor)
+    public RowDataHashMapResultHandler(EntityReflecter<Entity> entityReflecter, IRowDataProcessor<Entity> rowDataProcessor)
     {
         super();
-        this.fieldMap = fieldMap;
-        this.entityConstructor = entityConstructor;
+        this.entityReflecter = entityReflecter;
         this.rowDataProcessor = rowDataProcessor;
     }
 
@@ -68,15 +60,7 @@ public class RowDataHashMapResultHandler<Key, Entity extends BaseEntity<Key>> im
         {
             EntityBean entityBean = resultContext.getResultObject();
             entityBean.setInited(true);
-            Entity entity = entityConstructor.newInstance();
-            Field field = null;
-            for (Entry<String, Serializable> e : entityBean.entrySet())
-            {
-                if ((field = fieldMap.get(e.getKey())) != null)
-                {
-                    field.set(entity, e.getValue());
-                }
-            }
+            Entity entity = entityReflecter.getInstance(entityBean);
             rowDataProcessor.process(entityBean, entity);
         }
         catch (Throwable e1)

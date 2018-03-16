@@ -63,6 +63,7 @@ public class EntityBean extends ModelBean
             {
                 putAttribute(field.getName(), (Serializable)(field.get(entity)));
             }
+            setInited(true);
         }
         catch (Throwable e)
         {

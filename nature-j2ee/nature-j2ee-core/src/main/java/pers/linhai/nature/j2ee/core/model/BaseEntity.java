@@ -163,6 +163,8 @@ public abstract class BaseEntity<Key> extends JdbcModel implements Serializable
         fv.setJdbcType(getJdbcType(fieldName));
         persistentFieldMap.put(fieldName, fv);
     }
+    
+    public abstract EntityBean toEntityBean();
 
     /** 
      * <p>Overriding Method: lilinhai 2018年2月4日 下午3:00:30</p>
