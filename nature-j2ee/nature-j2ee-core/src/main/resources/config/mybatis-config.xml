@@ -38,4 +38,7 @@
         <package name="java.util" />
         <package name="java.lang" />
     </typeAliases>
+    <mappers>
+        <mapper resource="config/BaseMapper.xml" />
+    </mappers>
 </configuration>
