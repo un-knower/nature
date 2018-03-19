@@ -33,7 +33,15 @@ public class EntityBean extends ModelBean
      */ 
     public EntityBean()
     {
-        
+        this(false);
+    }
+    
+    /**
+     * <p>Title        : EntityBean lilinhai 2018年3月14日 上午11:27:01</p>
+     */ 
+    public EntityBean(boolean isInited)
+    {
+        this.setInited(isInited);
     }
 
     /** 
