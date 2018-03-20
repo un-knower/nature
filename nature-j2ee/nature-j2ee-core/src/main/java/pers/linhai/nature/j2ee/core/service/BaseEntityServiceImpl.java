@@ -13,12 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import pers.linhai.nature.j2ee.core.dao.IBaseMapper;
 import pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.IEntityDataInterceptor;
-import pers.linhai.nature.j2ee.core.exception.EntityPreProcessSaveException;
-import pers.linhai.nature.j2ee.core.exception.EntityPreProcessUpdateException;
+import pers.linhai.nature.j2ee.core.exception.EntitySaveInterceptProcessException;
+import pers.linhai.nature.j2ee.core.exception.EntityUpdateInterceptProcessException;
 import pers.linhai.nature.j2ee.core.exception.MapperException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
@@ -73,18 +74,21 @@ public abstract class BaseEntityServiceImpl<Key
      * @return 
      * @see pers.linhai.nature.j2ee.core.service.IBaseEntityService#save(pers.linhai.nature.j2ee.core.model.BaseEntity)
      */
+    @Transactional(rollbackFor = {Throwable.class})
     public int save(Entity record)
     {
         try
         {
-            entityDataInterceptor.preProcessSave(record);
-            return mapper.save(record);
+            entityDataInterceptor.beforeSave(record);
+            int result = mapper.save(record);
+            entityDataInterceptor.afterSave(record);
+            return result;
         }
         catch (MapperException e) 
         {
             throw e;
         }
-        catch (EntityPreProcessSaveException e) 
+        catch (EntitySaveInterceptProcessException e) 
         {
             throw e;
         }
@@ -103,18 +107,21 @@ public abstract class BaseEntityServiceImpl<Key
      * @return 
      * @see pers.linhai.nature.j2ee.core.service.IBaseEntityService#update(pers.linhai.nature.j2ee.core.model.BaseEntity)
      */
+    @Transactional(rollbackFor = {Throwable.class})
     public int update(Entity record)
     {
         try
         {
-            entityDataInterceptor.preProcessUpdate(record);
-            return mapper.update(record);
+            entityDataInterceptor.beforeUpdate(record);
+            int result = mapper.update(record);
+            entityDataInterceptor.afterUpdate(record);
+            return result;
         }
         catch (MapperException e) 
         {
             throw e;
         }
-        catch (EntityPreProcessUpdateException e) 
+        catch (EntityUpdateInterceptProcessException e) 
         {
             throw e;
         }

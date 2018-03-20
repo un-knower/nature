@@ -57,7 +57,7 @@ public class DefaultRowDataProcessor<Entity extends BaseEntity<?>> implements IR
     {
         if(entityDataInterceptor != null)
         {
-            entityDataInterceptor.preProcessReturn(entityBean, entity);
+            entityDataInterceptor.beforeReturn(entityBean, entity);
         }
         entityList.add(entity);
         entityBeanList.add(entityBean);

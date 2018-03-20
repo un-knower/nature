@@ -17,8 +17,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import pers.linhai.nature.j2ee.core.dao.processor.IEntityDataInterceptor;
-import pers.linhai.nature.j2ee.core.exception.EntityPreProcessSaveException;
-import pers.linhai.nature.j2ee.core.exception.EntityPreProcessUpdateException;
+import pers.linhai.nature.j2ee.core.exception.EntitySaveInterceptProcessException;
+import pers.linhai.nature.j2ee.core.exception.EntityUpdateInterceptProcessException;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.generator.core.api.CommentGenerator;
 import pers.linhai.nature.j2ee.generator.core.api.CoreClassImportConstant;
@@ -138,8 +138,8 @@ public class ServicePlugin extends BasePlugin
 
         // 添加需要依赖的类
         interceptor.addImportedType(new FullyQualifiedJavaType(Component.class.getName()));
-        interceptor.addImportedType(new FullyQualifiedJavaType(EntityPreProcessSaveException.class.getName()));
-        interceptor.addImportedType(new FullyQualifiedJavaType(EntityPreProcessUpdateException.class.getName()));
+        interceptor.addImportedType(new FullyQualifiedJavaType(EntitySaveInterceptProcessException.class.getName()));
+        interceptor.addImportedType(new FullyQualifiedJavaType(EntityUpdateInterceptProcessException.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(IEntityDataInterceptor.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(EntityBean.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()));
@@ -151,33 +151,59 @@ public class ServicePlugin extends BasePlugin
         interceptor.addSuperInterface(new FullyQualifiedJavaType(IEntityDataInterceptor.class.getName() + "<" + introspectedTable.getBaseRecordType() + ">"));
 
         // process1添加数据前的校验方法
-        Method processMethod1 = new Method("preProcessSave");
+        Method processMethod1 = new Method("beforeSave");
         processMethod1.addJavaDocLine("/**");
-        processMethod1.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]上行数据save拦截处理，数据校验等操作处理");
+        processMethod1.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]上行数据save前的拦截处理，数据校验等操作处理");
         processMethod1.addJavaDocLine(" */");
         processMethod1.setFinal(false);
         processMethod1.setStatic(false);
         processMethod1.setVisibility(JavaVisibility.PUBLIC);
-        processMethod1.addException(new FullyQualifiedJavaType(EntityPreProcessSaveException.class.getName()));
+        processMethod1.addException(new FullyQualifiedJavaType(EntitySaveInterceptProcessException.class.getName()));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
         processMethod1.addBodyLine("");
         interceptor.addMethod(processMethod1);
         
+        // process1添加数据前的校验方法
+        Method afterMethod = new Method("afterSave");
+        afterMethod.addJavaDocLine("/**");
+        afterMethod.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]上行数据save后的拦截处理");
+        afterMethod.addJavaDocLine(" */");
+        afterMethod.setFinal(false);
+        afterMethod.setStatic(false);
+        afterMethod.setVisibility(JavaVisibility.PUBLIC);
+        afterMethod.addException(new FullyQualifiedJavaType(EntitySaveInterceptProcessException.class.getName()));
+        afterMethod.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
+        afterMethod.addBodyLine("");
+        interceptor.addMethod(afterMethod);
+        
         // process 修改数据钱的校验处理方法
-        Method processMethod = new Method("preProcessUpdate");
+        Method processMethod = new Method("beforeUpdate");
         processMethod.addJavaDocLine("/**");
-        processMethod.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]上行数据update拦截处理，数据校验等操作处理");
+        processMethod.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]上行数据update前的拦截处理，数据校验等操作处理");
         processMethod.addJavaDocLine(" */");
         processMethod.setFinal(false);
         processMethod.setStatic(false);
         processMethod.setVisibility(JavaVisibility.PUBLIC);
-        processMethod.addException(new FullyQualifiedJavaType(EntityPreProcessUpdateException.class.getName()));
+        processMethod.addException(new FullyQualifiedJavaType(EntityUpdateInterceptProcessException.class.getName()));
         processMethod.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
         processMethod.addBodyLine("");
         interceptor.addMethod(processMethod);
         
+        // process 修改数据钱的校验处理方法
+        Method afterUpdateMethod = new Method("afterUpdate");
+        afterUpdateMethod.addJavaDocLine("/**");
+        afterUpdateMethod.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]上行数据update后的拦截处理");
+        afterUpdateMethod.addJavaDocLine(" */");
+        afterUpdateMethod.setFinal(false);
+        afterUpdateMethod.setStatic(false);
+        afterUpdateMethod.setVisibility(JavaVisibility.PUBLIC);
+        afterUpdateMethod.addException(new FullyQualifiedJavaType(EntityUpdateInterceptProcessException.class.getName()));
+        afterUpdateMethod.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
+        afterUpdateMethod.addBodyLine("");
+        interceptor.addMethod(afterUpdateMethod);
+        
         // process2方法
-        Method processMethod2 = new Method("preProcessReturn");
+        Method processMethod2 = new Method("beforeReturn");
         processMethod2.addJavaDocLine("/**");
         processMethod2.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]下行数据返回拦截处理");
         processMethod2.addJavaDocLine(" */");

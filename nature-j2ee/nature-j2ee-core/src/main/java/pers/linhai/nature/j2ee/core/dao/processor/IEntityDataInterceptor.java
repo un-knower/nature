@@ -9,8 +9,8 @@
 
 package pers.linhai.nature.j2ee.core.dao.processor;
 
-import pers.linhai.nature.j2ee.core.exception.EntityPreProcessSaveException;
-import pers.linhai.nature.j2ee.core.exception.EntityPreProcessUpdateException;
+import pers.linhai.nature.j2ee.core.exception.EntitySaveInterceptProcessException;
+import pers.linhai.nature.j2ee.core.exception.EntityUpdateInterceptProcessException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 
@@ -24,20 +24,36 @@ public interface IEntityDataInterceptor<Entity extends BaseEntity<?>>
 {
 
     /**
-     * 上行数据save拦截处理，数据校验等操作处理
+     * 上行数据save前的拦截处理，数据校验等操作处理
      * <p>Title         : process lilinhai 2018年3月14日 下午7:30:14</p>
      * @param entity 
      * void
      */
-    void preProcessSave(Entity entity) throws EntityPreProcessSaveException;
+    void beforeSave(Entity entity) throws EntitySaveInterceptProcessException;
     
     /**
-     * 上行数据update拦截处理，数据校验等操作处理
+     * 上行数据save后的拦截处理
      * <p>Title         : process lilinhai 2018年3月14日 下午7:30:14</p>
      * @param entity 
      * void
      */
-    void preProcessUpdate(Entity entity) throws EntityPreProcessUpdateException;
+    void afterSave(Entity entity) throws EntitySaveInterceptProcessException;
+    
+    /**
+     * 上行数据update前的拦截处理，数据校验等操作处理
+     * <p>Title         : process lilinhai 2018年3月14日 下午7:30:14</p>
+     * @param entity 
+     * void
+     */
+    void beforeUpdate(Entity entity) throws EntityUpdateInterceptProcessException;
+    
+    /**
+     * 上行数据update后的拦截处理
+     * <p>Title         : process lilinhai 2018年3月14日 下午7:30:14</p>
+     * @param entity 
+     * void
+     */
+    void afterUpdate(Entity entity) throws EntityUpdateInterceptProcessException;
     
     /**
      * 下行数据返回拦截处理
@@ -46,5 +62,5 @@ public interface IEntityDataInterceptor<Entity extends BaseEntity<?>>
      * @param entity 
      * void
      */
-    void preProcessReturn(EntityBean entityBean, Entity entity);
+    void beforeReturn(EntityBean entityBean, Entity entity);
 }

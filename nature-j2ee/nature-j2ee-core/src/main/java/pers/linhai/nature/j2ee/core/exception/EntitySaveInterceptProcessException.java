@@ -14,7 +14,7 @@ package pers.linhai.nature.j2ee.core.exception;
  * @author lilinhai 2018年3月15日 上午10:32:31
  * @version 1.0
  */
-public class EntityPreProcessSaveException extends RuntimeException
+public class EntitySaveInterceptProcessException extends RuntimeException
 {
 
     /**
@@ -24,7 +24,7 @@ public class EntityPreProcessSaveException extends RuntimeException
 
     /**
      */ 
-    public EntityPreProcessSaveException()
+    public EntitySaveInterceptProcessException()
     {
         super();
     }
@@ -33,7 +33,7 @@ public class EntityPreProcessSaveException extends RuntimeException
      * <p>Title        : EntityValidateException lilinhai 2018年3月15日 上午10:32:50</p>
      * @param message 
      */ 
-    public EntityPreProcessSaveException(String message)
+    public EntitySaveInterceptProcessException(String message)
     {
         super(message);
     }
