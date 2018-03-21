@@ -166,7 +166,7 @@ public class ModelPlugin extends BasePlugin
         topLevelClass.addImportedType(IllegalFieldException.class.getName());
         topLevelClass.addImportedType(EntityBean.class.getName());
         topLevelClass.addImportedType(Date.class.getName());
-        topLevelClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("enumer") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum"));
+        topLevelClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("field") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"));
         boolean hasDateField = false;
         for (Field f : topLevelClass.getFields())
         {
@@ -196,7 +196,7 @@ public class ModelPlugin extends BasePlugin
         queryConstructorMethod.setVisibility(JavaVisibility.PUBLIC);
         queryConstructorMethod.setFinal(false);
         queryConstructorMethod.setStatic(false);
-        queryConstructorMethod.addBodyLine("super("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum.TABLE_NAME);");
+        queryConstructorMethod.addBodyLine("super("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field.TABLE_NAME);");
         topLevelClass.addMethod(queryConstructorMethod);
         
         Method initializeMethod = new Method("initialize");
@@ -208,7 +208,7 @@ public class ModelPlugin extends BasePlugin
         for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns())
         {
             String enumFieldName = introspectedColumn.getActualColumnName().toUpperCase(Locale.ENGLISH);
-            initializeMethod.addBodyLine("this." + introspectedColumn.getJavaProperty() + " = ("+introspectedColumn.getFullyQualifiedJavaType().getShortName()+")entityBean.get("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum." + enumFieldName + ".getJavaField());");
+            initializeMethod.addBodyLine("this." + introspectedColumn.getJavaProperty() + " = ("+introspectedColumn.getFullyQualifiedJavaType().getShortName()+")entityBean.get("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field." + enumFieldName + ".getJavaField());");
         }
         topLevelClass.addMethod(initializeMethod);
         
@@ -223,7 +223,7 @@ public class ModelPlugin extends BasePlugin
         for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns())
         {
             String enumFieldName = introspectedColumn.getActualColumnName().toUpperCase(Locale.ENGLISH);
-            toEntityBeanMethod.addBodyLine("entityBean.put(" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum." + enumFieldName + ".getJavaField(), this." + introspectedColumn.getJavaProperty() + ");");
+            toEntityBeanMethod.addBodyLine("entityBean.put(" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field." + enumFieldName + ".getJavaField(), this." + introspectedColumn.getJavaProperty() + ");");
         }
         toEntityBeanMethod.addBodyLine("return entityBean;");
         topLevelClass.addMethod(toEntityBeanMethod);
@@ -251,7 +251,7 @@ public class ModelPlugin extends BasePlugin
         validFieldMethod.setVisibility(JavaVisibility.PUBLIC);
         validFieldMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "javaField"));
         validFieldMethod.addBodyLine("// 如果枚举为空，说明是非法字段");
-        validFieldMethod.addBodyLine("if (" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum" + ".transfer(javaField) == null)");
+        validFieldMethod.addBodyLine("if (" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + ".transfer(javaField) == null)");
         validFieldMethod.addBodyLine("{");
         validFieldMethod.addBodyLine("throw new IllegalFieldException(\" There is an illegal field : \" + javaField);");
         validFieldMethod.addBodyLine("}");
@@ -267,8 +267,8 @@ public class ModelPlugin extends BasePlugin
         getTableFieldBaseMethod.setVisibility(JavaVisibility.PUBLIC);
         getTableFieldBaseMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "javaField"));
         getTableFieldBaseMethod.setReturnType(new FullyQualifiedJavaType("String"));
-        getTableFieldBaseMethod.addBodyLine(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum e = null;");
-        getTableFieldBaseMethod.addBodyLine("if ((e = " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum" + ".transfer(javaField)) != null)");
+        getTableFieldBaseMethod.addBodyLine(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field e = null;");
+        getTableFieldBaseMethod.addBodyLine("if ((e = " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + ".transfer(javaField)) != null)");
         getTableFieldBaseMethod.addBodyLine("{");
         getTableFieldBaseMethod.addBodyLine("return e.getTableField();");
         getTableFieldBaseMethod.addBodyLine("}");
@@ -285,8 +285,8 @@ public class ModelPlugin extends BasePlugin
         getJdbcTypeBaseMethod.setVisibility(JavaVisibility.PUBLIC);
         getJdbcTypeBaseMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "fieldName"));
         getJdbcTypeBaseMethod.setReturnType(new FullyQualifiedJavaType("String"));
-        getJdbcTypeBaseMethod.addBodyLine(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum e = null;");
-        getJdbcTypeBaseMethod.addBodyLine("if ((e = " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum" + ".transfer(fieldName)) != null)");
+        getJdbcTypeBaseMethod.addBodyLine(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field e = null;");
+        getJdbcTypeBaseMethod.addBodyLine("if ((e = " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + ".transfer(fieldName)) != null)");
         getJdbcTypeBaseMethod.addBodyLine("{");
         getJdbcTypeBaseMethod.addBodyLine("return e.getJdbcType();");
         getJdbcTypeBaseMethod.addBodyLine("}");
@@ -341,7 +341,7 @@ public class ModelPlugin extends BasePlugin
     
     private GeneratedJavaFile createEntityFieldEnum(IntrospectedTable introspectedTable)
     {
-        TopLevelEnumeration fieldEnumeration = new TopLevelEnumeration(new FullyQualifiedJavaType(getTargetPackae("enumer") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum"));
+        TopLevelEnumeration fieldEnumeration = new TopLevelEnumeration(new FullyQualifiedJavaType(getTargetPackae("field") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"));
         
         fieldEnumeration.addImportedType(new FullyQualifiedJavaType(Map.class.getName()));
         fieldEnumeration.addImportedType(new FullyQualifiedJavaType(HashMap.class.getName()));
@@ -365,8 +365,8 @@ public class ModelPlugin extends BasePlugin
         mapField.setFinal(true);
         mapField.setName("MAP");
         mapField.setStatic(true);
-        mapField.setType(new FullyQualifiedJavaType(Map.class.getName() + "<String, "+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum"+">"));
-        mapField.setInitializationString("new HashMap<String, "+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum"+">()");
+        mapField.setType(new FullyQualifiedJavaType(Map.class.getName() + "<String, "+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"+">"));
+        mapField.setInitializationString("new HashMap<String, "+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"+">()");
         mapField.setVisibility(JavaVisibility.PRIVATE);
         fieldEnumeration.addField(mapField);
         
@@ -410,12 +410,12 @@ public class ModelPlugin extends BasePlugin
         // 添加static块
         InitializationBlock initializationBlock = new InitializationBlock();
         initializationBlock.setStatic(true);
-        initializationBlock.addBodyLine("for ("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum"+" fieldEnum : values())");
+        initializationBlock.addBodyLine("for ("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"+" field : values())");
         initializationBlock.addBodyLine("{");
-        initializationBlock.addBodyLine("MAP.put(fieldEnum.getJavaField(), fieldEnum);");
-        initializationBlock.addBodyLine("MAP.put(fieldEnum.getTableField(), fieldEnum);");
-        initializationBlock.addBodyLine("TABLE_FIELD_LIST.add(fieldEnum.tableField);");
-        initializationBlock.addBodyLine("JAVA_FIELD_LIST.add(fieldEnum.javaField);");
+        initializationBlock.addBodyLine("MAP.put(field.getJavaField(), field);");
+        initializationBlock.addBodyLine("MAP.put(field.getTableField(), field);");
+        initializationBlock.addBodyLine("TABLE_FIELD_LIST.add(field.tableField);");
+        initializationBlock.addBodyLine("JAVA_FIELD_LIST.add(field.javaField);");
         initializationBlock.addBodyLine("}");
         fieldEnumeration.addInitializationBlock(initializationBlock);
         
@@ -453,7 +453,7 @@ public class ModelPlugin extends BasePlugin
         fieldEnumeration.addField(jdbcType);
         
         // 添加初始化对象的构造函数
-        Method constructorMethod = new Method(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum");
+        Method constructorMethod = new Method(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field");
         constructorMethod.setConstructor(true);
         constructorMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "javaField"));
         constructorMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "tableField"));
@@ -499,7 +499,7 @@ public class ModelPlugin extends BasePlugin
         transferMethod.setStatic(true);
         transferMethod.setVisibility(JavaVisibility.PUBLIC);
         transferMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "javaField"));
-        transferMethod.setReturnType(new FullyQualifiedJavaType(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum"));
+        transferMethod.setReturnType(new FullyQualifiedJavaType(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"));
         transferMethod.addBodyLine("return MAP.get(javaField);");
         fieldEnumeration.addMethod(transferMethod);
         
@@ -546,7 +546,7 @@ public class ModelPlugin extends BasePlugin
         beanClass.addImportedType(CoreClassImportConstant.BASE_QUERY_CLASS);
         beanClass.addImportedType(new FullyQualifiedJavaType(List.class.getName()));
         beanClass.addImportedType(IllegalFieldException.class.getName());
-        beanClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("enumer") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum"));
+        beanClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("field") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"));
         
         // 添加范型继承关系BaseService
         if (introspectedTable.getPrimaryKeyColumns() == null || introspectedTable.getPrimaryKeyColumns().isEmpty())
@@ -575,7 +575,7 @@ public class ModelPlugin extends BasePlugin
         queryConstructorMethod.setVisibility(JavaVisibility.PUBLIC);
         queryConstructorMethod.setFinal(false);
         queryConstructorMethod.setStatic(false);
-        queryConstructorMethod.addBodyLine("super("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum.TABLE_NAME);");
+        queryConstructorMethod.addBodyLine("super("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field.TABLE_NAME);");
         beanClass.addMethod(queryConstructorMethod);
         
         // validField方法
@@ -588,7 +588,7 @@ public class ModelPlugin extends BasePlugin
         validFieldMethod.setVisibility(JavaVisibility.PUBLIC);
         validFieldMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "javaField"));
         validFieldMethod.addBodyLine("// 如果枚举为空，说明是非法字段");
-        validFieldMethod.addBodyLine("if (" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum" + ".transfer(javaField) == null)");
+        validFieldMethod.addBodyLine("if (" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + ".transfer(javaField) == null)");
         validFieldMethod.addBodyLine("{");
         validFieldMethod.addBodyLine("throw new IllegalFieldException(\" There is an illegal field : \" + javaField);");
         validFieldMethod.addBodyLine("}");
@@ -604,8 +604,8 @@ public class ModelPlugin extends BasePlugin
         getTableFieldBaseMethod.setVisibility(JavaVisibility.PUBLIC);
         getTableFieldBaseMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "javaField"));
         getTableFieldBaseMethod.setReturnType(new FullyQualifiedJavaType("String"));
-        getTableFieldBaseMethod.addBodyLine(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum e = null;");
-        getTableFieldBaseMethod.addBodyLine("if ((e = " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum" + ".transfer(javaField)) != null)");
+        getTableFieldBaseMethod.addBodyLine(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field e = null;");
+        getTableFieldBaseMethod.addBodyLine("if ((e = " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + ".transfer(javaField)) != null)");
         getTableFieldBaseMethod.addBodyLine("{");
         getTableFieldBaseMethod.addBodyLine("return e.getTableField();");
         getTableFieldBaseMethod.addBodyLine("}");
@@ -622,8 +622,8 @@ public class ModelPlugin extends BasePlugin
         getJdbcTypeBaseMethod.setVisibility(JavaVisibility.PUBLIC);
         getJdbcTypeBaseMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "javaField"));
         getJdbcTypeBaseMethod.setReturnType(new FullyQualifiedJavaType("String"));
-        getJdbcTypeBaseMethod.addBodyLine(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum e = null;");
-        getJdbcTypeBaseMethod.addBodyLine("if ((e = " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum" + ".transfer(javaField)) != null)");
+        getJdbcTypeBaseMethod.addBodyLine(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field e = null;");
+        getJdbcTypeBaseMethod.addBodyLine("if ((e = " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + ".transfer(javaField)) != null)");
         getJdbcTypeBaseMethod.addBodyLine("{");
         getJdbcTypeBaseMethod.addBodyLine("return e.getJdbcType();");
         getJdbcTypeBaseMethod.addBodyLine("}");
@@ -639,7 +639,7 @@ public class ModelPlugin extends BasePlugin
         getAllFieldListMethod.setStatic(false);
         getAllFieldListMethod.setVisibility(JavaVisibility.PUBLIC);
         getAllFieldListMethod.setReturnType(new FullyQualifiedJavaType(List.class.getName() + "<String>"));
-        getAllFieldListMethod.addBodyLine("return " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "FieldEnum.getTableFieldList();");
+        getAllFieldListMethod.addBodyLine("return " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field.getTableFieldList();");
         beanClass.addMethod(getAllFieldListMethod);
         
         return new GeneratedJavaFile(beanClass, getTargetProjectJavaSourceFolder(), "utf-8", new DefaultJavaFormatter());
