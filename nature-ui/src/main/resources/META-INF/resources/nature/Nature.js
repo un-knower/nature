@@ -99,6 +99,14 @@ window.Nature = function Nature()
             else if (typeof source == "object") Nature.extend(this.prototype, source)
         }
     });
+    
+    // 将对象转换成json字符串
+    window.Object.extend({
+        stringify: function()
+        {
+            return JSON.stringify(this);
+        }
+    });
 
     window.String.extend({
         trim: function()
@@ -1269,35 +1277,6 @@ Nature.create({
     Ajax: function()
     {
     },
-    _default_headers: {
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "Accept": "application/json, text/javascript, text/html, application/xml, text/xml, */*",
-        "Cache-Control": "no-cache",
-        "If-Modified-Since": "0",
-        "X-Requested-With": "XMLHttpRequest"
-    },
-    _setHeaders: function()
-    {
-        var _headers = this.headers;
-        if (typeof _headers == "object")
-        {
-            for ( var k in this._default_headers)
-            {
-                if (!_headers.hasOwnProperty(k)) _headers[k] = this._default_headers[k];
-            }
-            for ( var name in _headers)
-            {
-                if (_headers.hasOwnProperty(name)) this._xhr.setRequestHeader(name, _headers[name]);
-            }
-        }
-        else
-        {
-            for ( var k in this._default_headers)
-            {
-                if (this._default_headers.hasOwnProperty(k)) this._xhr.setRequestHeader(k, this._default_headers[k]);
-            }
-        }
-    },
     _parse_data: function()
     {
         var _data = this.data;
@@ -1375,55 +1354,67 @@ Nature.create({
             window.clearTimeout(this._timeout_timer);
             delete this._timeout_timer;
         }
-        var _status = this._xhr.status;
-        var _statusText = this._xhr.statusText;
-        if (((_status >= 200 && _status < 300) || _status === 304))
+        try
         {
-            try
+            var _status = this._xhr.status;
+            var _statusText = this._xhr.statusText;
+            if (((_status >= 200 && _status < 300) || _status === 304))
             {
-            	if (typeof this.success == "function")
-        		{
-            		var result;
-            		if((result = this._xhr.responseText))
-            		{
-            			try{
-            				if (typeof result == "string")
-        					{
-            					result = result.toJSON();
-        					}
-            			}
-            			catch (e) 
-            			{
-						}
-            			finally
-						{
-            				this.success(result, _statusText, this._xhr);
-						}
-            		}
-            		else if((result = this._xhr.responseXML) || (result = this._xhr.responseXml))
-            		{
-            			this.success(result, _statusText, this._xhr);
-            		}
-            		else
-            		{
-            			throw new Error("The ajax result can't be processed.");
-            		}
-        		}
+                try
+                {
+                    if (typeof this.success == "function")
+                    {
+                        var result;
+                        if((result = this._xhr.responseText))
+                        {
+                            try
+                            {
+                                if (typeof result == "string")
+                                {
+                                    result = result.toJSON();
+                                }
+                            }
+                            catch (e) 
+                            {
+                            }
+                            finally
+                            {
+                                this.success(result, _statusText, this._xhr);
+                            }
+                        }
+                        else if((result = this._xhr.responseXML) || (result = this._xhr.responseXml))
+                        {
+                            this.success(result, _statusText, this._xhr);
+                        }
+                        else
+                        {
+                            throw new Error("The ajax result can't be processed.");
+                        }
+                    }
+                }
+                catch(e)
+                {
+                    var errorMsg = "\nUrl requested by ajax: " + this.url;
+                    e.description = ((e.description ? e.description : "") + errorMsg);
+                    e.message = ((e.message ? e.message : "") + errorMsg);
+                    throw e;
+                }
             }
-            catch(e)
+            else
             {
-                var errorMsg = "\nUrl requested by ajax: " + this.url;
-                e.description = ((e.description ? e.description : "") + errorMsg);
-                e.message = ((e.message ? e.message : "") + errorMsg);
-                throw e;
+                var _error_msg = "Ajax Request failed";
+                _error_msg += (", errorCode: " + _status + ", statusText: " + _statusText + ", url: " + this.url);
+                if (typeof this.fail == "function") this.fail(_error_msg, this._xhr);
+                else throw new Error(_error_msg);
             }
         }
-        else
+        catch (e) 
         {
-            var _error_msg = "Ajax Request failed";
-            _error_msg += (", errorCode: " + _status + ", statusText: " + _statusText + ", url: " + this.url);
-            if (typeof this.fail == "function") this.fail(_error_msg, this._xhr);
-            else throw new Error(_error_msg);
+            throw e;
+        }
+        finally
+        {
+            if (typeof this.complete == "function") this.complete(this._xhr);
         }
 
         // 需要考虑_xhr_callback为undefined的情况
@@ -1449,6 +1440,10 @@ Nature.create({
             this._xhr.open(_method, this.url, this.async != false);
             this._handle_timeout();
             this._setHeaders();
+            if (typeof this.beforeSend == 'function')
+            {
+                this.beforeSend(this._xhr);
+            }
             this._xhr.send(isGet ? null : data);
         }
         catch(e)

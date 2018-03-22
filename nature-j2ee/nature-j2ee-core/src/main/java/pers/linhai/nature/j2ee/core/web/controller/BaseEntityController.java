@@ -235,4 +235,26 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
             return fail(RestErrorCode.QUERY_EXCEPTION, e.getMessage() + "，entityQuery：" + JSON.toJSONString(entityQuery));
         }
     }
+    
+    /**
+     * 统计记录数
+     * <p>Title         : query lilinhai 2018年2月8日 上午9:50:54</p>
+     * @param entityQuery
+     * @return 
+     * RestResponse
+     */
+    @PostMapping("/count")
+    protected RestResponse count(@RequestBody EntityQuery entityQuery, HttpServletRequest request)
+    {
+        try
+        {
+            process(request);
+            return success(entityService.count(entityQuery));
+        }
+        catch (Throwable e)
+        {
+            logger.error("[Controller] count(@RequestBody EntityQuery entityQuery, HttpServletRequest request) occor an error", e);
+            return fail(RestErrorCode.QUERY_EXCEPTION, e.getMessage() + "，entityQuery：" + JSON.toJSONString(entityQuery));
+        }
+    }
 }
