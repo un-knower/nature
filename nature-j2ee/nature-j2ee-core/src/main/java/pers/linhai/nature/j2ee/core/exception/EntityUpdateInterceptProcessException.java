@@ -37,4 +37,29 @@ public class EntityUpdateInterceptProcessException extends RuntimeException
     {
         super(message);
     }
+
+    /**
+     * <p>Title        : EntityUpdateInterceptProcessException lilinhai 2018年3月23日 上午9:36:08</p>
+     * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
+     * @param message
+     * @param cause 
+     */ 
+    public EntityUpdateInterceptProcessException(String message, Throwable cause)
+    {
+        super(message, cause);
+        // TODO Auto-generated constructor stub
+    }
+
+    /**
+     * <p>Title        : EntityUpdateInterceptProcessException lilinhai 2018年3月23日 上午9:36:08</p>
+     * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
+     * @param cause 
+     */ 
+    public EntityUpdateInterceptProcessException(Throwable cause)
+    {
+        super(cause);
+        // TODO Auto-generated constructor stub
+    }
+    
+    
 }

@@ -95,7 +95,7 @@ public abstract class BaseEntityServiceImpl<Key
         catch (Throwable e)
         {
             logger.error("[Service] save(Entity record) occor an error", e);
-            return 0;
+            throw new EntitySaveInterceptProcessException(e);
         }
     }
     
@@ -128,7 +128,7 @@ public abstract class BaseEntityServiceImpl<Key
         catch (Throwable e)
         {
             logger.error("[Service] update(Entity record) occor an error", e);
-            return 0;
+            throw new EntityUpdateInterceptProcessException(e);
         }
     }
 
