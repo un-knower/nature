@@ -40,15 +40,17 @@ public abstract class BaseBean extends HashMap<String, Serializable>
      * @param value 
      * void
      */
-    protected <Value extends Serializable> void putAttribute(String key, Value value)
+    protected <Value extends Serializable> Serializable putAttribute(String key, Value value)
     {
+        Serializable rel = null;
         if (value != null)
         {
-            super.put(key, value);
+            rel = super.put(key, value);
             if (value instanceof Date)
             {
                 super.put(key.concat("Str"), DATE_FORMAT.format((Date)value));
             }
         }
+        return rel;
     }
 }
