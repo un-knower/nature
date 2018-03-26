@@ -10,6 +10,7 @@
 package pers.linhai.nature.j2ee.core.model.condition;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import pers.linhai.nature.j2ee.core.exception.ConditionFormatException;
@@ -35,18 +36,21 @@ public class InConditionSegment extends ConditionSegment
     {
         super(condition, 2);
         Object value = condition.getValue();
-        if (!(value instanceof List))
+        if (!(value instanceof Collection))
         {
             throw new ConditionFormatException("The type of value must be a array in 'in-operator'.");
         }
-        List<?> valueTempList = (List<?>)value;
-        if (valueTempList == null || valueTempList.isEmpty())
+        else
         {
-            throw new ConditionFormatException("The value can't be enmpy, while the condition type is In or Not-in.");
-        }
-        for (Object val : valueTempList)
-        {
-            this.valueList.add(DataType.parse(getJdbcType(), val));
+            Collection<?> valueTempCollection = (Collection<?>)value;
+            if (valueTempCollection == null || valueTempCollection.isEmpty())
+            {
+                throw new ConditionFormatException("The value can't be enmpy, while the condition type is In or Not-in.");
+            }
+            for (Object val : valueTempCollection)
+            {
+                this.valueList.add(DataType.parse(getJdbcType(), val));
+            }
         }
     }
 

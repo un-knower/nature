@@ -227,6 +227,7 @@ public abstract class BaseEntityServiceImpl<Key
         {
             DefaultRowDataProcessor<Entity> rowDataServiceProcessor = new DefaultRowDataProcessor<Entity>(entityDataInterceptor);
             mapper.find(entityQuery, rowDataServiceProcessor);
+            entityDataInterceptor.beforeReturn(rowDataServiceProcessor.getEntityBeanList(), rowDataServiceProcessor.getEntityList());
             return rowDataServiceProcessor.getEntityBeanList();
         }
         catch (Throwable e)
