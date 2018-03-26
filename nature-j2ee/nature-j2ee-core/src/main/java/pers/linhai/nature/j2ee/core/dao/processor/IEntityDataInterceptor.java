@@ -9,6 +9,8 @@
 
 package pers.linhai.nature.j2ee.core.dao.processor;
 
+import java.util.List;
+
 import pers.linhai.nature.j2ee.core.exception.EntitySaveInterceptProcessException;
 import pers.linhai.nature.j2ee.core.exception.EntityUpdateInterceptProcessException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
@@ -63,4 +65,13 @@ public interface IEntityDataInterceptor<Entity extends BaseEntity<?>>
      * void
      */
     void beforeReturn(EntityBean entityBean, Entity entity);
+    
+    /**
+     * 下行数据返回批量处理
+     * <p>Title         : beforeReturn lilinhai 2018年3月26日 下午5:55:27</p>
+     * @param entityBeanList
+     * @param entityList 
+     * void
+     */
+    void beforeReturn(List<EntityBean> entityBeanList, List<Entity> entityList);
 }

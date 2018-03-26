@@ -138,6 +138,7 @@ public class ServicePlugin extends BasePlugin
 
         // 添加需要依赖的类
         interceptor.addImportedType(new FullyQualifiedJavaType(Component.class.getName()));
+        interceptor.addImportedType(new FullyQualifiedJavaType(List.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(EntitySaveInterceptProcessException.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(EntityUpdateInterceptProcessException.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(IEntityDataInterceptor.class.getName()));
@@ -214,6 +215,19 @@ public class ServicePlugin extends BasePlugin
         processMethod2.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
         processMethod2.addBodyLine("");
         interceptor.addMethod(processMethod2);
+        
+        // process2方法
+        Method beforeReturn = new Method("beforeReturn");
+        beforeReturn.addJavaDocLine("/**");
+        beforeReturn.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]下行数据返回批量处理");
+        beforeReturn.addJavaDocLine(" */");
+        beforeReturn.setFinal(false);
+        beforeReturn.setStatic(false);
+        beforeReturn.setVisibility(JavaVisibility.PUBLIC);
+        beforeReturn.addParameter(new Parameter(new FullyQualifiedJavaType("List<" + EntityBean.class.getName() + ">"), "entityBeanList"));
+        beforeReturn.addParameter(new Parameter(new FullyQualifiedJavaType("List<" + introspectedTable.getBaseRecordType() + ">"), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName()) + "List"));
+        beforeReturn.addBodyLine("");
+        interceptor.addMethod(beforeReturn);
         
         // 添加注释
         CommentGenerator commentGenerator = context.getCommentGenerator();
