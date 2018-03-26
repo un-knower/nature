@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.j2ee.core.listener;
+package pers.linhai.nature.j2ee.core.spring;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -33,7 +33,7 @@ import pers.linhai.nature.j2ee.core.web.cache.RequestMappingCache;
  * @version 1.0
  */
 @Component
-public class SpringContainerInstantiationListener implements ApplicationListener<ContextRefreshedEvent>
+public class InstantiationListener implements ApplicationListener<ContextRefreshedEvent>
 {
 
     @Autowired
