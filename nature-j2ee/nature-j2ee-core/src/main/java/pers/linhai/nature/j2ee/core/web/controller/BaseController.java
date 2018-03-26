@@ -12,6 +12,8 @@ package pers.linhai.nature.j2ee.core.web.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import pers.linhai.nature.j2ee.core.web.model.RestResponse;
+
 /**
  * 所有控制器的基类
  * <p>ClassName      : BaseController</p>

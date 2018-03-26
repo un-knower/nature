@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import pers.linhai.nature.j2ee.core.web.controller.SystemInfo.MemoryInfo;
+import pers.linhai.nature.j2ee.core.web.model.RestResponse;
+import pers.linhai.nature.j2ee.core.web.model.SystemInfo;
+import pers.linhai.nature.j2ee.core.web.model.SystemInfo.MemoryInfo;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -23,11 +25,11 @@ import pers.linhai.nature.j2ee.core.web.controller.SystemInfo.MemoryInfo;
  */
 @RestController
 @RequestMapping("/system")
-public class SystemController
+public class SystemController extends BaseController
 {
 
     @RequestMapping(value = "/getSystemInfo", method = RequestMethod.GET)
-    public SystemInfo getSystemInfo()
+    public RestResponse getSystemInfo()
     {
         Runtime run = Runtime.getRuntime();
         
@@ -37,6 +39,6 @@ public class SystemController
         memoryInfo.setFreeMemory(run.freeMemory());
         memoryInfo.setUsedMemory(memoryInfo.getTotalMemory() - memoryInfo.getFreeMemory());
         systemInfo.setMemoryInfo(memoryInfo);
-        return systemInfo;
+        return success(memoryInfo);
     }
 }

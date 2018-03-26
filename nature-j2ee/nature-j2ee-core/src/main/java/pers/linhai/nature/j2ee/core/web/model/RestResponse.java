@@ -6,7 +6,7 @@
  * @Version V1.0
  */
 
-package pers.linhai.nature.j2ee.core.web.controller;
+package pers.linhai.nature.j2ee.core.web.model;
 
 
 import java.io.Serializable;
