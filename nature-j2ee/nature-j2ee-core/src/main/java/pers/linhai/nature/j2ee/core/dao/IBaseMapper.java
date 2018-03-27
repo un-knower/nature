@@ -133,7 +133,7 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * @param params
      * void
      */
-    Entity findOne(String statment, Object params);
+    Entity get(String statment, Object params);
     
     /**
      * 调用自己写的statment sql语句

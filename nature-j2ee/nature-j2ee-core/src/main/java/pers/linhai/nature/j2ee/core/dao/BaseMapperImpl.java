@@ -467,7 +467,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      * @param params
      * void
      */
-    public Entity findOne(String statment, Object params)
+    public Entity get(String statment, Object params)
     {
         List<Entity> el = find(statment, params);
         if (el != null && !el.isEmpty())
