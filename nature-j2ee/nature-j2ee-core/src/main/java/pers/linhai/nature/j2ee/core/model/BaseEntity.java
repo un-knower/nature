@@ -39,19 +39,19 @@ public abstract class BaseEntity<Key> extends JdbcModel implements Serializable
     /**
      * 主键ID
      */
-    public Key id;
+    protected Key id;
 
     /**
      *  入库时间
      */
     @JsonDeserialize(using = DateJsonDeserializer.class)
-    public Date createTime;
+    protected Date createTime;
 
     /**
      *  修改时间
      */
     @JsonDeserialize(using = DateJsonDeserializer.class)
-    public Date updateTime;
+    protected Date updateTime;
 
     /**
      * <p>Title        : BaseEntity lilinhai 2018年2月13日 下午2:53:51</p>
