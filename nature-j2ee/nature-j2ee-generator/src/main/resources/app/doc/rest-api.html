@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>REST API</title>
+	<link rel="stylesheet" type="text/css" href="rest-api.css">
+	<script type="text/javascript" src="jsonHtmlFormator.js"></script>
+	<script type="text/javascript">
+	var ww = {
+	    	//返回指定字段列表，如果不传returnFieldList，则返回所有字段
+	    	"returnFieldList": [
+	    		"name",
+	    		"parentId",
+	    		"icon"
+	    	],
+	    	// 查询条件：conditionList（查询条件单元集合，默认是and，若需要自定义单元间的逻辑关系，则需要expression）
+	    	"where": {
+	    		"conditionList": [
+	    			{
+	    				"id": "1",
+	    				"fieldName": "name",
+	    				"operator": "like",
+	    				"value": "%管理"
+	    			},
+	    			{
+	    				"id": "2",
+	    				"fieldName": "name",
+	    				"operator": "like",
+	    				"value": "%列表"
+	    			},
+	    			{
+	    				"id": "3",
+	    				"fieldName": "code",
+	    				"operator": "=",
+	    				"value": "userlist"
+	    			}
+	    		],
+	    		"expression": "1 or (2 and 3)"
+	    	},
+	    	"sortFieldList": [
+	    		{
+	    			"fieldName": "parentId",
+	    			"direction": "DESC"
+	    		}
+	    	],
+	    	//分页查询参数，如果不传，则返回全部记录
+	    	"page": 1,
+	    	"size": 10
+	    };
+	
+	window.onload = function()
+	{
+		document.getElementById('bodyParam').innerHTML = new JSONFormat(JSON.stringify(ww), 4).toString();
+	}
+	</script>
+</head>
+<body>
+	<div id="apiHeader"></div>
+	<div id="apiViewer"></div>
+	<div id="apiParamBody"><div id="bodyParam"></div></div>
+</body>
+</html>
