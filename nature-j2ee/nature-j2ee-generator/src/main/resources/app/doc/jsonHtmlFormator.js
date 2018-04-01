@@ -67,7 +67,7 @@ var JSONFormat = (function()
         {
             object = '<a href="' + object + '" target="_blank" class="json_link">' + object + '</a>'
         }
-        return '<span class="json_string">"' + object + '"</span>';
+        return '<span class="json_string">"' + object + '"</span> <span style="color:green;font-weight:bold">//dsfsd</span>';
     }
 
     function _format_array(object, indent_count)

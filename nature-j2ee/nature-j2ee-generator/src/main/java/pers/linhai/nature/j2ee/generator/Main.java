@@ -10,12 +10,15 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
+
 import freemarker.core.ParseException;
 import freemarker.template.Configuration;
 import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateNotFoundException;
+import pers.linhai.nature.j2ee.generator.restapi.EntityRestApiCache;
 import pers.linhai.nature.utils.ClassUtils;
 import pers.linhai.nature.utils.FileUtils;
 
@@ -112,6 +115,8 @@ public class Main
         
         // 生成业务代码
         CodeGenerator.generate(artifactDir.getAbsolutePath(), params);
+        
+        System.out.println(JSON.toJSONString(EntityRestApiCache.getInstance()));
     }
 
     /**

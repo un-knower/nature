@@ -34,6 +34,7 @@ import pers.linhai.nature.j2ee.generator.core.plugins.ToStringPlugin;
 import pers.linhai.nature.j2ee.generator.enumer.ConfigurationType;
 import pers.linhai.nature.j2ee.generator.enumer.TargetRuntime;
 import pers.linhai.nature.j2ee.generator.generator.CodeCommentGenerator;
+import pers.linhai.nature.j2ee.generator.plugins.ApiPlugin;
 import pers.linhai.nature.j2ee.generator.plugins.ControllerPlugin;
 import pers.linhai.nature.j2ee.generator.plugins.MapperPlugin;
 import pers.linhai.nature.j2ee.generator.plugins.ModelPlugin;
@@ -62,6 +63,7 @@ public class CodeGenerator
             List<Class<? extends PluginAdapter>> pluginClassList = new ArrayList<Class<? extends PluginAdapter>>();
             pluginClassList.add(ToStringPlugin.class);
             pluginClassList.add(ModelPlugin.class);
+            pluginClassList.add(ApiPlugin.class);
             pluginClassList.add(MapperPlugin.class);
             // pluginClassList.add(SqlMapPlugin.class);
             pluginClassList.add(ServicePlugin.class);
