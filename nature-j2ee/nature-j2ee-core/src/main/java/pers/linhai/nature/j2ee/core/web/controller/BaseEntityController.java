@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.alibaba.fastjson.JSON;
 
+import pers.linhai.nature.j2ee.core.exception.ServiceException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
@@ -73,10 +74,10 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
             }
             return success();
         }
-        catch (Throwable e)
+        catch (ServiceException e)
         {
             logger.error("[Controller] delete(@PathVariable Key id, HttpServletRequest request) occor an error", e);
-            return fail(RestErrorCode.DELETE_EXCEPTION, e.getMessage() + "，ID：" + id);
+            return fail(e.getErrorCode(), e.getMessage());
         }
     }
 
@@ -102,10 +103,10 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
             }
             return success(record.toEntityBean());
         }
-        catch (Throwable e)
+        catch (ServiceException e)
         {
             logger.error("[Controller] save(@RequestBody Entity record, HttpServletRequest request) occor an error", e);
-            return fail(RestErrorCode.INSERT_EXCEPTION, e.getMessage());
+            return fail(e.getErrorCode(), e.getMessage());
         }
     }
 
@@ -133,10 +134,10 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
             }
             return success(record.toEntityBean());
         }
-        catch (Throwable e)
+        catch (ServiceException e)
         {
             logger.error("[Controller] update(@RequestBody Entity record, @PathVariable Key id, HttpServletRequest request) occor an error", e);
-            return fail(10301, e.getMessage());
+            return fail(e.getErrorCode(), e.getMessage());
         }
     }
 

@@ -23,6 +23,11 @@ public class ServiceException extends RuntimeException
      * <p>Description   : <pre>TODO(用一句话描述这个变量表示什么) </pre></p>
      */
     private static final long serialVersionUID = 1L;
+    
+    /**
+     * 错误码
+     */
+    protected int errorCode;
 
     /**
      * <p>Title        : MapperException lilinhai 2018年2月13日 上午11:12:03</p>
@@ -82,5 +87,18 @@ public class ServiceException extends RuntimeException
         // TODO Auto-generated constructor stub
     }
 
-    
+    public ServiceException(int errorCode, String message)
+    {
+        super(message);
+        this.errorCode = errorCode;
+    }
+
+    /**
+     * <p>Get Method   :   errorCode int</p>
+     * @return errorCode
+     */
+    public int getErrorCode()
+    {
+        return errorCode;
+    }
 }

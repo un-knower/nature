@@ -14,7 +14,7 @@ package pers.linhai.nature.j2ee.core.exception;
  * @author lilinhai 2018年3月15日 上午10:32:31
  * @version 1.0
  */
-public class EntitySaveInterceptProcessException extends RuntimeException
+public class EntitySaveInterceptProcessException extends ServiceException
 {
 
     /**
@@ -23,41 +23,13 @@ public class EntitySaveInterceptProcessException extends RuntimeException
     private static final long serialVersionUID = 1L;
 
     /**
-     */ 
-    public EntitySaveInterceptProcessException()
-    {
-        super();
-    }
-
-    /**
-     * <p>Title        : EntityValidateException lilinhai 2018年3月15日 上午10:32:50</p>
+     * <p>Title        : EntitySaveInterceptProcessException lilinhai 2018年4月2日 下午6:40:22</p>
+     * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
+     * @param errorCode
      * @param message 
      */ 
-    public EntitySaveInterceptProcessException(String message)
+    public EntitySaveInterceptProcessException(int errorCode, String message)
     {
-        super(message);
-    }
-
-    /**
-     * <p>Title        : EntitySaveInterceptProcessException lilinhai 2018年3月23日 上午9:36:41</p>
-     * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
-     * @param message
-     * @param cause 
-     */ 
-    public EntitySaveInterceptProcessException(String message, Throwable cause)
-    {
-        super(message, cause);
-        // TODO Auto-generated constructor stub
-    }
-
-    /**
-     * <p>Title        : EntitySaveInterceptProcessException lilinhai 2018年3月23日 上午9:36:41</p>
-     * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
-     * @param cause 
-     */ 
-    public EntitySaveInterceptProcessException(Throwable cause)
-    {
-        super(cause);
-        // TODO Auto-generated constructor stub
+        super(errorCode, message);
     }
 }

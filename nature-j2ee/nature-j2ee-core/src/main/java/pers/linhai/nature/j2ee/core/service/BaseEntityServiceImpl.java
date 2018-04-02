@@ -18,9 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pers.linhai.nature.j2ee.core.dao.IBaseMapper;
 import pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.IEntityDataInterceptor;
-import pers.linhai.nature.j2ee.core.exception.EntitySaveInterceptProcessException;
-import pers.linhai.nature.j2ee.core.exception.EntityUpdateInterceptProcessException;
-import pers.linhai.nature.j2ee.core.exception.MapperException;
+import pers.linhai.nature.j2ee.core.exception.ServiceException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
@@ -57,20 +55,24 @@ public abstract class BaseEntityServiceImpl<Key
      * @return 
      * @see pers.linhai.nature.j2ee.core.service.IBaseEntityService#delete(java.lang.Object)
      */
+    @Transactional(rollbackFor = {Throwable.class})
     public int delete(Key id)
     {
         try
         {
-            return mapper.delete(id);
+            entityDataInterceptor.beforeDelete(id);
+            int c = mapper.delete(id);
+            entityDataInterceptor.afterDelete(id);
+            return c;
         }
-        catch (MapperException e) 
+        catch (ServiceException e) 
         {
             throw e;
         }
         catch (Throwable e)
         {
             logger.error("[Service] delete(Key id) occor an error", e);
-            return 0;
+            throw new ServiceException(40000, "[Service] delete(Key id) occor an error, " + e.getMessage());
         }
     }
 
@@ -92,18 +94,14 @@ public abstract class BaseEntityServiceImpl<Key
             entityDataInterceptor.afterSave(record);
             return result;
         }
-        catch (MapperException e) 
-        {
-            throw e;
-        }
-        catch (EntitySaveInterceptProcessException e) 
+        catch (ServiceException e) 
         {
             throw e;
         }
         catch (Throwable e)
         {
             logger.error("[Service] save(Entity record) occor an error", e);
-            throw new EntitySaveInterceptProcessException(e);
+            throw new ServiceException(40001, "[Service] save(Entity record) occor an error" + e.getMessage());
         }
     }
     
@@ -125,18 +123,14 @@ public abstract class BaseEntityServiceImpl<Key
             entityDataInterceptor.afterUpdate(record);
             return result;
         }
-        catch (MapperException e) 
-        {
-            throw e;
-        }
-        catch (EntityUpdateInterceptProcessException e) 
+        catch (ServiceException e) 
         {
             throw e;
         }
         catch (Throwable e)
         {
             logger.error("[Service] update(Entity record) occor an error", e);
-            throw new EntityUpdateInterceptProcessException(e);
+            throw new ServiceException(40002, "[Service] update(Entity record) occor an error" + e.getMessage());
         }
     }
 
