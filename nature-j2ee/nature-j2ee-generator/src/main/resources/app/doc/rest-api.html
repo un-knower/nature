@@ -123,6 +123,7 @@
 		            restApiList.add(op);
 		        }
             }
+	        restApiList.onchange();
 	    }
 	    
 	    var apiMethodDiv = document.getElementById("apiMethodDiv");
@@ -176,6 +177,7 @@
 	            apiMethodDiv.innerHTML = "";
 	            apiUrlDiv.innerHTML = "";
 	            apiNameDiv.innerHTML = "";
+	            bodyParam.innerHTML = "";
             }
 	    }
 	}
