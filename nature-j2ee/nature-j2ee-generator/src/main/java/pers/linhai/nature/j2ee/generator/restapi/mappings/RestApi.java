@@ -34,6 +34,16 @@ public abstract class RestApi
     protected String method;
     
     /**
+     * api的颜色
+     */
+    protected String apiColor;
+    
+    /**
+     * 接口ID
+     */
+    protected int apiId;
+    
+    /**
      * <p>Get Method   :   url String</p>
      * @return url
      */
@@ -85,5 +95,41 @@ public abstract class RestApi
     public void setApiName(String apiName)
     {
         this.apiName = apiName;
+    }
+
+    /**
+     * <p>Get Method   :   apiColor String</p>
+     * @return apiColor
+     */
+    public String getApiColor()
+    {
+        return apiColor;
+    }
+
+    /**
+     * <p>Set Method   :   apiColor String</p>
+     * @param apiColor
+     */
+    public void setApiColor(String apiColor)
+    {
+        this.apiColor = apiColor;
+    }
+
+    /**
+     * <p>Get Method   :   apiId int</p>
+     * @return apiId
+     */
+    public int getApiId()
+    {
+        return apiId;
+    }
+
+    /**
+     * <p>Set Method   :   apiId int</p>
+     * @param apiId
+     */
+    public void setApiId(int apiId)
+    {
+        this.apiId = apiId;
     }
 }

@@ -24,8 +24,10 @@ public class CountRestApi extends RestApi
      */ 
     public CountRestApi(String entityName)
     {
-        url = NamingUtils.controllerMappingName(entityName) + "/count";
+        url = "/" + NamingUtils.controllerMappingName(entityName) + "/count";
         method = "POST";
         apiName = "根据查询条件统计实体个数";
+        apiColor = "#10A54A";
+        apiId = 7;
     }
 }

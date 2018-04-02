@@ -19,7 +19,7 @@ import pers.linhai.nature.j2ee.generator.restapi.mappings.RestApi;
  * @author lilinhai 2018年4月1日 下午4:41:02
  * @version 1.0
  */
-public class EntityRestApi
+public class EntityRestApi implements Comparable<EntityRestApi>
 {
 
     /**
@@ -135,5 +135,18 @@ public class EntityRestApi
     public void addFieldInfo(FieldInfo fieldInfo)
     {
         this.fieldInfoList.add(fieldInfo);
+    }
+
+    /** 
+     * <p>Overriding Method: lilinhai 2018年4月2日 下午3:39:08</p>
+     * <p>Title: compareTo</p>
+     * <p>Description: TODO</p>
+     * @param o
+     * @return 
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */ 
+    public int compareTo(EntityRestApi o)
+    {
+        return tableName.compareTo(o.tableName);
     }
 }

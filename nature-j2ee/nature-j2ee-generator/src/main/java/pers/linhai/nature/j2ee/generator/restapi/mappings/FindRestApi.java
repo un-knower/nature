@@ -25,8 +25,10 @@ public class FindRestApi extends RestApi
      */ 
     public FindRestApi(String entityName)
     {
-        url = NamingUtils.controllerMappingName(entityName) + "/find";
+        url = "/" + NamingUtils.controllerMappingName(entityName) + "/find";
         method = "POST";
         apiName = "根据查询条件查找多个实体";
+        apiColor = "#10A54A";
+        apiId = 6;
     }
 }

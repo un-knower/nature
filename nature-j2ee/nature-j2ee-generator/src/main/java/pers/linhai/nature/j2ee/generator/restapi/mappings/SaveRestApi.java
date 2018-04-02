@@ -26,8 +26,10 @@ public class SaveRestApi extends RestApi
      */ 
     public SaveRestApi(String entityName)
     {
-        url = NamingUtils.controllerMappingName(entityName);
+        url = "/" + NamingUtils.controllerMappingName(entityName);
         method = "POST";
         apiName = "新增单个实体";
+        apiColor = "#10A54A";
+        apiId = 2;
     }
 }

@@ -10,6 +10,7 @@
 package pers.linhai.nature.j2ee.generator.restapi;
 
 import pers.linhai.nature.j2ee.generator.core.api.IntrospectedColumn;
+import pers.linhai.nature.utils.StringUtils;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -49,7 +50,7 @@ public class FieldInfo
         this.tableFieldName = introspectedColumn.getActualColumnName();
         this.jdbcType = introspectedColumn.getJdbcTypeName();
         this.fieldDesc = introspectedColumn.getRemarks();
-        if (this.fieldDesc == null)
+        if (StringUtils.isEmpty(this.fieldDesc))
         {
             this.fieldDesc = "警告：该字段在数据库表中未加注释，请加上！";
         }

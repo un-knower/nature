@@ -6,56 +6,195 @@
 	<link rel="stylesheet" type="text/css" href="rest-api.css">
 	<script type="text/javascript" src="jsonHtmlFormator.js"></script>
 	<script type="text/javascript">
-	var ww = {
-	    	//返回指定字段列表，如果不传returnFieldList，则返回所有字段
-	    	returnFieldList: [
-	    		"name",
-	    		"parentId",
-	    		"icon"
-	    	],
-	    	// 查询条件：conditionList（查询条件单元集合，默认是and，若需要自定义单元间的逻辑关系，则需要expression）
-	    	"where": {
-	    		"conditionList": [{
-	    				"id": "1",
-	    				"fieldName": "name",
-	    				"operator": "like",
-	    				"value": "%管理"
-	    			},
-	    			{
-	    				"id": "2",
-	    				"fieldName": "name",
-	    				"operator": "like",
-	    				"value": "%列表"
-	    			},
-	    			{
-	    				"id": "3",
-	    				"fieldName": "code",
-	    				"operator": "=",
-	    				"value": "userlist"
-	    			}
-	    		],
-	    		"expression": "1 or (2 and 3)"
-	    	},
-	    	"sortFieldList": [
-	    		{
-	    			"fieldName": "parentId",
-	    			"direction": "DESC"
-	    		}
-	    	],
-	    	//分页查询参数，如果不传，则返回全部记录
-	    	"page": 1,
-	    	"size": 10
-	    };
-	
+	var apiJsonData = ${apiJsonData};
 	window.onload = function()
 	{
-		document.getElementById('bodyParam').innerHTML = new JSONFormat(JSON.stringify(ww), 4).toString();
+	    var queryJson = {
+        	//返回指定字段列表，如果不传returnFieldList，则返回所有字段
+        	"returnFieldList": [
+        		"id，放置一个或多个你需要返回的字段名（驼峰命名）"
+        	],
+        	// 查询条件：conditionList（查询条件单元集合，默认是and，若需要自定义单元间的逻辑关系，则需要expression）
+        	"where": {
+        		"conditionList": [
+        			{
+        				"id": "1",
+        				"fieldName": "field",
+        				"operator": "like",
+        				"value": "%(这是模糊查询，放到该括号中的值为真实值或真实值的一部分)%"
+        			},
+        			{
+        				"id": "2",
+        				"fieldName": "field",
+        				"operator": "!=",
+        				"value": "过滤字段的值不等于某个值"
+        			},
+        			{
+        				"id": "3",
+        				"fieldName": "field",
+        				"operator": "=",
+        				"value": "过滤字段的值等于某个值"
+        			},
+        			{
+        				"id": "4",
+        				"fieldName": "field",
+        				"operator": "<=",
+        				"value": "过滤数值型或时间类型字段的值小于等于某个值的记录"
+        			},
+        			{
+        				"id": "5",
+        				"fieldName": "field",
+        				"operator": ">=",
+        				"value": "过滤数值型或时间类型字段的值大于等于某个值的记录"
+        			},
+        			{
+        				"id": "6",
+        				"fieldName": "field",
+        				"operator": "<",
+        				"value": "过滤数值型或时间类型字段的值小于某个值的记录"
+        			},
+        			{
+        				"id": "7",
+        				"fieldName": "field",
+        				"operator": ">",
+        				"value": "过滤数值型或时间类型字段的值大于某个值的记录"
+        			},
+        			{
+        				"id": "8",
+        				"fieldName": "field",
+        				"operator": "in",
+        				"value": "过滤字段的值在给定集合范围中的记录，参数为一个数组类型：[]"
+        			},
+        			{
+        				"id": "9",
+        				"fieldName": "field",
+        				"operator": "not in",
+        				"value": "过滤字段的值不在给定集合范围中的记录，参数为一个数组类型：[]"
+        			},
+        			{
+        				"id": "10",
+        				"fieldName": "field",
+        				"operator": "is null",
+        				"value": "过滤字段的值是Null的记录，注：该value值不能设置"
+        			},
+        			{
+        				"id": "10",
+        				"fieldName": "field",
+        				"operator": "is not null",
+        				"value": "过滤字段的值不是Null的记录，注：该value值不能设置"
+        			},
+        		],
+        		"expression": "1 and 2 and 3 and 4 and 5 and 6 and 7 and 8 and 9 and 10 （注：expression默认为所有condition取and运算，可以不写，若需要有or的运算，可以自行定义）"
+        	},
+        	"sortFieldList": [
+        		{
+        			"fieldName": "createTime排序的字段名",
+        			"direction": "DESC，倒叙排列，ASC为升序"
+        		}
+        	],
+        	//分页查询参数，如果不传，则返回全部记录
+        	"page": 1,
+        	"size": 10
+        };
+	    
+	    var entityList = document.getElementById("entityList");
+	    entityList.add(new Option(" ———————————————— 实所有数据库表实体 ———————————————— ", ""));
+	    for (var i = 0; i < apiJsonData.length; i++)
+        {
+        	var entityApiJson = apiJsonData[i];
+        	var op = new Option(entityApiJson.entityName + " - " + entityApiJson.tableName + " - " + entityApiJson.entityDesc, entityApiJson.entityName);
+        	op.entityApiJson = entityApiJson;
+        	entityList.add(op);
+        }
+	    
+	    var restApiList = document.getElementById("restApiList");
+	    restApiList.add(new Option(" ———————————— 实体对应的rest-api列表 ———————————— ", ""));
+	    entityList.onchange = function()
+	    {
+	        restApiList.length = 1;
+	        if (this.value != "")
+            {
+	            var apiList = this.options[this.selectedIndex].entityApiJson.apiList;
+		        for (var j = 0; j < apiList.length; j++)
+		        {
+		            var restApi = apiList[j];
+		            var op = new Option(restApi.url + " - " + restApi.method + " - " + restApi.apiName, restApi.apiName);
+		            op.restApi = restApi;
+		            restApiList.add(op);
+		        }
+            }
+	    }
+	    
+	    var apiMethodDiv = document.getElementById("apiMethodDiv");
+	    var apiUrlDiv = document.getElementById("apiUrlDiv");
+	    var apiNameDiv = document.getElementById("apiNameDiv");
+	    var bodyParam = document.getElementById('bodyParam');
+	    restApiList.onchange = function()
+	    {
+	        if (this.value != "")
+            {
+	            var restApi = this.options[this.selectedIndex].restApi;
+	            apiMethodDiv.style.backgroundColor = restApi.apiColor;
+	            apiMethodDiv.innerHTML = restApi.method;
+	            apiUrlDiv.innerHTML = restApi.url;
+	            apiNameDiv.innerHTML = restApi.apiName;
+	            if (restApi.apiId == 6)
+                {
+	                bodyParam.innerHTML = new JSONFormat(JSON.stringify(queryJson), 4).toString();
+                }
+				else if (restApi.apiId == 2 || restApi.apiId == 3)
+                {
+					var fieldInfoList = entityList.options[entityList.selectedIndex].entityApiJson.fieldInfoList;
+					var paramJson = {};
+					for (var i = 0; i < fieldInfoList.length; i++)
+					{
+						var fieldInfo = fieldInfoList[i];
+						if (fieldInfo.javaFieldName == "id")
+						{
+							continue;
+						}
+						paramJson[fieldInfo.javaFieldName] = fieldInfo.fieldDesc + "，["+fieldInfo.tableFieldName+", "+fieldInfo.jdbcType+"]";
+					}
+					bodyParam.innerHTML = new JSONFormat(JSON.stringify(paramJson), 4).toString();
+                }
+				else if (restApi.apiId == 5)
+                {
+	                bodyParam.innerHTML = new JSONFormat(JSON.stringify({returnFieldList:queryJson.returnFieldList, where: queryJson.where}), 4).toString();
+                }
+	            else if (restApi.apiId == 7)
+                {
+	                bodyParam.innerHTML = new JSONFormat(JSON.stringify({where: queryJson.where}), 4).toString();
+                }
+				else
+                {
+	                bodyParam.innerHTML = "";
+                }
+            }
+	        else
+            {
+	            apiMethodDiv.style.backgroundColor = "transparent";
+	            apiMethodDiv.innerHTML = "";
+	            apiUrlDiv.innerHTML = "";
+	            apiNameDiv.innerHTML = "";
+            }
+	    }
 	}
 	</script>
 </head>
 <body>
-	<div id="apiHeader"></div>
-	<div id="apiViewer"></div>
+	<div id="apiHeader">
+		<table border="0" cellspacing="0" cellpadding="0" style="width:100%;height:100%">
+			<tr>
+				<td style="width:55%"><div><select id="entityList"></select></div></td>
+				<td style="width:45%"><div style="margin-left:0px;"><select id="restApiList"></select></div></td>
+			</tr>
+		</table>
+	</div>
+	<div id="apiViewer">
+		<div id="apiMethodDiv"></div>
+		<div id="apiUrlDiv"></div>
+		<div id="apiNameDiv"></div>
+	</div>
 	<div id="apiParamBody"><div id="bodyParam"></div></div>
 </body>
 </html>

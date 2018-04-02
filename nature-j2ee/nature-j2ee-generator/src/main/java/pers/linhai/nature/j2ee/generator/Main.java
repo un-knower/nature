@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -116,7 +117,13 @@ public class Main
         // 生成业务代码
         CodeGenerator.generate(artifactDir.getAbsolutePath(), params);
         
-        System.out.println(JSON.toJSONString(EntityRestApiCache.getInstance()));
+        // 代码生成完后，生成对应的rest-api在线文档
+        File appArtifactDir = new File(artifactDir, artifactId + "-app");
+        File appResourcesDoc = new File(appArtifactDir, "doc/api");
+        FileUtils.createDir(appResourcesDoc);
+        Collections.sort(EntityRestApiCache.getInstance().getEntityRestApiList());
+        params.put("apiJsonData", JSON.toJSONString(EntityRestApiCache.getInstance().getEntityRestApiList()));
+        build(cfg, params, new File(ClassUtils.getDefaultClassLoader().getResource("app/doc").getPath()), appResourcesDoc, "app/doc/");
     }
 
     /**
@@ -345,5 +352,4 @@ public class Main
             out.close();
         }
     }
-
 }

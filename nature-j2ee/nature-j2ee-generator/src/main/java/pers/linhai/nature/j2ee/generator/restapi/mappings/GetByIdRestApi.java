@@ -24,8 +24,10 @@ public class GetByIdRestApi extends RestApi
      */ 
     public GetByIdRestApi(String entityName)
     {
-        url = NamingUtils.controllerMappingName(entityName) + "/{id}";
+        url = "/" + NamingUtils.controllerMappingName(entityName) + "/{id}";
         method = "GET";
         apiName = "根据ID查询单个实体";
+        apiColor = "#0F6AB4";
+        apiId = 4;
     }
 }

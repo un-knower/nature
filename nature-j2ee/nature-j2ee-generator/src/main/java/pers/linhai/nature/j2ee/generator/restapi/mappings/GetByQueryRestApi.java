@@ -24,8 +24,10 @@ public class GetByQueryRestApi extends RestApi
      */ 
     public GetByQueryRestApi(String entityName)
     {
-        url = NamingUtils.controllerMappingName(entityName) + "/get";
+        url = "/" + NamingUtils.controllerMappingName(entityName) + "/get";
         method = "POST";
         apiName = "根据查询条件查找单个实体";
+        apiColor = "#10A54A";
+        apiId = 5;
     }
 }

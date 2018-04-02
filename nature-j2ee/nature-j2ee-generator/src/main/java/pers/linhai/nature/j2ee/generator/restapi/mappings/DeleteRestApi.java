@@ -24,8 +24,10 @@ public class DeleteRestApi extends RestApi
      */ 
     public DeleteRestApi(String entityName)
     {
-        url = NamingUtils.controllerMappingName(entityName) + "/{id}";
+        url = "/" + NamingUtils.controllerMappingName(entityName) + "/{id}";
         method = "DELETE";
         apiName = "根据ID删除单个实体";
+        apiColor = "#A82C2D";
+        apiId = 1;
     }
 }

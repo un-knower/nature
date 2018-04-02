@@ -25,6 +25,7 @@ import pers.linhai.nature.j2ee.generator.restapi.mappings.GetByIdRestApi;
 import pers.linhai.nature.j2ee.generator.restapi.mappings.GetByQueryRestApi;
 import pers.linhai.nature.j2ee.generator.restapi.mappings.SaveRestApi;
 import pers.linhai.nature.j2ee.generator.restapi.mappings.UpdateRestApi;
+import pers.linhai.nature.utils.StringUtils;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -68,7 +69,7 @@ public class ApiPlugin extends BasePlugin
     {
         EntityRestApi entityRestApi = new EntityRestApi();
         entityRestApi.setTableName(introspectedTable.getFullyQualifiedTable().getIntrospectedTableName());
-        if (introspectedTable.getRemarks() == null)
+        if (StringUtils.isEmpty(introspectedTable.getRemarks()))
         {
             entityRestApi.setEntityDesc("警告：该实体还没有加注释，含义不明，请加上!");
         }
@@ -83,8 +84,8 @@ public class ApiPlugin extends BasePlugin
             entityRestApi.addFieldInfo(fieldInfo);
         }
         
-        entityRestApi.addApi(new DeleteRestApi(introspectedTable.getFullyQualifiedTable().getDomainObjectName()));
         entityRestApi.addApi(new SaveRestApi(introspectedTable.getFullyQualifiedTable().getDomainObjectName()));
+        entityRestApi.addApi(new DeleteRestApi(introspectedTable.getFullyQualifiedTable().getDomainObjectName()));
         entityRestApi.addApi(new UpdateRestApi(introspectedTable.getFullyQualifiedTable().getDomainObjectName()));
         entityRestApi.addApi(new GetByIdRestApi(introspectedTable.getFullyQualifiedTable().getDomainObjectName()));
         entityRestApi.addApi(new GetByQueryRestApi(introspectedTable.getFullyQualifiedTable().getDomainObjectName()));

@@ -25,8 +25,10 @@ public class UpdateRestApi extends RestApi
      */ 
     public UpdateRestApi(String entityName)
     {
-        url = NamingUtils.controllerMappingName(entityName) + "/{id}";
+        url = "/" + NamingUtils.controllerMappingName(entityName) + "/{id}";
         method = "PUT";
         apiName = "修改单个实体";
+        apiColor = "#C5862B";
+        apiId = 3;
     }
 }
