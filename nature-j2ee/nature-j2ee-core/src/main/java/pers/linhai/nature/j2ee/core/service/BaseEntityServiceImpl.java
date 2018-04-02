@@ -36,7 +36,7 @@ public abstract class BaseEntityServiceImpl<Key
     , Entity extends BaseEntity<Key>
     , EntityQuery extends BaseQuery
     , Mapper extends IBaseMapper<Key, Entity, EntityQuery>
-    , EntityDataInterceptor extends IEntityDataInterceptor<Entity>> 
+    , EntityDataInterceptor extends IEntityDataInterceptor<Key, Entity>> 
     extends BaseService implements IBaseEntityService<Key, Entity, EntityQuery>
 {
 
@@ -49,6 +49,14 @@ public abstract class BaseEntityServiceImpl<Key
     @Autowired
     private EntityDataInterceptor entityDataInterceptor;
 
+    /**
+     * 公共业务层删除方法
+     * <p>Overriding Method: lilinhai 2018年4月2日 下午6:04:22</p>
+     * <p>Title: delete</p>
+     * @param id
+     * @return 
+     * @see pers.linhai.nature.j2ee.core.service.IBaseEntityService#delete(java.lang.Object)
+     */
     public int delete(Key id)
     {
         try

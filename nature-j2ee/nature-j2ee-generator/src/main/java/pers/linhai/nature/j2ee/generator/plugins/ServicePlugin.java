@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import pers.linhai.nature.j2ee.core.dao.processor.IEntityDataInterceptor;
+import pers.linhai.nature.j2ee.core.exception.EntityDeleteInterceptProcessException;
 import pers.linhai.nature.j2ee.core.exception.EntitySaveInterceptProcessException;
 import pers.linhai.nature.j2ee.core.exception.EntityUpdateInterceptProcessException;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
@@ -141,15 +142,19 @@ public class ServicePlugin extends BasePlugin
         interceptor.addImportedType(new FullyQualifiedJavaType(List.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(EntitySaveInterceptProcessException.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(EntityUpdateInterceptProcessException.class.getName()));
+        interceptor.addImportedType(new FullyQualifiedJavaType(EntityDeleteInterceptProcessException.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(IEntityDataInterceptor.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(EntityBean.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()));
 
         // 添加spring扫描注解
         interceptor.addAnnotation("@Component");
+        
+        // 添加范型继承关系BaseService
+        String keyType = introspectedTable.getPrimaryKeyColumns().get(0).getFullyQualifiedJavaType().getShortName();
 
         // 添加范型继承关系BaseService
-        interceptor.addSuperInterface(new FullyQualifiedJavaType(IEntityDataInterceptor.class.getName() + "<" + introspectedTable.getBaseRecordType() + ">"));
+        interceptor.addSuperInterface(new FullyQualifiedJavaType(IEntityDataInterceptor.class.getName() + "<" + keyType + ", " + introspectedTable.getBaseRecordType() + ">"));
 
         // process1添加数据前的校验方法
         Method processMethod1 = new Method("beforeSave");
@@ -176,6 +181,32 @@ public class ServicePlugin extends BasePlugin
         afterMethod.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
         afterMethod.addBodyLine("");
         interceptor.addMethod(afterMethod);
+        
+        // beforeDelete添加数据前的校验方法
+        Method beforeDelete = new Method("beforeDelete");
+        beforeDelete.addJavaDocLine("/**");
+        beforeDelete.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]上行数据delete前的拦截处理，预防处理误删、搞乱等操作");
+        beforeDelete.addJavaDocLine(" */");
+        beforeDelete.setFinal(false);
+        beforeDelete.setStatic(false);
+        beforeDelete.setVisibility(JavaVisibility.PUBLIC);
+        beforeDelete.addException(new FullyQualifiedJavaType(EntityDeleteInterceptProcessException.class.getName()));
+        beforeDelete.addParameter(new Parameter(new FullyQualifiedJavaType(keyType), "id"));
+        beforeDelete.addBodyLine("");
+        interceptor.addMethod(beforeDelete);
+        
+        // afterDelete添加数据前的校验方法
+        Method afterDelete = new Method("afterDelete");
+        afterDelete.addJavaDocLine("/**");
+        afterDelete.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]上行数据delete后的拦截处理");
+        afterDelete.addJavaDocLine(" */");
+        afterDelete.setFinal(false);
+        afterDelete.setStatic(false);
+        afterDelete.setVisibility(JavaVisibility.PUBLIC);
+        afterDelete.addException(new FullyQualifiedJavaType(EntityDeleteInterceptProcessException.class.getName()));
+        afterDelete.addParameter(new Parameter(new FullyQualifiedJavaType(keyType), "id"));
+        afterDelete.addBodyLine("");
+        interceptor.addMethod(afterDelete);
         
         // process 修改数据钱的校验处理方法
         Method processMethod = new Method("beforeUpdate");

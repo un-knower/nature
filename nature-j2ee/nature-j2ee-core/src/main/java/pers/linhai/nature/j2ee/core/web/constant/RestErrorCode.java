@@ -88,5 +88,10 @@ public interface RestErrorCode
      */
     int PAGE_QUERY_EXCEPTION = 30022;
     
+    /**
+     * 分页查询size太大，超过1000
+     */
+    int PAGE_QUERY_SIZE_TOO_LARGE_EXCEPTION = 30023;
+    
     /*****[30000 - 40000)添加相关错误码**********************************************/
 }

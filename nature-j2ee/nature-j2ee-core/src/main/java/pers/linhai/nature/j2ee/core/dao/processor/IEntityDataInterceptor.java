@@ -11,6 +11,7 @@ package pers.linhai.nature.j2ee.core.dao.processor;
 
 import java.util.List;
 
+import pers.linhai.nature.j2ee.core.exception.EntityDeleteInterceptProcessException;
 import pers.linhai.nature.j2ee.core.exception.EntitySaveInterceptProcessException;
 import pers.linhai.nature.j2ee.core.exception.EntityUpdateInterceptProcessException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
@@ -22,7 +23,7 @@ import pers.linhai.nature.j2ee.core.model.EntityBean;
  * @author lilinhai 2018年3月14日 下午7:22:00
  * @version 1.0
  */
-public interface IEntityDataInterceptor<Entity extends BaseEntity<?>>
+public interface IEntityDataInterceptor<Key, Entity extends BaseEntity<Key>>
 {
 
     /**
@@ -40,6 +41,22 @@ public interface IEntityDataInterceptor<Entity extends BaseEntity<?>>
      * void
      */
     void afterSave(Entity entity) throws EntitySaveInterceptProcessException;
+    
+    /**
+     * 上行数据delete前的拦截处理，预防处理误删、搞乱等操作
+     * <p>Title         : process lilinhai 2018年3月14日 下午7:30:14</p>
+     * @param id 
+     * void
+     */
+    void beforeDelete(Key id) throws EntityDeleteInterceptProcessException;
+    
+    /**
+     * 上行数据delete后的拦截处理
+     * <p>Title         : process lilinhai 2018年3月14日 下午7:30:14</p>
+     * @param id 
+     * void
+     */
+    void afterDelete(Key id) throws EntityDeleteInterceptProcessException;
     
     /**
      * 上行数据update前的拦截处理，数据校验等操作处理

@@ -28,7 +28,7 @@ public class DefaultRowDataProcessor<Entity extends BaseEntity<?>> implements IR
     
     private List<EntityBean> entityBeanList = new ArrayList<EntityBean>();
     
-    private IEntityDataInterceptor<Entity> entityDataInterceptor;
+    private IEntityDataInterceptor<?, Entity> entityDataInterceptor;
     
     /**
      * <p>Title        : DefaultRowDataProcessor lilinhai 2018年3月14日 下午11:37:39</p>
@@ -42,7 +42,7 @@ public class DefaultRowDataProcessor<Entity extends BaseEntity<?>> implements IR
      * <p>Title        : RowDataServiceProcessor lilinhai 2018年3月14日 下午11:21:32</p>
      * @param entityDataInterceptor 
      */ 
-    public DefaultRowDataProcessor(IEntityDataInterceptor<Entity> entityDataInterceptor)
+    public DefaultRowDataProcessor(IEntityDataInterceptor<?, Entity> entityDataInterceptor)
     {
         this.entityDataInterceptor = entityDataInterceptor;
     }

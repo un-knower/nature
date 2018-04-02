@@ -9,8 +9,6 @@
 
 package pers.linhai.nature.j2ee.core.web.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -213,21 +211,28 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         try
         {
             process(request);
-            List<EntityBean> beanList = entityService.findEntityBean(entityQuery);
             
             // 分页参数为空，则不进行分页查询
             if (entityQuery.getPage() == null || entityQuery.getSize() == null)
             {
-                return success(beanList);
+                // 前端若是不分页，则最多返回1000条
+                entityQuery.setPage(0);
+                entityQuery.setSize(1000);
+                return success(entityService.findEntityBean(entityQuery));
             }
             // 分页查询
             else
             {
+                // 分页查询的size不能超过1000
+                if (entityQuery.getSize() > 1000)
+                {
+                    return fail(RestErrorCode.PAGE_QUERY_SIZE_TOO_LARGE_EXCEPTION, "The size of Paging-query can't exceed 1000!");
+                }
                 PaginationData<EntityBean> pageData = new PaginationData<EntityBean>();
                 pageData.setPage(entityQuery.getPage());
                 pageData.setSize(entityQuery.getSize());
                 pageData.setTotal(entityService.count(entityQuery));
-                pageData.setDataList(beanList);
+                pageData.setDataList(entityService.findEntityBean(entityQuery));
                 return success(pageData);
             }
         }
