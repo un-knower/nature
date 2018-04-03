@@ -51,12 +51,12 @@ public class Main
         String outPutPath = "C:\\Users\\lilinhai\\Desktop";
 
         String groupId = "com.meme";
-        String artifactId = "crmold";
+        String artifactId = "crm";
         String dbIp = "localhost";
         String dbPort = "3306";
         String dbUsername = "root";
         String dbPassword = "LinHai_548";
-        String dbName = "mm46";
+        String dbName = "crm";
         
 
         Map<String, String> params = new HashMap<String, String>();
