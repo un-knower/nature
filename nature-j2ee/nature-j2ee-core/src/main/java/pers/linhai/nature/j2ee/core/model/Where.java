@@ -101,7 +101,7 @@ public class Where
      * <p>Get Method   :   isInitialized boolean</p>
      * @return isInitialized
      */
-    public boolean isInitialized()
+    boolean isInitialized()
     {
         return isInitialized;
     }
@@ -110,7 +110,7 @@ public class Where
      * <p>Set Method   :   isInitialized boolean</p>
      * @param isInitialized
      */
-    public void setInitialized(boolean isInitialized)
+    void setInitialized(boolean isInitialized)
     {
         this.isInitialized = isInitialized;
     }
@@ -201,7 +201,7 @@ public class Where
         parseExpression(conditionMap);
         
         // 初始化完成
-        this.isInitialized = true;
+        setInitialized(true);
     }
 
     public void parseExpression(Map<String, ConditionSegment> conditionMap)
