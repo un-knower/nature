@@ -51,7 +51,7 @@ import pers.linhai.nature.j2ee.generator.utils.CodeGeneratorUtils;
  */
 public class ModelPlugin extends BasePlugin
 {
-
+    
     private static final Set<String> FIELD_TO_BE_REMOVED_LIST = new HashSet<String>();
 
     private static final Set<String> METHOD_TO_BE_REMOVED_LIST = new HashSet<String>();
@@ -165,9 +165,10 @@ public class ModelPlugin extends BasePlugin
         topLevelClass.addImportedType(new FullyQualifiedJavaType(CoreClassImportConstant.BASE_ENTITY_CLASS));
         topLevelClass.addImportedType(IllegalFieldException.class.getName());
         topLevelClass.addImportedType(EntityBean.class.getName());
-        topLevelClass.addImportedType(Date.class.getName());
         topLevelClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("field") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"));
         boolean hasDateField = false;
+        
+        // 判断是否存在Date类型（除createTime和updateTime之外）的字段
         for (Field f : topLevelClass.getFields())
         {
             if (f.getType().getFullyQualifiedNameWithoutTypeParameters().equals(Date.class.getName()))
@@ -182,11 +183,16 @@ public class ModelPlugin extends BasePlugin
             topLevelClass.addImportedType(DateJsonDeserializer.class.getName());
         }
         
-        // 添加范型继承关系BaseService
-        if (introspectedTable.getPrimaryKeyColumns() == null || introspectedTable.getPrimaryKeyColumns().isEmpty())
+        // 判断是否存在Date类型（包含createTime和updateTime之内外）的字段
+        for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns())
         {
-            throw new GeneratorException(introspectedTable.getBaseRecordType() + " 该表没有设置主键，请设置！");
+            if (introspectedColumn.getFullyQualifiedJavaType().getFullyQualifiedNameWithoutTypeParameters().equals(Date.class.getName()))
+            {
+                topLevelClass.addImportedType(Date.class.getName());
+                break;
+            }
         }
+
         String keyType = introspectedTable.getPrimaryKeyColumns().get(0).getFullyQualifiedJavaType().getShortName();
         topLevelClass.setSuperClass(new FullyQualifiedJavaType("BaseEntity<" + keyType + ">"));
 

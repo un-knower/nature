@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import pers.linhai.nature.j2ee.generator.core.api.CommentGenerator;
 import pers.linhai.nature.j2ee.generator.core.api.ConnectionFactory;
@@ -36,6 +37,7 @@ import pers.linhai.nature.j2ee.generator.core.internal.JDBCConnectionFactory;
 import pers.linhai.nature.j2ee.generator.core.internal.ObjectFactory;
 import pers.linhai.nature.j2ee.generator.core.internal.PluginAggregator;
 import pers.linhai.nature.j2ee.generator.core.internal.db.DatabaseIntrospector;
+import pers.linhai.nature.j2ee.generator.plugins.ModelPlugin;
 
 
 /**
@@ -45,6 +47,8 @@ import pers.linhai.nature.j2ee.generator.core.internal.db.DatabaseIntrospector;
  */
 public class Context extends PropertyHolder
 {
+    
+    private static final Logger LOGGER = Logger.getLogger(ModelPlugin.class.getName());
 
     private String id;
 
@@ -582,6 +586,13 @@ public class Context extends PropertyHolder
         {
             for (IntrospectedTable introspectedTable : introspectedTables)
             {
+                // 添加范型继承关系BaseService
+                if (introspectedTable.getPrimaryKeyColumns() == null || introspectedTable.getPrimaryKeyColumns().isEmpty())
+                {
+                    LOGGER.severe(introspectedTable.getFullyQualifiedTable() + " 该表没有设置主键，请设置！");
+                    continue;
+                }
+                
                 callback.checkCancel();
 
                 introspectedTable.initialize();
