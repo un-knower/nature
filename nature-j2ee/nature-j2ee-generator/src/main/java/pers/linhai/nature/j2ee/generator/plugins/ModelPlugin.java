@@ -292,6 +292,19 @@ public class ModelPlugin extends BasePlugin
         getJdbcTypeBaseMethod.addBodyLine("}");
         getJdbcTypeBaseMethod.addBodyLine("throw new IllegalFieldException(\" Can't find the jdbc-type from the java-field : \" + fieldName);");
         topLevelClass.addMethod(getJdbcTypeBaseMethod);
+        
+        // existsFieldMethod方法
+        Method existsFieldMethod = new Method("existsField");
+        existsFieldMethod.addJavaDocLine("/**");
+        existsFieldMethod.addJavaDocLine(" * 判断是否存在某个字段");
+        existsFieldMethod.addJavaDocLine(" */");
+        existsFieldMethod.setFinal(false);
+        existsFieldMethod.setStatic(false);
+        existsFieldMethod.setVisibility(JavaVisibility.PUBLIC);
+        existsFieldMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "fieldName"));
+        existsFieldMethod.setReturnType(new FullyQualifiedJavaType("boolean"));
+        existsFieldMethod.addBodyLine("return " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + ".transfer(fieldName) != null;");
+        topLevelClass.addMethod(existsFieldMethod);
 
         Collections.sort(topLevelClass.getFields(), new Comparator<Field>()
         {
@@ -629,6 +642,19 @@ public class ModelPlugin extends BasePlugin
         getJdbcTypeBaseMethod.addBodyLine("}");
         getJdbcTypeBaseMethod.addBodyLine("throw new IllegalFieldException(\" Can't find the jdbc-type from the java-field : \" + javaField);");
         beanClass.addMethod(getJdbcTypeBaseMethod);
+        
+        // existsFieldMethod方法
+        Method existsFieldMethod = new Method("existsField");
+        existsFieldMethod.addJavaDocLine("/**");
+        existsFieldMethod.addJavaDocLine(" * 判断是否存在某个字段");
+        existsFieldMethod.addJavaDocLine(" */");
+        existsFieldMethod.setFinal(false);
+        existsFieldMethod.setStatic(false);
+        existsFieldMethod.setVisibility(JavaVisibility.PUBLIC);
+        existsFieldMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "fieldName"));
+        existsFieldMethod.setReturnType(new FullyQualifiedJavaType("boolean"));
+        existsFieldMethod.addBodyLine("return " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + ".transfer(fieldName) != null;");
+        beanClass.addMethod(existsFieldMethod);
         
         // getAllFieldList方法
         Method getAllFieldListMethod = new Method("getAllFieldList");

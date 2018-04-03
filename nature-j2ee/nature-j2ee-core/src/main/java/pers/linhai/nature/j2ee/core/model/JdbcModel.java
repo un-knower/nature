@@ -61,6 +61,15 @@ public abstract class JdbcModel
      */
     public abstract void validField(String javaField);
     
+    /**
+     * 判断是否存在某个字段
+     * <p>Title         : existsField lilinhai 2018年4月3日 下午4:26:08</p>
+     * @param fieldName
+     * @return 
+     * boolean
+     */
+    public abstract boolean existsField(String fieldName);
+    
     
     /**
      * <p>Get Method   :   tableName String</p>

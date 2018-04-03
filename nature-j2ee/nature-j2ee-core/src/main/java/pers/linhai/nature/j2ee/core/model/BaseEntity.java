@@ -97,7 +97,10 @@ public abstract class BaseEntity<Key> extends JdbcModel implements Serializable
     public void setCreateTime(Date createTime)
     {
         this.createTime = createTime;
-        addPersistentField("create_time", createTime);
+        if (existsField("create_time"))
+        {
+            addPersistentField("create_time", createTime);
+        }
     }
 
     /**
@@ -116,7 +119,10 @@ public abstract class BaseEntity<Key> extends JdbcModel implements Serializable
     public void setUpdateTime(Date updateTime)
     {
         this.updateTime = updateTime;
-        addPersistentField("update_time", updateTime);
+        if (existsField("update_time"))
+        {
+            addPersistentField("update_time", updateTime);
+        }
     }
     
     /**

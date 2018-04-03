@@ -48,6 +48,7 @@ public class MapperPlugin extends BasePlugin
         METHOD_TO_BE_REMOVED_LIST.add("selectByPrimaryKey");
         METHOD_TO_BE_REMOVED_LIST.add("updateByPrimaryKeySelective");
         METHOD_TO_BE_REMOVED_LIST.add("updateByPrimaryKey");
+        METHOD_TO_BE_REMOVED_LIST.add("updateByPrimaryKeyWithBLOBs");
     }
 
     public void setProperties(Properties properties) 
@@ -76,6 +77,7 @@ public class MapperPlugin extends BasePlugin
         CodeCommentUtils.addMapperInterfaceComment(interfaze, introspectedTable);
         interfaze.addImportedType(new FullyQualifiedJavaType(CoreClassImportConstant.IBASE_MAPPER_CLASS));
         interfaze.addImportedType(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"));
+        interfaze.addImportedType(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()));
         //interfaze.addAnnotation("@Mapper");
         String keyType = introspectedTable.getPrimaryKeyColumns().get(0).getFullyQualifiedJavaType().getShortName();
         interfaze.addSuperInterface(new FullyQualifiedJavaType("IBaseMapper<" + keyType  + ", " + introspectedTable.getBaseRecordType() + ", " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query" + ">"));
