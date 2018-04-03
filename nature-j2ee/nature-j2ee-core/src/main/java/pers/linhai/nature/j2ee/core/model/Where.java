@@ -10,11 +10,14 @@
 package pers.linhai.nature.j2ee.core.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import pers.linhai.nature.j2ee.core.exception.ConditionFormatException;
+import pers.linhai.nature.j2ee.core.exception.ConditionIsNullException;
 import pers.linhai.nature.j2ee.core.exception.IllegalExpression;
 import pers.linhai.nature.j2ee.core.model.condition.ConditionSegment;
 import pers.linhai.nature.j2ee.core.model.condition.StringSegment;
@@ -52,6 +55,11 @@ public class Where
      * 逻辑表达式
      */
     private String expression;
+    
+    /**
+     * 是否已经初始化
+     */
+    private boolean isInitialized;
    
     /**
      * <p>Get Method   :   conditionList List<Condition></p>
@@ -90,12 +98,110 @@ public class Where
     }
     
     /**
+     * <p>Get Method   :   isInitialized boolean</p>
+     * @return isInitialized
+     */
+    public boolean isInitialized()
+    {
+        return isInitialized;
+    }
+
+    /**
+     * <p>Set Method   :   isInitialized boolean</p>
+     * @param isInitialized
+     */
+    public void setInitialized(boolean isInitialized)
+    {
+        this.isInitialized = isInitialized;
+    }
+
+    /**
      * <p>Get Method   :   expressionSegmentList List<Object></p>
      * @return expressionSegmentList
      */
     public List<ConditionSegment> getConditionSegmentList()
     {
         return conditionSegmentList;
+    }
+    
+    void initialize(JdbcModel jdbcModel)
+    {
+        if (this.isInitialized())
+        {
+            return;
+        }
+        
+        List<Condition> conditionTempList = getConditionList();
+        if(conditionTempList == null || conditionTempList.isEmpty())
+        {
+            throw new ConditionIsNullException("Where-Condition can't be empty.");
+        }
+        
+        // 条件集合
+        Map<String, ConditionSegment> conditionMap = new HashMap<String, ConditionSegment>();
+        StringBuilder expressionBuff = null;
+        int i = 0;
+        for (Condition conditionTemp : conditionTempList)
+        {
+            // 校验字段名
+            jdbcModel.validField(conditionTemp.getFieldName());
+            
+            i++;
+            if (getExpression() == null)
+            {
+                if (conditionTemp.getId() == null || conditionTemp.getId().trim().isEmpty())
+                {
+                    conditionTemp.setId(String.valueOf(i));
+                }
+                
+                if (expressionBuff == null)
+                {
+                    expressionBuff = new StringBuilder();
+                }
+                
+                if (expressionBuff.length() > 0)
+                {
+                    expressionBuff.append(' ').append(LogicalOperator.AND.getValue()).append(' ');
+                }
+                expressionBuff.append(conditionTemp.getId());
+            }
+            else if (conditionTemp.getId() == null || conditionTemp.getId().isEmpty())
+            {
+                throw new ConditionFormatException("The Condition's id can't be empty while the expression is seted, fieldName:" + conditionTemp.getFieldName() + ", id:" + conditionTemp.getId());
+            }
+            
+            
+            // 获取改该字段对应的JDBC类型
+            conditionTemp.setJdbcType(jdbcModel.getJdbcType(conditionTemp.getFieldName()));
+            
+            // 校验SQL注入 TODO
+            conditionTemp.setFieldName(jdbcModel.getTableField(conditionTemp.getFieldName()));
+            
+            // 解析封装成Condition对象
+            ConditionSegment condition = ConditionSegment.parse(conditionTemp);
+            
+            // 存入hashMap集合中，方便快速读取
+            ConditionSegment last = conditionMap.put(condition.getId(), condition);
+            if (last != null)
+            {
+                throw new ConditionFormatException("Condition ID repeats, fieldName:" + conditionTemp.getFieldName() + ", id:" + conditionTemp.getId());
+            }
+        }
+        
+        // 释放临时条件对象
+        conditionTempList.clear();
+        setConditionList(null);
+        
+        if (getExpression() == null)
+        {
+            setExpression(expressionBuff.toString());
+        }
+        
+        // 解析表达式
+        parseExpression(conditionMap);
+        
+        // 初始化完成
+        this.isInitialized = true;
     }
 
     public void parseExpression(Map<String, ConditionSegment> conditionMap)

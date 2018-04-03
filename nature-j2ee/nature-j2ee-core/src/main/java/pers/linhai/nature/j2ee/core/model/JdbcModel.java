@@ -9,16 +9,6 @@
 
 package pers.linhai.nature.j2ee.core.model;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import pers.linhai.nature.j2ee.core.exception.ConditionFormatException;
-import pers.linhai.nature.j2ee.core.exception.ConditionIsNullException;
-import pers.linhai.nature.j2ee.core.model.Where.Condition;
-import pers.linhai.nature.j2ee.core.model.Where.LogicalOperator;
-import pers.linhai.nature.j2ee.core.model.condition.ConditionSegment;
-
 /**
  * <p>ClassName      : IBaseJdbc</p>
  * @author lilinhai 2018年2月13日 下午2:21:14
@@ -96,75 +86,7 @@ public abstract class JdbcModel
      */
     public void setWhere(Where where)
     {
-        List<Condition> conditionTempList = where.getConditionList();
-        if(conditionTempList == null || conditionTempList.isEmpty())
-        {
-            throw new ConditionIsNullException("Where-Condition can't be empty.");
-        }
-        
-        // 条件集合
-        Map<String, ConditionSegment> conditionMap = new HashMap<String, ConditionSegment>();
-        StringBuilder expressionBuff = null;
-        int i = 0;
-        for (Condition conditionTemp : conditionTempList)
-        {
-            // 校验字段名
-            validField(conditionTemp.getFieldName());
-            
-            i++;
-            if (where.getExpression() == null)
-            {
-                if (conditionTemp.getId() == null || conditionTemp.getId().trim().isEmpty())
-                {
-                    conditionTemp.setId(String.valueOf(i));
-                }
-                
-                if (expressionBuff == null)
-                {
-                    expressionBuff = new StringBuilder();
-                }
-                
-                if (expressionBuff.length() > 0)
-                {
-                    expressionBuff.append(' ').append(LogicalOperator.AND.getValue()).append(' ');
-                }
-                expressionBuff.append(conditionTemp.getId());
-            }
-            else if (conditionTemp.getId() == null || conditionTemp.getId().isEmpty())
-            {
-                throw new ConditionFormatException("The Condition's id can't be empty while the expression is seted, fieldName:" + conditionTemp.getFieldName() + ", id:" + conditionTemp.getId());
-            }
-            
-            
-            // 获取改该字段对应的JDBC类型
-            conditionTemp.setJdbcType(getJdbcType(conditionTemp.getFieldName()));
-            
-            // 校验SQL注入 TODO
-            conditionTemp.setFieldName(getTableField(conditionTemp.getFieldName()));
-            
-            // 解析封装成Condition对象
-            ConditionSegment condition = ConditionSegment.parse(conditionTemp);
-            
-            // 存入hashMap集合中，方便快速读取
-            ConditionSegment last = conditionMap.put(condition.getId(), condition);
-            if (last != null)
-            {
-                throw new ConditionFormatException("Condition ID repeats, fieldName:" + conditionTemp.getFieldName() + ", id:" + conditionTemp.getId());
-            }
-        }
-        
-        // 释放临时条件对象
-        conditionTempList.clear();
-        where.setConditionList(null);
-        
-        if (where.getExpression() == null)
-        {
-            where.setExpression(expressionBuff.toString());
-        }
-        
-        // 解析表达式
-        where.parseExpression(conditionMap);
-        
+        where.initialize(this);
         this.where = where;
     }
 }
