@@ -21,13 +21,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.alibaba.fastjson.JSON;
 
+import pers.linhai.nature.j2ee.core.constant.BaseErrorCode;
 import pers.linhai.nature.j2ee.core.exception.ServiceException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.service.IBaseEntityService;
 import pers.linhai.nature.j2ee.core.service.PaginationData;
-import pers.linhai.nature.j2ee.core.web.constant.BaseErrorCode;
 import pers.linhai.nature.j2ee.core.web.model.RestResponse;
 
 /**

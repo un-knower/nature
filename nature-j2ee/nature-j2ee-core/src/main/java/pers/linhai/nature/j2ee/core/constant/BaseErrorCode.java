@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.j2ee.core.web.constant;
+package pers.linhai.nature.j2ee.core.constant;
 
 /**
  * <p>ClassName      : RestErrorCode</p>
