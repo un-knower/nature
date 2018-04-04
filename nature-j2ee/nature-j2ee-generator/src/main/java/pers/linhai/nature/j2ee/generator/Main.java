@@ -283,13 +283,6 @@ public class Main
         File java = new File(commonArtifactDir, "src/main/java");
         FileUtils.createDir(java);
         FileUtils.createDir(new File(commonArtifactDir, "src/test/java"));
-        
-        File javaPackage = new File(java, groupId.replaceAll("\\.", "/") + "/" + artifactId + "/common/core");
-        FileUtils.createDir(javaPackage);
-        temp = cfg.getTemplate("common/SpringBeanFactory.java");
-        out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(javaPackage, "SpringBeanFactory.java")), "UTF-8"));
-        temp.process(params, out);
-        out.close();
     }
 
     /**
