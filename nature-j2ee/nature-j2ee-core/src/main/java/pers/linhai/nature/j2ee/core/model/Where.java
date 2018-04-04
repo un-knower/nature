@@ -124,7 +124,7 @@ public class Where
         return conditionSegmentList;
     }
     
-    void initialize(JdbcModel jdbcModel)
+    void initialize(BaseModel baseModel)
     {
         if (this.isInitialized())
         {
@@ -144,7 +144,7 @@ public class Where
         for (Condition conditionTemp : conditionTempList)
         {
             // 校验字段名
-            jdbcModel.validField(conditionTemp.getFieldName());
+            baseModel.validField(conditionTemp.getFieldName());
             
             i++;
             if (getExpression() == null)
@@ -172,10 +172,10 @@ public class Where
             
             
             // 获取改该字段对应的JDBC类型
-            conditionTemp.setJdbcType(jdbcModel.getJdbcType(conditionTemp.getFieldName()));
+            conditionTemp.setJdbcType(baseModel.getJdbcType(conditionTemp.getFieldName()));
             
             // 校验SQL注入 TODO
-            conditionTemp.setFieldName(jdbcModel.getTableField(conditionTemp.getFieldName()));
+            conditionTemp.setFieldName(baseModel.getTableField(conditionTemp.getFieldName()));
             
             // 解析封装成Condition对象
             ConditionSegment condition = ConditionSegment.parse(conditionTemp);

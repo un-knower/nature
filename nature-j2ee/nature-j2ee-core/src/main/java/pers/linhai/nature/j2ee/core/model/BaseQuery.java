@@ -21,7 +21,7 @@ import pers.linhai.nature.utils.NamingUtils;
  * @author lilinhai 2018年2月9日 下午11:45:11
  * @version 1.0
  */
-public abstract class BaseQuery extends JdbcModel
+public abstract class BaseQuery extends BaseModel
 {
 
     /**

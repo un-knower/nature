@@ -14,7 +14,7 @@ package pers.linhai.nature.j2ee.core.model;
  * @author lilinhai 2018年2月13日 下午2:21:14
  * @version 1.0
  */
-public abstract class JdbcModel
+public abstract class BaseModel
 {
     
     /**
@@ -31,7 +31,7 @@ public abstract class JdbcModel
      * <p>Title        : JdbcFunctionModel lilinhai 2018年2月15日 上午9:09:43</p>
      * @param tableName 
      */ 
-    public JdbcModel(String tableName)
+    public BaseModel(String tableName)
     {
         this.tableName = tableName;
     }
