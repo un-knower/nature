@@ -15,13 +15,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
+
 import pers.linhai.nature.j2ee.core.dao.IBaseMapper;
 import pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.IEntityDataInterceptor;
+import pers.linhai.nature.j2ee.core.exception.EntityDeleteInterceptProcessException;
+import pers.linhai.nature.j2ee.core.exception.EntitySaveInterceptProcessException;
+import pers.linhai.nature.j2ee.core.exception.EntityUpdateInterceptProcessException;
 import pers.linhai.nature.j2ee.core.exception.ServiceException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
+import pers.linhai.nature.j2ee.core.web.constant.BaseErrorCode;
 
 
 /**
@@ -56,14 +62,17 @@ public abstract class BaseEntityServiceImpl<Key
      * @see pers.linhai.nature.j2ee.core.service.IBaseEntityService#delete(java.lang.Object)
      */
     @Transactional(rollbackFor = {Throwable.class})
-    public int delete(Key id)
+    public void delete(Key id)
     {
         try
         {
             entityDataInterceptor.beforeDelete(id);
             int c = mapper.delete(id);
+            if (c != 1)
+            {
+                throw new EntityDeleteInterceptProcessException(BaseErrorCode.DELETE_FAIL, "[Controller] delete occor an error, record：ID" + id);
+            }
             entityDataInterceptor.afterDelete(id);
-            return c;
         }
         catch (ServiceException e) 
         {
@@ -85,14 +94,17 @@ public abstract class BaseEntityServiceImpl<Key
      * @see pers.linhai.nature.j2ee.core.service.IBaseEntityService#save(pers.linhai.nature.j2ee.core.model.BaseEntity)
      */
     @Transactional(rollbackFor = {Throwable.class})
-    public int save(Entity record)
+    public void save(Entity record)
     {
         try
         {
             entityDataInterceptor.beforeSave(record);
-            int result = mapper.save(record);
+            int c = mapper.save(record);
+            if (c != 1)
+            {
+                throw new EntitySaveInterceptProcessException(BaseErrorCode.INSERT_FAIL, "[Controller] save occor an error, record：" + JSON.toJSONString(record.toEntityBean()));
+            }
             entityDataInterceptor.afterSave(record);
-            return result;
         }
         catch (ServiceException e) 
         {
@@ -114,14 +126,17 @@ public abstract class BaseEntityServiceImpl<Key
      * @see pers.linhai.nature.j2ee.core.service.IBaseEntityService#update(pers.linhai.nature.j2ee.core.model.BaseEntity)
      */
     @Transactional(rollbackFor = {Throwable.class})
-    public int update(Entity record)
+    public void update(Entity record)
     {
         try
         {
             entityDataInterceptor.beforeUpdate(record);
-            int result = mapper.update(record);
+            int c = mapper.update(record);
+            if (c != 1)
+            {
+                throw new EntityUpdateInterceptProcessException(10300, "[Controller] update occor an error, record：" + JSON.toJSONString(record.toEntityBean()));
+            }
             entityDataInterceptor.afterUpdate(record);
-            return result;
         }
         catch (ServiceException e) 
         {

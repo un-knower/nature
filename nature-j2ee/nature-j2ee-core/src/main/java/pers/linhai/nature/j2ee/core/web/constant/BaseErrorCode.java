@@ -14,7 +14,7 @@ package pers.linhai.nature.j2ee.core.web.constant;
  * @author lilinhai 2018年2月8日 上午11:55:38
  * @version 1.0
  */
-public interface RestErrorCode
+public interface BaseErrorCode
 {
 
     /*****[10000 - 20000)删除相关错误码**********************************************/

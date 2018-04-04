@@ -27,7 +27,7 @@ import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.service.IBaseEntityService;
 import pers.linhai.nature.j2ee.core.service.PaginationData;
-import pers.linhai.nature.j2ee.core.web.constant.RestErrorCode;
+import pers.linhai.nature.j2ee.core.web.constant.BaseErrorCode;
 import pers.linhai.nature.j2ee.core.web.model.RestResponse;
 
 /**
@@ -65,13 +65,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         try
         {
             process(request);
-            int count = entityService.delete(id);
-            if (count != 1)
-            {
-                RestResponse restResponse = fail(RestErrorCode.DELETE_FAIL, "[Controller] delete occor an error, record：ID" + id);
-                logger.error(JSON.toJSONString(restResponse));
-                return restResponse;
-            }
+            entityService.delete(id);
             return success();
         }
         catch (ServiceException e)
@@ -94,13 +88,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         try
         {
             process(request);
-            int count = entityService.save(record);
-            if (count != 1)
-            {
-                RestResponse restResponse = fail(RestErrorCode.INSERT_FAIL, "[Controller] save occor an error, record：" + JSON.toJSONString(record.toEntityBean()));
-                logger.error(JSON.toJSONString(restResponse));
-                return restResponse;
-            }
+            entityService.save(record);
             return success(record.toEntityBean());
         }
         catch (ServiceException e)
@@ -125,13 +113,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         {
             process(request);
             record.setId(id);
-            int count = entityService.update(record);
-            if (count != 1)
-            {
-                RestResponse restResponse = fail(10300, "[Controller] update occor an error, record：" + JSON.toJSONString(record.toEntityBean()));
-                logger.error(JSON.toJSONString(restResponse));
-                return restResponse;
-            }
+            entityService.update(record);
             return success(record.toEntityBean());
         }
         catch (ServiceException e)
@@ -157,7 +139,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
             EntityBean record = entityService.getEntityBean(id);
             if (record == null)
             {
-                RestResponse restResponse = fail(RestErrorCode.GET_FAIL, "[Controller] find occor an error, id：" + id);
+                RestResponse restResponse = fail(BaseErrorCode.GET_FAIL, "[Controller] find occor an error, id：" + id);
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
@@ -166,7 +148,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         catch (Throwable e)
         {
             logger.error("[Controller] get(@PathVariable Key id, HttpServletRequest request) occor an error", e);
-            return fail(RestErrorCode.GET_EXCEPTION, e.getMessage() + "，ID：" + id);
+            return fail(BaseErrorCode.GET_EXCEPTION, e.getMessage() + "，ID：" + id);
         }
     }
     
@@ -186,7 +168,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
             EntityBean record = entityService.getEntityBean(entityQuery);
             if (record == null)
             {
-                RestResponse restResponse = fail(RestErrorCode.GET_FAIL, "[Controller] findOne occor an error, entityQuery：" + JSON.toJSONString(entityQuery));
+                RestResponse restResponse = fail(BaseErrorCode.GET_FAIL, "[Controller] findOne occor an error, entityQuery：" + JSON.toJSONString(entityQuery));
                 logger.error(JSON.toJSONString(restResponse));
                 return restResponse;
             }
@@ -195,7 +177,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         catch (Throwable e)
         {
             logger.error("[Controller] get(@RequestBody EntityQuery entityQuery, HttpServletRequest request) occor an error", e);
-            return fail(RestErrorCode.GET_EXCEPTION, e.getMessage() + "，entityQuery：" + JSON.toJSONString(entityQuery));
+            return fail(BaseErrorCode.GET_EXCEPTION, e.getMessage() + "，entityQuery：" + JSON.toJSONString(entityQuery));
         }
     }
     
@@ -227,7 +209,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
                 // 分页查询的size不能超过1000
                 if (entityQuery.getSize() > 1000)
                 {
-                    return fail(RestErrorCode.PAGE_QUERY_SIZE_TOO_LARGE_EXCEPTION, "The size of Paging-query can't exceed 1000!");
+                    return fail(BaseErrorCode.PAGE_QUERY_SIZE_TOO_LARGE_EXCEPTION, "The size of Paging-query can't exceed 1000!");
                 }
                 PaginationData<EntityBean> pageData = new PaginationData<EntityBean>();
                 pageData.setPage(entityQuery.getPage());
@@ -240,7 +222,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         catch (Throwable e)
         {
             logger.error("[Controller] find(@RequestBody EntityQuery entityQuery, HttpServletRequest request) occor an error", e);
-            return fail(RestErrorCode.QUERY_EXCEPTION, e.getMessage() + "，entityQuery：" + JSON.toJSONString(entityQuery));
+            return fail(BaseErrorCode.QUERY_EXCEPTION, e.getMessage() + "，entityQuery：" + JSON.toJSONString(entityQuery));
         }
     }
     
@@ -262,7 +244,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         catch (Throwable e)
         {
             logger.error("[Controller] count(@RequestBody EntityQuery entityQuery, HttpServletRequest request) occor an error", e);
-            return fail(RestErrorCode.QUERY_EXCEPTION, e.getMessage() + "，entityQuery：" + JSON.toJSONString(entityQuery));
+            return fail(BaseErrorCode.QUERY_EXCEPTION, e.getMessage() + "，entityQuery：" + JSON.toJSONString(entityQuery));
         }
     }
 }

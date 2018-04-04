@@ -26,12 +26,12 @@ public interface IBaseEntityService<Key, Entity extends BaseEntity<Key>, EntityQ
     /**
      * 根据主键ID删除单个记录。
      */
-    int delete(Key id);
+    void delete(Key id);
 
     /**
      * 添加单个记录。
      */
-    int save(Entity record);
+    void save(Entity record);
 
     /**
      * 根据主键id查找单个记录。
@@ -49,7 +49,7 @@ public interface IBaseEntityService<Key, Entity extends BaseEntity<Key>, EntityQ
     /**
      * 修改单个记录，只将不为空的字段更新到记录。
      */
-    int update(Entity record);
+    void update(Entity record);
     
     /**
      * 查询单个实体
