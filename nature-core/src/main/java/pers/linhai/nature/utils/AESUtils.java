@@ -10,7 +10,6 @@ package pers.linhai.nature.utils;
 
 
 import java.security.SecureRandom;
-import java.util.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -75,8 +74,28 @@ public abstract class AESUtils
     {
         try
         {
+            // 加密
+            return encrypt(content, new SecureRandom(password.getBytes("utf-8")), keySize);
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    /**
+     * 加密
+     * @param content  需要加密的内容
+     * @param password 加密密码,盐值
+     * @return
+     */
+    public static byte[] encrypt(String content, SecureRandom secureRandom, int keySize)
+    {
+        try
+        {
             KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-            keyGenerator.init(keySize, new SecureRandom(password.getBytes()));
+            keyGenerator.init(keySize, secureRandom);
             SecretKey secretKey = keyGenerator.generateKey();
             byte[] enCodeFormat = secretKey.getEncoded();
             SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
@@ -117,7 +136,7 @@ public abstract class AESUtils
      */
     public static String decryptFromBase64Str(String content, String password)
     {
-        return new String(decrypt(Base64.getDecoder().decode(content), password, DEFAULT_KEY_SIZE));
+        return decryptFromBase64Str(content, password, DEFAULT_KEY_SIZE);
     }
     
     /**
@@ -129,7 +148,7 @@ public abstract class AESUtils
      */
     public static String decryptFromBase64Str(String content, String password, int keySize)
     {
-        return new String(decrypt(Base64.getDecoder().decode(content), password, keySize));
+        return new String(decrypt(Base64Utils.decodeToByte(content), password, keySize));
     }
     
     /**
@@ -143,8 +162,29 @@ public abstract class AESUtils
     {
         try
         {
+            // 解密
+            return decrypt(content, new SecureRandom(password.getBytes("utf-8")), keySize);
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    /**
+     * 解密
+     *
+     * @param content  待解密内容
+     * @param password 解密密钥,盐值
+     * @return
+     */
+    public static byte[] decrypt(byte[] content, SecureRandom secureRandom, int keySize)
+    {
+        try
+        {
             KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-            keyGenerator.init(keySize, new SecureRandom(password.getBytes()));
+            keyGenerator.init(keySize, secureRandom);
             SecretKey secretKey = keyGenerator.generateKey();
             byte[] enCodeFormat = secretKey.getEncoded();
             SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");

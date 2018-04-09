@@ -23,8 +23,6 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 
-import org.springframework.util.Base64Utils;
-
 
 /**
  * RSA非对称加密解密工具类
@@ -133,7 +131,6 @@ public abstract class RSAUtils
      * PrivateKey
      */
     public static PrivateKey string2PrivateKey(String priStr)
-        throws InvalidKeySpecException
     {
         try
         {
@@ -185,9 +182,6 @@ public abstract class RSAUtils
      * byte[]
      */
     public static byte[] privateDecrypt(byte[] content, PrivateKey privateKey)
-        throws InvalidKeyException,
-        IllegalBlockSizeException,
-        BadPaddingException
     {
         try
         {
@@ -211,7 +205,7 @@ public abstract class RSAUtils
      */
     public static String byte2Base64Str(byte[] bytes)
     {
-        return Base64Utils.encodeToString(bytes);
+        return Base64Utils.encode(bytes);
     }
 
     /**
@@ -223,6 +217,6 @@ public abstract class RSAUtils
      */
     public static byte[] str2Base64Byte(String base64Key)
     {
-        return Base64Utils.decodeFromString(base64Key);
+        return Base64Utils.decodeToByte(base64Key);
     }
 }
