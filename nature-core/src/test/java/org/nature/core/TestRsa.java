@@ -9,7 +9,7 @@
 
 package org.nature.core;
 
-import pers.linhai.nature.security.AESEncryptionAlgorithm;
+import pers.linhai.nature.security.RASEncryptionAlgorithm;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -17,7 +17,7 @@ import pers.linhai.nature.security.AESEncryptionAlgorithm;
  * @author lilinhai 2018年4月9日 下午2:07:40
  * @version 1.0
  */
-public class TestAes
+public class TestRsa
 {
 
     public static void main(String[] args)
@@ -26,26 +26,34 @@ public class TestAes
         String pass = "12345";
 //        System.out.println(AESUtils.encryptToBase64Str(phone, pass));
 //        System.out.println(AESUtils.decryptFromBase64Str(AESUtils.encryptToBase64Str(phone, pass), pass));
-        AESEncryptionAlgorithm aesEncryptionAlgorithm = new AESEncryptionAlgorithm(pass, 128);
+        RASEncryptionAlgorithm rsaEncryptionAlgorithm = new RASEncryptionAlgorithm(pass, 512);
         
-        for (int i = 0; i < 10000; i++ )
+        long s1 = System.currentTimeMillis();
+        for (int i = 0; i < 10 * 1000; i++ )
+        {
+            String s = rsaEncryptionAlgorithm.encryptToBase64Str(phone);
+            System.out.println(s);
+            rsaEncryptionAlgorithm.decryptFromBase64Str(s);
+        }
+        System.out.println(System.currentTimeMillis() - s1);
+        /*for (int i = 0; i < 10000; i++ )
         {
             new Thread()
             {
 
-                /** 
+                *//** 
                  * <p>Overriding Method: lilinhai 2018年4月9日 下午11:47:04</p>
                  * <p>Title: run</p>
                  * <p>Description: TODO</p> 
                  * @see java.lang.Thread#run()
-                 */ 
+                 *//* 
                 public void run()
                 {
-                    String s = aesEncryptionAlgorithm.encryptToBase64Str(phone);
-                    System.out.println(aesEncryptionAlgorithm.decryptFromBase64Str(s));
+                    String s = rsaEncryptionAlgorithm.encryptToBase64Str(phone);
+                    System.out.println(rsaEncryptionAlgorithm.decryptFromBase64Str(s));
                 }
                 
             }.start();
-        }
+        }*/
     }
 }
