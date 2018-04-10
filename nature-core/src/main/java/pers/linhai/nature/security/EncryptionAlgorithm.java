@@ -13,6 +13,8 @@ import java.nio.charset.Charset;
 
 import javax.crypto.Cipher;
 
+import pers.linhai.nature.utils.Base64Utils;
+
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
  * <p>ClassName      : EncryptionAlgorithm</p>
@@ -46,7 +48,10 @@ public abstract class EncryptionAlgorithm
      * @return 
      * String
      */
-    public abstract String encryptToBase64Str(String source);
+    public String encryptToBase64Str(String source) 
+    {
+        return Base64Utils.encode(encrypt(source));
+    }
     
     /**
      * 加密，返回明文被加密后的字节数组
@@ -55,7 +60,18 @@ public abstract class EncryptionAlgorithm
      * @return 
      * byte[]
      */
-    public abstract byte[] encrypt(String source);
+    public synchronized byte[] encrypt(String source)
+    {
+        try
+        {
+            return encryptCipher.doFinal(getBytes(source));
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
     
     /**
      * 将一个base64格式的加密字符串解密成明文
@@ -64,7 +80,10 @@ public abstract class EncryptionAlgorithm
      * @return 
      * String
      */
-    public abstract String decryptFromBase64Str(String content);
+    public String decryptFromBase64Str(String content)
+    {
+        return new String(decrypt(Base64Utils.decodeToByte(content)), UTF_8_SET);
+    }
     
     /**
      * 解密，返回明文对应的字节数组
@@ -73,5 +92,16 @@ public abstract class EncryptionAlgorithm
      * @return 
      * byte[]
      */
-    public abstract byte[] decrypt(byte[] source);
+    public synchronized byte[] decrypt(byte[] source)
+    {
+        try
+        {
+            return decryptCipher.doFinal(source);
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
