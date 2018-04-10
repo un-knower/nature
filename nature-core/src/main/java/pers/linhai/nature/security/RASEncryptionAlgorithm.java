@@ -9,7 +9,6 @@
 
 package pers.linhai.nature.security;
 
-import java.io.UnsupportedEncodingException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.SecureRandom;
@@ -24,23 +23,13 @@ import pers.linhai.nature.utils.Base64Utils;
  * @author lilinhai 2018年4月9日 下午11:16:57
  * @version 1.0
  */
-public class RASEncryptionAlgorithm
+public class RASEncryptionAlgorithm extends EncryptionAlgorithm
 {
 
     /**
      * 默认的key大小
      */
     private static final int DEFAULT_KEY_SIZE = 512;
-    
-    /**
-     * 加密的Cipher
-     */
-    private Cipher encryptCipher;
-    
-    /**
-     * 解密的Cipher
-     */
-    private Cipher decryptCipher;
 
     /**
      * <p>Title        : AESEncryptionAlgorithm lilinhai 2018年4月9日 下午11:20:34</p>
@@ -60,7 +49,7 @@ public class RASEncryptionAlgorithm
         try
         {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-            keyPairGenerator.initialize(keySize, new SecureRandom(getBytes("utf-8")));
+            keyPairGenerator.initialize(keySize, new SecureRandom(getBytes(secret)));
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
             
             // 初始化加密的Cipher
@@ -110,7 +99,7 @@ public class RASEncryptionAlgorithm
     }
     
     /**
-     * 将一个base64格式的AES加密字符串解密成明文
+     * 将一个base64格式的加密字符串解密成明文
      * <p>Title         : decryptFromBase64Str lilinhai 2018年4月9日 下午11:48:26</p>
      * @param content
      * @return 
@@ -118,7 +107,7 @@ public class RASEncryptionAlgorithm
      */
     public String decryptFromBase64Str(String content)
     {
-        return new String(decrypt(Base64Utils.decodeToByte(content)));
+        return new String(decrypt(Base64Utils.decodeToByte(content)), UTF_8_SET);
     }
     
     /**
@@ -135,19 +124,6 @@ public class RASEncryptionAlgorithm
             return decryptCipher.doFinal(source);
         }
         catch (Throwable e)
-        {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    
-    private byte[] getBytes(String source)
-    {
-        try
-        {
-            return source.getBytes("utf-8");
-        }
-        catch (UnsupportedEncodingException e)
         {
             e.printStackTrace();
             return null;
