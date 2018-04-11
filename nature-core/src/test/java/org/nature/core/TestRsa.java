@@ -9,7 +9,7 @@
 
 package org.nature.core;
 
-import pers.linhai.nature.security.RASEncryptionAlgorithm;
+import pers.linhai.nature.security.reversible.RASAlgorithm;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -26,7 +26,7 @@ public class TestRsa
         String pass = "12345";
 //        System.out.println(AESUtils.encryptToBase64Str(phone, pass));
 //        System.out.println(AESUtils.decryptFromBase64Str(AESUtils.encryptToBase64Str(phone, pass), pass));
-        RASEncryptionAlgorithm rsaEncryptionAlgorithm = new RASEncryptionAlgorithm(pass, 512);
+        RASAlgorithm rsaEncryptionAlgorithm = new RASAlgorithm(pass, 512);
         
         long s1 = System.currentTimeMillis();
         for (int i = 0; i < 10 * 1000; i++ )

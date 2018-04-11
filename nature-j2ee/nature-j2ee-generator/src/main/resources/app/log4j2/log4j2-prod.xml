@@ -8,7 +8,7 @@
 		<Property name="CONSOLE_LOG_PATTERN">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{${r'${LOG_LEVEL_PATTERN}'}} %clr{${r'${sys:PID}'}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n${r'${sys:LOG_EXCEPTION_CONVERSION_WORD}'}</Property>
 		<Property name="FILE_LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} ${r'${LOG_LEVEL_PATTERN}'} ${r'${sys:PID}'} --- [%t] %-40.40c{1.} : %m%n${r'${sys:LOG_EXCEPTION_CONVERSION_WORD}'}</Property>
 		<Property name="COMMON_LOG_PATTERN">%d %p [%t] %c %m%n</Property>
-        <Property name="logDir">target/logs</Property>
+        <Property name="logDir">logs</Property>
         <Property name="logFile">${groupId}-${artifactId}-app</Property>
 	</Properties>
 	<Appenders>
