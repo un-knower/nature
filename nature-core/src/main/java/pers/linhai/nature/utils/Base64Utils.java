@@ -9,6 +9,7 @@
 package pers.linhai.nature.utils;
 
 
+import java.nio.charset.Charset;
 import java.util.Base64;
 
 
@@ -21,6 +22,8 @@ import java.util.Base64;
 public abstract class Base64Utils
 {
 
+    private static final Charset UTF_8_SET = Charset.forName("utf-8");
+    
     /**
      * Base64加密
      * <p>Title         : encode lilinhai 2018年4月9日 下午1:05:03</p>
@@ -30,15 +33,7 @@ public abstract class Base64Utils
      */
     public static String encode(String source)
     {
-        try
-        {
-            return encode(source.getBytes("utf-8"));
-        }
-        catch (Throwable e)
-        {
-            e.printStackTrace();
-            return null;
-        }
+        return encode(source.getBytes(UTF_8_SET));
     }
 
     /**
@@ -50,15 +45,7 @@ public abstract class Base64Utils
      */
     public static String encode(byte[] source)
     {
-        try
-        {
-            return new String(Base64.getEncoder().encode(source), "utf-8");
-        }
-        catch (Throwable e)
-        {
-            e.printStackTrace();
-            return null;
-        }
+        return new String(Base64.getEncoder().encode(source), UTF_8_SET);
     }
 
     /**
@@ -70,15 +57,7 @@ public abstract class Base64Utils
      */
     public static String decode(String source)
     {
-        try
-        {
-            return decode(source.getBytes("utf-8"));
-        }
-        catch (Throwable e)
-        {
-            e.printStackTrace();
-            return null;
-        }
+        return decode(source.getBytes(UTF_8_SET));
     }
 
     /**
@@ -90,15 +69,7 @@ public abstract class Base64Utils
      */
     public static String decode(byte[] source)
     {
-        try
-        {
-            return new String(decodeToByte(source), "utf-8");
-        }
-        catch (Throwable e)
-        {
-            e.printStackTrace();
-            return null;
-        }
+        return new String(decodeToByte(source), UTF_8_SET);
     }
 
     /**
@@ -122,14 +93,6 @@ public abstract class Base64Utils
      */
     public static byte[] decodeToByte(String source)
     {
-        try
-        {
-            return Base64.getDecoder().decode(source.getBytes("utf-8"));
-        }
-        catch (Throwable e)
-        {
-            e.printStackTrace();
-            return null;
-        }
+        return Base64.getDecoder().decode(source.getBytes(UTF_8_SET));
     }
 }
