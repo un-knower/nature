@@ -9,7 +9,7 @@
 
 package org.nature.core;
 
-import pers.linhai.nature.encrypt.reversible.AESAlgorithm;
+import pers.linhai.nature.encryption.reversible.AESAlgorithm;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>

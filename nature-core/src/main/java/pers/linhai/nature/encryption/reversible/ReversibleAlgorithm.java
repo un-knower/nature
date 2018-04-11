@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.encrypt.reversible;
+package pers.linhai.nature.encryption.reversible;
 
 import javax.crypto.Cipher;
 

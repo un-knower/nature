@@ -7,30 +7,30 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.encrypt.irreversible;
+package pers.linhai.nature.encryption.irreversible;
 
 import pers.linhai.nature.constant.MessageDigestAlgorithms;
 
 /**
- * SHA-1不可逆加密算法
+ * SHA-384不可逆加密算法
  * <p>ClassName      : SHA256Algorithm</p>
  * @author lilinhai 2018年4月11日 上午9:48:46
  * @version 1.0
  */
-public class SHA1Algorithm extends IrreversibleAlgorithm
+public class SHA384Algorithm extends IrreversibleAlgorithm
 {
 
     /**
      * <p>Title        : SHA256Algorithm lilinhai 2018年4月11日 下午10:33:25</p>
      * @param salt 
      */ 
-    public SHA1Algorithm(String salt)
+    public SHA384Algorithm(String salt)
     {
         super(salt);
-        this.algorithm = MessageDigestAlgorithms.SHA_1;
+        this.algorithm = MessageDigestAlgorithms.SHA_384;
     }
     
-    public SHA1Algorithm()
+    public SHA384Algorithm()
     {
         this(null);
     }

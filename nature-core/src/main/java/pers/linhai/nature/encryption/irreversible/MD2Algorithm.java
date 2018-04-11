@@ -7,30 +7,30 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.encrypt.irreversible;
+package pers.linhai.nature.encryption.irreversible;
 
 import pers.linhai.nature.constant.MessageDigestAlgorithms;
 
 /**
- * MD5不可逆加密算法
+ * MD2不可逆加密算法
  * <p>ClassName      : SHA256Algorithm</p>
  * @author lilinhai 2018年4月11日 上午9:48:46
  * @version 1.0
  */
-public class MD5Algorithm extends IrreversibleAlgorithm
+public class MD2Algorithm extends IrreversibleAlgorithm
 {
 
     /**
      * <p>Title        : SHA256Algorithm lilinhai 2018年4月11日 下午10:33:25</p>
      * @param salt 
      */ 
-    public MD5Algorithm(String salt)
+    public MD2Algorithm(String salt)
     {
         super(salt);
-        this.algorithm = MessageDigestAlgorithms.MD5;
+        this.algorithm = MessageDigestAlgorithms.MD2;
     }
     
-    public MD5Algorithm()
+    public MD2Algorithm()
     {
         this(null);
     }

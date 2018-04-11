@@ -9,13 +9,13 @@
 
 package org.nature.core;
 
-import pers.linhai.nature.encrypt.irreversible.MD2Algorithm;
-import pers.linhai.nature.encrypt.irreversible.MD5Algorithm;
-import pers.linhai.nature.encrypt.irreversible.SHA1Algorithm;
-import pers.linhai.nature.encrypt.irreversible.SHA224Algorithm;
-import pers.linhai.nature.encrypt.irreversible.SHA256Algorithm;
-import pers.linhai.nature.encrypt.irreversible.SHA384Algorithm;
-import pers.linhai.nature.encrypt.irreversible.SHA512Algorithm;
+import pers.linhai.nature.encryption.irreversible.MD2Algorithm;
+import pers.linhai.nature.encryption.irreversible.MD5Algorithm;
+import pers.linhai.nature.encryption.irreversible.SHA1Algorithm;
+import pers.linhai.nature.encryption.irreversible.SHA224Algorithm;
+import pers.linhai.nature.encryption.irreversible.SHA256Algorithm;
+import pers.linhai.nature.encryption.irreversible.SHA384Algorithm;
+import pers.linhai.nature.encryption.irreversible.SHA512Algorithm;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>

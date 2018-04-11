@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.encrypt.irreversible;
+package pers.linhai.nature.encryption.irreversible;
 
 import pers.linhai.nature.constant.MessageDigestAlgorithms;
 

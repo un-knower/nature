@@ -6,7 +6,7 @@
  * @Version V1.0
  */
 
-package pers.linhai.nature.encrypt.irreversible;
+package pers.linhai.nature.encryption.irreversible;
 
 
 import java.security.MessageDigest;
