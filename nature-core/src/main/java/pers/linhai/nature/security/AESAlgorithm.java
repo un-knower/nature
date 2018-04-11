@@ -22,7 +22,7 @@ import javax.crypto.spec.SecretKeySpec;
  * @author lilinhai 2018年4月9日 下午11:16:57
  * @version 1.0
  */
-public class AESEncryptionAlgorithm extends EncryptionAlgorithm
+public class AESAlgorithm extends SecurityAlgorithm
 {
 
     /**
@@ -34,7 +34,7 @@ public class AESEncryptionAlgorithm extends EncryptionAlgorithm
      * <p>Title        : AESEncryptionAlgorithm lilinhai 2018年4月9日 下午11:20:34</p>
      * @param cipher 
      */ 
-    public AESEncryptionAlgorithm(String secret)
+    public AESAlgorithm(String secret)
     {
         this(secret, DEFAULT_KEY_SIZE);
     }
@@ -43,7 +43,7 @@ public class AESEncryptionAlgorithm extends EncryptionAlgorithm
      * <p>Title        : AESEncryptionAlgorithm lilinhai 2018年4月9日 下午11:20:34</p>
      * @param cipher 
      */ 
-    public AESEncryptionAlgorithm(String secret, int keySize)
+    public AESAlgorithm(String secret, int keySize)
     {
         try
         {

@@ -21,7 +21,7 @@ import pers.linhai.nature.utils.Base64Utils;
  * @author lilinhai 2018年4月10日 下午9:45:09
  * @version 1.0
  */
-public abstract class EncryptionAlgorithm
+public abstract class SecurityAlgorithm
 {
     protected static final Charset UTF_8_SET = Charset.forName("utf-8");
     

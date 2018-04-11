@@ -9,7 +9,7 @@
 
 package org.nature.core;
 
-import pers.linhai.nature.security.AESEncryptionAlgorithm;
+import pers.linhai.nature.security.AESAlgorithm;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -26,7 +26,7 @@ public class TestAes
         String pass = "12345";
 //        System.out.println(AESUtils.encryptToBase64Str(phone, pass));
 //        System.out.println(AESUtils.decryptFromBase64Str(AESUtils.encryptToBase64Str(phone, pass), pass));
-        AESEncryptionAlgorithm aesEncryptionAlgorithm = new AESEncryptionAlgorithm(pass, 128);
+        AESAlgorithm aesEncryptionAlgorithm = new AESAlgorithm(pass, 128);
         
         for (int i = 0; i < 10000; i++ )
         {

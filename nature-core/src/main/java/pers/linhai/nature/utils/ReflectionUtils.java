@@ -31,7 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author  shinelon
  * @version  V100R001C00
  */
-public class ReflectionUtils
+public abstract class ReflectionUtils
 {
 
 

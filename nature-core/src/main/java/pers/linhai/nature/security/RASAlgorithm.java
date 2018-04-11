@@ -21,7 +21,7 @@ import javax.crypto.Cipher;
  * @author lilinhai 2018年4月9日 下午11:16:57
  * @version 1.0
  */
-public class RASEncryptionAlgorithm extends EncryptionAlgorithm
+public class RASAlgorithm extends SecurityAlgorithm
 {
 
     /**
@@ -33,7 +33,7 @@ public class RASEncryptionAlgorithm extends EncryptionAlgorithm
      * <p>Title        : AESEncryptionAlgorithm lilinhai 2018年4月9日 下午11:20:34</p>
      * @param cipher 
      */ 
-    public RASEncryptionAlgorithm(String secret)
+    public RASAlgorithm(String secret)
     {
         this(secret, DEFAULT_KEY_SIZE);
     }
@@ -42,7 +42,7 @@ public class RASEncryptionAlgorithm extends EncryptionAlgorithm
      * <p>Title        : AESEncryptionAlgorithm lilinhai 2018年4月9日 下午11:20:34</p>
      * @param cipher 
      */ 
-    public RASEncryptionAlgorithm(String secret, int keySize)
+    public RASAlgorithm(String secret, int keySize)
     {
         try
         {
