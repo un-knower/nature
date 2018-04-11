@@ -7,34 +7,33 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.security;
+package pers.linhai.nature.security.reversible;
 
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
 /**
- * AES对称加密解密算法
+ *RSA非对称加密解密可逆算法
  * <p>ClassName      : AESEncryptionAlgorithm</p>
  * @author lilinhai 2018年4月9日 下午11:16:57
  * @version 1.0
  */
-public class AESAlgorithm extends SecurityAlgorithm
+public class RASAlgorithm extends ReversibleAlgorithm
 {
 
     /**
      * 默认的key大小
      */
-    private static final int DEFAULT_KEY_SIZE = 128;
+    private static final int DEFAULT_KEY_SIZE = 512;
 
     /**
      * <p>Title        : AESEncryptionAlgorithm lilinhai 2018年4月9日 下午11:20:34</p>
      * @param cipher 
      */ 
-    public AESAlgorithm(String secret)
+    public RASAlgorithm(String secret)
     {
         this(secret, DEFAULT_KEY_SIZE);
     }
@@ -43,23 +42,21 @@ public class AESAlgorithm extends SecurityAlgorithm
      * <p>Title        : AESEncryptionAlgorithm lilinhai 2018年4月9日 下午11:20:34</p>
      * @param cipher 
      */ 
-    public AESAlgorithm(String secret, int keySize)
+    public RASAlgorithm(String secret, int keySize)
     {
         try
         {
-            KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-            keyGenerator.init(keySize, new SecureRandom(getBytes(secret)));
-            SecretKey secretKey = keyGenerator.generateKey();
-            byte[] enCodeFormat = secretKey.getEncoded();
-            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            keyPairGenerator.initialize(keySize, new SecureRandom(getBytes(secret)));
+            KeyPair keyPair = keyPairGenerator.generateKeyPair();
             
             // 初始化加密的Cipher
-            this.encryptCipher = Cipher.getInstance("AES");
-            this.encryptCipher.init(Cipher.ENCRYPT_MODE, key);
+            this.encryptCipher = Cipher.getInstance("RSA");
+            this.encryptCipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic());
             
             // 初始化解密的Cipher
-            this.decryptCipher = Cipher.getInstance("AES");
-            this.decryptCipher.init(Cipher.DECRYPT_MODE, key);
+            this.decryptCipher = Cipher.getInstance("RSA");
+            this.decryptCipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
         }
         catch (Throwable e)
         {

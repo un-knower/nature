@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.security;
+package pers.linhai.nature.security.reversible;
 
 import java.nio.charset.Charset;
 
@@ -16,12 +16,12 @@ import javax.crypto.Cipher;
 import pers.linhai.nature.utils.Base64Utils;
 
 /**
- * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
+ * 抽象可逆算法
  * <p>ClassName      : EncryptionAlgorithm</p>
  * @author lilinhai 2018年4月10日 下午9:45:09
  * @version 1.0
  */
-public abstract class SecurityAlgorithm
+public abstract class ReversibleAlgorithm
 {
     protected static final Charset UTF_8_SET = Charset.forName("utf-8");
     
