@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.security.reversible;
+package pers.linhai.nature.encrypt.reversible;
 
 import java.security.SecureRandom;
 
@@ -40,15 +40,16 @@ public class AESAlgorithm extends ReversibleAlgorithm
     }
     
     /**
-     * <p>Title        : AESEncryptionAlgorithm lilinhai 2018年4月9日 下午11:20:34</p>
-     * @param cipher 
-     */ 
-    public AESAlgorithm(String secret, int keySize)
+     * <p>Title        : AESAlgorithm lilinhai 2018年4月11日 下午9:07:55</p>
+     * @param salt
+     * @param keySize
+     */
+    public AESAlgorithm(String salt, int keySize)
     {
         try
         {
             KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-            keyGenerator.init(keySize, new SecureRandom(getBytes(secret)));
+            keyGenerator.init(keySize, new SecureRandom(getBytes(salt)));
             SecretKey secretKey = keyGenerator.generateKey();
             byte[] enCodeFormat = secretKey.getEncoded();
             SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");

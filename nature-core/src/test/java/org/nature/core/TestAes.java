@@ -9,7 +9,7 @@
 
 package org.nature.core;
 
-import pers.linhai.nature.security.reversible.AESAlgorithm;
+import pers.linhai.nature.encrypt.reversible.AESAlgorithm;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -41,8 +41,8 @@ public class TestAes
                  */ 
                 public void run()
                 {
-                    String s = aesEncryptionAlgorithm.encryptToBase64Str(phone);
-                    System.out.println(aesEncryptionAlgorithm.decryptFromBase64Str(s));
+                    String s = aesEncryptionAlgorithm.encryptToBase64String(phone);
+                    System.out.println(aesEncryptionAlgorithm.decryptFromBase64String(s));
                 }
                 
             }.start();

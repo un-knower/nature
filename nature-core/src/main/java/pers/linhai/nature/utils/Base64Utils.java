@@ -9,8 +9,9 @@
 package pers.linhai.nature.utils;
 
 
-import java.nio.charset.Charset;
 import java.util.Base64;
+
+import pers.linhai.nature.constant.Charsets;
 
 
 /**
@@ -22,8 +23,6 @@ import java.util.Base64;
 public abstract class Base64Utils
 {
 
-    private static final Charset UTF_8_SET = Charset.forName("utf-8");
-    
     /**
      * Base64加密
      * <p>Title         : encode lilinhai 2018年4月9日 下午1:05:03</p>
@@ -33,7 +32,7 @@ public abstract class Base64Utils
      */
     public static String encode(String source)
     {
-        return encode(source.getBytes(UTF_8_SET));
+        return encode(source.getBytes(Charsets.UTF_8));
     }
 
     /**
@@ -45,7 +44,7 @@ public abstract class Base64Utils
      */
     public static String encode(byte[] source)
     {
-        return new String(Base64.getEncoder().encode(source), UTF_8_SET);
+        return new String(Base64.getEncoder().encode(source), Charsets.UTF_8);
     }
 
     /**
@@ -57,7 +56,7 @@ public abstract class Base64Utils
      */
     public static String decode(String source)
     {
-        return decode(source.getBytes(UTF_8_SET));
+        return decode(source.getBytes(Charsets.UTF_8));
     }
 
     /**
@@ -69,7 +68,7 @@ public abstract class Base64Utils
      */
     public static String decode(byte[] source)
     {
-        return new String(decodeToByte(source), UTF_8_SET);
+        return new String(decodeToByte(source), Charsets.UTF_8);
     }
 
     /**
@@ -93,6 +92,6 @@ public abstract class Base64Utils
      */
     public static byte[] decodeToByte(String source)
     {
-        return Base64.getDecoder().decode(source.getBytes(UTF_8_SET));
+        return Base64.getDecoder().decode(source.getBytes(Charsets.UTF_8));
     }
 }

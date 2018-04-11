@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.security.reversible;
+package pers.linhai.nature.encrypt.reversible;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -39,15 +39,16 @@ public class RASAlgorithm extends ReversibleAlgorithm
     }
     
     /**
-     * <p>Title        : AESEncryptionAlgorithm lilinhai 2018年4月9日 下午11:20:34</p>
-     * @param cipher 
-     */ 
-    public RASAlgorithm(String secret, int keySize)
+     * <p>Title        : RASAlgorithm lilinhai 2018年4月11日 下午9:07:47</p>
+     * @param salt
+     * @param keySize
+     */
+    public RASAlgorithm(String salt, int keySize)
     {
         try
         {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-            keyPairGenerator.initialize(keySize, new SecureRandom(getBytes(secret)));
+            keyPairGenerator.initialize(keySize, new SecureRandom(getBytes(salt)));
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
             
             // 初始化加密的Cipher

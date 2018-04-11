@@ -7,12 +7,11 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.security.reversible;
-
-import java.nio.charset.Charset;
+package pers.linhai.nature.encrypt.reversible;
 
 import javax.crypto.Cipher;
 
+import pers.linhai.nature.constant.Charsets;
 import pers.linhai.nature.utils.Base64Utils;
 
 /**
@@ -23,8 +22,6 @@ import pers.linhai.nature.utils.Base64Utils;
  */
 public abstract class ReversibleAlgorithm
 {
-    protected static final Charset UTF_8_SET = Charset.forName("utf-8");
-    
     /**
      * 加密的Cipher
      */
@@ -38,7 +35,7 @@ public abstract class ReversibleAlgorithm
     
     protected byte[] getBytes(String source)
     {
-        return source.getBytes(UTF_8_SET);
+        return source.getBytes(Charsets.UTF_8);
     }
     
     /**
@@ -48,7 +45,7 @@ public abstract class ReversibleAlgorithm
      * @return 
      * String
      */
-    public String encryptToBase64Str(String source) 
+    public String encryptToBase64String(String source) 
     {
         return Base64Utils.encode(encrypt(source));
     }
@@ -80,9 +77,9 @@ public abstract class ReversibleAlgorithm
      * @return 
      * String
      */
-    public String decryptFromBase64Str(String content)
+    public String decryptFromBase64String(String content)
     {
-        return new String(decrypt(Base64Utils.decodeToByte(content)), UTF_8_SET);
+        return new String(decrypt(Base64Utils.decodeToByte(content)), Charsets.UTF_8);
     }
     
     /**
