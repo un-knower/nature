@@ -23,12 +23,12 @@ public class TestAes
     public static void main(String[] args)
     {
         String phone = "13668142438";
-        String pass = "12345";
+        String pass = "12345121";
 //        System.out.println(AESUtils.encryptToBase64Str(phone, pass));
 //        System.out.println(AESUtils.decryptFromBase64Str(AESUtils.encryptToBase64Str(phone, pass), pass));
         AESEncryptionAlgorithm aesEncryptionAlgorithm = new AESEncryptionAlgorithm(pass, 128);
         
-        for (int i = 0; i < 10000; i++ )
+        for (int i = 0; i < 1; i++ )
         {
             new Thread()
             {
