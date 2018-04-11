@@ -38,14 +38,14 @@ public class InConditionSegment extends ConditionSegment
         Object value = condition.getValue();
         if (!(value instanceof Collection))
         {
-            throw new ConditionFormatException("The type of value must be a array in 'in-operator'.");
+            throw new ConditionFormatException("The type of value must be a array in 'in-operator', condition: " + condition);
         }
         else
         {
             Collection<?> valueTempCollection = (Collection<?>)value;
             if (valueTempCollection == null || valueTempCollection.isEmpty())
             {
-                throw new ConditionFormatException("The value can't be enmpy, while the condition type is In or Not-in.");
+                throw new ConditionFormatException("The value can't be enmpy, while the condition type is In or Not-in, condition: " + condition);
             }
             for (Object val : valueTempCollection)
             {
