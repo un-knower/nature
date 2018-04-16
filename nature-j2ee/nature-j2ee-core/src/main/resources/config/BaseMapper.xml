@@ -86,8 +86,9 @@
         <include refid="Common_Where" />
     </update>
 
-    <!-- 组合查询函数，支持分页功能 -->
-    <select id="find" parameterType="BaseQuery" resultMap="BaseResultMap">
+    <!-- 组合查询函数，支持分页功能，resultSetType (可选配置) FORWARD_ONLY，SCROLL_SENSITIVE 或 SCROLL_INSENSITIVE 中的一个，默认值为 unset （依赖驱动），statementType (可选配置) 
+         STATEMENT，PREPARED 或 CALLABLE 的一个。这会让 MyBatis 分别使用 Statement，PreparedStatement 或 CallableStatement，默认值：PREPARED -->
+    <select id="find" parameterType="BaseQuery" resultMap="BaseResultMap" resultSetType="FORWARD_ONLY" statementType="PREPARED">
         <choose>
             <when test="@pers.linhai.nature.j2ee.core.model.DatabaseType@isMySQL()">
                 <include refid="Common_Find" />
