@@ -21,6 +21,7 @@ import pers.linhai.nature.j2ee.core.constant.BaseErrorCode;
 import pers.linhai.nature.j2ee.core.dao.IBaseMapper;
 import pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.IEntityDataInterceptor;
+import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
 import pers.linhai.nature.j2ee.core.exception.EntityDeleteInterceptProcessException;
 import pers.linhai.nature.j2ee.core.exception.EntitySaveInterceptProcessException;
 import pers.linhai.nature.j2ee.core.exception.EntityUpdateInterceptProcessException;
@@ -229,6 +230,18 @@ public abstract class BaseEntityServiceImpl<Key
             logger.error("[Service] find(EntityQuery entityQuery) occor an error", e);
             return null;
         }
+    }
+    
+    /** 
+     * <p>Overriding Method: lilinhai 2018年4月17日 上午9:45:21</p>
+     * <p>Title: find</p>
+     * @param entityQuery
+     * @param entityProcessor 
+     * @see pers.linhai.nature.j2ee.core.service.IBaseEntityService#find(pers.linhai.nature.j2ee.core.model.BaseQuery, pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor)
+     */ 
+    public void find(EntityQuery entityQuery, IRowDataProcessor<Entity> entityProcessor)
+    {
+        mapper.find(entityQuery, entityProcessor);
     }
 
     /**
