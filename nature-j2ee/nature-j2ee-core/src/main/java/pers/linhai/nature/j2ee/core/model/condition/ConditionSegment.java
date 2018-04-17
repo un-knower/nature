@@ -178,24 +178,24 @@ public abstract class ConditionSegment
         return type;
     }
 
-    public static ConditionSegment parse(Condition conditionBean)
+    public static ConditionSegment parse(Condition condition)
     {
         try
         {
-            if (conditionBean.getOperator() == null)
+            if (condition.getOperator() == null)
             {
-                throw new IllegalOperatorException("Exist null value of the param operator: " + conditionBean.getOperator());
+                throw new IllegalOperatorException("Operator can't be null: " + condition);
             }
             
-            String operator = conditionBean.getOperator().toLowerCase(Locale.ENGLISH);
+            String operator = condition.getOperator().toLowerCase(Locale.ENGLISH);
             Constructor<? extends ConditionSegment> conditionConstructor = CONDITION_MAP.get(operator);
             if (conditionConstructor == null)
             {
-                throw new IllegalOperatorException("Exist an illegal-operator: " + conditionBean.getOperator());
+                throw new IllegalOperatorException("Exist an illegal-operator: " + condition);
             }
             
-            conditionBean.setOperator(operator);
-            return conditionConstructor.newInstance(conditionBean);
+            condition.setOperator(operator);
+            return conditionConstructor.newInstance(condition);
         }
         catch (Throwable e)
         {
