@@ -28,7 +28,7 @@ public class TestAes
 //        System.out.println(AESUtils.decryptFromBase64Str(AESUtils.encryptToBase64Str(phone, pass), pass));
         AESAlgorithm aesEncryptionAlgorithm = new AESAlgorithm(pass, 128);
         
-        for (int i = 0; i < 1; i++ )
+        for (int i = 0; i < 2; i++ )
         {
             new Thread()
             {
@@ -42,6 +42,7 @@ public class TestAes
                 public void run()
                 {
                     String s = aesEncryptionAlgorithm.encryptToBase64String(phone);
+                    System.out.println(s);
                     System.out.println(aesEncryptionAlgorithm.decryptFromBase64String(s));
                 }
                 
