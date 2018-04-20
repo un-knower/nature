@@ -9,6 +9,8 @@
 
 package pers.linhai.nature.j2ee.core.spring;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -50,9 +52,11 @@ public class InstantiationListener implements ApplicationListener<ContextRefresh
      */ 
     public void onApplicationEvent(ContextRefreshedEvent event)
     {
+        Connection con = null;
         try
         {
-            DatabaseType.initialize(datasource.getConnection().getMetaData().getDatabaseProductName());
+            con = datasource.getConnection();
+            DatabaseType.initialize(con.getMetaData().getDatabaseProductName());
             Map<RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping.getHandlerMethods();
             for (Entry<RequestMappingInfo, HandlerMethod> e : map.entrySet())
             {
@@ -68,6 +72,17 @@ public class InstantiationListener implements ApplicationListener<ContextRefresh
         catch (Throwable e1)
         {
             e1.printStackTrace();
+        }
+        finally 
+        {
+            try
+            {
+                con.close();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
         }
     }
     
