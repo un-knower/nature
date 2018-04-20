@@ -30,5 +30,5 @@ public class NatureDataSource extends DruidDataSource
      * <p>Info          : long serialVersionUID lilinhai 2018年4月20日 下午10:53:09</p>
      */
     private static final long serialVersionUID = 1L;
-
+    
 }
