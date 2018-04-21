@@ -9,14 +9,9 @@
 
 package pers.linhai.nature.j2ee.core.spring;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.sql.DataSource;
-
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -26,7 +21,6 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import pers.linhai.nature.j2ee.core.model.DatabaseType;
 import pers.linhai.nature.j2ee.core.web.cache.RequestMappingCache;
 
 /**
@@ -42,12 +36,6 @@ public class InstantiationListener implements ApplicationListener<ContextRefresh
     @Autowired
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
     
-    @Autowired
-    private DataSource datasource;
-    
-    @Autowired
-    private SqlSession sqlSession;
-    
     /** 
      * <p>Overriding Method: lilinhai 2018年1月24日 上午10:06:03</p>
      * <p>Title: onApplicationEvent</p>
@@ -56,37 +44,15 @@ public class InstantiationListener implements ApplicationListener<ContextRefresh
      */ 
     public void onApplicationEvent(ContextRefreshedEvent event)
     {
-        Connection con = null;
-        try
+        Map<RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping.getHandlerMethods();
+        for (Entry<RequestMappingInfo, HandlerMethod> e : map.entrySet())
         {
-            con = datasource.getConnection();
-            DatabaseType.initialize(con.getMetaData().getDatabaseProductName());
-            System.out.println(sqlSession.getConfiguration().getDatabaseId());
-            Map<RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping.getHandlerMethods();
-            for (Entry<RequestMappingInfo, HandlerMethod> e : map.entrySet())
+            for (RequestMethod rm : e.getKey().getMethodsCondition().getMethods())
             {
-                for (RequestMethod rm : e.getKey().getMethodsCondition().getMethods())
+                for (String path : e.getKey().getPatternsCondition().getPatterns())
                 {
-                    for (String path : e.getKey().getPatternsCondition().getPatterns())
-                    {
-                        RequestMappingCache.put(e.getValue(), rm.name() + "_" +  path);
-                    }
+                    RequestMappingCache.put(e.getValue(), rm.name() + "_" +  path);
                 }
-            }
-        }
-        catch (Throwable e1)
-        {
-            e1.printStackTrace();
-        }
-        finally 
-        {
-            try
-            {
-                con.close();
-            }
-            catch (SQLException e)
-            {
-                e.printStackTrace();
             }
         }
     }

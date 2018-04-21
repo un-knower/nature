@@ -36,12 +36,7 @@
         <typeAlias alias="Long" type="java.lang.Long" />
         <typeAlias alias="HashMap" type="java.util.HashMap" />
     </typeAliases>
-    <databaseIdProvider type="DB_VENDOR">
-        <property name="MySQL" value="mysql" />
-        <property name="Oracle" value="oracle" />
-        <property name="DB2" value="db2"/>
-        <property name="SQL Server" value="sqlserver"/>
-    </databaseIdProvider>
+    
     <mappers>
         <mapper resource="config/BaseMapper.xml" />
     </mappers>
