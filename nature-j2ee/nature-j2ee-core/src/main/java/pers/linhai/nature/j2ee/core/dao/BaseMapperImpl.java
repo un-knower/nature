@@ -32,6 +32,7 @@ import pers.linhai.nature.j2ee.core.dao.resulthandler.RowDataEntityResultHandler
 import pers.linhai.nature.j2ee.core.dao.resulthandler.RowDataHashMapResultHandler;
 import pers.linhai.nature.j2ee.core.exception.MapperException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
+import pers.linhai.nature.j2ee.core.model.BaseModel;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.model.Where;
@@ -134,7 +135,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
             {
                 if (type instanceof Class)
                 {
-                    Class<?> c = (Class<?>)type;
+                    Class<? extends BaseModel> c = (Class<? extends BaseModel>)type;
                     if (c.getSuperclass() == BaseEntity.class)
                     {
                         entityReflecter = new EntityReflecter<Entity>((Class<Entity>)c);
