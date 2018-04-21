@@ -12,6 +12,8 @@ package pers.linhai.nature.j2ee.core.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,7 @@ import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
 import pers.linhai.nature.j2ee.core.exception.EntityDeleteInterceptProcessException;
 import pers.linhai.nature.j2ee.core.exception.EntitySaveInterceptProcessException;
 import pers.linhai.nature.j2ee.core.exception.EntityUpdateInterceptProcessException;
+import pers.linhai.nature.j2ee.core.exception.MapperException;
 import pers.linhai.nature.j2ee.core.exception.ServiceException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
@@ -45,6 +48,11 @@ public abstract class BaseEntityServiceImpl<Key
     extends BaseService implements IBaseEntityService<Key, Entity, EntityQuery>
 {
 
+    /**
+     * 日志记录器
+     */
+    protected Logger logger;
+    
     @Autowired
     protected Mapper mapper;
     
@@ -53,6 +61,15 @@ public abstract class BaseEntityServiceImpl<Key
      */
     @Autowired
     private EntityDataInterceptor entityDataInterceptor;
+    
+    /**
+     * <p>Title        : BaseEntityServiceImpl lilinhai 2018年4月21日 下午10:34:47</p>
+     */ 
+    public BaseEntityServiceImpl()
+    {
+        logger = LoggerFactory.getLogger(getClass().getInterfaces()[0].getName());
+        logger.info(" init success.");
+    }
 
     /**
      * 公共业务层删除方法
@@ -75,13 +92,16 @@ public abstract class BaseEntityServiceImpl<Key
             }
             entityDataInterceptor.afterDelete(id);
         }
-        catch (ServiceException e) 
-        {
-            throw e;
-        }
         catch (Throwable e)
         {
-            logger.error("[Service] delete(Key id) occor an error", e);
+            if (!(e instanceof MapperException))
+            {
+                logger.error(" delete(Key id) occor an error, id:" + id, e);
+            }
+            else if (e instanceof ServiceException)
+            {
+                throw e;
+            }
             throw new ServiceException(40000, "[Service] delete(Key id) occor an error, " + e.getMessage());
         }
     }
@@ -107,13 +127,16 @@ public abstract class BaseEntityServiceImpl<Key
             }
             entityDataInterceptor.afterSave(record);
         }
-        catch (ServiceException e) 
-        {
-            throw e;
-        }
         catch (Throwable e)
         {
-            logger.error("[Service] save(Entity record) occor an error", e);
+            if (!(e instanceof MapperException))
+            {
+                logger.error(" save(Entity record) occor an error, record: " + record, e);
+            }
+            else if (e instanceof ServiceException)
+            {
+                throw e;
+            }
             throw new ServiceException(40001, "[Service] save(Entity record) occor an error" + e.getMessage());
         }
     }
@@ -139,28 +162,23 @@ public abstract class BaseEntityServiceImpl<Key
             }
             entityDataInterceptor.afterUpdate(record);
         }
-        catch (ServiceException e) 
-        {
-            throw e;
-        }
         catch (Throwable e)
         {
-            logger.error("[Service] update(Entity record) occor an error", e);
+            if (!(e instanceof MapperException))
+            {
+                logger.error(" update(Entity record) occor an error, record: " + record, e);
+            }
+            else if (e instanceof ServiceException)
+            {
+                throw e;
+            }
             throw new ServiceException(40002, "[Service] update(Entity record) occor an error" + e.getMessage());
         }
     }
 
     public Entity get(Key id)
     {
-        try
-        {
-            return mapper.get(id);
-        }
-        catch (Throwable e)
-        {
-            logger.error("[Service] get(Key id) occor an error", e);
-            return null;
-        }
+        return mapper.get(id);
     }
     
     public EntityBean getEntityBean(Key id)
@@ -176,7 +194,7 @@ public abstract class BaseEntityServiceImpl<Key
         }
         catch (Throwable e)
         {
-            logger.error("[Service] get(EntityQuery entityQuery) occor an error", e);
+            logger.error(" get(EntityQuery entityQuery) occor an error, entityQuery: " + entityQuery, e);
             return null;
         }
     }
@@ -227,7 +245,7 @@ public abstract class BaseEntityServiceImpl<Key
         }
         catch (Throwable e)
         {
-            logger.error("[Service] find(EntityQuery entityQuery) occor an error", e);
+            logger.error(" find(EntityQuery entityQuery) occor an error, entityQuery: " + entityQuery, e);
             return null;
         }
     }
@@ -262,7 +280,7 @@ public abstract class BaseEntityServiceImpl<Key
         }
         catch (Throwable e)
         {
-            logger.error("[Service] findEntityBean(EntityQuery entityQuery) occor an error", e);
+            logger.error(" findEntityBean(EntityQuery entityQuery) occor an error, entityQuery: " + entityQuery, e);
             return new ArrayList<EntityBean>(0);
         }
     }

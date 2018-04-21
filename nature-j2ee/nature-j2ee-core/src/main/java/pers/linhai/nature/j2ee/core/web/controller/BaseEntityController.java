@@ -44,9 +44,16 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
     protected EntityService entityService;
     
     /**
+     * <p>Title        : BaseEntityController lilinhai 2018年4月21日 下午10:45:38</p>
+     */ 
+    public BaseEntityController()
+    {
+        logger.info(" init success.");
+    }
+
+    /**
      * 处理request请求的通用放飞
      * <p>Title         : doRequest lilinhai 2018年3月2日 下午9:45:08</p>
-     * <p>Description   : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
      * @param request 
      * void
      */

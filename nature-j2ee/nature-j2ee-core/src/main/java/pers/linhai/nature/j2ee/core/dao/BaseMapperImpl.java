@@ -86,7 +86,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     /**
      * 日志记录器
      */
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    protected Logger logger;
 
     @Autowired
     protected SqlSession sqlSession;
@@ -120,13 +120,14 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
                 if (inte.getName().endsWith("Mapper") && !inte.getName().endsWith("BaseMapper"))
                 {
                     this.namespace = inte.getName();
+                    logger = LoggerFactory.getLogger(namespace);
                     break;
                 }
             }
 
             if (this.namespace == null)
             {
-                throw new MapperException("BaseMapperImpl instance inited fail, the namespace is null.");
+                throw new MapperException("[Mapper-" + getClass().getName() + "] instance inited fail, the namespace is null.");
             }
 
             ParameterizedType parameterizedType = (ParameterizedType)getClass().getGenericSuperclass();
@@ -146,10 +147,23 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
                     }
                 }
             }
+            
+            if (entityReflecter != null && entityQueryConstructor != null)
+            {
+                logger.info(" init success.");
+            }
+            else
+            {
+                throw new MapperException("BaseMapperImpl instance inited fail, the namespace is null.");
+            }
         }
         catch (Throwable e)
         {
-            logger.error("BaseMapperImpl instance inited fail ", e);
+            if (logger == null)
+            {
+                logger = LoggerFactory.getLogger(getClass());
+            }
+            logger.error(" instance inited fail ", e);
             throw new MapperException("BaseMapperImpl instance inited fail ", e);
         }
     }
@@ -180,7 +194,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         }
         catch (Throwable e1)
         {
-            logger.error("IBaseMapper.save(Entity record) occor an error " , e1);
+            logger.error(" IBaseMapper.save(Entity record) occor an error " , e1);
             throw new MapperException(e1);
         }
     }
@@ -211,7 +225,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         }
         catch (Throwable e)
         {
-            logger.error("IBaseMapper.delete(Key id)", e);
+            logger.error(" IBaseMapper.delete(Key id)", e);
             throw new MapperException(e);
         }
     }
@@ -273,7 +287,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         }
         catch (Throwable e1)
         {
-            logger.error("IBaseMapper.update(Entity record) occor an error ", e1);
+            logger.error(" IBaseMapper.update(Entity record) occor an error ", e1);
             throw new MapperException(e1);
         }
     }
@@ -303,7 +317,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         }
         catch (Throwable e)
         {
-            logger.error("IBaseMapper.get(Key id)", e);
+            logger.error(" IBaseMapper.get(Key id)", e);
         }
         return null;
     }
@@ -326,7 +340,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         }
         catch (Throwable e)
         {
-            logger.error("IBaseMapper.get(Key id, DefaultRowDataProcessor<Key, Entity> entityProcessor)", e);
+            logger.error(" IBaseMapper.get(Key id, DefaultRowDataProcessor<Key, Entity> entityProcessor)", e);
         }
         return null;
     }

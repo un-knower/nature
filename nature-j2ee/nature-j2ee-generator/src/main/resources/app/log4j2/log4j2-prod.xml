@@ -1,34 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <Configuration status="WARN">
-	<Properties>
-		<Property name="PID">????</Property>
-		<Property name="LOG_EXCEPTION_CONVERSION_WORD">%xwEx</Property>
-		<Property name="LOG_LEVEL_PATTERN">%5p</Property>
-		<Property name="CONSOLE_LOG_PATTERN">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{${r'${LOG_LEVEL_PATTERN}'}} %clr{${r'${sys:PID}'}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n${r'${sys:LOG_EXCEPTION_CONVERSION_WORD}'}</Property>
-		<Property name="FILE_LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} ${r'${LOG_LEVEL_PATTERN}'} ${r'${sys:PID}'} --- [%t] %-40.40c{1.} : %m%n${r'${sys:LOG_EXCEPTION_CONVERSION_WORD}'}</Property>
-		<Property name="COMMON_LOG_PATTERN">%d %p [%t] %c %m%n</Property>
+    <Properties>
+        <Property name="COMMON_LOG_PATTERN">%d %p [%t] %c %m%n</Property>
+        
+        <!-- 日志输出目录 -->
         <Property name="logDir">logs</Property>
-        <Property name="logFile">${groupId}-${artifactId}-app</Property>
-	</Properties>
-	<Appenders>
-		<Console name="Console" target="SYSTEM_OUT" follow="true">
-			<PatternLayout pattern="${r'${sys:COMMON_LOG_PATTERN}'}" />
-		</Console>
-        <RollingFile name="RollingFile" fileName="${r'${logDir}'}/${r'${logFile}'}.log" filePattern="${r'${logDir}'}/${r'$${date:yyyy-MM}/${logFile}'}.%d{yyyy-MM-dd}.log.gz">
+        
+        <!-- 根日志 -->
+        <Property name="rootLogFile">${groupId}.${artifactId}</Property>
+        
+        <!-- Dao 持久层日志 -->
+        <Property name="daoLogFile">dao/${groupId}.${artifactId}.dao</Property>
+        
+        <!-- Service 业务层日志 -->
+        <Property name="serviceLogFile">service/${groupId}.${artifactId}.service</Property>
+        
+        <!-- web 控制层日志 -->
+        <Property name="webLogFile">web/${groupId}.${artifactId}.web</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${r'${sys:COMMON_LOG_PATTERN}'}" />
+        </Console>
+        <RollingFile name="RootRollingFile" fileName="${r'${logDir}/${rootLogFile}'}.log" filePattern="${r'${logDir}/$${date:yyyy-MM}/${rootLogFile}.%d{yyyy-MM-dd}'}-%i.log.gz" immediateFlush="false">
             <PatternLayout pattern="${r'${sys:COMMON_LOG_PATTERN}'}" />
             <Policies>
-                <TimeBasedTriggeringPolicy />
-                <SizeBasedTriggeringPolicy size="500 MB" />
+                <!-- 根据日期格式中最具体的时间单位来决定应该多久发生一次rollover。例如，在日期模式中小时为具体的时间单位，那么每4小时会发生4次rollover，默认值为1 -->
+                <!-- 表示是否调整时间间隔以使在时间间隔边界发生下一个rollover。例如：假设小时为具体的时间单元，当前时间为上午3点，时间间隔为4，第一次发送rollover是在上午4点，接下来是上午8点，接着是中午，接着是下午4点等发生。 -->
+                <TimeBasedTriggeringPolicy interval="15" modulate="true" />
+                
+                <!-- 每到20M生成一个日志文件 -->
+                <SizeBasedTriggeringPolicy size="20MB" />
             </Policies>
             <DefaultRolloverStrategy max="100">
-                <Delete basePath="${r'${logDir}'}" maxDepth="2">
+            
+                <!-- basePath 必参。从哪里扫描要删除的文件的基本路径。 -->
+                <!-- maxDepth 要访问的目录的最大级别数。值为0表示仅访问起始文件（基本路径本身），除非被安全管理者拒绝。Integer.MAX_VALUE的值表示应该访问所有级别。默认为1，意思是指定基本目录中的文件。 -->
+                <Delete basePath="${r'${logDir}'}" maxDepth="3">
+                
+                    <!-- 如果regex没有指定的话，则必须。使用类似于正则表达式但是又具有更简单的有限模式语言来匹配相对路径（相对于基本路径） -->
                     <IfFileName glob="*.log.gz">
+                    
+                        <!-- 必须。指定持续时间duration。该条件接受比指定持续时间更早或更旧的文件。 -->
                         <IfLastModified age="7d">
                             <IfAny>
-                                <!--keep <= 5GB,线上Docker容器只有10G容量 -->
-                                <IfAccumulatedFileSize exceeds="5 GB" />
-                                <!--keep file count <=100 -->
+                                <!-- 必须。将删除文件累计阀值的大小。大小可以指定字节。后缀可以是KB, MB or GB例如：20MB。也就是要保留最接近该值大小的文件。 -->
+                                <IfAccumulatedFileSize exceeds="5GB" />
+                                
+                                <!-- 必须。将要删除文件的计数阈值。也就是需要保留的文件数。 -->
                                 <IfAccumulatedFileCount exceeds="100" />
                             </IfAny>
                         </IfLastModified>
@@ -36,36 +56,148 @@
                 </Delete>
             </DefaultRolloverStrategy>
         </RollingFile>
-	</Appenders>
-	<Loggers>
-		<Logger name="org.apache.catalina.startup.DigesterFactory" level="error" />
-		<Logger name="org.apache.catalina.util.LifecycleBase" level="error" />
-		<Logger name="org.apache.coyote.http11.Http11NioProtocol" level="warn" />
-		<Logger name="org.apache.sshd.common.util.SecurityUtils" level="warn"/>
-		<Logger name="org.apache.tomcat.util.net.NioSelectorPool" level="warn" />
-		<Logger name="org.crsh.plugin" level="warn" />
-		<Logger name="org.crsh.ssh" level="warn"/>
-		<Logger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="error" />
-		<Logger name="org.hibernate.validator.internal.util.Version" level="warn" />
-		<Logger name="org.thymeleaf" level="warn"/>
-		<Logger name="org.mybatis" level="warn" />
-		<Logger name="org.springframework" level="INFO">
-			<AppenderRef ref="Console" />
-		</Logger>
-		<Logger name="org.elasticsearch" level="INFO">
-			<AppenderRef ref="Console" />
-		</Logger>
-		<Logger name="org.apache" level="INFO">
-			<AppenderRef ref="Console" />
-		</Logger>
-		<Logger name="org.mybatis" level="INFO">
-			<AppenderRef ref="Console" />
-		</Logger>
-		<Logger name="pers" level="INFO">
-			<AppenderRef ref="Console" />
-		</Logger>
-		<Root level="INFO">
-			<AppenderRef ref="RollingFile" />
-		</Root>
-	</Loggers>
+        
+        <RollingFile name="DaoRollingFile" fileName="${r'${logDir}/${daoLogFile}'}.log" filePattern="${r'${logDir}/$${date:yyyy-MM}/${daoLogFile}.%d{yyyy-MM-dd}'}-%i.log.gz" immediateFlush="false">
+            <PatternLayout pattern="${r'${sys:COMMON_LOG_PATTERN}'}" />
+            <Policies>
+                <!-- 根据日期格式中最具体的时间单位来决定应该多久发生一次rollover。例如，在日期模式中小时为具体的时间单位，那么每4小时会发生4次rollover，默认值为1 -->
+                <!-- 表示是否调整时间间隔以使在时间间隔边界发生下一个rollover。例如：假设小时为具体的时间单元，当前时间为上午3点，时间间隔为4，第一次发送rollover是在上午4点，接下来是上午8点，接着是中午，接着是下午4点等发生。 -->
+                <TimeBasedTriggeringPolicy interval="30" modulate="true" />
+                
+                <!-- 每到20M生成一个日志文件 -->
+                <SizeBasedTriggeringPolicy size="20MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="100">
+            
+                <!-- basePath 必参。从哪里扫描要删除的文件的基本路径。 -->
+                <!-- maxDepth 要访问的目录的最大级别数。值为0表示仅访问起始文件（基本路径本身），除非被安全管理者拒绝。Integer.MAX_VALUE的值表示应该访问所有级别。默认为1，意思是指定基本目录中的文件。 -->
+                <Delete basePath="${r'${logDir}'}" maxDepth="3">
+                
+                    <!-- 如果regex没有指定的话，则必须。使用类似于正则表达式但是又具有更简单的有限模式语言来匹配相对路径（相对于基本路径） -->
+                    <IfFileName glob="*.log.gz">
+                    
+                        <!-- 必须。指定持续时间duration。该条件接受比指定持续时间更早或更旧的文件。 -->
+                        <IfLastModified age="7d">
+                            <IfAny>
+                                <!-- 必须。将删除文件累计阀值的大小。大小可以指定字节。后缀可以是KB, MB or GB例如：20MB。也就是要保留最接近该值大小的文件。 -->
+                                <IfAccumulatedFileSize exceeds="5GB" />
+                                
+                                <!-- 必须。将要删除文件的计数阈值。也就是需要保留的文件数。 -->
+                                <IfAccumulatedFileCount exceeds="100" />
+                            </IfAny>
+                        </IfLastModified>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        
+        <RollingFile name="ServiceRollingFile" fileName="${r'${logDir}/${serviceLogFile}'}.log" filePattern="${r'${logDir}/$${date:yyyy-MM}/${serviceLogFile}.%d{yyyy-MM-dd}'}-%i.log.gz" immediateFlush="false">
+            <PatternLayout pattern="${r'${sys:COMMON_LOG_PATTERN}'}" />
+            <Policies>
+                <!-- 根据日期格式中最具体的时间单位来决定应该多久发生一次rollover。例如，在日期模式中小时为具体的时间单位，那么每4小时会发生4次rollover，默认值为1 -->
+                <!-- 表示是否调整时间间隔以使在时间间隔边界发生下一个rollover。例如：假设小时为具体的时间单元，当前时间为上午3点，时间间隔为4，第一次发送rollover是在上午4点，接下来是上午8点，接着是中午，接着是下午4点等发生。 -->
+                <TimeBasedTriggeringPolicy interval="30" modulate="true" />
+                
+                <!-- 每到20M生成一个日志文件 -->
+                <SizeBasedTriggeringPolicy size="20MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="100">
+            
+                <!-- basePath 必参。从哪里扫描要删除的文件的基本路径。 -->
+                <!-- maxDepth 要访问的目录的最大级别数。值为0表示仅访问起始文件（基本路径本身），除非被安全管理者拒绝。Integer.MAX_VALUE的值表示应该访问所有级别。默认为1，意思是指定基本目录中的文件。 -->
+                <Delete basePath="${r'${logDir}'}" maxDepth="3">
+                
+                    <!-- 如果regex没有指定的话，则必须。使用类似于正则表达式但是又具有更简单的有限模式语言来匹配相对路径（相对于基本路径） -->
+                    <IfFileName glob="*.log.gz">
+                    
+                        <!-- 必须。指定持续时间duration。该条件接受比指定持续时间更早或更旧的文件。 -->
+                        <IfLastModified age="7d">
+                            <IfAny>
+                                <!-- 必须。将删除文件累计阀值的大小。大小可以指定字节。后缀可以是KB, MB or GB例如：20MB。也就是要保留最接近该值大小的文件。 -->
+                                <IfAccumulatedFileSize exceeds="5GB" />
+                                
+                                <!-- 必须。将要删除文件的计数阈值。也就是需要保留的文件数。 -->
+                                <IfAccumulatedFileCount exceeds="100" />
+                            </IfAny>
+                        </IfLastModified>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        
+        <RollingFile name="WebRollingFile" fileName="${r'${logDir}/${webLogFile}'}.log" filePattern="${r'${logDir}/$${date:yyyy-MM}/${webLogFile}.%d{yyyy-MM-dd}'}-%i.log.gz" immediateFlush="false">
+            <PatternLayout pattern="${r'${sys:COMMON_LOG_PATTERN}'}" />
+            <Policies>
+                <!-- 根据日期格式中最具体的时间单位来决定应该多久发生一次rollover。例如，在日期模式中小时为具体的时间单位，那么每4小时会发生4次rollover，默认值为1 -->
+                <!-- 表示是否调整时间间隔以使在时间间隔边界发生下一个rollover。例如：假设小时为具体的时间单元，当前时间为上午3点，时间间隔为4，第一次发送rollover是在上午4点，接下来是上午8点，接着是中午，接着是下午4点等发生。 -->
+                <TimeBasedTriggeringPolicy interval="30" modulate="true" />
+                
+                <!-- 每到20M生成一个日志文件 -->
+                <SizeBasedTriggeringPolicy size="20MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="100">
+            
+                <!-- basePath 必参。从哪里扫描要删除的文件的基本路径。 -->
+                <!-- maxDepth 要访问的目录的最大级别数。值为0表示仅访问起始文件（基本路径本身），除非被安全管理者拒绝。Integer.MAX_VALUE的值表示应该访问所有级别。默认为1，意思是指定基本目录中的文件。 -->
+                <Delete basePath="${r'${logDir}'}" maxDepth="3">
+                
+                    <!-- 如果regex没有指定的话，则必须。使用类似于正则表达式但是又具有更简单的有限模式语言来匹配相对路径（相对于基本路径） -->
+                    <IfFileName glob="*.log.gz">
+                    
+                        <!-- 必须。指定持续时间duration。该条件接受比指定持续时间更早或更旧的文件。 -->
+                        <IfLastModified age="7d">
+                            <IfAny>
+                                <!-- 必须。将删除文件累计阀值的大小。大小可以指定字节。后缀可以是KB, MB or GB例如：20MB。也就是要保留最接近该值大小的文件。 -->
+                                <IfAccumulatedFileSize exceeds="5GB" />
+                                
+                                <!-- 必须。将要删除文件的计数阈值。也就是需要保留的文件数。 -->
+                                <IfAccumulatedFileCount exceeds="100" />
+                            </IfAny>
+                        </IfLastModified>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="org.apache.catalina.startup.DigesterFactory" level="error" />
+        <Logger name="org.apache.catalina.util.LifecycleBase" level="error" />
+        <Logger name="org.apache.coyote.http11.Http11NioProtocol" level="warn" />
+        <Logger name="org.apache.sshd.common.util.SecurityUtils" level="warn"/>
+        <Logger name="org.apache.tomcat.util.net.NioSelectorPool" level="warn" />
+        <Logger name="org.crsh.plugin" level="warn" />
+        <Logger name="org.crsh.ssh" level="warn"/>
+        <Logger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="error" />
+        <Logger name="org.hibernate.validator.internal.util.Version" level="warn" />
+        <Logger name="org.thymeleaf" level="warn"/>
+        <Logger name="org.mybatis" level="warn" />
+        <Logger name="org.springframework" level="INFO">
+            <AppenderRef ref="Console" />
+        </Logger>
+        <Logger name="org.elasticsearch" level="INFO">
+            <AppenderRef ref="Console" />
+        </Logger>
+        <Logger name="org.apache" level="INFO">
+            <AppenderRef ref="Console" />
+        </Logger>
+        <Logger name="org.mybatis" level="INFO">
+            <AppenderRef ref="Console" />
+        </Logger>
+        <Logger name="pers" level="INFO">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="DaoRollingFile" />
+        </Logger>
+        <Logger name="${groupId}.${artifactId}.dao" level="INFO">
+            <AppenderRef ref="DaoRollingFile" />
+        </Logger>
+        <Logger name="${groupId}.${artifactId}.service" level="INFO">
+            <AppenderRef ref="ServiceRollingFile" />
+        </Logger>
+        <Logger name="${groupId}.${artifactId}.web" level="INFO">
+            <AppenderRef ref="WebRollingFile" />
+        </Logger>
+        <Root level="INFO">
+            <AppenderRef ref="RootRollingFile" />
+        </Root>
+    </Loggers>
 </Configuration>

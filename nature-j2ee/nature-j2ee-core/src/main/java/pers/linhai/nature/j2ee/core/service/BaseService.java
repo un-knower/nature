@@ -9,9 +9,6 @@
 
 package pers.linhai.nature.j2ee.core.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * 所有业务类的基类
  * <p>ClassName      : BaseService</p>
@@ -21,8 +18,4 @@ import org.slf4j.LoggerFactory;
 public abstract class BaseService
 {
 
-    /**
-     * 日志记录器
-     */
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
 }
