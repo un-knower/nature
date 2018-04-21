@@ -9,21 +9,23 @@
 
 package pers.linhai.nature.j2ee.core.dao.datasource.monitor;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 
 /**
- * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
+ * 数据源监控器
  * <p>ClassName      : DataSourceMonitorServlet</p>
  * @author lilinhai 2018年4月20日 下午11:07:05
  * @version 1.0
  */
 @Component
+@ConfigurationProperties("spring.datasource.nature.monitor")
 public class DataSourceMonitorServlet extends ServletRegistrationBean
 {
-
+    
     /**
      * <p>Title        : DataSourceMonitorServlet lilinhai 2018年4月20日 下午11:07:17</p>
      * @param servlet
@@ -32,20 +34,58 @@ public class DataSourceMonitorServlet extends ServletRegistrationBean
     public DataSourceMonitorServlet()
     {
         super(new StatViewServlet(), "/datasource-monitor/*");
-        
-        addInitParameter("allow", "127.0.0.1");
-
-        // IP黑名单 (存在共同时，deny优先于allow) : 如果满足deny的话提示:Sorry, you are not permitted to view this
-        // page.
-        //servletRegistrationBean.addInitParameter("deny", "192.168.1.73");
-
-        // 登录查看信息的账号密码.
-        addInitParameter("loginUsername", "admin");
-        addInitParameter("loginPassword", "123456");
-
-        // 是否能够重置数据.
-        addInitParameter("resetEnable", "false");
     }
 
-    
+    /**
+     * <p>Set Method   :   username String</p>
+     * @param username
+     */
+    public void setUsername(String username)
+    {
+        // 登录查看信息的账号密码.
+        addInitParameter("loginUsername", username);
+    }
+
+    /**
+     * <p>Set Method   :   password String</p>
+     * @param password
+     */
+    public void setPassword(String password)
+    {
+        addInitParameter("loginPassword", password);
+    }
+
+    /**
+     * <p>Set Method   :   resetEnable String</p>
+     * @param resetEnable
+     */
+    public void setResetEnable(String resetEnable)
+    {
+        // 是否能够重置数据.
+        addInitParameter("resetEnable", resetEnable);
+    }
+
+    /**
+     * <p>Set Method   :   allow String</p>
+     * @param allow
+     */
+    public void setAllow(String allow)
+    {
+        if (allow != null)
+        {
+            addInitParameter("allow", allow);
+        }
+    }
+
+    /**
+     * IP黑名单 (存在共同时，deny优先于allow) : 如果满足deny的话提示:Sorry, you are not permitted to view this
+     * @param deny
+     */
+    public void setDeny(String deny)
+    {
+        if (deny != null)
+        {
+            addInitParameter("deny", deny);
+        }
+    }
 }
