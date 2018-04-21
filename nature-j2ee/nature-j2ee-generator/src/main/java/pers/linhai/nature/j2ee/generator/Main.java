@@ -56,13 +56,15 @@ public class Main
         String dbPort = "3306";
         String dbUsername = "root";
         String dbPassword = "LinHai_548";
-        String dbName = "mm46";
+        String dbName = "crm";
+        String dbDriver = "com.mysql.jdbc.Driver";
         
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("groupId", groupId);
         params.put("artifactId", artifactId);
         params.put("dbName", dbName);
+        params.put("dbDriver", dbDriver);
         params.put("dbIp", dbIp);
         params.put("dbPort", dbPort);
         params.put("dbUsername", dbUsername);
@@ -317,6 +319,10 @@ public class Main
         File appResourcesConfig = new File(appResources, "config");
         FileUtils.createDir(appResourcesConfig);
         build(cfg, params, new File(ClassUtils.getDefaultClassLoader().getResource("app/config").getPath()), appResourcesConfig, "app/config/");
+        
+        File appResourcesDatasource = new File(appResources, "datasource");
+        FileUtils.createDir(appResourcesDatasource);
+        build(cfg, params, new File(ClassUtils.getDefaultClassLoader().getResource("app/datasource").getPath()), appResourcesDatasource, "app/datasource/");
         
         File appResourcesLog4j2 = new File(appResources, "log4j2");
         FileUtils.createDir(appResourcesLog4j2);

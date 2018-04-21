@@ -10,6 +10,7 @@ package pers.linhai.nature.j2ee.core.dao.datasource;
 
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.druid.pool.DruidDataSource;
@@ -22,6 +23,7 @@ import com.alibaba.druid.pool.DruidDataSource;
  * @version 1.0
  */
 @Component
+@PropertySource("${datasource.config}")
 @ConfigurationProperties("spring.datasource")
 public class NatureDataSource extends DruidDataSource
 {
