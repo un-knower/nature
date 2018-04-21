@@ -16,6 +16,7 @@ import java.util.Map.Entry;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -44,6 +45,9 @@ public class InstantiationListener implements ApplicationListener<ContextRefresh
     @Autowired
     private DataSource datasource;
     
+    @Autowired
+    private SqlSession sqlSession;
+    
     /** 
      * <p>Overriding Method: lilinhai 2018年1月24日 上午10:06:03</p>
      * <p>Title: onApplicationEvent</p>
@@ -57,6 +61,7 @@ public class InstantiationListener implements ApplicationListener<ContextRefresh
         {
             con = datasource.getConnection();
             DatabaseType.initialize(con.getMetaData().getDatabaseProductName());
+            System.out.println(sqlSession.getConfiguration().getDatabaseId());
             Map<RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping.getHandlerMethods();
             for (Entry<RequestMappingInfo, HandlerMethod> e : map.entrySet())
             {
