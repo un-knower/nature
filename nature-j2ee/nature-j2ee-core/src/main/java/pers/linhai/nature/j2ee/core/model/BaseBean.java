@@ -31,7 +31,7 @@ public abstract class BaseBean extends HashMap<String, Serializable>
     /**
      * 时间格式化对象
      */
-    protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    protected final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
     /**
      * 添加一个属性
@@ -48,7 +48,7 @@ public abstract class BaseBean extends HashMap<String, Serializable>
             rel = super.put(key, value);
             if (value instanceof Date)
             {
-                super.put(key.concat("Str"), DATE_FORMAT.format((Date)value));
+                super.put(key.concat("Str"), dateFormat.format((Date)value));
             }
         }
         return rel;

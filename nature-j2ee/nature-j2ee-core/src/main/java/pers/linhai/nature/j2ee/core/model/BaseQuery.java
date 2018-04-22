@@ -25,6 +25,11 @@ public abstract class BaseQuery extends BaseModel
 {
 
     /**
+     * <p>Info          : long serialVersionUID lilinhai 2018年4月22日 下午9:39:18</p>
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
      * 第几页
      */
     private Integer page;

@@ -98,10 +98,6 @@ public abstract class BaseEntityServiceImpl<Key
             {
                 logger.error(" delete(Key id) occor an error, id:" + id, e);
             }
-            else if (e instanceof ServiceException)
-            {
-                throw e;
-            }
             throw new ServiceException(40000, "[Service] delete(Key id) occor an error, " + e.getMessage());
         }
     }
@@ -133,10 +129,6 @@ public abstract class BaseEntityServiceImpl<Key
             {
                 logger.error(" save(Entity record) occor an error, record: " + record, e);
             }
-            else if (e instanceof ServiceException)
-            {
-                throw e;
-            }
             throw new ServiceException(40001, "[Service] save(Entity record) occor an error" + e.getMessage());
         }
     }
@@ -167,10 +159,6 @@ public abstract class BaseEntityServiceImpl<Key
             if (!(e instanceof MapperException))
             {
                 logger.error(" update(Entity record) occor an error, record: " + record, e);
-            }
-            else if (e instanceof ServiceException)
-            {
-                throw e;
             }
             throw new ServiceException(40002, "[Service] update(Entity record) occor an error" + e.getMessage());
         }

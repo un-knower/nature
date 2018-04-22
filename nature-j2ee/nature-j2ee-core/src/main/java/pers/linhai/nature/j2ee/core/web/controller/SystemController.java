@@ -39,6 +39,6 @@ public class SystemController extends BaseController
         memoryInfo.setFreeMemory(run.freeMemory());
         memoryInfo.setUsedMemory(memoryInfo.getTotalMemory() - memoryInfo.getFreeMemory());
         systemInfo.setMemoryInfo(memoryInfo);
-        return success(memoryInfo);
+        return success(systemInfo);
     }
 }

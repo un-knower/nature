@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * @author lilinhai 2017年12月28日 下午6:54:46
  * @version 1.0
  */
-public abstract class BaseEntity<Key> extends BaseModel implements Serializable
+public abstract class BaseEntity<Key> extends BaseModel
 {
 
     /**

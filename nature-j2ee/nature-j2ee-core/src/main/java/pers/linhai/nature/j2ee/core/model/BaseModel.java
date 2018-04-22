@@ -9,14 +9,21 @@
 
 package pers.linhai.nature.j2ee.core.model;
 
+import java.io.Serializable;
+
 /**
  * <p>ClassName      : IBaseJdbc</p>
  * @author lilinhai 2018年2月13日 下午2:21:14
  * @version 1.0
  */
-public abstract class BaseModel
+public abstract class BaseModel implements Serializable
 {
     
+    /**
+     * <p>Info          : long serialVersionUID lilinhai 2018年4月22日 下午9:39:08</p>
+     */
+    private static final long serialVersionUID = 1L;
+
     /**
      * 查询条件集合
      */
