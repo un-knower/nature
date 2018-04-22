@@ -123,7 +123,9 @@
     <select id="find" parameterType="BaseQuery" resultMap="BaseResultMap" resultSetType="FORWARD_ONLY" statementType="PREPARED" databaseId="mysql">
         <include refid="Common_Find" />
         <if test="offset != null and size != null">
-            limit ${offset}, ${size}
+            <![CDATA[
+                limit ${offset}, ${size}
+            ]]>
         </if>
     </select>
 
