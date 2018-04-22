@@ -78,7 +78,8 @@
         update ${tableName}
         <set>
             <foreach collection="persistentFieldMap" index="index" item="persistentField" open=" " separator=", " close=" ">
-                ${persistentField.fieldName} = #{persistentField.value, jdbcType=${persistentField.jdbcType}}
+                ${persistentField.fieldName} = #{persistentField.value,
+                jdbcType=${persistentField.jdbcType}}
             </foreach>
         </set>
 
@@ -86,7 +87,7 @@
         <include refid="Common_Where" />
     </update>
 
-    <!-- mysql的分页语法支持 --> 
+    <!-- mysql的分页语法支持 -->
     <!-- 组合查询函数，支持分页功能，resultSetType (可选配置) FORWARD_ONLY，SCROLL_SENSITIVE 或 SCROLL_INSENSITIVE 中的一个，默认值为 unset （依赖驱动） -->
     <!-- statementType (可选配置)，STATEMENT，PREPARED 或 CALLABLE 的一个。这会让 MyBatis 分别使用 Statement，PreparedStatement 或 CallableStatement，默认值：PREPARED -->
     <select id="find" parameterType="BaseQuery" resultMap="BaseResultMap" resultSetType="FORWARD_ONLY" statementType="PREPARED" databaseId="mysql">
@@ -95,7 +96,7 @@
             limit ${offset}, ${size}
         </if>
     </select>
-    
+
     <!-- oracle的分页语法支持 -->
     <!-- 组合查询函数，支持分页功能，resultSetType (可选配置) FORWARD_ONLY，SCROLL_SENSITIVE 或 SCROLL_INSENSITIVE 中的一个，默认值为 unset （依赖驱动） -->
     <!-- statementType (可选配置)，STATEMENT，PREPARED 或 CALLABLE 的一个。这会让 MyBatis 分别使用 Statement，PreparedStatement 或 CallableStatement，默认值：PREPARED -->
