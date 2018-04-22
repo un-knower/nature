@@ -12,19 +12,29 @@
                 <foreach open=" " close=" " collection="where.conditionSegmentList" index="index" item="conditionSegment" separator=" ">
                     <choose>
                         <when test="conditionSegment.type == 1">
-                            ${conditionSegment.fieldName} ${conditionSegment.operator} #{conditionSegment.value, jdbcType=${conditionSegment.jdbcType}}
+                            <![CDATA[
+                                ${conditionSegment.fieldName} ${conditionSegment.operator} #{conditionSegment.value, jdbcType=${conditionSegment.jdbcType}}
+                            ]]>
                         </when>
                         <when test="conditionSegment.type == 2">
-                            ${conditionSegment.fieldName} ${conditionSegment.operator}
+                            <![CDATA[
+                                ${conditionSegment.fieldName} ${conditionSegment.operator}
+                            ]]>
                             <foreach collection="conditionSegment.valueList" index="index" item="value" open="(" separator=", " close=")">
-                                #{value, jdbcType=${conditionSegment.jdbcType}}
+                                <![CDATA[
+                                    #{value, jdbcType=${conditionSegment.jdbcType}}
+                                ]]>
                             </foreach>
                         </when>
                         <when test="conditionSegment.type == 3">
-                            ${conditionSegment.fieldName} ${conditionSegment.operator}
+                            <![CDATA[
+                                ${conditionSegment.fieldName} ${conditionSegment.operator}
+                            ]]>
                         </when>
                         <when test="conditionSegment.type == 4">
-                            ${conditionSegment.segment}
+                            <![CDATA[
+                                ${conditionSegment.segment}
+                            ]]>
                         </when>
                         <otherwise></otherwise>
                     </choose>
@@ -35,13 +45,20 @@
 
     <!-- 通用的查询部分sql -->
     <sql id="Common_Find">
-        select
+        <![CDATA[
+            select
+        ]]>
 
         <!-- 添加需要返回的字段信息 -->
         <foreach collection="returnFieldList" index="index" item="returnField" open=" " separator=", " close=" ">
-            ${returnField}
+            <![CDATA[
+                ${returnField}
+            ]]>
         </foreach>
-        from ${tableName}
+        
+        <![CDATA[
+            from ${tableName}
+        ]]>
 
         <!-- 添加动态自定义查询条件 -->
         <include refid="Common_Where" />
@@ -49,14 +66,18 @@
         <!-- 添加排序字段信息 -->
         <if test="sortFieldList != null">
             <foreach collection="sortFieldList" index="index" item="orderField" open=" order by " separator=", " close=" ">
-                ${orderField.fieldName} ${orderField.direction}
+                <![CDATA[
+                    ${orderField.fieldName} ${orderField.direction}
+                ]]>
             </foreach>
         </if>
     </sql>
 
     <!-- 根据查询条件删除 -->
     <delete id="delete" parameterType="BaseQuery">
-        delete from ${tableName}
+        <![CDATA[
+            delete from ${tableName}
+        ]]>
 
         <!-- 添加动态自定义查询条件 -->
         <include refid="Common_Where" />
@@ -64,22 +85,31 @@
 
     <!-- 添加 -->
     <insert id="save" parameterType="BaseEntity" useGeneratedKeys="true" keyProperty="id">
-        insert into ${tableName}
+        <![CDATA[
+            insert into ${tableName}
+        ]]>
         <foreach collection="persistentFieldMap" index="index" item="persistentField" open="(" separator=", " close=")">
-            ${persistentField.fieldName}
+            <![CDATA[
+                ${persistentField.fieldName}
+            ]]>
         </foreach>
         <foreach collection="persistentFieldMap" index="index" item="persistentField" open="values (" separator=", " close=")">
-            #{persistentField.value, jdbcType=${persistentField.jdbcType}}
+            <![CDATA[
+                #{persistentField.value, jdbcType=${persistentField.jdbcType}}
+            ]]>
         </foreach>
     </insert>
 
     <!-- 修改 -->
     <update id="update" parameterType="BaseEntity">
-        update ${tableName}
+        <![CDATA[
+            update ${tableName}
+        ]]>
         <set>
             <foreach collection="persistentFieldMap" index="index" item="persistentField" open=" " separator=", " close=" ">
-                ${persistentField.fieldName} = #{persistentField.value,
-                jdbcType=${persistentField.jdbcType}}
+                <![CDATA[
+                    ${persistentField.fieldName} = #{persistentField.value, jdbcType=${persistentField.jdbcType}}
+                ]]>
             </foreach>
         </set>
 
@@ -102,7 +132,9 @@
     <!-- statementType (可选配置)，STATEMENT，PREPARED 或 CALLABLE 的一个。这会让 MyBatis 分别使用 Statement，PreparedStatement 或 CallableStatement，默认值：PREPARED -->
     <select id="find" parameterType="BaseQuery" resultMap="BaseResultMap" resultSetType="FORWARD_ONLY" statementType="PREPARED" databaseId="oracle">
         <if test="offset != null and size != null">
-            select * from ( select row_.*, rownum rownum_ from (
+            <![CDATA[
+                select * from ( select row_.*, rownum rownum_ from (
+            ]]>
         </if>
         <include refid="Common_Find" />
         <if test="offset != null and size != null">
@@ -114,7 +146,9 @@
 
     <!-- 统计数量 -->
     <select id="count" parameterType="BaseQuery" resultType="Long">
-        select count(id) from ${tableName}
+        <![CDATA[
+            select count(id) from ${tableName}
+        ]]>
 
         <!-- 添加动态自定义查询条件 -->
         <include refid="Common_Where" />
@@ -122,7 +156,9 @@
 
     <!-- 统计数量 -->
     <select id="sum" parameterType="BaseQuery" resultType="Long">
-        select sum(${sumFieldName}) from ${tableName}
+        <![CDATA[
+            select sum(${sumFieldName}) from ${tableName}
+        ]]>
 
         <!-- 添加动态自定义查询条件 -->
         <include refid="Common_Where" />
