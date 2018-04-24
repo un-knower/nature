@@ -674,6 +674,38 @@ public class ModelPlugin extends BasePlugin
         getAllFieldListMethod.addBodyLine("return " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field.getTableFieldList();");
         beanClass.addMethod(getAllFieldListMethod);
         
+        Field field = new Field();
+        field.setFinal(true);
+        field.setInitializationString("1L"); //$NON-NLS-1$
+        field.setName("serialVersionUID"); //$NON-NLS-1$
+        field.setStatic(true);
+        field.setType(new FullyQualifiedJavaType("long")); //$NON-NLS-1$
+        field.setVisibility(JavaVisibility.PRIVATE);
+        field.addJavaDocLine("\n"); //$NON-NLS-1$
+        field.addJavaDocLine("/**"); //$NON-NLS-1$
+        field.addJavaDocLine(" * long serialVersionUID 序列化版本ID");
+        field.addJavaDocLine(" */"); //$NON-NLS-1$
+        beanClass.addField(field);
+        Collections.sort(beanClass.getFields(), new Comparator<Field>()
+        {
+            public int compare(Field f1, Field f2)
+            {
+                if (f1.isStatic() && !f2.isStatic())
+                {
+                    return -1;
+                }
+                else if (!f1.isStatic() && f2.isStatic())
+                {
+                    return 1;
+                }
+                else if (f1.isStatic() == f2.isStatic())
+                {
+                    return 0;
+                }
+                return 0;
+            }
+        });
+        
         return new GeneratedJavaFile(beanClass, getTargetProjectJavaSourceFolder(), "utf-8", new DefaultJavaFormatter());
     }
 }
