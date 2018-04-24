@@ -33,7 +33,8 @@ public class DataSourceMonitorServlet extends ServletRegistrationBean
      */ 
     public DataSourceMonitorServlet()
     {
-        super(new StatViewServlet(), "/datasource-monitor/*");
+        this.setServlet(new StatViewServlet());
+        this.addUrlMappings("/datasource-monitor/*");
     }
 
     /**

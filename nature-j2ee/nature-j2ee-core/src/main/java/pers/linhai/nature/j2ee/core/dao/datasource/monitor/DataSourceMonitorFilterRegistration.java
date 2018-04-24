@@ -9,6 +9,7 @@
 
 package pers.linhai.nature.j2ee.core.dao.datasource.monitor;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,7 @@ import com.alibaba.druid.support.http.WebStatFilter;
  * @version 1.0
  */
 @Component
+@ConfigurationProperties("spring.datasource.nature.monitor")
 public class DataSourceMonitorFilterRegistration extends FilterRegistrationBean
 {
     /**
@@ -29,12 +31,11 @@ public class DataSourceMonitorFilterRegistration extends FilterRegistrationBean
      */ 
     public DataSourceMonitorFilterRegistration()
     {
-        super(new WebStatFilter());
+        setFilter(new WebStatFilter());
         
         addUrlPatterns("/*");
         
         // 添加不需要忽略的格式信息.
         addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/datasource-monitor/*");
     }
-    
 }
