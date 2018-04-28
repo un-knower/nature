@@ -28,8 +28,6 @@ public class DefaultRowDataProcessor<Entity extends BaseEntity<?>> implements IR
     
     private List<EntityBean> entityBeanList = new ArrayList<EntityBean>();
     
-    private IEntityDataInterceptor<?, Entity> entityDataInterceptor;
-    
     /**
      * <p>Title        : DefaultRowDataProcessor lilinhai 2018年3月14日 下午11:37:39</p>
      * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p> 
@@ -38,15 +36,6 @@ public class DefaultRowDataProcessor<Entity extends BaseEntity<?>> implements IR
     {
     }
 
-    /**
-     * <p>Title        : RowDataServiceProcessor lilinhai 2018年3月14日 下午11:21:32</p>
-     * @param entityDataInterceptor 
-     */ 
-    public DefaultRowDataProcessor(IEntityDataInterceptor<?, Entity> entityDataInterceptor)
-    {
-        this.entityDataInterceptor = entityDataInterceptor;
-    }
-    
     /** 
      * <p>Overriding Method: lilinhai 2018年2月13日 下午12:23:02</p>
      * <p>Title: process</p>
@@ -55,10 +44,6 @@ public class DefaultRowDataProcessor<Entity extends BaseEntity<?>> implements IR
      */ 
     public void process(EntityBean entityBean, Entity entity)
     {
-        if(entityDataInterceptor != null)
-        {
-            entityDataInterceptor.beforeReturn(entityBean, entity);
-        }
         entityList.add(entity);
         entityBeanList.add(entityBean);
     }

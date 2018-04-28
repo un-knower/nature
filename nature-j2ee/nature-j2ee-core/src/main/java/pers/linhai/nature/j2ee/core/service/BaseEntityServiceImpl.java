@@ -22,7 +22,6 @@ import com.alibaba.fastjson.JSON;
 import pers.linhai.nature.j2ee.core.constant.BaseErrorCode;
 import pers.linhai.nature.j2ee.core.dao.IBaseMapper;
 import pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor;
-import pers.linhai.nature.j2ee.core.dao.processor.IEntityDataInterceptor;
 import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
 import pers.linhai.nature.j2ee.core.exception.EntityDeleteInterceptProcessException;
 import pers.linhai.nature.j2ee.core.exception.EntitySaveInterceptProcessException;
@@ -32,6 +31,7 @@ import pers.linhai.nature.j2ee.core.exception.ServiceException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
+import pers.linhai.nature.j2ee.core.service.interceptor.IEntityServiceInterceptor;
 
 
 /**
@@ -40,12 +40,9 @@ import pers.linhai.nature.j2ee.core.model.EntityBean;
  * @author lilinhai 2018年2月5日 下午3:04:25
  * @version 1.0
  */
-public abstract class BaseEntityServiceImpl<Key
-    , Entity extends BaseEntity<Key>
-    , EntityQuery extends BaseQuery
-    , Mapper extends IBaseMapper<Key, Entity, EntityQuery>
-    , EntityDataInterceptor extends IEntityDataInterceptor<Key, Entity>> 
-    extends BaseService implements IBaseEntityService<Key, Entity, EntityQuery>
+public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>
+    , EntityQuery extends BaseQuery, Mapper extends IBaseMapper<Key, Entity, EntityQuery>, EntityServiceInterceptor extends IEntityServiceInterceptor<Key, Entity, EntityQuery, Mapper>> 
+        extends BaseService implements IBaseEntityService<Key, Entity, EntityQuery>
 {
 
     /**
@@ -60,7 +57,7 @@ public abstract class BaseEntityServiceImpl<Key
      * 业务数据拦截器
      */
     @Autowired
-    private EntityDataInterceptor entityDataInterceptor;
+    private EntityServiceInterceptor entityServiceInterceptor;
     
     /**
      * <p>Title        : BaseEntityServiceImpl lilinhai 2018年4月21日 下午10:34:47</p>
@@ -84,13 +81,13 @@ public abstract class BaseEntityServiceImpl<Key
     {
         try
         {
-            entityDataInterceptor.beforeDelete(id);
+            entityServiceInterceptor.beforeDelete(id);
             int c = mapper.delete(id);
             if (c != 1)
             {
                 throw new EntityDeleteInterceptProcessException(BaseErrorCode.DELETE_FAIL, "[Controller] delete occor an error, record：ID" + id);
             }
-            entityDataInterceptor.afterDelete(id);
+            entityServiceInterceptor.afterDelete(id);
         }
         catch (Throwable e)
         {
@@ -115,13 +112,13 @@ public abstract class BaseEntityServiceImpl<Key
     {
         try
         {
-            entityDataInterceptor.beforeSave(record);
+            entityServiceInterceptor.beforeSave(record);
             int c = mapper.save(record);
             if (c != 1)
             {
                 throw new EntitySaveInterceptProcessException(BaseErrorCode.INSERT_FAIL, "[Controller] save occor an error, record：" + JSON.toJSONString(record.toEntityBean()));
             }
-            entityDataInterceptor.afterSave(record);
+            entityServiceInterceptor.afterSave(record);
         }
         catch (Throwable e)
         {
@@ -146,13 +143,13 @@ public abstract class BaseEntityServiceImpl<Key
     {
         try
         {
-            entityDataInterceptor.beforeUpdate(record);
+            entityServiceInterceptor.beforeUpdate(record);
             int c = mapper.update(record);
             if (c != 1)
             {
                 throw new EntityUpdateInterceptProcessException(10300, "[Controller] update occor an error, record：" + JSON.toJSONString(record.toEntityBean()));
             }
-            entityDataInterceptor.afterUpdate(record);
+            entityServiceInterceptor.afterUpdate(record);
         }
         catch (Throwable e)
         {
@@ -171,7 +168,17 @@ public abstract class BaseEntityServiceImpl<Key
     
     public EntityBean getEntityBean(Key id)
     {
-        return mapper.get(id, new DefaultRowDataProcessor<Entity>(entityDataInterceptor));
+        DefaultRowDataProcessor<Entity> rowDataServiceProcessor = new DefaultRowDataProcessor<Entity>();
+        mapper.get(id, rowDataServiceProcessor);
+        
+        List<EntityBean> entityBeanList = rowDataServiceProcessor.getEntityBeanList();
+        List<Entity> entityList = rowDataServiceProcessor.getEntityList();
+        if (!entityBeanList.isEmpty())
+        {
+            entityServiceInterceptor.beforeReturn(entityBeanList.get(0), entityList.get(0));
+            return entityBeanList.get(0);
+        }
+        return null;
     }
 
     public Entity get(EntityQuery entityQuery)
@@ -189,7 +196,17 @@ public abstract class BaseEntityServiceImpl<Key
     
     public EntityBean getEntityBean(EntityQuery entityQuery)
     {
-        return mapper.get(entityQuery, new DefaultRowDataProcessor<Entity>(entityDataInterceptor));
+        DefaultRowDataProcessor<Entity> rowDataServiceProcessor = new DefaultRowDataProcessor<Entity>();
+        mapper.get(entityQuery, rowDataServiceProcessor);
+        
+        List<EntityBean> entityBeanList = rowDataServiceProcessor.getEntityBeanList();
+        List<Entity> entityList = rowDataServiceProcessor.getEntityList();
+        if (!entityBeanList.isEmpty())
+        {
+            entityServiceInterceptor.beforeReturn(entityBeanList.get(0), entityList.get(0));
+            return entityBeanList.get(0);
+        }
+        return null;
     }
 
     /**
@@ -261,9 +278,19 @@ public abstract class BaseEntityServiceImpl<Key
     {
         try
         {
-            DefaultRowDataProcessor<Entity> rowDataServiceProcessor = new DefaultRowDataProcessor<Entity>(entityDataInterceptor);
+            DefaultRowDataProcessor<Entity> rowDataServiceProcessor = new DefaultRowDataProcessor<Entity>();
             mapper.find(entityQuery, rowDataServiceProcessor);
-            entityDataInterceptor.beforeReturn(rowDataServiceProcessor.getEntityBeanList(), rowDataServiceProcessor.getEntityList());
+            
+            List<EntityBean> entityBeanList = rowDataServiceProcessor.getEntityBeanList();
+            List<Entity> entityList = rowDataServiceProcessor.getEntityList();
+            for (int i = 0; i < entityBeanList.size(); i++)
+            {
+                // 循环处理单个实体返回
+                entityServiceInterceptor.beforeReturn(entityBeanList.get(i), entityList.get(i));
+            }
+            
+            // 批量返回处理
+            entityServiceInterceptor.beforeReturn(entityBeanList, entityList);
             return rowDataServiceProcessor.getEntityBeanList();
         }
         catch (Throwable e)

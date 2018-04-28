@@ -16,11 +16,11 @@ import java.util.Properties;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import pers.linhai.nature.j2ee.core.dao.processor.IEntityDataInterceptor;
 import pers.linhai.nature.j2ee.core.exception.EntityDeleteInterceptProcessException;
 import pers.linhai.nature.j2ee.core.exception.EntitySaveInterceptProcessException;
 import pers.linhai.nature.j2ee.core.exception.EntityUpdateInterceptProcessException;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
+import pers.linhai.nature.j2ee.core.service.interceptor.EntityServiceInterceptorImpl;
 import pers.linhai.nature.j2ee.generator.core.api.CommentGenerator;
 import pers.linhai.nature.j2ee.generator.core.api.CoreClassImportConstant;
 import pers.linhai.nature.j2ee.generator.core.api.GeneratedJavaFile;
@@ -143,9 +143,11 @@ public class ServicePlugin extends BasePlugin
         interceptor.addImportedType(new FullyQualifiedJavaType(EntitySaveInterceptProcessException.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(EntityUpdateInterceptProcessException.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(EntityDeleteInterceptProcessException.class.getName()));
-        interceptor.addImportedType(new FullyQualifiedJavaType(IEntityDataInterceptor.class.getName()));
+        interceptor.addImportedType(new FullyQualifiedJavaType(EntityServiceInterceptorImpl.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(EntityBean.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()));
+        interceptor.addImportedType(new FullyQualifiedJavaType(getTargetPackae("dao", "mapper") + ".I" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Mapper"));
+        interceptor.addImportedType(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"));
 
         // 添加spring扫描注解
         interceptor.addAnnotation("@Component");
@@ -154,7 +156,10 @@ public class ServicePlugin extends BasePlugin
         String keyType = introspectedTable.getPrimaryKeyColumns().get(0).getFullyQualifiedJavaType().getShortName();
 
         // 添加范型继承关系BaseService
-        interceptor.addSuperInterface(new FullyQualifiedJavaType(IEntityDataInterceptor.class.getName() + "<" + keyType + ", " + introspectedTable.getBaseRecordType() + ">"));
+        interceptor.setSuperClass(new FullyQualifiedJavaType(EntityServiceInterceptorImpl.class.getName() + "<" + keyType + ", " + introspectedTable.getBaseRecordType() 
+        + ", " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query" 
+        + ", I" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Mapper"
+        + ">"));
 
         // process1添加数据前的校验方法
         Method processMethod1 = new Method("beforeSave");
