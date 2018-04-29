@@ -27,7 +27,6 @@ import pers.linhai.nature.j2ee.core.exception.EntityDeleteInterceptProcessExcept
 import pers.linhai.nature.j2ee.core.exception.EntitySaveInterceptProcessException;
 import pers.linhai.nature.j2ee.core.exception.EntityUpdateInterceptProcessException;
 import pers.linhai.nature.j2ee.core.exception.MapperException;
-import pers.linhai.nature.j2ee.core.exception.ServiceException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
@@ -94,8 +93,12 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>
             if (!(e instanceof MapperException))
             {
                 logger.error(" delete(Key id) occor an error, id:" + id, e);
+                if (e instanceof EntityDeleteInterceptProcessException)
+                {
+                    throw e;
+                }
             }
-            throw new ServiceException(40000, "[Service] delete(Key id) occor an error, " + e.getMessage());
+            throw new EntityDeleteInterceptProcessException(40000, "[Service] delete(Key id) occor an error, " + e.getMessage());
         }
     }
 
@@ -125,8 +128,12 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>
             if (!(e instanceof MapperException))
             {
                 logger.error(" save(Entity record) occor an error, record: " + record, e);
+                if (e instanceof EntitySaveInterceptProcessException)
+                {
+                    throw e;
+                }
             }
-            throw new ServiceException(40001, "[Service] save(Entity record) occor an error" + e.getMessage());
+            throw new EntitySaveInterceptProcessException(40001, "[Service] save(Entity record) occor an error" + e.getMessage());
         }
     }
     
@@ -156,8 +163,12 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>
             if (!(e instanceof MapperException))
             {
                 logger.error(" update(Entity record) occor an error, record: " + record, e);
+                if (e instanceof EntityUpdateInterceptProcessException)
+                {
+                    throw e;
+                }
             }
-            throw new ServiceException(40002, "[Service] update(Entity record) occor an error" + e.getMessage());
+            throw new EntityUpdateInterceptProcessException(40002, "[Service] update(Entity record) occor an error" + e.getMessage());
         }
     }
 
