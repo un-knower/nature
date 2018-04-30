@@ -13,7 +13,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.druid.filter.config.ConfigFilter;
@@ -34,11 +33,10 @@ import com.alibaba.druid.wall.WallFilter;
  * @version 1.0
  */
 @Component
-@PropertySource("${datasource.config}")
 @ConfigurationProperties("spring.datasource.nature")
 public class NatureDataSource extends DruidDataSource implements InitializingBean
 {
-
+    
     /**
      * <p>Info          : long serialVersionUID lilinhai 2018年4月20日 下午10:53:09</p>
      */

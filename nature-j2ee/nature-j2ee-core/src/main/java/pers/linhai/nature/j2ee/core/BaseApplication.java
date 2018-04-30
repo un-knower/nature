@@ -21,6 +21,7 @@ import org.springframework.context.annotation.PropertySource;
  * @author lilinhai 2017年12月28日 下午8:37:25
  * @version 1.0
  */
+@PropertySource("${datasource.config}")
 @PropertySource("classpath:mybatis-springboot.properties")
 @SpringBootApplication
 public abstract class BaseApplication
