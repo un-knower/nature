@@ -8,6 +8,7 @@
     </parent>
     <artifactId>${artifactId}-web</artifactId>
     <name>${r'${project.artifactId}'}</name>
+    <packaging>jar</packaging>
     <dependencies>
         <!-- 默认集成tomcat -->
         <dependency>
