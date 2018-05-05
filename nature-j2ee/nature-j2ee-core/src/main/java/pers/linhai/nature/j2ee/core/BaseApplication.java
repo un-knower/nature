@@ -14,6 +14,7 @@ import org.springframework.boot.Banner.Mode;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -21,8 +22,8 @@ import org.springframework.context.annotation.PropertySource;
  * @author lilinhai 2017年12月28日 下午8:37:25
  * @version 1.0
  */
-@PropertySource("${datasource.config}")
-@PropertySource("classpath:mybatis-springboot.properties")
+
+@PropertySources({@PropertySource("${datasource.config}"), @PropertySource("classpath:mybatis-springboot.properties")})
 @SpringBootApplication
 public abstract class BaseApplication
 {
