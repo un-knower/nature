@@ -31,7 +31,7 @@ public class LongType extends DataType
         {
             return Long.parseLong(value.toString());
         }
-        return value;
+        return (Long)value;
     }
 
 }

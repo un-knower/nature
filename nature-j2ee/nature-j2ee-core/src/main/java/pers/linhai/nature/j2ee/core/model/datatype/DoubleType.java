@@ -31,7 +31,7 @@ public class DoubleType extends DataType
         {
             return Double.parseDouble(value.toString());
         }
-        return value;
+        return (Double)value;
     }
 
 }

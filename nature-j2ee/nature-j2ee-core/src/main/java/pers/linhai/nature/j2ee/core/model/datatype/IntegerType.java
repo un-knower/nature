@@ -31,7 +31,7 @@ public class IntegerType extends DataType
         {
             return Integer.parseInt(value.toString());
         }
-        return value;
+        return (Integer)value;
     }
 
 }

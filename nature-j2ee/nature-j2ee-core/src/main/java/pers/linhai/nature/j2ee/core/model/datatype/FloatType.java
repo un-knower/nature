@@ -31,7 +31,7 @@ public class FloatType extends DataType
         {
             return Float.parseFloat(value.toString());
         }
-        return value;
+        return (Float)value;
     }
 
 }

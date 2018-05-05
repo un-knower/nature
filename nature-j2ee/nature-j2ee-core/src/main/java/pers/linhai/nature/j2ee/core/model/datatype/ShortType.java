@@ -35,7 +35,7 @@ public class ShortType extends DataType
         {
             return ((Integer)value).shortValue();
         }
-        return value;
+        return (Short)value;
     }
 
 }

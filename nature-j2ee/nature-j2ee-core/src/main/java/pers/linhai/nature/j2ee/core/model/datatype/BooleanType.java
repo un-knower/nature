@@ -18,20 +18,19 @@ package pers.linhai.nature.j2ee.core.model.datatype;
 public class BooleanType extends DataType
 {
 
-    /** 
-     * <p>Overriding Method: lilinhai 2018年2月15日 下午6:59:08</p>
+    /**
+     * <p>Overriding Method: lilinhai 2018年5月5日 下午3:34:22</p>
      * <p>Title: parse</p>
      * @param value
      * @return 
-     * @see com.meme.crm.model.core.datatype.DataType#parse(java.lang.String)
-     */ 
-    public Boolean parse(Object value)
+     * @see pers.linhai.nature.j2ee.core.model.datatype.DataType#parse(java.lang.Object)
+     */
+    public Object parse(Object value)
     {
-        if (value instanceof Boolean)
+        if (value instanceof String)
         {
-            return (Boolean)value;
+            return Boolean.parseBoolean(value.toString());
         }
-        return Boolean.parseBoolean(value.toString());
+        return (Boolean)value;
     }
-
 }

@@ -27,7 +27,7 @@ public class StringType extends DataType
      */
     public Object parse(Object value)
     {
-        return value;
+        return (String)value;
     }
 
 }
