@@ -130,7 +130,7 @@ public class ObjectFactory
         try
         {
             Class<?> clazz = externalClassForName(type);
-            answer = clazz.newInstance();
+            answer = clazz.getDeclaredConstructor().newInstance();
         }
         catch (Exception e)
         {
@@ -195,7 +195,7 @@ public class ObjectFactory
         {
             Class<?> clazz = internalClassForName(type);
 
-            answer = clazz.newInstance();
+            answer = clazz.getDeclaredConstructor().newInstance();
         }
         catch (Exception e)
         {

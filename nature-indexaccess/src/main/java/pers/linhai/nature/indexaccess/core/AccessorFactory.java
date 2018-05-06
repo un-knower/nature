@@ -57,7 +57,7 @@ public abstract class AccessorFactory
         try
         {
             //实例化一个索引对象
-            T index = indexClass.newInstance();
+            T index = indexClass.getDeclaredConstructor().newInstance();
             
             IndexAccessor<T> indexAccessor = new IndexAccessorImpl<T>(index);
             add(indexClass, indexAccessor);

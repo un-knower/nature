@@ -86,7 +86,7 @@ public class IndexAccessDefinitionFactory implements BeanDefinitionRegistryPostP
             for (Class<? extends Index> indexClass : indexClassList)
             {
                 BeanDefinitionBuilder bdb = BeanDefinitionBuilder.genericBeanDefinition(IndexAccessorImpl.class);
-                Index index = indexClass.newInstance();
+                Index index = indexClass.getDeclaredConstructor().newInstance();
 
                 // 添加构造函数参数，需要顺序添加
                 bdb.addConstructorArgValue(index);

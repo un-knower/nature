@@ -104,7 +104,7 @@ public class JDBCConnectionFactory implements ConnectionFactory
         try
         {
             Class<?> clazz = ObjectFactory.externalClassForName(driverClass);
-            driver = (Driver)clazz.newInstance();
+            driver = (Driver)clazz.getDeclaredConstructor().newInstance();
         }
         catch (Exception e)
         {

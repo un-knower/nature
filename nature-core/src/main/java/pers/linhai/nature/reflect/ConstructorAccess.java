@@ -136,7 +136,7 @@ public abstract class ConstructorAccess<T>
         ConstructorAccess<T> access;
         try
         {
-            access = (ConstructorAccess<T>)accessClass.newInstance();
+            access = (ConstructorAccess<T>)accessClass.getDeclaredConstructor().newInstance();
         }
         catch (Throwable t)
         {

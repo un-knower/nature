@@ -17,8 +17,6 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.xml.bind.DatatypeConverter;
-
 import pers.linhai.nature.j2ee.generator.core.api.CommentGenerator;
 import pers.linhai.nature.j2ee.generator.core.api.IntrospectedColumn;
 import pers.linhai.nature.j2ee.generator.core.api.IntrospectedTable;
@@ -492,7 +490,7 @@ public class DefaultCommentGenerator implements CommentGenerator
         if (!suppressDate && !suppressAllComments)
         {
             buffer.append(", date=\""); //$NON-NLS-1$
-            buffer.append(DatatypeConverter.printDateTime(Calendar.getInstance()));
+            buffer.append(CalendarFormatter.doFormat("%Y-%M-%DT%h:%m:%s%z", Calendar.getInstance()));
             buffer.append('\"');
         }
 
