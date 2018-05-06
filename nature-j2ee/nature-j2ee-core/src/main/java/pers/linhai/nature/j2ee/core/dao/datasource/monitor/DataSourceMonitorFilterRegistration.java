@@ -21,8 +21,8 @@ import com.alibaba.druid.support.http.WebStatFilter;
  * @version 1.0
  */
 @Component
-@ConfigurationProperties("spring.datasource.nature.monitor")
-public class DataSourceMonitorFilterRegistration extends FilterRegistrationBean
+@ConfigurationProperties("datasource.monitor")
+public class DataSourceMonitorFilterRegistration extends FilterRegistrationBean<WebStatFilter>
 {
     /**
      * <p>Title        : DataSourceMonitorFilterRegistration lilinhai 2018年4月20日 下午11:09:45</p>

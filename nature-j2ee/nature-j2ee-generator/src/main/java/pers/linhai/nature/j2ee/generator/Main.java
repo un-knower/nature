@@ -51,7 +51,7 @@ public class Main
         String outPutPath = "C:\\Users\\lilinhai\\Desktop";
 
         String groupId = "com.meme";
-        String artifactId = "crm";
+        String artifactId = "crm11";
         String dbIp = "localhost";
         String dbPort = "3306";
         String dbUsername = "root";
@@ -311,14 +311,22 @@ public class Main
         
         File appResources = new File(appArtifactDir, "src/main/resources");
         FileUtils.createDir(appResources);
-        temp = cfg.getTemplate("app/application.properties");
-        out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(appResources, "application.properties")), "UTF-8"));
+        temp = cfg.getTemplate("app/application.yml");
+        out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(appResources, "application.yml")), "UTF-8"));
         temp.process(params, out);
         out.close();
         
         File appResourcesConfig = new File(appResources, "config");
         FileUtils.createDir(appResourcesConfig);
         build(cfg, params, new File(ClassUtils.getDefaultClassLoader().getResource("app/config").getPath()), appResourcesConfig, "app/config/");
+        
+        File appResourcesServer = new File(appResources, "server");
+        FileUtils.createDir(appResourcesServer);
+        build(cfg, params, new File(ClassUtils.getDefaultClassLoader().getResource("app/server").getPath()), appResourcesServer, "app/server/");
+        
+        File appResourcesSpring = new File(appResources, "spring");
+        FileUtils.createDir(appResourcesSpring);
+        build(cfg, params, new File(ClassUtils.getDefaultClassLoader().getResource("app/spring").getPath()), appResourcesSpring, "app/spring/");
         
         File appResourcesDatasource = new File(appResources, "datasource");
         FileUtils.createDir(appResourcesDatasource);

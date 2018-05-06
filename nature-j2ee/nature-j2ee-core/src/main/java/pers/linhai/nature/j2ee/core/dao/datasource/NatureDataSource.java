@@ -33,10 +33,9 @@ import com.alibaba.druid.wall.WallFilter;
  * @version 1.0
  */
 @Component
-@ConfigurationProperties("spring.datasource.nature")
+@ConfigurationProperties(prefix = "datasource")
 public class NatureDataSource extends DruidDataSource implements InitializingBean
 {
-    
     /**
      * <p>Info          : long serialVersionUID lilinhai 2018年4月20日 下午10:53:09</p>
      */

@@ -12,9 +12,9 @@
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
 
 		<junit.version>4.12</junit.version>
-		<spring.boot.version>1.5.9.RELEASE</spring.boot.version>
-		<spring.cloud.version>Camden.SR6</spring.cloud.version>
-		<springframework.version>4.3.13.RELEASE</springframework.version>
+		<spring.boot.version>2.0.1.RELEASE</spring.boot.version>
+		<spring.cloud.version>Camden.SR7</spring.cloud.version>
+		<springframework.version>5.0.5.RELEASE</springframework.version>
 		<elasticsearch.version>5.6.3</elasticsearch.version>
 		<project.organization.name>${groupId}</project.organization.name>
 	</properties>
@@ -136,7 +136,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>2.9.4</version>
+                <version>2.9.5</version>
             </dependency>
             
             <!-- excel解析 -->

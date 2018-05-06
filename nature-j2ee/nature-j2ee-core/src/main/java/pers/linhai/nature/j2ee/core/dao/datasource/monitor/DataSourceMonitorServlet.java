@@ -22,8 +22,8 @@ import com.alibaba.druid.support.http.StatViewServlet;
  * @version 1.0
  */
 @Component
-@ConfigurationProperties("spring.datasource.nature.monitor")
-public class DataSourceMonitorServlet extends ServletRegistrationBean
+@ConfigurationProperties("datasource.monitor")
+public class DataSourceMonitorServlet extends ServletRegistrationBean<StatViewServlet>
 {
     
     /**

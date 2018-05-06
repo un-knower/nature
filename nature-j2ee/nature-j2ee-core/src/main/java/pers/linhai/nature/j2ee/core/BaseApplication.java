@@ -10,11 +10,12 @@
 package pers.linhai.nature.j2ee.core;
 
 import org.apache.logging.log4j.core.async.AsyncLoggerContextSelector;
-import org.springframework.boot.Banner.Mode;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
+
+import pers.linhai.nature.j2ee.core.spring.YamlPropertySourceFactory;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -22,8 +23,12 @@ import org.springframework.context.annotation.PropertySources;
  * @author lilinhai 2017年12月28日 下午8:37:25
  * @version 1.0
  */
-
-@PropertySources({@PropertySource("${datasource.config}"), @PropertySource("classpath:mybatis-springboot.properties")})
+@PropertySources({
+    @PropertySource("classpath:mybatis-springboot.properties")
+    , @PropertySource(value = "classpath:datasource/datasource-${spring.profiles.active}.yml", factory = YamlPropertySourceFactory.class)
+    , @PropertySource(value = "classpath:server/server-${spring.profiles.active}.yml", factory = YamlPropertySourceFactory.class)
+    , @PropertySource(value = "classpath:spring/spring-${spring.profiles.active}.yml", factory = YamlPropertySourceFactory.class)
+})
 @SpringBootApplication
 public abstract class BaseApplication
 {
@@ -38,10 +43,6 @@ public abstract class BaseApplication
     {
         // 异步日志
         System.setProperty("Log4jContextSelector", AsyncLoggerContextSelector.class.getName());
-        SpringApplication springApplication = new SpringApplication(clazz);
-        
-        //关闭spring boot自身横幅打印
-        springApplication.setBannerMode(Mode.OFF);
-        springApplication.run(args);
+        SpringApplication.run(clazz, args);
     }
 }

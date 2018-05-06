@@ -1,0 +1,20 @@
+spring: 
+  mvc: 
+    servlet: 
+      load-on-startup: -1                               # Load on startup priority of the dispatcher servlet.
+    async: 
+      request-timeout: 30000                            # Amount of time before asynchronous request handling times out.
+    view: 
+      prefix: "/pages/"                                 # Spring MVC view prefix.
+      suffix: ".html"                                   # Spring MVC view suffix.
+
+  # 上传插件配置区     
+  servlet: 
+    multipart: 
+      enabled: true                                     # Whether to enable support of multipart uploads.
+      location: "/uploadtemp"                           # Intermediate location of uploaded files.
+      max-file-size: "30MB"                             # Max file size. Values can use the suffixes "MB" or "KB" to indicate megabytes or kilobytes, respectively.
+      max-request-size: "100MB"                         # Max request size. Values can use the suffixes "MB" or "KB" to indicate megabytes or kilobytes, respectively.
+  
+  
+  

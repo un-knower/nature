@@ -1,0 +1,21 @@
+server: 
+  application: 
+    name: ${artifactId}
+  port: 8080                                            # Server HTTP port.
+  connection-timeout: 30000                             # Time that connectors wait for another HTTP request before closing the connection. When not set, the connector's container-specific default is used. Use a value of -1 to indicate no (that is, an infinite) timeout.
+  
+  # servlet配置区
+  servlet: 
+    path: "/"                                           # Path of the main dispatcher servlet.
+    context-path: "/${artifactId}"                      # Context path of the application.
+    session: 
+      timeout: 300                                      # session timeout in seconds： 5min
+      cookie: 
+        http-only: true                                 # "HttpOnly" flag for the session cookie.
+    
+  # tomcat配置区    
+  tomcat: 
+    max-threads: 1000                                   # Maximum number of worker threads.
+    max-connections: 2000                               # Maximum number of connections that the server accepts and processes at any given time.
+    min-spare-threads: 200                              # Minimum number of worker threads.
+    uri-encoding: "UTF-8"                               # Character encoding to use to decode the URI.
