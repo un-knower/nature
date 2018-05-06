@@ -66,7 +66,7 @@ datasource:
   
   # nature数据源监控器
   monitor: 
-    enabled: false                          # nature数据源监控器是否可用
+    enabled: true                           # nature数据源监控器是否可用
     username: "admin"                       # nature数据源监控器的登录用户名
     password: "123456"                      # nature数据源监控器的登录用户名
     resetEnable: false                      # nature数据源监控器：是否能够重置数据
