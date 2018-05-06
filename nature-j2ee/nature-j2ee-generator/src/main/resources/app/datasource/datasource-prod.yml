@@ -64,20 +64,12 @@ datasource:
   # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
   filters: "stat,wall,log4j2"
   
-  # nature数据源监控器是否可用
-  monitor.enabled: "false"
-  
-  # nature数据源监控器的登录用户名
-  monitor.username: "admin"
-  
-  # nature数据源监控器的登录用户名
-  monitor.password: "123456"
-  
-  # nature数据源监控器：是否能够重置数据
-  monitor.resetEnable: false
-  
-  # 允许哪些ip地址访问监控器
-  monitor.allow: 127.0.0.1
-  
-  # IP黑名单 (存在共同时，deny优先于allow) : 如果满足deny的话提示:Sorry, you are not permitted to view this
-  # monitor.deny:   
+  # nature数据源监控器
+  monitor: 
+    enabled: false                          # nature数据源监控器是否可用
+    username: "admin"                       # nature数据源监控器的登录用户名
+    password: "123456"                      # nature数据源监控器的登录用户名
+    resetEnable: false                      # nature数据源监控器：是否能够重置数据
+    allow: "127.0.0.1"                      # 允许哪些ip地址访问监控器
+    #deny:                                  # IP黑名单 (存在共同时，deny优先于allow) : 如果满足deny的话提示:Sorry, you are not permitted to view this
+     
