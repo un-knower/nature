@@ -31,6 +31,10 @@ public class LongType extends DataType
         {
             return Long.parseLong(value.toString());
         }
+        else if(value instanceof Integer)
+        {
+            return ((Integer)value).longValue();
+        }
         return (Long)value;
     }
 
