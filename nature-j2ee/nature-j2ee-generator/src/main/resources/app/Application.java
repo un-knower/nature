@@ -8,7 +8,6 @@ import pers.linhai.nature.j2ee.core.BaseApplication;
 /**
  * Spring boot应用启动类
  */
-@EnableAutoConfiguration
 @SpringBootApplication
 public class Application extends BaseApplication
 {
