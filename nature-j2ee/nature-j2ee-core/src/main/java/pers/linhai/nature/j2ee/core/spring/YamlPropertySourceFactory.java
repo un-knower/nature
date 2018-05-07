@@ -5,7 +5,7 @@
  * <p>Package     : pers.linhai.nature.j2ee.core.spring</p>
  * @Creator lilinhai 2018年5月6日 下午2:57:09
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.spring;
 
@@ -24,7 +24,7 @@ import org.springframework.core.io.support.PropertySourceFactory;
  */
 public class YamlPropertySourceFactory implements PropertySourceFactory
 {
-
+    
     /** 
      * <p>Overriding Method: lilinhai 2018年5月6日 下午2:57:09</p>
      * <p>Title: createPropertySource</p>
@@ -35,9 +35,9 @@ public class YamlPropertySourceFactory implements PropertySourceFactory
      * @see org.springframework.core.io.support.PropertySourceFactory#createPropertySource(java.lang.String, org.springframework.core.io.support.EncodedResource)
      */
     @Override
-    public PropertySource<?> createPropertySource(String name, EncodedResource resource) throws IOException
+    public PropertySource< ? > createPropertySource(String name, EncodedResource resource) throws IOException
     {
         return new YamlPropertySourceLoader().load(resource.getResource().getFilename(), resource.getResource()).get(0);
     }
-
+    
 }

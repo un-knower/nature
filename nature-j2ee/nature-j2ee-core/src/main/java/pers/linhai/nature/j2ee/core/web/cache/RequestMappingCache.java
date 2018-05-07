@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.web.cache</p>
  * @Creator lilinhai 2018年2月26日 下午2:05:57
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.web.cache;
 
@@ -24,11 +24,12 @@ import org.springframework.web.method.HandlerMethod;
  */
 public abstract class RequestMappingCache
 {
-
+    
     private Map<HandlerMethod, Set<String>> map = new HashMap<HandlerMethod, Set<String>>();
     
     private static final RequestMappingCache CACHE = new RequestMappingCache()
-    {};
+    {
+    };
     
     private RequestMappingCache()
     {

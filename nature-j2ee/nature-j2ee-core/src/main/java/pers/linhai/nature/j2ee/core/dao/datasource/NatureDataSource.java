@@ -8,7 +8,6 @@
 
 package pers.linhai.nature.j2ee.core.dao.datasource;
 
-
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -25,7 +24,6 @@ import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.wall.WallFilter;
 
-
 /**
  * 数据源配置
  * <p>ClassName      : DataSourceConfig</p>
@@ -40,10 +38,10 @@ public class NatureDataSource extends DruidDataSource implements InitializingBea
      * <p>Info          : long serialVersionUID lilinhai 2018年4月20日 下午10:53:09</p>
      */
     private static final long serialVersionUID = 1L;
-
+    
     @Autowired
     private DataSourceProperties basicProperties;
-
+    
     public void afterPropertiesSet() throws Exception
     {
         // if not found prefix 'spring.datasource.druid' jdbc properties ,'spring.datasource'
@@ -64,51 +62,51 @@ public class NatureDataSource extends DruidDataSource implements InitializingBea
         {
             super.setDriverClassName(basicProperties.getDriverClassName());
         }
-
+        
     }
-
+    
     @Autowired(required = false)
     public void addStatFilter(StatFilter statFilter)
     {
         super.filters.add(statFilter);
     }
-
+    
     @Autowired(required = false)
     public void addConfigFilter(ConfigFilter configFilter)
     {
         super.filters.add(configFilter);
     }
-
+    
     @Autowired(required = false)
     public void addEncodingConvertFilter(EncodingConvertFilter encodingConvertFilter)
     {
         super.filters.add(encodingConvertFilter);
     }
-
+    
     @Autowired(required = false)
     public void addSlf4jLogFilter(Slf4jLogFilter slf4jLogFilter)
     {
         super.filters.add(slf4jLogFilter);
     }
-
+    
     @Autowired(required = false)
     public void addLog4jFilter(Log4jFilter log4jFilter)
     {
         super.filters.add(log4jFilter);
     }
-
+    
     @Autowired(required = false)
     public void addLog4j2Filter(Log4j2Filter log4j2Filter)
     {
         super.filters.add(log4j2Filter);
     }
-
+    
     @Autowired(required = false)
     public void addCommonsLogFilter(CommonsLogFilter commonsLogFilter)
     {
         super.filters.add(commonsLogFilter);
     }
-
+    
     @Autowired(required = false)
     public void addWallFilter(WallFilter wallFilter)
     {

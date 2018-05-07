@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.model.core</p>
  * @Creator lilinhai 2018年2月7日 下午4:29:28
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.model;
 
@@ -23,12 +23,12 @@ import pers.linhai.nature.utils.NamingUtils;
  */
 public abstract class BaseQuery extends BaseModel
 {
-
+    
     /**
      * <p>Info          : long serialVersionUID lilinhai 2018年4月22日 下午9:39:18</p>
      */
     private static final long serialVersionUID = 1L;
-
+    
     /**
      * 第几页
      */
@@ -62,7 +62,7 @@ public abstract class BaseQuery extends BaseModel
     /**
      * <p>Title        : BaseQuery lilinhai 2018年2月11日 下午11:40:39</p>
      * @param tableName 
-     */ 
+     */
     public BaseQuery(String tableName)
     {
         super(tableName);
@@ -84,7 +84,7 @@ public abstract class BaseQuery extends BaseModel
     {
         return page;
     }
-
+    
     /**
      * <p>Set Method   :   page Integer</p>
      * @param page
@@ -99,7 +99,7 @@ public abstract class BaseQuery extends BaseModel
             setOffset(this.page * size);
         }
     }
-
+    
     /**
      * <p>Get Method   :   offset Integer</p>
      * @return offset
@@ -108,7 +108,7 @@ public abstract class BaseQuery extends BaseModel
     {
         return offset;
     }
-
+    
     /**
      * <p>Set Method   :   offset Integer</p>
      * @param offset
@@ -117,7 +117,7 @@ public abstract class BaseQuery extends BaseModel
     {
         this.offset = offset;
     }
-
+    
     /**
      * <p>Get Method   :   size Integer</p>
      * @return size
@@ -126,7 +126,7 @@ public abstract class BaseQuery extends BaseModel
     {
         return size;
     }
-
+    
     /**
      * <p>Set Method   :   size Integer</p>
      * @param size
@@ -150,7 +150,7 @@ public abstract class BaseQuery extends BaseModel
     {
         return sortFieldList;
     }
-
+    
     /**
      * <p>Set Method   :   sortFieldList List<SortField></p>
      * @param sortFieldList
@@ -195,7 +195,7 @@ public abstract class BaseQuery extends BaseModel
     {
         return sumFieldName;
     }
-
+    
     /**
      * <p>Set Method   :   sumFieldName String</p>
      * @param sumFieldName
@@ -205,7 +205,7 @@ public abstract class BaseQuery extends BaseModel
         validField(sumFieldName);
         this.sumFieldName = getTableField(sumFieldName);
     }
-
+    
     /**
      * 排序字段对象
      * <p>ClassName      : SortField</p>
@@ -214,12 +214,12 @@ public abstract class BaseQuery extends BaseModel
      */
     public static class SortField
     {
-
+        
         /**
          * 排序字段名
          */
         private String fieldName;
-
+        
         /**
          * 排序方向
          */
@@ -233,7 +233,7 @@ public abstract class BaseQuery extends BaseModel
         {
             return fieldName;
         }
-
+        
         /**
          * <p>Set Method   :   fieldName String</p>
          * @param fieldName
@@ -246,7 +246,7 @@ public abstract class BaseQuery extends BaseModel
             }
             this.fieldName = NamingUtils.storeFieldName(fieldName);
         }
-
+        
         /**
          * <p>Get Method   :   direction Direction</p>
          * @return direction
@@ -255,7 +255,7 @@ public abstract class BaseQuery extends BaseModel
         {
             return direction;
         }
-
+        
         /**
          * <p>Set Method   :   direction Direction</p>
          * @param direction
@@ -270,21 +270,21 @@ public abstract class BaseQuery extends BaseModel
          * <p>Title: toString</p>
          * @return 
          * @see java.lang.Object#toString()
-         */ 
+         */
         public String toString()
         {
             return "SortField [fieldName=" + fieldName + ", direction=" + direction + "]";
         }
-
+        
         /**
          * Enumeration for sort directions.
          * @author Oliver Gierke
          */
-        public static enum Direction 
+        public static enum Direction
         {
-
+            
             ASC, DESC;
-
+            
             /**
              * Returns whether the direction is ascending.
              * 
@@ -295,7 +295,7 @@ public abstract class BaseQuery extends BaseModel
             {
                 return this.equals(ASC);
             }
-
+            
             /**
              * Returns whether the direction is descending.
              * 
@@ -306,7 +306,7 @@ public abstract class BaseQuery extends BaseModel
             {
                 return this.equals(DESC);
             }
-
+            
             /**
              * Returns the {@link Direction} enum for the given {@link String} value.
              * 
@@ -316,7 +316,7 @@ public abstract class BaseQuery extends BaseModel
              */
             public static Direction fromString(String value)
             {
-
+                
                 try
                 {
                     return Direction.valueOf(value.toUpperCase(Locale.US));
@@ -326,7 +326,7 @@ public abstract class BaseQuery extends BaseModel
                     throw new IllegalArgumentException(String.format("Invalid value '%s' for orders given! Has to be either 'desc' or 'asc' (case insensitive).", value), e);
                 }
             }
-
+            
             /**
              * Returns the {@link Direction} enum for the given {@link String} or null if it cannot be parsed into an enum
              * value.
@@ -336,7 +336,7 @@ public abstract class BaseQuery extends BaseModel
              */
             public static Direction fromStringOrNull(String value)
             {
-
+                
                 try
                 {
                     return fromString(value);
@@ -348,14 +348,14 @@ public abstract class BaseQuery extends BaseModel
             }
         }
     }
-
+    
     /** 
      * <p>Overriding Method: lilinhai 2018年2月15日 上午9:08:57</p>
      * <p>Title: toString</p>
      * <p>Description: TODO</p>
      * @return 
      * @see java.lang.Object#toString()
-     */ 
+     */
     public String toString()
     {
         return "BaseQuery [page=" + page + ", offset=" + offset + ", size=" + size + ", sortFieldList=" + sortFieldList + ", returnFieldList=" + returnFieldList + "]";

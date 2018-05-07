@@ -8,12 +8,10 @@
 
 package pers.linhai.nature.j2ee.core.dao.resulthandler;
 
-
 import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
 
 import pers.linhai.nature.j2ee.core.dao.processor.IEntityProcessor;
-
 
 /**
  * 公共结果记录处理器
@@ -31,20 +29,20 @@ public class RowDataEntityResultHandler<Entity> implements ResultHandler<Entity>
      * @param fieldMap
      * @param entityConstructor
      * @param entityProcessor 
-     */ 
+     */
     public RowDataEntityResultHandler(IEntityProcessor<Entity> entityProcessor)
     {
         super();
         this.entityProcessor = entityProcessor;
     }
-
+    
     /** 
      * <p>Overriding Method: lilinhai 2018年2月12日 下午12:56:07</p>
      * <p>Title: handleResult</p>
      * @param resultContext 
      * @see org.apache.ibatis.session.ResultHandler#handleResult(org.apache.ibatis.session.ResultContext)
      */
-    public void handleResult(ResultContext<? extends Entity> resultContext)
+    public void handleResult(ResultContext< ? extends Entity> resultContext)
     {
         entityProcessor.process(resultContext.getResultObject());
     }

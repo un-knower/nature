@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.model.core.datatype</p>
  * @Creator lilinhai 2018年2月15日 下午7:07:27
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.model.datatype;
 
@@ -17,7 +17,7 @@ package pers.linhai.nature.j2ee.core.model.datatype;
  */
 public class StringType extends DataType
 {
-
+    
     /** 
      * <p>Overriding Method: lilinhai 2018年2月15日 下午7:07:27</p>
      * <p>Title: parse</p>
@@ -27,7 +27,7 @@ public class StringType extends DataType
      */
     public Object parse(Object value)
     {
-        return (String)value;
+        return (String) value;
     }
-
+    
 }

@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.web.controller.core</p>
  * @Creator lilinhai 2018年2月5日 下午5:45:55
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.web.controller;
 
@@ -36,8 +36,8 @@ import pers.linhai.nature.j2ee.core.web.model.RestResponse;
  * @author lilinhai 2018年2月5日 下午5:45:55
  * @version 1.0
  */
-public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery, EntityService extends IBaseEntityService<Key, Entity, EntityQuery>> 
-    extends BaseController
+public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery, EntityService extends IBaseEntityService<Key, Entity, EntityQuery>>
+        extends BaseController
 {
     
     @Autowired
@@ -45,19 +45,21 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
     
     /**
      * <p>Title        : BaseEntityController lilinhai 2018年4月21日 下午10:45:38</p>
-     */ 
+     */
     public BaseEntityController()
     {
         logger.info(" init success.");
     }
-
+    
     /**
      * 处理request请求的通用放飞
      * <p>Title         : doRequest lilinhai 2018年3月2日 下午9:45:08</p>
      * @param request 
      * void
      */
-    protected void process(HttpServletRequest request) {};
+    protected void process(HttpServletRequest request)
+    {
+    };
     
     /**
      * 根据主键删除一个实体
@@ -81,7 +83,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
             return fail(e.getErrorCode(), e.getMessage());
         }
     }
-
+    
     /**
      * 创建一个实体
      * <p>Title         : insert lilinhai 2018年2月5日 下午11:23:43</p>
@@ -104,7 +106,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
             return fail(e.getErrorCode(), e.getMessage());
         }
     }
-
+    
     /**
      * 根据 主键选择性的更新记录
      * <p>Title         : updateByPrimaryKeySelective lilinhai 2018年2月5日 下午11:22:48</p>
@@ -129,7 +131,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
             return fail(e.getErrorCode(), e.getMessage());
         }
     }
-
+    
     /**
      * 根据主键查找单个记录
      * <p>Title         : selectByPrimaryKey lilinhai 2018年2月5日 下午11:23:05</p>

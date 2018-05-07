@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.model.core</p>
  * @Creator lilinhai 2018年2月16日 下午5:00:25
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.model;
 
@@ -25,13 +25,13 @@ import java.util.Set;
  */
 public class ModelBean extends BaseBean
 {
-
+    
     /**
      * <p>Info          : long serialVersionUID lilinhai 2018年2月16日 下午5:00:36</p>
      */
     private static final long serialVersionUID = 1L;
     
-    private static final Map<Class<?>, List<Field>> ENTITY_FIELD_MAP = new HashMap<Class<?>, List<Field>>();
+    private static final Map<Class< ? >, List<Field>> ENTITY_FIELD_MAP = new HashMap<Class< ? >, List<Field>>();
     
     public ModelBean()
     {
@@ -50,7 +50,7 @@ public class ModelBean extends BaseBean
             List<Field> fieldList = parse(object);
             for (Field field : fieldList)
             {
-                putAttribute(field.getName(), (Serializable)(field.get(object)));
+                putAttribute(field.getName(), (Serializable) (field.get(object)));
             }
         }
         catch (Throwable e)
@@ -58,25 +58,25 @@ public class ModelBean extends BaseBean
             e.printStackTrace();
         }
     }
-
+    
     /**
      * <p>Title         : g lilinhai 2018年2月21日 上午9:00:10</p>
      * @param entity
      * @return 
      * List<Field> 
-     */ 
+     */
     protected List<Field> parse(Object object)
     {
         List<Field> fieldList = ENTITY_FIELD_MAP.get(object.getClass());
         if (fieldList == null)
         {
-            fieldList = new ArrayList<Field>(); 
+            fieldList = new ArrayList<Field>();
             parse(object.getClass().getDeclaredFields(), fieldList);
             ENTITY_FIELD_MAP.put(object.getClass(), fieldList);
         }
         return fieldList;
     }
-
+    
     /**
      * 解析
      * <p>Title         : parse lilinhai 2018年2月21日 上午9:13:25</p>

@@ -16,12 +16,11 @@ package pers.linhai.nature.j2ee.core.web.model;
  */
 public class SystemInfo
 {
-
+    
     /**
      * 内存资源占用信息
      */
     private MemoryInfo memoryInfo;
-    
     
     /**
      * <p>Get Method   :   memoryInfo MemoryInfo</p>
@@ -31,7 +30,7 @@ public class SystemInfo
     {
         return memoryInfo;
     }
-
+    
     /**
      * <p>Set Method   :   memoryInfo MemoryInfo</p>
      * @param memoryInfo
@@ -40,7 +39,7 @@ public class SystemInfo
     {
         this.memoryInfo = memoryInfo;
     }
-
+    
     /**
      * 内存资源占用信息
      * <p>ClassName      : MemoryInfo</p>
@@ -49,7 +48,7 @@ public class SystemInfo
      */
     public static class MemoryInfo
     {
-
+        
         /**
          * 总内存大小
          */
@@ -64,7 +63,7 @@ public class SystemInfo
          * 已经使用的内存
          */
         private long usedMemory;
-
+        
         /**
          * <p>Get Method   :   totalMemory long</p>
          * @return totalMemory
@@ -73,7 +72,7 @@ public class SystemInfo
         {
             return totalMemory;
         }
-
+        
         /**
          * <p>Set Method   :   totalMemory long</p>
          * @param totalMemory
@@ -82,7 +81,7 @@ public class SystemInfo
         {
             this.totalMemory = totalMemory;
         }
-
+        
         /**
          * <p>Get Method   :   freeMemory long</p>
          * @return freeMemory
@@ -91,7 +90,7 @@ public class SystemInfo
         {
             return freeMemory;
         }
-
+        
         /**
          * <p>Set Method   :   freeMemory long</p>
          * @param freeMemory
@@ -100,7 +99,7 @@ public class SystemInfo
         {
             this.freeMemory = freeMemory;
         }
-
+        
         /**
          * <p>Get Method   :   usedMemory long</p>
          * @return usedMemory
@@ -109,7 +108,7 @@ public class SystemInfo
         {
             return usedMemory;
         }
-
+        
         /**
          * <p>Set Method   :   usedMemory long</p>
          * @param usedMemory

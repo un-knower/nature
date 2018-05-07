@@ -5,7 +5,7 @@
  * <p>Package     : pers.linhai.nature.j2ee.core.dao.datasource.monitor</p>
  * @Creator lilinhai 2018年4月20日 下午11:07:05
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.dao.datasource.monitor;
 
@@ -30,13 +30,13 @@ public class DataSourceMonitorServlet extends ServletRegistrationBean<StatViewSe
      * <p>Title        : DataSourceMonitorServlet lilinhai 2018年4月20日 下午11:07:17</p>
      * @param servlet
      * @param urlMappings 
-     */ 
+     */
     public DataSourceMonitorServlet()
     {
         this.setServlet(new StatViewServlet());
         this.addUrlMappings("/datasource-monitor/*");
     }
-
+    
     /**
      * <p>Set Method   :   username String</p>
      * @param username
@@ -46,7 +46,7 @@ public class DataSourceMonitorServlet extends ServletRegistrationBean<StatViewSe
         // 登录查看信息的账号密码.
         addInitParameter("loginUsername", username);
     }
-
+    
     /**
      * <p>Set Method   :   password String</p>
      * @param password
@@ -55,7 +55,7 @@ public class DataSourceMonitorServlet extends ServletRegistrationBean<StatViewSe
     {
         addInitParameter("loginPassword", password);
     }
-
+    
     /**
      * <p>Set Method   :   resetEnable String</p>
      * @param resetEnable
@@ -65,7 +65,7 @@ public class DataSourceMonitorServlet extends ServletRegistrationBean<StatViewSe
         // 是否能够重置数据.
         addInitParameter("resetEnable", resetEnable);
     }
-
+    
     /**
      * <p>Set Method   :   allow String</p>
      * @param allow
@@ -77,7 +77,7 @@ public class DataSourceMonitorServlet extends ServletRegistrationBean<StatViewSe
             addInitParameter("allow", allow);
         }
     }
-
+    
     /**
      * IP黑名单 (存在共同时，deny优先于allow) : 如果满足deny的话提示:Sorry, you are not permitted to view this
      * @param deny

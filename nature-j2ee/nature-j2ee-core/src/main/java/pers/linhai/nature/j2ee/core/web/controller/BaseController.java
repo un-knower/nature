@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.web.controller.core</p>
  * @Creator lilinhai 2018年2月8日 上午9:27:45
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.web.controller;
 
@@ -22,7 +22,7 @@ import pers.linhai.nature.j2ee.core.web.model.RestResponse;
  */
 public abstract class BaseController
 {
-
+    
     /**
      * 日志记录器
      */

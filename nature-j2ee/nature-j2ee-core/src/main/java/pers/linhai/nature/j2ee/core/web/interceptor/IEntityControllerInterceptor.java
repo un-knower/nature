@@ -5,7 +5,7 @@
  * <p>Package     : pers.linhai.nature.j2ee.core.web.interceptor</p>
  * @Creator lilinhai 2018年4月29日 上午10:15:45
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.web.interceptor;
 
@@ -32,7 +32,7 @@ public interface IEntityControllerInterceptor<Key, Entity extends BaseEntity<Key
      * void
      */
     void beforeSave(HttpServletRequest request, HttpServletResponse response, Entity entity) throws ControllerInterceptProcessSaveException;
-
+    
     /**
      * 上行数据delete前的拦截处理，预防处理误删、搞乱等操作
      * <p>Title         : process lilinhai 2018年3月14日 下午7:30:14</p>

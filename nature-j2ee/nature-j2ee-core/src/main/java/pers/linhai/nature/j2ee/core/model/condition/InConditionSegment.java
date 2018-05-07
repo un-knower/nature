@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.model.core.condition</p>
  * @Creator lilinhai 2018年2月15日 下午3:41:16
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.model.condition;
 
@@ -25,13 +25,13 @@ import pers.linhai.nature.j2ee.core.model.datatype.DataType;
  */
 public class InConditionSegment extends ConditionSegment
 {
-
+    
     private List<Object> valueList = new ArrayList<Object>();
     
     /**
      * <p>Title        : InCondition lilinhai 2018年2月15日 下午4:24:19</p>
      * @param fieldName 
-     */ 
+     */
     public InConditionSegment(Condition condition)
     {
         super(condition, 2);
@@ -42,7 +42,7 @@ public class InConditionSegment extends ConditionSegment
         }
         else
         {
-            Collection<?> valueTempCollection = (Collection<?>)value;
+            Collection< ? > valueTempCollection = (Collection< ? >) value;
             if (valueTempCollection == null || valueTempCollection.isEmpty())
             {
                 throw new ConditionFormatException("The value can't be enmpy, while the condition type is In or Not-in, condition: " + condition);
@@ -53,7 +53,7 @@ public class InConditionSegment extends ConditionSegment
             }
         }
     }
-
+    
     /**
      * <p>Get Method   :   valueList List<Serializable></p>
      * @return valueList

@@ -5,7 +5,7 @@
  * <p>Package     : pers.linhai.nature.j2ee.core.service.interceptor</p>
  * @Creator lilinhai 2018年4月28日 上午11:26:37
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.service.interceptor;
 
@@ -23,8 +23,8 @@ import pers.linhai.nature.j2ee.core.model.BaseQuery;
  * @author lilinhai 2018年4月28日 上午11:26:37
  * @version 1.0
  */
-public abstract class EntityServiceInterceptorImpl<Key, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery, Mapper extends IBaseMapper<Key, Entity, EntityQuery>> 
-    implements IEntityServiceInterceptor<Key, Entity, EntityQuery, Mapper>
+public abstract class EntityServiceInterceptorImpl<Key, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery, Mapper extends IBaseMapper<Key, Entity, EntityQuery>>
+        implements IEntityServiceInterceptor<Key, Entity, EntityQuery, Mapper>
 {
     
     /**

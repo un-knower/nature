@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.web.constant</p>
  * @Creator lilinhai 2018年2月8日 上午11:55:38
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.constant;
 
@@ -16,14 +16,13 @@ package pers.linhai.nature.j2ee.core.constant;
  */
 public interface BaseErrorCode
 {
-
+    
     /*****[10000 - 20000)删除相关错误码**********************************************/
     
     /**
      * 删除失败
      */
     int DELETE_FAIL = 10001;
-    
     
     /**
      * 删除出现异常

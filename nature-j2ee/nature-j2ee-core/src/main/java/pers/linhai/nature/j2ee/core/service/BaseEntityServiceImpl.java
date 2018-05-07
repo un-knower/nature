@@ -8,7 +8,6 @@
 
 package pers.linhai.nature.j2ee.core.service;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,18 +31,16 @@ import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.service.interceptor.IEntityServiceInterceptor;
 
-
 /**
  * service基类实现类
  * <p>ClassName      : BaseServiceImpl</p>
  * @author lilinhai 2018年2月5日 下午3:04:25
  * @version 1.0
  */
-public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>
-    , EntityQuery extends BaseQuery, Mapper extends IBaseMapper<Key, Entity, EntityQuery>, EntityServiceInterceptor extends IEntityServiceInterceptor<Key, Entity, EntityQuery, Mapper>> 
+public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery, Mapper extends IBaseMapper<Key, Entity, EntityQuery>, EntityServiceInterceptor extends IEntityServiceInterceptor<Key, Entity, EntityQuery, Mapper>>
         extends BaseService implements IBaseEntityService<Key, Entity, EntityQuery>
 {
-
+    
     /**
      * 日志记录器
      */
@@ -60,13 +57,13 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>
     
     /**
      * <p>Title        : BaseEntityServiceImpl lilinhai 2018年4月21日 下午10:34:47</p>
-     */ 
+     */
     public BaseEntityServiceImpl()
     {
         logger = LoggerFactory.getLogger(getClass().getInterfaces()[0].getName());
         logger.info(" init success.");
     }
-
+    
     /**
      * 公共业务层删除方法
      * <p>Overriding Method: lilinhai 2018年4月2日 下午6:04:22</p>
@@ -101,7 +98,7 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>
             throw new EntityDeleteInterceptProcessException(40000, "[Service] delete(Key id) occor an error, " + e.getMessage());
         }
     }
-
+    
     /**
      * 保存方法
      * <p>Overriding Method: lilinhai 2018年3月15日 下午2:30:26</p>
@@ -171,7 +168,7 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>
             throw new EntityUpdateInterceptProcessException(40002, "[Service] update(Entity record) occor an error" + e.getMessage());
         }
     }
-
+    
     public Entity get(Key id)
     {
         return mapper.get(id);
@@ -191,7 +188,7 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>
         }
         return null;
     }
-
+    
     public Entity get(EntityQuery entityQuery)
     {
         try
@@ -219,7 +216,7 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>
         }
         return null;
     }
-
+    
     /**
      * 统计条目
      * <p>Overriding Method: lilinhai 2018年2月24日 上午11:14:35</p>
@@ -232,7 +229,7 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>
     {
         return mapper.count(entityQuery);
     }
-
+    
     /**
      * 统计条目
      * <p>Overriding Method: lilinhai 2018年2月24日 上午11:14:35</p>
@@ -245,7 +242,7 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>
     {
         return mapper.sum(entityQuery);
     }
-
+    
     /**
      * 组合查询记录，返回集合，支持分页
      * <p>Title         : query lilinhai 2018年2月7日 下午5:44:18</p>
@@ -272,12 +269,12 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>
      * @param entityQuery
      * @param entityProcessor 
      * @see pers.linhai.nature.j2ee.core.service.IBaseEntityService#find(pers.linhai.nature.j2ee.core.model.BaseQuery, pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor)
-     */ 
+     */
     public void find(EntityQuery entityQuery, IRowDataProcessor<Entity> entityProcessor)
     {
         mapper.find(entityQuery, entityProcessor);
     }
-
+    
     /**
      * <p>Overriding Method: lilinhai 2018年3月14日 下午11:51:08</p>
      * <p>Title: findEntityBean</p>

@@ -5,7 +5,7 @@
  * <p>Package     : pers.linhai.nature.j2ee.core.model.condition</p>
  * @Creator lilinhai 2018年4月17日 下午11:24:31
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.model.condition;
 

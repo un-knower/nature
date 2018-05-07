@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.service.core.model</p>
  * @Creator lilinhai 2018年2月7日 下午5:49:05
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.service;
 
@@ -22,7 +22,7 @@ import pers.linhai.nature.j2ee.core.model.BaseBean;
  */
 public class PaginationData<T extends BaseBean>
 {
-
+    
     /**
      * 总记录数
      */
@@ -42,7 +42,7 @@ public class PaginationData<T extends BaseBean>
      * 返回实体集合
      */
     private List<T> dataList = new ArrayList<T>();
-
+    
     /**
      * <p>Get Method   :   total long</p>
      * @return total
@@ -51,7 +51,7 @@ public class PaginationData<T extends BaseBean>
     {
         return total;
     }
-
+    
     /**
      * <p>Set Method   :   total long</p>
      * @param total
@@ -60,7 +60,7 @@ public class PaginationData<T extends BaseBean>
     {
         this.total = total;
     }
-
+    
     /**
      * <p>Get Method   :   page int</p>
      * @return page
@@ -69,7 +69,7 @@ public class PaginationData<T extends BaseBean>
     {
         return page;
     }
-
+    
     /**
      * <p>Set Method   :   page int</p>
      * @param page
@@ -78,7 +78,7 @@ public class PaginationData<T extends BaseBean>
     {
         this.page = page;
     }
-
+    
     /**
      * <p>Get Method   :   size int</p>
      * @return size
@@ -87,7 +87,7 @@ public class PaginationData<T extends BaseBean>
     {
         return size;
     }
-
+    
     /**
      * <p>Set Method   :   size int</p>
      * @param size
@@ -96,7 +96,7 @@ public class PaginationData<T extends BaseBean>
     {
         this.size = size;
     }
-
+    
     /**
      * <p>Get Method   :   dataList List<Entity></p>
      * @return dataList
@@ -105,7 +105,7 @@ public class PaginationData<T extends BaseBean>
     {
         return dataList;
     }
-
+    
     /**
      * <p>Set Method   :   dataList List<Entity></p>
      * @param dataList
@@ -114,7 +114,7 @@ public class PaginationData<T extends BaseBean>
     {
         this.dataList.add(entityBean);
     }
-
+    
     /**
      * <p>Set Method   :   dataList List<T></p>
      * @param dataList

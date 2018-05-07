@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.service.core</p>
  * @Creator lilinhai 2018年2月4日 下午9:37:41
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.service;
 
@@ -23,17 +23,17 @@ import pers.linhai.nature.j2ee.core.model.EntityBean;
  */
 public interface IBaseEntityService<Key, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery>
 {
-
+    
     /**
      * 根据主键ID删除单个记录。
      */
     void delete(Key id);
-
+    
     /**
      * 添加单个记录。
      */
     void save(Entity record);
-
+    
     /**
      * 根据主键id查找单个记录。
      */
@@ -46,7 +46,7 @@ public interface IBaseEntityService<Key, Entity extends BaseEntity<Key>, EntityQ
      * EntityBean
      */
     EntityBean getEntityBean(Key id);
-
+    
     /**
      * 修改单个记录，只将不为空的字段更新到记录。
      */

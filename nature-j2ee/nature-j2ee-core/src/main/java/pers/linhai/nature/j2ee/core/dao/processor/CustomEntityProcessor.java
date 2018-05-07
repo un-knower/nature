@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.dao.core</p>
  * @Creator lilinhai 2018年2月13日 下午12:22:43
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.dao.processor;
 
@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class CustomEntityProcessor<Entity> implements IEntityProcessor<Entity>
 {
-
+    
     private List<Entity> entityList = new ArrayList<Entity>();
     
     /** 
@@ -28,12 +28,12 @@ public class CustomEntityProcessor<Entity> implements IEntityProcessor<Entity>
      * <p>Title: process</p>
      * @param entity 
      * @see com.meme.crm.dao.core.IRowDataProcessor#preUpdate(com.meme.crm.model.core.BaseEntity)
-     */ 
+     */
     public void process(Entity entity)
     {
         entityList.add(entity);
     }
-
+    
     /**
      * <p>Get Method   :   entityList List<Entity></p>
      * @return entityList

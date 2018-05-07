@@ -8,7 +8,6 @@
 
 package pers.linhai.nature.j2ee.core.dao;
 
-
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -38,7 +37,6 @@ import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.model.Where;
 import pers.linhai.nature.j2ee.core.model.Where.Condition;
 import pers.linhai.nature.reflect.ConstructorAccess;
-
 
 /**
  * <p>ClassName      : BaseMapperImpl</p>
@@ -87,7 +85,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      * 日志记录器
      */
     protected Logger logger;
-
+    
     @Autowired
     protected SqlSession sqlSession;
     
@@ -95,12 +93,12 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      * mybatis-mapper的命名空间
      */
     protected String namespace;
-
+    
     /**
      * 实体反射器
      */
     private EntityReflecter<Entity> entityReflecter;
-
+    
     /**
      * 实体查询条件构造器
      */
@@ -114,8 +112,8 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     {
         try
         {
-            Class<?> interfaces[] = getClass().getInterfaces();
-            for (Class<?> inte : interfaces)
+            Class< ? > interfaces[] = getClass().getInterfaces();
+            for (Class< ? > inte : interfaces)
             {
                 if (inte.getName().endsWith("Mapper") && !inte.getName().endsWith("BaseMapper"))
                 {
@@ -124,26 +122,26 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
                     break;
                 }
             }
-
+            
             if (this.namespace == null)
             {
                 throw new MapperException("[Mapper-" + getClass().getName() + "] instance inited fail, the namespace is null.");
             }
-
-            ParameterizedType parameterizedType = (ParameterizedType)getClass().getGenericSuperclass();
+            
+            ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
             Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
             for (Type type : actualTypeArguments)
             {
                 if (type instanceof Class)
                 {
-                    Class<? extends BaseModel> c = (Class<? extends BaseModel>)type;
+                    Class< ? extends BaseModel> c = (Class< ? extends BaseModel>) type;
                     if (c.getSuperclass() == BaseEntity.class)
                     {
-                        entityReflecter = new EntityReflecter<Entity>((Class<Entity>)c);
+                        entityReflecter = new EntityReflecter<Entity>((Class<Entity>) c);
                     }
                     else if (c.getSuperclass() == BaseQuery.class)
                     {
-                        entityQueryConstructor = ConstructorAccess.get((Class<EntityQuery>)c);
+                        entityQueryConstructor = ConstructorAccess.get((Class<EntityQuery>) c);
                     }
                 }
             }
@@ -167,7 +165,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
             throw new MapperException("BaseMapperImpl instance inited fail ", e);
         }
     }
-
+    
     /** 
      * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
      * <p>Title: insert</p>
@@ -183,7 +181,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
             {
                 return 0;
             }
-
+            
             if (record.getCreateTime() == null)
             {
                 // 设置创建时间
@@ -194,11 +192,11 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         }
         catch (Throwable e1)
         {
-            logger.error(" IBaseMapper.save(Entity record) occor an error " , e1);
+            logger.error(" IBaseMapper.save(Entity record) occor an error ", e1);
             throw new MapperException(e1);
         }
     }
-
+    
     /**
      * 根据主键删除
      * <p>Overriding Method: lilinhai 2018年2月13日 下午2:02:10</p>
@@ -229,7 +227,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
             throw new MapperException(e);
         }
     }
-
+    
     /**
      * 根据查询条件entityQuery删除
      * <p>Overriding Method: lilinhai 2018年2月13日 下午2:14:37</p>
@@ -268,7 +266,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
                 // 刷新修改时间
                 record.setUpdateTime(new Date());
             }
-
+            
             // 如果修改条件为空
             if (record.getWhere() == null)
             {
@@ -291,7 +289,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
             throw new MapperException(e1);
         }
     }
-
+    
     /** 
      * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
      * <p>Title: selectByPrimaryKey</p>
@@ -344,7 +342,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         }
         return null;
     }
-
+    
     /** 
      * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
      * <p>Title: query</p>
@@ -397,7 +395,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         final AtomicLong al = new AtomicLong();
         sqlSession.select(COUNT, entityQuery, new ResultHandler<Long>()
         {
-            public void handleResult(ResultContext<? extends Long> resultContext)
+            public void handleResult(ResultContext< ? extends Long> resultContext)
             {
                 al.set(resultContext.getResultObject());
             }
@@ -417,14 +415,14 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         final AtomicLong al = new AtomicLong();
         sqlSession.select(SUM, entityQuery, new ResultHandler<Long>()
         {
-            public void handleResult(ResultContext<? extends Long> resultContext)
+            public void handleResult(ResultContext< ? extends Long> resultContext)
             {
                 al.set(resultContext.getResultObject());
             }
         });
         return al.get();
     }
-
+    
     /** 
      * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
      * <p>Title: query</p>
@@ -439,7 +437,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         find(entityQuery, entityProcessor);
         return entityProcessor.getEntityList();
     }
-
+    
     @Override
     public void find(EntityQuery entityQuery, IRowDataProcessor<Entity> entityProcessor)
     {

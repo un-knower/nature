@@ -8,7 +8,6 @@
 
 package pers.linhai.nature.j2ee.core.dao;
 
-
 import java.util.List;
 
 import pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor;
@@ -18,7 +17,6 @@ import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 
-
 /**
  * 公共mapper
  * <p>ClassName      : BaseMapper</p>
@@ -27,12 +25,12 @@ import pers.linhai.nature.j2ee.core.model.EntityBean;
  */
 public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery>
 {
-
+    
     /**
      * 添加单个记录。
      */
     int save(Entity record);
-
+    
     /**
      * 根据主键ID删除单个记录。
      * <p>Title         : delete lilinhai 2018年2月13日 下午2:09:23</p>
@@ -41,7 +39,7 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * int
      */
     int delete(Key id);
-
+    
     /**
      * 根据查询条件删除
      * <p>Title         : delete lilinhai 2018年2月13日 下午2:08:59</p>
@@ -55,7 +53,7 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * 修改单个记录，只将不为空的字段更新到记录。
      */
     int update(Entity record);
-
+    
     /**
      * 根据主键id查找单个记录。
      */
@@ -70,7 +68,7 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * EntityBean
      */
     EntityBean get(Key id, DefaultRowDataProcessor<Entity> entityProcessor);
-
+    
     /**
      * 根据条件查询单个记录
      * <p>Title         : findOne lilinhai 2018年2月13日 下午1:53:54</p>
@@ -88,7 +86,7 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * EntityBean
      */
     EntityBean get(EntityQuery entityQuery, DefaultRowDataProcessor<Entity> entityProcessor);
-
+    
     /**
      * 组合查询记录，返回集合，支持分页
      * <p>Title         : query lilinhai 2018年2月7日 下午5:44:18</p>
@@ -97,7 +95,7 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * List<Entity>
      */
     List<Entity> find(EntityQuery entityQuery);
-
+    
     /**
      * 组合条件查询多记录，根据IEntityProcessor的实现，定制化处理返回结果
      * <p>Title         : query lilinhai 2018年2月13日 下午12:26:15</p>
@@ -180,7 +178,7 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * void
      */
     public Entity execGet(String statment, Object params);
-
+    
     /**
      * 统计记录条数
      * <p>Title         : count lilinhai 2018年2月13日 下午2:13:26</p>

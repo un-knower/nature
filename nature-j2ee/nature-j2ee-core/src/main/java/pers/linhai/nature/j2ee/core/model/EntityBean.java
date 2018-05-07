@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.model.core</p>
  * @Creator lilinhai 2018年2月16日 下午5:00:25
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.model;
 
@@ -20,7 +20,7 @@ import pers.linhai.nature.utils.NamingUtils;
  */
 public class EntityBean extends ModelBean
 {
-
+    
     /**
      * <p>Info          : long serialVersionUID lilinhai 2018年2月16日 下午5:00:36</p>
      */
@@ -30,7 +30,7 @@ public class EntityBean extends ModelBean
     
     /**
      * <p>Title        : EntityBean lilinhai 2018年3月14日 上午11:27:01</p>
-     */ 
+     */
     public EntityBean()
     {
         this(false);
@@ -38,12 +38,12 @@ public class EntityBean extends ModelBean
     
     /**
      * <p>Title        : EntityBean lilinhai 2018年3月14日 上午11:27:01</p>
-     */ 
+     */
     public EntityBean(boolean isInited)
     {
         this.setInited(isInited);
     }
-
+    
     /** 
      * <p>Overriding Method: lilinhai 2018年3月14日 上午11:38:38</p>
      * <p>Title: put</p>
@@ -51,7 +51,7 @@ public class EntityBean extends ModelBean
      * @param value
      * @return 
      * @see java.util.HashMap#put(java.lang.Object, java.lang.Object)
-     */ 
+     */
     public Serializable put(String key, Serializable value)
     {
         if (!isInited)
@@ -63,7 +63,7 @@ public class EntityBean extends ModelBean
             return putAttribute(key, value);
         }
     }
-
+    
     /**
      * <p>Set Method   :   isInited boolean</p>
      * @param isInited

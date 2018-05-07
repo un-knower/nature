@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.model.core.datatype</p>
  * @Creator lilinhai 2018年2月15日 下午6:53:37
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.model.datatype;
 
@@ -22,7 +22,7 @@ import pers.linhai.nature.j2ee.core.exception.DataTypeException;
  */
 public abstract class DataType
 {
-
+    
     private static Map<String, DataType> DATA_TYPE_MAP = new HashMap<String, DataType>();
     static
     {

@@ -8,10 +8,8 @@
 
 package pers.linhai.nature.j2ee.core.model.condition;
 
-
 import pers.linhai.nature.j2ee.core.model.Where.Condition;
 import pers.linhai.nature.j2ee.core.model.datatype.DataType;
-
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -21,12 +19,12 @@ import pers.linhai.nature.j2ee.core.model.datatype.DataType;
  */
 public class CommonConditionSegment extends ConditionSegment
 {
-
+    
     /**
      * 查询字段的值
      */
     private Object value;
-
+    
     /**
      * <p>Title        : CommonCondition lilinhai 2018年2月15日 下午4:23:59</p>
      * @param fieldName 
@@ -36,7 +34,7 @@ public class CommonConditionSegment extends ConditionSegment
         super(condition, 1);
         setValue(condition.getValue());
     }
-
+    
     /**
      * <p>Get Method   :   value Serializable</p>
      * @return value
@@ -45,7 +43,7 @@ public class CommonConditionSegment extends ConditionSegment
     {
         return value;
     }
-
+    
     /**
      * <p>Set Method   :   value Serializable</p>
      * @param value

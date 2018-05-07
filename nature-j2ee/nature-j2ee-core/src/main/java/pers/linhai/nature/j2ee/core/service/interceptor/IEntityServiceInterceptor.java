@@ -5,7 +5,7 @@
  * <p>Package     : pers.linhai.nature.j2ee.core.service</p>
  * @Creator lilinhai 2018年3月14日 下午7:22:00
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.service.interceptor;
 
@@ -27,7 +27,7 @@ import pers.linhai.nature.j2ee.core.model.EntityBean;
  */
 public interface IEntityServiceInterceptor<Key, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery, Mapper extends IBaseMapper<Key, Entity, EntityQuery>>
 {
-
+    
     /**
      * 上行数据save前的拦截处理，数据校验等操作处理
      * <p>Title         : process lilinhai 2018年3月14日 下午7:30:14</p>

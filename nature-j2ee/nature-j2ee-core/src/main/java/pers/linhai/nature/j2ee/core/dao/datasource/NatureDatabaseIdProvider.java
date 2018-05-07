@@ -8,12 +8,10 @@
 
 package pers.linhai.nature.j2ee.core.dao.datasource;
 
-
 import java.util.Properties;
 
 import org.apache.ibatis.mapping.VendorDatabaseIdProvider;
 import org.springframework.stereotype.Component;
-
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -24,7 +22,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class NatureDatabaseIdProvider extends VendorDatabaseIdProvider
 {
-
+    
     /**
      * <p>Title        : DatabaseIdProviderConf lilinhai 2018年4月21日 下午3:31:04</p>
      */

@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.model.core.condition</p>
  * @Creator lilinhai 2018年2月15日 下午3:42:07
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.model.condition;
 
@@ -19,11 +19,11 @@ import pers.linhai.nature.j2ee.core.model.Where.Condition;
  */
 public class NullValueConditionSegment extends ConditionSegment
 {
-
+    
     /**
      * <p>Title        : NullValueCondition lilinhai 2018年2月15日 下午4:24:26</p>
      * @param fieldName 
-     */ 
+     */
     public NullValueConditionSegment(Condition condition)
     {
         super(condition, 3);

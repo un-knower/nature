@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.model.exception</p>
  * @Creator lilinhai 2018年2月9日 下午11:13:29
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.exception;
 
@@ -17,58 +17,58 @@ package pers.linhai.nature.j2ee.core.exception;
  */
 public class ConditionFormatException extends RuntimeException
 {
-
+    
     /**
      * <p>Info          : long serialVersionUID lilinhai 2018年2月9日 下午11:13:33</p>
      */
     private static final long serialVersionUID = 1L;
-
+    
     /**
      * <p>Title        : IllegalFieldException lilinhai 2018年2月9日 下午11:13:39</p>
-     */ 
+     */
     public ConditionFormatException()
     {
         super();
     }
-
+    
     /**
      * <p>Title        : IllegalFieldException lilinhai 2018年2月9日 下午11:13:39</p>
      * @param message
      * @param cause
      * @param enableSuppression
      * @param writableStackTrace 
-     */ 
+     */
     public ConditionFormatException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
     {
         super(message, cause, enableSuppression, writableStackTrace);
     }
-
+    
     /**
      * <p>Title        : IllegalFieldException lilinhai 2018年2月9日 下午11:13:39</p>
      * @param message
      * @param cause 
-     */ 
+     */
     public ConditionFormatException(String message, Throwable cause)
     {
         super(message, cause);
     }
-
+    
     /**
      * <p>Title        : IllegalFieldException lilinhai 2018年2月9日 下午11:13:39</p>
      * @param message 
-     */ 
+     */
     public ConditionFormatException(String message)
     {
         super(message);
     }
-
+    
     /**
      * <p>Title        : IllegalFieldException lilinhai 2018年2月9日 下午11:13:39</p>
      * @param cause 
-     */ 
+     */
     public ConditionFormatException(Throwable cause)
     {
         super(cause);
     }
-
+    
 }

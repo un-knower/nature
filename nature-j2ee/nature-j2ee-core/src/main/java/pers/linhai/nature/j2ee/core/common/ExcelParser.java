@@ -8,7 +8,6 @@
 
 package pers.linhai.nature.j2ee.core.common;
 
-
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -19,7 +18,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
  * <p>ClassName      : ExcelParser</p>
@@ -28,15 +26,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class ExcelParser
 {
-
-    public static void main(String[] args)
-        throws Exception
+    
+    public static void main(String[] args) throws Exception
     {
-        List<Constructor<? extends Workbook>> workbookConstructorList = new ArrayList<Constructor<? extends Workbook>>(2);
+        List<Constructor< ? extends Workbook>> workbookConstructorList = new ArrayList<Constructor< ? extends Workbook>>(2);
         workbookConstructorList.add(XSSFWorkbook.class.getConstructor(InputStream.class));
         workbookConstructorList.add(HSSFWorkbook.class.getConstructor(InputStream.class));
         Workbook hssWB = null;
-        for (Constructor<? extends Workbook> constructor : workbookConstructorList)
+        for (Constructor< ? extends Workbook> constructor : workbookConstructorList)
         {
             try
             {
@@ -49,7 +46,6 @@ public class ExcelParser
             }
         }
         hssWB.close();
-        
         
     }
 }

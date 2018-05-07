@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.dao.core</p>
  * @Creator lilinhai 2018年2月13日 下午12:15:34
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.dao.processor;
 
@@ -16,6 +16,6 @@ package pers.linhai.nature.j2ee.core.dao.processor;
  */
 public interface IEntityProcessor<Entity>
 {
-
+    
     void process(Entity entity);
 }

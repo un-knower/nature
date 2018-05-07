@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.model.core.datatype</p>
  * @Creator lilinhai 2018年2月15日 下午6:58:54
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.model.datatype;
 
@@ -17,7 +17,7 @@ package pers.linhai.nature.j2ee.core.model.datatype;
  */
 public class BooleanType extends DataType
 {
-
+    
     /**
      * <p>Overriding Method: lilinhai 2018年5月5日 下午3:34:22</p>
      * <p>Title: parse</p>
@@ -31,6 +31,6 @@ public class BooleanType extends DataType
         {
             return Boolean.parseBoolean(value.toString());
         }
-        return (Boolean)value;
+        return (Boolean) value;
     }
 }

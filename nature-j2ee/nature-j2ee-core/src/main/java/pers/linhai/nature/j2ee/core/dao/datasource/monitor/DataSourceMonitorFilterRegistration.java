@@ -5,7 +5,7 @@
  * <p>Package     : pers.linhai.nature.j2ee.core.dao.datasource.monitor</p>
  * @Creator lilinhai 2018年4月20日 下午11:09:08
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.dao.datasource.monitor;
 
@@ -28,7 +28,7 @@ public class DataSourceMonitorFilterRegistration extends FilterRegistrationBean<
      * <p>Title        : DataSourceMonitorFilterRegistration lilinhai 2018年4月20日 下午11:09:45</p>
      * @param filter
      * @param servletRegistrationBeans 
-     */ 
+     */
     public DataSourceMonitorFilterRegistration()
     {
         setFilter(new WebStatFilter());

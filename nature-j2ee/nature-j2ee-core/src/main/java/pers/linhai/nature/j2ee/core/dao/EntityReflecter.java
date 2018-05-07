@@ -5,7 +5,7 @@
  * <p>Package     : pers.linhai.nature.j2ee.core.dao</p>
  * @Creator lilinhai 2018年3月16日 下午4:10:26
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.dao;
 
@@ -19,9 +19,9 @@ import pers.linhai.nature.reflect.MethodAccess;
  * @author lilinhai 2018年3月16日 下午4:10:26
  * @version 1.0
  */
-public class EntityReflecter<Entity extends BaseEntity<?>>
+public class EntityReflecter<Entity extends BaseEntity< ? >>
 {
-
+    
     /**
      * 实体构造函器
      */
@@ -36,10 +36,10 @@ public class EntityReflecter<Entity extends BaseEntity<?>>
      * 初始化方法的索引
      */
     private int initializeMethodIndex;
-
+    
     /**
      * <p>Title        : EntityReflecter lilinhai 2018年3月16日 下午4:11:34</p>
-     */ 
+     */
     public EntityReflecter(Class<Entity> c)
     {
         entityConstructor = ConstructorAccess.get(c);

@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.model.core</p>
  * @Creator lilinhai 2018年2月13日 下午2:21:14
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.model;
 
@@ -23,7 +23,7 @@ public abstract class BaseModel implements Serializable
      * <p>Info          : long serialVersionUID lilinhai 2018年4月22日 下午9:39:08</p>
      */
     private static final long serialVersionUID = 1L;
-
+    
     /**
      * 查询条件集合
      */
@@ -37,12 +37,12 @@ public abstract class BaseModel implements Serializable
     /**
      * <p>Title        : JdbcFunctionModel lilinhai 2018年2月15日 上午9:09:43</p>
      * @param tableName 
-     */ 
+     */
     public BaseModel(String tableName)
     {
         this.tableName = tableName;
     }
-
+    
     /**
      * 获取java字段名对应的数据库表字段名
      * <p>Title         : validField lilinhai 2018年2月8日 下午11:06:40</p>
@@ -50,7 +50,7 @@ public abstract class BaseModel implements Serializable
      * void
      */
     public abstract String getTableField(String javaField);
-
+    
     /**
      * 获取改该字段对应的JDBC类型
      * <p>Title         : getJdbcType lilinhai 2018年2月10日 上午11:14:56</p>
@@ -77,7 +77,6 @@ public abstract class BaseModel implements Serializable
      */
     public abstract boolean existsField(String fieldName);
     
-    
     /**
      * <p>Get Method   :   tableName String</p>
      * @return tableName
@@ -86,7 +85,7 @@ public abstract class BaseModel implements Serializable
     {
         return tableName;
     }
-
+    
     /**
      * <p>Get Method   :   where Where</p>
      * @return where
@@ -95,7 +94,7 @@ public abstract class BaseModel implements Serializable
     {
         return where;
     }
-
+    
     /**
      * <p>Set Method   :   where Where</p>
      * @param where

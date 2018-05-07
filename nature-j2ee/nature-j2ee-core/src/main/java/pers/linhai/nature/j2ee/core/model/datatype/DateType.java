@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.model.core.datatype</p>
  * @Creator lilinhai 2018年2月15日 下午6:58:54
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.model.datatype;
 
@@ -26,7 +26,7 @@ import pers.linhai.nature.j2ee.core.exception.DataTypeException;
  */
 public class DateType extends DataType
 {
-
+    
     private static final Map<Pattern, SimpleDateFormat> MAP = new HashMap<Pattern, SimpleDateFormat>();
     static
     {
@@ -52,18 +52,18 @@ public class DateType extends DataType
      * @param value
      * @return 
      * @see com.meme.crm.model.core.datatype.DataType#parse(java.lang.String)
-     */ 
+     */
     public Date parse(Object value)
     {
         try
         {
             if (value instanceof Date)
             {
-                return (Date)value;
+                return (Date) value;
             }
             else if (value instanceof Number)
             {
-                return new Date(((Number)value).longValue());
+                return new Date(((Number) value).longValue());
             }
             else if (value instanceof String)
             {
@@ -86,7 +86,7 @@ public class DateType extends DataType
         {
             if (e instanceof DataTypeException)
             {
-                throw (DataTypeException)e;
+                throw (DataTypeException) e;
             }
             throw new DataTypeException("The date pared fail:" + value, e);
         }

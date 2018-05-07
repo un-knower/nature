@@ -8,12 +8,10 @@
 
 package pers.linhai.nature.j2ee.core.spring;
 
-
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
-
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -24,12 +22,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class BeanFactory implements ApplicationContextAware
 {
-
+    
     /**
      * Spring容器
      */
     private static ApplicationContext applicationContext = null;
-
+    
     /**
      * <p>Overriding Method: lilinhai 2018年1月18日 下午7:28:17</p>
      * <p>Title: setApplicationContext</p>
@@ -37,21 +35,20 @@ public class BeanFactory implements ApplicationContextAware
      * @throws BeansException 
      * @see org.springframework.context.ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)
      */
-    public void setApplicationContext(ApplicationContext applicationContext)
-        throws BeansException
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
     {
         if (BeanFactory.applicationContext == null)
         {
             BeanFactory.applicationContext = applicationContext;
         }
     }
-
+    
     // 获取applicationContext
     public static ApplicationContext getApplicationContext()
     {
         return applicationContext;
     }
-
+    
     // 通过name获取 Bean.
     public static Object getBean(String name)
     {
@@ -61,7 +58,7 @@ public class BeanFactory implements ApplicationContextAware
         }
         return getApplicationContext().getBean(name);
     }
-
+    
     // 通过class获取Bean.
     public static <T> T getBean(Class<T> clazz)
     {
@@ -71,7 +68,7 @@ public class BeanFactory implements ApplicationContextAware
         }
         return getApplicationContext().getBean(clazz);
     }
-
+    
     // 通过name,以及Clazz返回指定的Bean
     public static <T> T getBean(String name, Class<T> clazz)
     {

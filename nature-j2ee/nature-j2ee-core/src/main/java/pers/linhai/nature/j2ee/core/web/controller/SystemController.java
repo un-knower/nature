@@ -5,7 +5,7 @@
  * <p>Package     : com.leloven.wanka.gw.controller</p>
  * @Creator lilinhai 2018年1月18日 下午3:40:49
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.web.controller;
 
@@ -27,7 +27,7 @@ import pers.linhai.nature.j2ee.core.web.model.SystemInfo.MemoryInfo;
 @RequestMapping("/system")
 public class SystemController extends BaseController
 {
-
+    
     @RequestMapping(value = "/getSystemInfo", method = RequestMethod.GET)
     public RestResponse getSystemInfo()
     {

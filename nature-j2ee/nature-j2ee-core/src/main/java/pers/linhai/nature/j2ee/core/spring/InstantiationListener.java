@@ -5,7 +5,7 @@
  * <p>Package     : com.leloven.wanka.gw.listener</p>
  * @Creator lilinhai 2018年1月24日 上午10:05:41
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.spring;
 
@@ -32,7 +32,7 @@ import pers.linhai.nature.j2ee.core.web.cache.RequestMappingCache;
 @Component
 public class InstantiationListener implements ApplicationListener<ContextRefreshedEvent>
 {
-
+    
     @Autowired
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
     
@@ -41,7 +41,7 @@ public class InstantiationListener implements ApplicationListener<ContextRefresh
      * <p>Title: onApplicationEvent</p>
      * @param event 
      * @see org.springframework.context.ApplicationListener#onApplicationEvent(org.springframework.context.ApplicationEvent)
-     */ 
+     */
     public void onApplicationEvent(ContextRefreshedEvent event)
     {
         Map<RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping.getHandlerMethods();
@@ -51,7 +51,7 @@ public class InstantiationListener implements ApplicationListener<ContextRefresh
             {
                 for (String path : e.getKey().getPatternsCondition().getPatterns())
                 {
-                    RequestMappingCache.put(e.getValue(), rm.name() + "_" +  path);
+                    RequestMappingCache.put(e.getValue(), rm.name() + "_" + path);
                 }
             }
         }

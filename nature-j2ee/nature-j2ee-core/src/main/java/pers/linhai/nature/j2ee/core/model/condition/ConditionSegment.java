@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.model.core.condition</p>
  * @Creator lilinhai 2018年2月15日 下午3:39:28
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.model.condition;
 
@@ -26,8 +26,8 @@ import pers.linhai.nature.j2ee.core.model.Where.Condition;
  */
 public abstract class ConditionSegment
 {
-
-    private static final Map<String, Constructor<? extends ConditionSegment>> CONDITION_MAP = new HashMap<String, Constructor<? extends ConditionSegment>>();
+    
+    private static final Map<String, Constructor< ? extends ConditionSegment>> CONDITION_MAP = new HashMap<String, Constructor< ? extends ConditionSegment>>();
     static
     {
         try
@@ -87,11 +87,11 @@ public abstract class ConditionSegment
      * 该自定义条件字段对饮的JDBC类型
      */
     protected String jdbcType;
-
+    
     /**
      * <p>Title        : Condition lilinhai 2018年2月15日 下午4:20:57</p>
      * @param fieldName 
-     */ 
+     */
     protected ConditionSegment(Condition condition, int type)
     {
         this(type);
@@ -105,7 +105,7 @@ public abstract class ConditionSegment
     {
         this.type = type;
     }
-
+    
     /**
      * <p>Get Method   :   jdbcType String</p>
      * @return jdbcType
@@ -114,7 +114,7 @@ public abstract class ConditionSegment
     {
         return jdbcType;
     }
-
+    
     /**
      * <p>Set Method   :   jdbcType String</p>
      * @param jdbcType
@@ -132,7 +132,7 @@ public abstract class ConditionSegment
     {
         return id;
     }
-
+    
     /**
      * <p>Set Method   :   id String</p>
      * @param id
@@ -141,7 +141,7 @@ public abstract class ConditionSegment
     {
         this.id = id;
     }
-
+    
     /**
      * <p>Get Method   :   operator String</p>
      * @return operator
@@ -150,7 +150,7 @@ public abstract class ConditionSegment
     {
         return operator;
     }
-
+    
     /**
      * <p>Set Method   :   operator String</p>
      * @param operator
@@ -159,7 +159,7 @@ public abstract class ConditionSegment
     {
         this.operator = operator;
     }
-
+    
     /**
      * <p>Get Method   :   fieldName String</p>
      * @return fieldName
@@ -177,7 +177,7 @@ public abstract class ConditionSegment
     {
         return type;
     }
-
+    
     public static ConditionSegment parse(Condition condition)
     {
         try
@@ -188,7 +188,7 @@ public abstract class ConditionSegment
             }
             
             String operator = condition.getOperator().toLowerCase(Locale.ENGLISH);
-            Constructor<? extends ConditionSegment> conditionConstructor = CONDITION_MAP.get(operator);
+            Constructor< ? extends ConditionSegment> conditionConstructor = CONDITION_MAP.get(operator);
             if (conditionConstructor == null)
             {
                 throw new IllegalOperatorException("Exist an illegal-operator: " + condition);

@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.model.core</p>
  * @Creator lilinhai 2018年2月13日 下午2:42:43
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.model;
 
@@ -30,7 +30,7 @@ import pers.linhai.nature.j2ee.core.model.condition.StringSegment;
  */
 public class Where
 {
-
+    
     /**
      * expression表达式的字符串限制
      */
@@ -60,7 +60,7 @@ public class Where
      * 是否已经初始化
      */
     private boolean isInitialized;
-   
+    
     /**
      * <p>Get Method   :   conditionList List<Condition></p>
      * @return conditionList
@@ -69,7 +69,7 @@ public class Where
     {
         return conditionList;
     }
-
+    
     /**
      * <p>Set Method   :   conditionList List<Condition></p>
      * @param conditionList
@@ -78,7 +78,7 @@ public class Where
     {
         this.conditionList = conditionList;
     }
-
+    
     /**
      * <p>Get Method   :   expression String</p>
      * @return expression
@@ -87,7 +87,7 @@ public class Where
     {
         return expression;
     }
-
+    
     /**
      * <p>Set Method   :   expression String</p>
      * @param expression
@@ -105,7 +105,7 @@ public class Where
     {
         return isInitialized;
     }
-
+    
     /**
      * <p>Set Method   :   isInitialized boolean</p>
      * @param isInitialized
@@ -114,7 +114,7 @@ public class Where
     {
         this.isInitialized = isInitialized;
     }
-
+    
     /**
      * <p>Get Method   :   expressionSegmentList List<Object></p>
      * @return expressionSegmentList
@@ -132,7 +132,7 @@ public class Where
         }
         
         List<Condition> conditionTempList = getConditionList();
-        if(conditionTempList == null || conditionTempList.isEmpty())
+        if (conditionTempList == null || conditionTempList.isEmpty())
         {
             throw new ConditionIsNullException("Where-Condition can't be empty.");
         }
@@ -170,7 +170,6 @@ public class Where
                 throw new ConditionFormatException("The Condition's id can't be empty while the expression is seted, fieldName:" + conditionTemp.getFieldName() + ", id:" + conditionTemp.getId());
             }
             
-            
             // 获取改该字段对应的JDBC类型
             conditionTemp.setJdbcType(baseModel.getJdbcType(conditionTemp.getFieldName()));
             
@@ -203,10 +202,10 @@ public class Where
         // 初始化完成
         setInitialized(true);
     }
-
+    
     public void parseExpression(Map<String, ConditionSegment> conditionMap)
     {
-        if(!CHAR_LIMIT_PATTERN.matcher(expression).matches())
+        if (!CHAR_LIMIT_PATTERN.matcher(expression).matches())
         {
             throw new IllegalExpression("The expression contains illegal characters, such as spaces in Chinese parentheses, please check: " + expression);
         }
@@ -250,17 +249,17 @@ public class Where
         /**
          * <p>Title        : LogicalOperator lilinhai 2018年2月10日 下午2:29:51</p>
          * @param value 
-         */ 
+         */
         private LogicalOperator(String value)
         {
             this.value = value;
         }
-
+        
         /**
          * 值
          */
         private String value;
-
+        
         /**
          * <p>Get Method   :   value String</p>
          * @return value
@@ -275,7 +274,7 @@ public class Where
             return value.toLowerCase(Locale.ENGLISH).equals("and") ? AND : value.toLowerCase(Locale.ENGLISH).equals("or") ? OR : null;
         }
     }
-
+    
     /**
      * 子查询条件封装
      * <p>ClassName      : Condition</p>
@@ -318,7 +317,7 @@ public class Where
         {
             return id;
         }
-
+        
         /**
          * <p>Set Method   :   id String</p>
          * @param id
@@ -327,7 +326,7 @@ public class Where
         {
             this.id = id;
         }
-
+        
         /**
          * <p>Get Method   :   fieldName String</p>
          * @return fieldName
@@ -336,7 +335,7 @@ public class Where
         {
             return fieldName;
         }
-
+        
         /**
          * <p>Set Method   :   fieldName String</p>
          * @param fieldName
@@ -345,7 +344,7 @@ public class Where
         {
             this.fieldName = fieldName;
         }
-
+        
         /**
          * <p>Get Method   :   operator String</p>
          * @return operator
@@ -354,7 +353,7 @@ public class Where
         {
             return operator;
         }
-
+        
         /**
          * <p>Set Method   :   operator String</p>
          * @param operator
@@ -363,7 +362,7 @@ public class Where
         {
             this.operator = operator;
         }
-
+        
         /**
          * <p>Get Method   :   value String</p>
          * @return value
@@ -372,7 +371,7 @@ public class Where
         {
             return value;
         }
-
+        
         /**
          * <p>Set Method   :   value String</p>
          * @param value
@@ -390,7 +389,7 @@ public class Where
         {
             return jdbcType;
         }
-
+        
         /**
          * <p>Set Method   :   jdbcType String</p>
          * @param jdbcType
@@ -399,28 +398,28 @@ public class Where
         {
             this.jdbcType = jdbcType;
         }
-
+        
         /** 
          * <p>Overriding Method: lilinhai 2018年2月10日 下午3:53:07</p>
          * <p>Title: toString</p>
          * @return 
          * @see java.lang.Object#toString()
-         */ 
+         */
         public String toString()
         {
             return "Condition [id=" + id + ", fieldName=" + fieldName + ", operator=" + operator + ", value=" + value + ", jdbcType=" + jdbcType + "]";
         }
     }
-
+    
     /** 
      * <p>Overriding Method: lilinhai 2018年2月10日 下午1:42:07</p>
      * <p>Title: toString</p>
      * @return 
      * @see java.lang.Object#toString()
-     */ 
+     */
     public String toString()
     {
         return "Where [conditionList=" + conditionList + ", expression=" + expression + "]";
     }
-
+    
 }

@@ -8,13 +8,11 @@
 
 package pers.linhai.nature.j2ee.core.model;
 
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 
 /**
  * 抽象实体
@@ -24,7 +22,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  */
 public abstract class BaseEntity<Key> extends BaseModel
 {
-
+    
     /**
      * <p>Info          : long serialVersionUID lilinhai 2018年2月4日 下午2:36:32</p>
      */
@@ -39,19 +37,19 @@ public abstract class BaseEntity<Key> extends BaseModel
      * 主键ID
      */
     protected Key id;
-
+    
     /**
      *  入库时间
      */
     @JsonDeserialize(using = DateJsonDeserializer.class)
     protected Date createTime;
-
+    
     /**
      *  修改时间
      */
     @JsonDeserialize(using = DateJsonDeserializer.class)
     protected Date updateTime;
-
+    
     /**
      * <p>Title        : BaseEntity lilinhai 2018年2月13日 下午2:53:51</p>
      * @param tableName 
@@ -60,7 +58,7 @@ public abstract class BaseEntity<Key> extends BaseModel
     {
         super(tableName);
     }
-
+    
     /**
      * <p>Get Method   :   id Key</p>
      * @return id
@@ -69,7 +67,7 @@ public abstract class BaseEntity<Key> extends BaseModel
     {
         return id;
     }
-
+    
     /**
      * <p>Set Method   :   id Key</p>
      * @param id
@@ -79,7 +77,7 @@ public abstract class BaseEntity<Key> extends BaseModel
         this.id = id;
         addPersistentField("id", id);
     }
-
+    
     /**
      * <p>Get Method   :   createTime Date</p>
      * @return createTime
@@ -88,7 +86,7 @@ public abstract class BaseEntity<Key> extends BaseModel
     {
         return createTime;
     }
-
+    
     /**
      * <p>Set Method   :   createTime Date</p>
      * @param createTime
@@ -101,7 +99,7 @@ public abstract class BaseEntity<Key> extends BaseModel
             addPersistentField("create_time", createTime);
         }
     }
-
+    
     /**
      * <p>Get Method   :   updateTime Date</p>
      * @return updateTime
@@ -139,7 +137,9 @@ public abstract class BaseEntity<Key> extends BaseModel
                 persistentFieldMap.remove(getTableField(fieldName));
             }
         }
-        catch (Throwable e){}
+        catch (Throwable e)
+        {
+        }
     }
     
     /**
@@ -152,7 +152,7 @@ public abstract class BaseEntity<Key> extends BaseModel
     {
         return !persistentFieldMap.isEmpty();
     }
-
+    
     /**
      * 添加一个持久化字段
      * <p>Title         : addPersistentField lilinhai 2018年3月13日 上午9:44:12</p>
@@ -170,7 +170,7 @@ public abstract class BaseEntity<Key> extends BaseModel
     }
     
     public abstract EntityBean toEntityBean();
-
+    
     /** 
      * <p>Overriding Method: lilinhai 2018年2月4日 下午3:00:30</p>
      * <p>Title: hashCode</p>
@@ -184,7 +184,7 @@ public abstract class BaseEntity<Key> extends BaseModel
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
-
+    
     /** 
      * <p>Overriding Method: lilinhai 2018年2月4日 下午3:00:30</p>
      * <p>Title: equals</p>
@@ -197,7 +197,7 @@ public abstract class BaseEntity<Key> extends BaseModel
         if (this == obj) return true;
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
-        BaseEntity<?> other = (BaseEntity<?>)obj;
+        BaseEntity< ? > other = (BaseEntity< ? >) obj;
         if (id == null)
         {
             if (other.id != null) return false;

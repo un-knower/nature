@@ -5,7 +5,7 @@
  * <p>Package     : pers.linhai.nature.j2ee.core.model</p>
  * @Creator lilinhai 2018年3月13日 下午5:28:59
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.model;
 
@@ -28,9 +28,9 @@ import pers.linhai.nature.j2ee.core.model.datatype.DateType;
  */
 public class DateJsonDeserializer extends JsonDeserializer<Date>
 {
-
+    
     private DateType dateType = new DateType();
-
+    
     /** 
      * <p>Overriding Method: lilinhai 2018年3月13日 下午5:31:12</p>
      * <p>Title: deserialize</p>
@@ -40,19 +40,17 @@ public class DateJsonDeserializer extends JsonDeserializer<Date>
      * @throws IOException
      * @throws JsonProcessingException 
      * @see com.fasterxml.jackson.databind.JsonDeserializer#deserialize(com.fasterxml.jackson.core.JsonParser, com.fasterxml.jackson.databind.DeserializationContext)
-     */ 
-    public Date deserialize(JsonParser p, DeserializationContext ctxt)
-        throws IOException,
-        JsonProcessingException
+     */
+    public Date deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException
     {
         try
         {
             return dateType.parse(p.getText());
         }
-        catch (DataTypeException e) 
+        catch (DataTypeException e)
         {
             throw new DataTypeException("fieldName:" + p.getCurrentName(), e);
         }
     }
-
+    
 }

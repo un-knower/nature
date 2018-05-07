@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.model.core.datatype</p>
  * @Creator lilinhai 2018年2月15日 下午6:58:54
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.model.datatype;
 
@@ -17,14 +17,14 @@ package pers.linhai.nature.j2ee.core.model.datatype;
  */
 public class ShortType extends DataType
 {
-
+    
     /** 
      * <p>Overriding Method: lilinhai 2018年2月15日 下午6:59:08</p>
      * <p>Title: parse</p>
      * @param value
      * @return 
      * @see com.meme.crm.model.core.datatype.DataType#parse(java.lang.String)
-     */ 
+     */
     public Object parse(Object value)
     {
         if (value instanceof String)
@@ -33,9 +33,9 @@ public class ShortType extends DataType
         }
         else if (value instanceof Integer)
         {
-            return ((Integer)value).shortValue();
+            return ((Integer) value).shortValue();
         }
-        return (Short)value;
+        return (Short) value;
     }
-
+    
 }

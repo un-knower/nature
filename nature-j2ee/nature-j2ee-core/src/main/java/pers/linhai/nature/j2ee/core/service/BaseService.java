@@ -5,7 +5,7 @@
  * <p>Package     : com.meme.crm.service.core</p>
  * @Creator lilinhai 2018年2月8日 上午9:37:11
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.service;
 
@@ -17,5 +17,5 @@ package pers.linhai.nature.j2ee.core.service;
  */
 public abstract class BaseService
 {
-
+    
 }

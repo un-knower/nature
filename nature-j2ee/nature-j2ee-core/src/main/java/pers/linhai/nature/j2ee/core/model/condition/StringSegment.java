@@ -5,7 +5,7 @@
  * <p>Package     : pers.linhai.nature.j2ee.core.model.condition</p>
  * @Creator lilinhai 2018年3月6日 下午10:53:29
  * @Version  V1.0  
- */ 
+ */
 
 package pers.linhai.nature.j2ee.core.model.condition;
 
@@ -16,8 +16,7 @@ package pers.linhai.nature.j2ee.core.model.condition;
  */
 public class StringSegment extends ConditionSegment
 {
-
-
+    
     /**
      * String条件片段
      */
@@ -27,7 +26,7 @@ public class StringSegment extends ConditionSegment
      * <p>Title        : StringSegment lilinhai 2018年3月6日 下午10:56:59</p>
      * @param conditionTemp
      * @param segment 
-     */ 
+     */
     public StringSegment(String segment)
     {
         super(4);
