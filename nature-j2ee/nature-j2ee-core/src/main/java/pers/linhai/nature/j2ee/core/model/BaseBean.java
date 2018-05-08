@@ -11,7 +11,6 @@ package pers.linhai.nature.j2ee.core.model;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -46,10 +45,6 @@ public abstract class BaseBean extends HashMap<String, Serializable>
         if (value != null)
         {
             rel = super.put(key, value);
-            if (value instanceof Date)
-            {
-                super.put(key.concat("Str"), dateFormat.format((Date) value));
-            }
         }
         return rel;
     }
