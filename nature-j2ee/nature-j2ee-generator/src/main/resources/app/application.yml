@@ -15,3 +15,7 @@ spring:
 # 加载对应环境的日志配置文件
 logging: 
   config: "classpath:log4j2/log4j2-${r'${spring.profiles.active}'}.xml"             # log4j2的日志配置文件位置
+  
+  # 本应用程序的名字
+app: 
+  name: "${artifactId}"

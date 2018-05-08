@@ -51,7 +51,7 @@ public class Main
         String outPutPath = "C:\\Users\\lilinhai\\Desktop";
 
         String groupId = "com.meme";
-        String artifactId = "crm";
+        String artifactId = "crm2";
         String dbIp = "localhost";
         String dbPort = "3306";
         String dbUsername = "root";
@@ -316,9 +316,9 @@ public class Main
         temp.process(params, out);
         out.close();
         
-        File appResourcesConfig = new File(appResources, "config");
+        File appResourcesConfig = new File(appResources, params.get("artifactId"));
         FileUtils.createDir(appResourcesConfig);
-        build(cfg, params, new File(ClassUtils.getDefaultClassLoader().getResource("app/config").getPath()), appResourcesConfig, "app/config/");
+        build0(cfg, params, new File(ClassUtils.getDefaultClassLoader().getResource("app/config").getPath()), appResourcesConfig, "app/config/");
         
         File appResourcesServer = new File(appResources, "server");
         FileUtils.createDir(appResourcesServer);
@@ -355,6 +355,19 @@ public class Main
         {
             temp = cfg.getTemplate(templatePrefix + f.getName());
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(destDir, f.getName())), "UTF-8"));
+            temp.process(params, out);
+            out.close();
+        }
+    }
+    
+    private static void build0(Configuration cfg, Map<String, String> params, File sourceDir, File destDir, String templatePrefix) throws Exception
+    {
+        Writer out = null;
+        Template temp = null;
+        for (File f : sourceDir.listFiles())
+        {
+            temp = cfg.getTemplate(templatePrefix + f.getName());
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(destDir, f.getName().replace("application", params.get("artifactId")))), "UTF-8"));
             temp.process(params, out);
             out.close();
         }
