@@ -16,5 +16,9 @@ spring:
       max-file-size: "30MB"                             # Max file size. Values can use the suffixes "MB" or "KB" to indicate megabytes or kilobytes, respectively.
       max-request-size: "100MB"                         # Max request size. Values can use the suffixes "MB" or "KB" to indicate megabytes or kilobytes, respectively.
   
-  
-  
+  # jackson配置区
+  jackson: 
+    joda-date-time-format: "yyyy-MM-dd HH:mm:ss"
+    date-format: "yyyy-MM-dd HH:mm:ss"
+    time-zone: "GMT+8"
+    locale: "zh"
