@@ -10,6 +10,7 @@
 package pers.linhai.nature.j2ee.core;
 
 import org.apache.logging.log4j.core.async.AsyncLoggerContextSelector;
+import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
@@ -27,7 +28,7 @@ import pers.linhai.nature.j2ee.core.spring.YamlPropertySourceFactory;
         @PropertySource(value = "classpath:datasource/datasource-${spring.profiles.active}.yml", factory = YamlPropertySourceFactory.class),
         @PropertySource(value = "classpath:server/server-${spring.profiles.active}.yml", factory = YamlPropertySourceFactory.class),
         @PropertySource(value = "classpath:spring/spring-${spring.profiles.active}.yml", factory = YamlPropertySourceFactory.class)})
-@SpringBootApplication
+@SpringBootApplication(exclude = MybatisAutoConfiguration.class)
 public abstract class BaseApplication
 {
     
