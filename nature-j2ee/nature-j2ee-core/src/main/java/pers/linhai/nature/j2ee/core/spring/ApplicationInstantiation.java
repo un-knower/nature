@@ -12,10 +12,9 @@ package pers.linhai.nature.j2ee.core.spring;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
@@ -33,7 +32,7 @@ import pers.linhai.nature.utils.StringUtils;
  * @version 1.0
  */
 @Component
-public class InstantiationListener implements ApplicationListener<ContextRefreshedEvent>
+public class ApplicationInstantiation implements InitializingBean
 {
     
     @Autowired
@@ -41,14 +40,14 @@ public class InstantiationListener implements ApplicationListener<ContextRefresh
     
     @Value("${spring.servlet.multipart.location}")
     private String multipartLocation;
-    
+
     /** 
      * <p>Overriding Method: lilinhai 2018年1月24日 上午10:06:03</p>
      * <p>Title: onApplicationEvent</p>
      * @param event 
      * @see org.springframework.context.ApplicationListener#onApplicationEvent(org.springframework.context.ApplicationEvent)
      */
-    public void onApplicationEvent(ContextRefreshedEvent event)
+    public void afterPropertiesSet()
     {
         Map<RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping.getHandlerMethods();
         for (Entry<RequestMappingInfo, HandlerMethod> e : map.entrySet())
