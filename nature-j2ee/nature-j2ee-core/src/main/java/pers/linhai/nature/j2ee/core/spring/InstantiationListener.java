@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,8 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import pers.linhai.nature.j2ee.core.web.cache.RequestMappingCache;
+import pers.linhai.nature.utils.FileUtils;
+import pers.linhai.nature.utils.StringUtils;
 
 /**
  * spring容器初始化完成监听器
@@ -35,6 +38,9 @@ public class InstantiationListener implements ApplicationListener<ContextRefresh
     
     @Autowired
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
+    
+    @Value("${spring.servlet.multipart.location}")
+    private String multipartLocation;
     
     /** 
      * <p>Overriding Method: lilinhai 2018年1月24日 上午10:06:03</p>
@@ -54,6 +60,11 @@ public class InstantiationListener implements ApplicationListener<ContextRefresh
                     RequestMappingCache.put(e.getValue(), rm.name() + "_" + path);
                 }
             }
+        }
+        
+        if (!StringUtils.isEmpty(multipartLocation))
+        {
+            FileUtils.createDir(multipartLocation);
         }
     }
     

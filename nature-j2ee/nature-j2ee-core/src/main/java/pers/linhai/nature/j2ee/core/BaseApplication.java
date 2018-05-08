@@ -19,7 +19,7 @@ import org.springframework.context.annotation.PropertySources;
 import pers.linhai.nature.j2ee.core.spring.YamlPropertySourceFactory;
 
 /**
- * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
+ * 所有应用启动类的基类
  * <p>ClassName      : BaseApplication</p>
  * @author lilinhai 2017年12月28日 下午8:37:25
  * @version 1.0
