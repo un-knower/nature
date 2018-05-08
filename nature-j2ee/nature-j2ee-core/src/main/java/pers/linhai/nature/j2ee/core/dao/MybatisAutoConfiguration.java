@@ -69,6 +69,9 @@ public class MybatisAutoConfiguration
     @Autowired
     private DatabaseIdProvider databaseIdProvider;
     
+    @Autowired
+    private DataSource dataSource;
+    
     private final Interceptor[] interceptors;
     
     private final List<ConfigurationCustomizer> configurationCustomizers;
@@ -91,7 +94,7 @@ public class MybatisAutoConfiguration
     
     @Bean
     @ConditionalOnMissingBean
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception
+    public SqlSessionFactory sqlSessionFactory() throws Exception
     {
         SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
         factory.setDataSource(dataSource);
