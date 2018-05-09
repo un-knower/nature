@@ -25,10 +25,10 @@ import pers.linhai.nature.j2ee.core.spring.YamlPropertySourceFactory;
  * @version 1.0
  */
 @PropertySources({@PropertySource("classpath:mybatis-springboot.properties"),
-        @PropertySource(value = "classpath:datasource/datasource-${spring.profiles.active}.yml", factory = YamlPropertySourceFactory.class),
-        @PropertySource(value = "classpath:server/server-${spring.profiles.active}.yml", factory = YamlPropertySourceFactory.class),
-        @PropertySource(value = "classpath:spring/spring-${spring.profiles.active}.yml", factory = YamlPropertySourceFactory.class),
-        @PropertySource(value = "classpath:${app.name}/${app.name}-${spring.profiles.active}.yml", factory = YamlPropertySourceFactory.class)})
+        @PropertySource(value = "classpath:datasource/datasource-${spring.profiles.active}.yml", factory = YamlPropertySourceFactory.class, ignoreResourceNotFound = true),
+        @PropertySource(value = "classpath:server/server-${spring.profiles.active}.yml", factory = YamlPropertySourceFactory.class, ignoreResourceNotFound = true),
+        @PropertySource(value = "classpath:spring/spring-${spring.profiles.active}.yml", factory = YamlPropertySourceFactory.class, ignoreResourceNotFound = true),
+        @PropertySource(value = "classpath:${app.name}/${app.name}-${spring.profiles.active}.yml", factory = YamlPropertySourceFactory.class, ignoreResourceNotFound = true)})
 @SpringBootApplication(exclude = MybatisAutoConfiguration.class)
 public abstract class BaseApplication
 {
