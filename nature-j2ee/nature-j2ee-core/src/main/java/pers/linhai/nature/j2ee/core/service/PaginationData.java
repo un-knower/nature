@@ -12,7 +12,7 @@ package pers.linhai.nature.j2ee.core.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import pers.linhai.nature.j2ee.core.model.BaseBean;
+import pers.linhai.nature.j2ee.core.model.ModelBean;
 
 /**
  * 分页结果数据
@@ -20,7 +20,7 @@ import pers.linhai.nature.j2ee.core.model.BaseBean;
  * @author lilinhai 2018年2月7日 下午5:49:05
  * @version 1.0
  */
-public class PaginationData<T extends BaseBean>
+public class PaginationData<T extends ModelBean>
 {
     
     /**

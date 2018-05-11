@@ -23,7 +23,7 @@ import java.util.Set;
  * @author lilinhai 2018年2月16日 下午5:00:25
  * @version 1.0
  */
-public class ModelBean extends BaseBean
+public class ModelBean extends HashMap<String, Serializable>
 {
     
     /**
@@ -50,7 +50,7 @@ public class ModelBean extends BaseBean
             List<Field> fieldList = parse(object);
             for (Field field : fieldList)
             {
-                putAttribute(field.getName(), (Serializable) (field.get(object)));
+                put(field.getName(), (Serializable) (field.get(object)));
             }
         }
         catch (Throwable e)

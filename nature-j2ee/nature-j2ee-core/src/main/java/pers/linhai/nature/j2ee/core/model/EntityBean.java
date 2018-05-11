@@ -56,11 +56,11 @@ public class EntityBean extends ModelBean
     {
         if (!isInited)
         {
-            return putAttribute(NamingUtils.getCamelCaseString(key, false), value);
+            return super.put(NamingUtils.getCamelCaseString(key, false), value);
         }
         else
         {
-            return putAttribute(key, value);
+            return super.put(key, value);
         }
     }
     
