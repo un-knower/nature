@@ -12,6 +12,7 @@ import java.sql.Types;
 import java.util.HashMap;
 import java.util.Map;
 
+import pers.linhai.nature.j2ee.core.exception.DataTypeException;
 import pers.linhai.nature.j2ee.core.model.datatypeparser.BigDecimalTypeParser;
 import pers.linhai.nature.j2ee.core.model.datatypeparser.BinaryTypeParser;
 import pers.linhai.nature.j2ee.core.model.datatypeparser.BooleanTypeParser;
@@ -277,5 +278,37 @@ public enum DataType
         return dataTypeParser;
     }
     
+    /**
+     * 转换
+     * <p>Title         : transfer lilinhai 2018年5月12日 下午8:30:25</p>
+     * @param code
+     * @return 
+     * DataType
+     */
+    public static DataType transfer(int code)
+    {
+        DataType dt = CODE_MAP.get(code);
+        if (dt == null)
+        {
+            throw new DataTypeException("Illegal data type code: " + code);
+        }
+        return dt;
+    }
     
+    /**
+     * 转换
+     * <p>Title         : transfer lilinhai 2018年5月12日 下午8:30:37</p>
+     * @param type
+     * @return 
+     * DataType
+     */
+    public static DataType transfer(String type)
+    {
+        DataType dt = TYPE_MAP.get(type);
+        if (dt == null)
+        {
+            throw new DataTypeException("Illegal data type: " + type);
+        }
+        return dt;
+    }
 }

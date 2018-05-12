@@ -9,6 +9,8 @@
 
 package pers.linhai.nature.j2ee.core.model.datatypeparser;
 
+import java.math.BigDecimal;
+
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
  * <p>ClassName      : NumberType</p>
@@ -27,14 +29,6 @@ public class BigDecimalTypeParser extends DataTypeParser
      */
     public Object parse(Object value)
     {
-        if (value instanceof String)
-        {
-            return Byte.parseByte(value.toString());
-        }
-        else if (value instanceof Integer)
-        {
-            return ((Integer) value).byteValue();
-        }
-        return (Byte) value;
+        return (BigDecimal) value;
     }
 }
