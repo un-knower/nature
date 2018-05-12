@@ -27,8 +27,6 @@ import pers.linhai.nature.j2ee.generator.core.api.Plugin;
 import pers.linhai.nature.j2ee.generator.core.api.XmlFormatter;
 import pers.linhai.nature.j2ee.generator.core.api.dom.DefaultJavaFormatter;
 import pers.linhai.nature.j2ee.generator.core.api.dom.DefaultXmlFormatter;
-import pers.linhai.nature.j2ee.generator.core.codegen.ibatis2.IntrospectedTableIbatis2Java2Impl;
-import pers.linhai.nature.j2ee.generator.core.codegen.ibatis2.IntrospectedTableIbatis2Java5Impl;
 import pers.linhai.nature.j2ee.generator.core.codegen.mybatis3.IntrospectedTableMyBatis3Impl;
 import pers.linhai.nature.j2ee.generator.core.codegen.mybatis3.IntrospectedTableMyBatis3SimpleImpl;
 import pers.linhai.nature.j2ee.generator.core.config.CommentGeneratorConfiguration;
@@ -352,14 +350,6 @@ public class ObjectFactory
         if (!stringHasValue(type))
         {
             type = IntrospectedTableMyBatis3Impl.class.getName();
-        }
-        else if ("Ibatis2Java2".equalsIgnoreCase(type)) //$NON-NLS-1$
-        {
-            type = IntrospectedTableIbatis2Java2Impl.class.getName();
-        }
-        else if ("Ibatis2Java5".equalsIgnoreCase(type)) //$NON-NLS-1$
-        {
-            type = IntrospectedTableIbatis2Java5Impl.class.getName();
         }
         else if ("Ibatis3".equalsIgnoreCase(type)) //$NON-NLS-1$
         {
