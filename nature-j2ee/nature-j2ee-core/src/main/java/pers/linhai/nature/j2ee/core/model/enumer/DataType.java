@@ -44,7 +44,7 @@ public enum DataType
     BIGINT(Types.BIGINT, "BIGINT", LongTypeParser.class),
     
     /**
-     * BINARY类型
+     * BINARY类型，定长的字节流数组，类似char和varchar的关系，一个定长，一个变长
      */
     BINARY(Types.BINARY, "BINARY", BinaryTypeParser.class),
     
@@ -194,7 +194,7 @@ public enum DataType
     TINYINT(Types.TINYINT, "TINYINT", IntegerTypeParser.class),
     
     /**
-     * VARBINARY类型
+     * VARBINARY类型，变长的字节流数组
      */
     VARBINARY(Types.VARBINARY, "VARBINARY", BinaryTypeParser.class),
     

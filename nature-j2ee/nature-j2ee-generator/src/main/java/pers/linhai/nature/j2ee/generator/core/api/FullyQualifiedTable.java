@@ -223,7 +223,7 @@ public class FullyQualifiedTable
         }
         addDelimiters(localTableName);
 
-        return composeFullyQualifiedTableName(localCatalog.toString(), localSchema.toString(), localTableName.toString(), '.');
+        return localTableName.toString();
     }
 
     /**

@@ -15,8 +15,6 @@
  */
 package pers.linhai.nature.j2ee.generator.core.internal.db;
 
-import static pers.linhai.nature.j2ee.generator.core.internal.util.StringUtility.composeFullyQualifiedTableName;
-
 /**
  * This class holds the actual catalog, schema, and table name returned from the
  * database introspection.
@@ -35,8 +33,7 @@ public class ActualTableName {
         this.catalog = catalog;
         this.schema = schema;
         this.tableName = tableName;
-        fullName = composeFullyQualifiedTableName(catalog,
-                schema, tableName, '.');
+        fullName = tableName;
     }
 
     public String getCatalog() {

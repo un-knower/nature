@@ -589,7 +589,7 @@ public class TableConfiguration extends PropertyHolder
             errors.add(getString("ValidationError.6", Integer.toString(listPosition))); //$NON-NLS-1$
         }
 
-        String fqTableName = composeFullyQualifiedTableName(catalog, schema, tableName, '.');
+        String fqTableName = tableName;
 
         if (generatedKey != null)
         {

@@ -518,7 +518,7 @@ public class Context extends PropertyHolder
 
             for (TableConfiguration tc : tableConfigurations)
             {
-                String tableName = composeFullyQualifiedTableName(tc.getCatalog(), tc.getSchema(), tc.getTableName(), '.');
+                String tableName = tc.getTableName();
 
                 if (fullyQualifiedTableNames != null && fullyQualifiedTableNames.size() > 0 && !fullyQualifiedTableNames.contains(tableName))
                 {

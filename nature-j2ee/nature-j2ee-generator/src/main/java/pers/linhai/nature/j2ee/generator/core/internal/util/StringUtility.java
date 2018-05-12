@@ -36,7 +36,7 @@ public class StringUtility
     {
         StringBuilder sb = new StringBuilder();
 
-        if (stringHasValue(catalog))
+        /*if (stringHasValue(catalog))
         {
             sb.append(catalog);
             sb.append(separator);
@@ -53,7 +53,7 @@ public class StringUtility
             {
                 sb.append(separator);
             }
-        }
+        }*/
 
         sb.append(tableName);
 

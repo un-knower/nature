@@ -45,8 +45,7 @@ public class Main
      * @param args 
      * void 
      */
-    public static void main(String[] args)
-        throws Exception
+    public static void main(String[] args) throws Exception
     {
         String outPutPath = "C:\\Users\\lilinhai\\Desktop";
 
