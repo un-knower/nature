@@ -9,7 +9,6 @@
 package pers.linhai.nature.j2ee.generator.core.config;
 
 
-import static pers.linhai.nature.j2ee.generator.core.internal.util.StringUtility.composeFullyQualifiedTableName;
 import static pers.linhai.nature.j2ee.generator.core.internal.util.StringUtility.isTrue;
 import static pers.linhai.nature.j2ee.generator.core.internal.util.StringUtility.stringHasValue;
 import static pers.linhai.nature.j2ee.generator.core.internal.util.messages.Messages.getString;

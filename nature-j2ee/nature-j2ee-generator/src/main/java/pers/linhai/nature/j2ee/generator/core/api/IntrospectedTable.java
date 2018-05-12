@@ -24,7 +24,6 @@ import pers.linhai.nature.j2ee.generator.core.config.GeneratedKey;
 import pers.linhai.nature.j2ee.generator.core.config.JavaClientGeneratorConfiguration;
 import pers.linhai.nature.j2ee.generator.core.config.JavaModelGeneratorConfiguration;
 import pers.linhai.nature.j2ee.generator.core.config.ModelType;
-import pers.linhai.nature.j2ee.generator.core.config.PropertyHolder;
 import pers.linhai.nature.j2ee.generator.core.config.PropertyRegistry;
 import pers.linhai.nature.j2ee.generator.core.config.SqlMapGeneratorConfiguration;
 import pers.linhai.nature.j2ee.generator.core.config.TableConfiguration;
@@ -811,14 +810,9 @@ public abstract class IntrospectedTable
             sb.append(config.getTargetPackage());
         }
 
-        sb.append(fullyQualifiedTable.getSubPackageForClientOrSqlMap(isSubPackagesEnabled(config)));
+        //sb.append(fullyQualifiedTable.getSubPackageForClientOrSqlMap(isSubPackagesEnabled(config)));
 
         return sb.toString();
-    }
-
-    private boolean isSubPackagesEnabled(PropertyHolder propertyHolder)
-    {
-        return isTrue(propertyHolder.getProperty(PropertyRegistry.ANY_ENABLE_SUB_PACKAGES));
     }
 
     protected String calculateJavaClientInterfacePackage()
@@ -832,7 +826,7 @@ public abstract class IntrospectedTable
         StringBuilder sb = new StringBuilder();
         sb.append(config.getTargetPackage());
 
-        sb.append(fullyQualifiedTable.getSubPackageForClientOrSqlMap(isSubPackagesEnabled(config)));
+        //sb.append(fullyQualifiedTable.getSubPackageForClientOrSqlMap(isSubPackagesEnabled(config)));
 
         return sb.toString();
     }
@@ -905,7 +899,7 @@ public abstract class IntrospectedTable
 
         StringBuilder sb = new StringBuilder();
         sb.append(config.getTargetPackage());
-        sb.append(fullyQualifiedTable.getSubPackageForModel(isSubPackagesEnabled(config)));
+        //sb.append(fullyQualifiedTable.getSubPackageForModel(isSubPackagesEnabled(config)));
 
         return sb.toString();
     }
@@ -951,7 +945,7 @@ public abstract class IntrospectedTable
         if (config != null)
         {
             sb.append(config.getTargetPackage());
-            sb.append(fullyQualifiedTable.getSubPackageForClientOrSqlMap(isSubPackagesEnabled(config)));
+            /*sb.append(fullyQualifiedTable.getSubPackageForClientOrSqlMap(isSubPackagesEnabled(config)));
             if (stringHasValue(tableConfiguration.getMapperName()))
             {
                 String mapperName = tableConfiguration.getMapperName();
@@ -964,7 +958,7 @@ public abstract class IntrospectedTable
             else if (stringHasValue(fullyQualifiedTable.getDomainObjectSubPackage()))
             {
                 sb.append('.').append(fullyQualifiedTable.getDomainObjectSubPackage());
-            }
+            }*/
         }
 
         return sb.toString();

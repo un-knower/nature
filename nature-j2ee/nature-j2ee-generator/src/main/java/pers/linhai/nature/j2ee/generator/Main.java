@@ -50,7 +50,7 @@ public class Main
         String outPutPath = "C:\\Users\\lilinhai\\Desktop";
 
         String groupId = "com.meme";
-        String artifactId = "crm";
+        String artifactId = "crm11";
         String dbIp = "localhost";
         String dbPort = "3306";
         String dbUsername = "root";
