@@ -15,7 +15,7 @@ import java.util.List;
 
 import pers.linhai.nature.j2ee.core.exception.ConditionFormatException;
 import pers.linhai.nature.j2ee.core.model.Where.Condition;
-import pers.linhai.nature.j2ee.core.model.datatype.DataType;
+import pers.linhai.nature.j2ee.core.model.datatypeparser.DataTypeParser;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -49,7 +49,7 @@ public class InConditionSegment extends ConditionSegment
             }
             for (Object val : valueTempCollection)
             {
-                this.valueList.add(DataType.parse(getJdbcType(), val));
+                this.valueList.add(DataTypeParser.parse(getJdbcType(), val));
             }
         }
     }

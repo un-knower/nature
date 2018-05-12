@@ -9,7 +9,7 @@
 package pers.linhai.nature.j2ee.core.model.condition;
 
 import pers.linhai.nature.j2ee.core.model.Where.Condition;
-import pers.linhai.nature.j2ee.core.model.datatype.DataType;
+import pers.linhai.nature.j2ee.core.model.datatypeparser.DataTypeParser;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -50,6 +50,6 @@ public class CommonConditionSegment extends ConditionSegment
      */
     public void setValue(Object value)
     {
-        this.value = DataType.parse(getJdbcType(), value);
+        this.value = DataTypeParser.parse(getJdbcType(), value);
     }
 }

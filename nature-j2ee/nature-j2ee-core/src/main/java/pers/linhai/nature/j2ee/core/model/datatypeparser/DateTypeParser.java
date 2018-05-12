@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */
 
-package pers.linhai.nature.j2ee.core.model.datatype;
+package pers.linhai.nature.j2ee.core.model.datatypeparser;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,7 +24,7 @@ import pers.linhai.nature.j2ee.core.exception.DataTypeException;
  * @author lilinhai 2018年2月15日 下午6:58:54
  * @version 1.0
  */
-public class DateType extends DataType
+public class DateTypeParser extends DataTypeParser
 {
     
     private static final Map<Pattern, SimpleDateFormat> MAP = new HashMap<Pattern, SimpleDateFormat>();
@@ -51,7 +51,7 @@ public class DateType extends DataType
      * <p>Title: parse</p>
      * @param value
      * @return 
-     * @see com.meme.crm.model.core.datatype.DataType#parse(java.lang.String)
+     * @see com.DataTypeParser.crm.model.core.datatype.DataType#parse(java.lang.String)
      */
     public Date parse(Object value)
     {

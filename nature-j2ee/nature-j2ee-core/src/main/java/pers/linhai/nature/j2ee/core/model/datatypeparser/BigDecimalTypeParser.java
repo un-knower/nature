@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */
 
-package pers.linhai.nature.j2ee.core.model.datatype;
+package pers.linhai.nature.j2ee.core.model.datatypeparser;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -15,7 +15,7 @@ package pers.linhai.nature.j2ee.core.model.datatype;
  * @author lilinhai 2018年2月15日 下午6:58:54
  * @version 1.0
  */
-public class DoubleType extends DataType
+public class BigDecimalTypeParser extends DataTypeParser
 {
     
     /** 
@@ -23,15 +23,18 @@ public class DoubleType extends DataType
      * <p>Title: parse</p>
      * @param value
      * @return 
-     * @see com.meme.crm.model.core.datatype.DataType#parse(java.lang.String)
+     * @see com.DataTypeParser.crm.model.core.datatype.DataType#parse(java.lang.String)
      */
     public Object parse(Object value)
     {
         if (value instanceof String)
         {
-            return Double.parseDouble(value.toString());
+            return Byte.parseByte(value.toString());
         }
-        return (Double) value;
+        else if (value instanceof Integer)
+        {
+            return ((Integer) value).byteValue();
+        }
+        return (Byte) value;
     }
-    
 }

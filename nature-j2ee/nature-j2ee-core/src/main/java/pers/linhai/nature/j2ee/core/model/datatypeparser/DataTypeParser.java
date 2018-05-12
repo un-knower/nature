@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */
 
-package pers.linhai.nature.j2ee.core.model.datatype;
+package pers.linhai.nature.j2ee.core.model.datatypeparser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,21 +20,21 @@ import pers.linhai.nature.j2ee.core.exception.DataTypeException;
  * @author lilinhai 2018年2月15日 下午6:53:37
  * @version 1.0
  */
-public abstract class DataType
+public abstract class DataTypeParser
 {
     
-    private static Map<String, DataType> DATA_TYPE_MAP = new HashMap<String, DataType>();
+    private static Map<String, DataTypeParser> DATA_TYPE_MAP = new HashMap<String, DataTypeParser>();
     static
     {
-        ByteType byteType = new ByteType();
-        ShortType shortType = new ShortType();
-        IntegerType integerType = new IntegerType();
-        LongType longType = new LongType();
-        FloatType floatType = new FloatType();
-        DoubleType doubleType = new DoubleType();
-        BooleanType booleanType = new BooleanType();
-        StringType stringType = new StringType();
-        DateType dateType = new DateType();
+        ByteTypeParser byteType = new ByteTypeParser();
+        ShortTypeParser shortType = new ShortTypeParser();
+        IntegerTypeParser integerType = new IntegerTypeParser();
+        LongTypeParser longType = new LongTypeParser();
+        FloatTypeParser floatType = new FloatTypeParser();
+        DoubleTypeParser doubleType = new DoubleTypeParser();
+        BooleanTypeParser booleanType = new BooleanTypeParser();
+        StringTypeParser stringType = new StringTypeParser();
+        DateTypeParser dateType = new DateTypeParser();
         
         DATA_TYPE_MAP.put("TINYINT", byteType);
         DATA_TYPE_MAP.put("SMALLINT", shortType);
@@ -66,7 +66,7 @@ public abstract class DataType
      */
     public static Object parse(String jdbcType, Object value)
     {
-        DataType dataType = DATA_TYPE_MAP.get(jdbcType);
+        DataTypeParser dataType = DATA_TYPE_MAP.get(jdbcType);
         if (dataType == null)
         {
             throw new DataTypeException("DataType is not supported: " + jdbcType);

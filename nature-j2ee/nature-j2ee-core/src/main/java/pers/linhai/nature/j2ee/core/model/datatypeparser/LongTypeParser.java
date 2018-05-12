@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */
 
-package pers.linhai.nature.j2ee.core.model.datatype;
+package pers.linhai.nature.j2ee.core.model.datatypeparser;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -15,22 +15,27 @@ package pers.linhai.nature.j2ee.core.model.datatype;
  * @author lilinhai 2018年2月15日 下午6:58:54
  * @version 1.0
  */
-public class BooleanType extends DataType
+public class LongTypeParser extends DataTypeParser
 {
     
-    /**
-     * <p>Overriding Method: lilinhai 2018年5月5日 下午3:34:22</p>
+    /** 
+     * <p>Overriding Method: lilinhai 2018年2月15日 下午6:59:08</p>
      * <p>Title: parse</p>
      * @param value
      * @return 
-     * @see pers.linhai.nature.j2ee.core.model.datatype.DataType#parse(java.lang.Object)
+     * @see com.DataTypeParser.crm.model.core.datatype.DataType#parse(java.lang.String)
      */
     public Object parse(Object value)
     {
         if (value instanceof String)
         {
-            return Boolean.parseBoolean(value.toString());
+            return Long.parseLong(value.toString());
         }
-        return (Boolean) value;
+        else if (value instanceof Integer)
+        {
+            return ((Integer) value).longValue();
+        }
+        return (Long) value;
     }
+    
 }

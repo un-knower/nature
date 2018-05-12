@@ -84,7 +84,7 @@ public class CodeGenerator
             // JDBC连接参数配置
             JDBCConnectionConfigurationBuilder jdbcConnectionConfigurationBuilder = new JDBCConnectionConfigurationBuilder();
             jdbcConnectionConfigurationBuilder.driverClass(Driver.class.getName());
-            jdbcConnectionConfigurationBuilder.connectionURL("jdbc:mysql://" + params.get("dbIp") + ":" + params.get("dbPort") + "/" + params.get("dbName") + "?useUnicode=true&characterEncoding=utf8&useSSL=false");
+            jdbcConnectionConfigurationBuilder.connectionURL("jdbc:mysql://" + params.get("dbIp") + ":" + params.get("dbPort") + "/" + params.get("dbName") + "?useUnicode=true&characterEncoding=utf8&useSSL=false&tinyInt1isBit=false&serverTimezone=Asia/Shanghai");
             jdbcConnectionConfigurationBuilder.userId(params.get("dbUsername")).password(params.get("dbPassword"));
             contextBuilder.jdbcConnectionConfiguration(jdbcConnectionConfigurationBuilder.build());
 
@@ -103,6 +103,8 @@ public class CodeGenerator
 
             // 数据库表配置，默认为所有表生成
             TableConfigurationBuilder TableConfigurationBuilder = new TableConfigurationBuilder(contextBuilder.build());
+            TableConfigurationBuilder.schema(params.get("dbName"));
+            TableConfigurationBuilder.catalog(params.get("dbName"));
             contextBuilder.addTableConfiguration(TableConfigurationBuilder.build());
 
             CodeConfigurationBuilder codeConfigurationBuilder = new CodeConfigurationBuilder(contextBuilder.build());

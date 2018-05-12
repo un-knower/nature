@@ -57,7 +57,7 @@ public class Main
         String dbUsername = "root";
         String dbPassword = "LinHai_548";
         String dbName = "crm";
-        String dbDriver = "com.mysql.jdbc.Driver";
+        String dbDriver = "com.mysql.cj.jdbc.Driver";
         
 
         Map<String, String> params = new HashMap<String, String>();

@@ -8,7 +8,7 @@ datasource:
   # 连接数据库的url，不同数据库不一样。例如：
   # mysql : jdbc:mysql://10.20.153.104:3306/druid2
   # oracle : jdbc:oracle:thin:@10.20.149.85:1521:ocnauto 
-  url: "jdbc:mysql://${dbIp}:${dbPort}/${dbName}?useUnicode=true&characterEncoding=utf8&useSSL=false&tinyInt1isBit=false"
+  url: "jdbc:mysql://${dbIp}:${dbPort}/${dbName}?useUnicode=true&characterEncoding=utf8&useSSL=false&tinyInt1isBit=false&serverTimezone=Asia/Shanghai"
   
   # 连接数据库的用户名
   username: "${dbUsername}"
