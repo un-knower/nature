@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
+import com.mysql.cj.jdbc.Driver;
 
 import freemarker.core.ParseException;
 import freemarker.template.Configuration;
@@ -56,7 +57,7 @@ public class Main
         String dbUsername = "root";
         String dbPassword = "LinHai_548";
         String dbName = "crm";
-        String dbDriver = "com.mysql.cj.jdbc.Driver";
+        String dbDriver = Driver.class.getName();
         
 
         Map<String, String> params = new HashMap<String, String>();
