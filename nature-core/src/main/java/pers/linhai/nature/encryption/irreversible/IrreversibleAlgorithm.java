@@ -23,7 +23,7 @@ import pers.linhai.nature.utils.HexUtils;
  * @author lilinhai 2018年4月11日 上午9:41:18
  * @version 1.0
  */
-public class IrreversibleAlgorithm
+public abstract class IrreversibleAlgorithm
 {
 
     /**
