@@ -8,9 +8,7 @@
 
 package pers.linhai.nature.j2ee.core.dao.datasource;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -32,38 +30,12 @@ import com.alibaba.druid.wall.WallFilter;
  */
 @Component
 @ConfigurationProperties(prefix = "datasource")
-public class NatureDataSource extends DruidDataSource implements InitializingBean
+public class NatureDataSource extends DruidDataSource
 {
     /**
      * <p>Info          : long serialVersionUID lilinhai 2018年4月20日 下午10:53:09</p>
      */
     private static final long serialVersionUID = 1L;
-    
-    @Autowired
-    private DataSourceProperties basicProperties;
-    
-    public void afterPropertiesSet() throws Exception
-    {
-        // if not found prefix 'spring.datasource.druid' jdbc properties ,'spring.datasource'
-        // prefix jdbc properties will be used.
-        if (super.getUsername() == null)
-        {
-            super.setUsername(basicProperties.determineUsername());
-        }
-        if (super.getPassword() == null)
-        {
-            super.setPassword(basicProperties.determinePassword());
-        }
-        if (super.getUrl() == null)
-        {
-            super.setUrl(basicProperties.determineUrl());
-        }
-        if (super.getDriverClassName() == null)
-        {
-            super.setDriverClassName(basicProperties.getDriverClassName());
-        }
-        
-    }
     
     @Autowired(required = false)
     public void addStatFilter(StatFilter statFilter)
