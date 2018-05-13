@@ -171,19 +171,11 @@
         <Logger name="org.hibernate.validator.internal.util.Version" level="warn" />
         <Logger name="org.thymeleaf" level="warn"/>
         <Logger name="org.mybatis" level="warn" />
-        <Logger name="org.springframework" level="INFO">
-            <AppenderRef ref="Console" />
-        </Logger>
-        <Logger name="org.elasticsearch" level="INFO">
-            <AppenderRef ref="Console" />
-        </Logger>
-        <Logger name="org.apache" level="INFO">
-            <AppenderRef ref="Console" />
-        </Logger>
-        <Logger name="org.mybatis" level="INFO">
-            <AppenderRef ref="Console" />
-        </Logger>
-        <Logger name="pers" level="DEBUG">
+        <Logger name="org.springframework" level="INFO" />
+        <Logger name="org.elasticsearch" level="INFO" />
+        <Logger name="org.apache" level="INFO" />
+        <Logger name="org.mybatis" level="INFO" />
+        <Logger name="pers" level="DEBUG" additivity="false">
             <AppenderRef ref="Console" />
             <AppenderRef ref="DaoRollingFile" />
         </Logger>
@@ -198,6 +190,7 @@
         </Logger>
         <Root level="INFO">
             <AppenderRef ref="RootRollingFile" />
+            <AppenderRef ref="Console" />
         </Root>
     </Loggers>
 </Configuration>
