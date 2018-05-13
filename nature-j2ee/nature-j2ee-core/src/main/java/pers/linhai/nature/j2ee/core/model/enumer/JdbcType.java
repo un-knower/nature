@@ -26,12 +26,12 @@ import pers.linhai.nature.j2ee.core.model.datatypeparser.LongTypeParser;
 import pers.linhai.nature.j2ee.core.model.datatypeparser.StringTypeParser;
 
 /**
- * 数据类型
+ * JDBC数据类型
  * <p>ClassName      : DataTypes</p>
  * @author lilinhai 2018年5月12日 上午9:08:19
  * @version 1.0
  */
-public enum DataType
+public enum JdbcType
 {
     /**
      * ARRAY类型
@@ -206,16 +206,16 @@ public enum DataType
     /**
      * 所有数据类型的hashmap映射，key为code
      */
-    private static final Map<Integer, DataType> CODE_MAP = new HashMap<Integer, DataType>();
+    private static final Map<Integer, JdbcType> CODE_MAP = new HashMap<Integer, JdbcType>();
     
     /**
      * 所有数据类型的hashmap映射，key为type
      */
-    private static final Map<String, DataType> TYPE_MAP = new HashMap<String, DataType>();
+    private static final Map<String, JdbcType> TYPE_MAP = new HashMap<String, JdbcType>();
     
     static
     {
-        for (DataType dt : values())
+        for (JdbcType dt : values())
         {
             CODE_MAP.put(dt.code, dt);
             TYPE_MAP.put(dt.type, dt);
@@ -229,7 +229,7 @@ public enum DataType
      * @param type
      * @param dataTypeParser 
      */ 
-    DataType(int code, String type, Class<? extends DataTypeParser> dataTypeParserClass)
+    JdbcType(int code, String type, Class<? extends DataTypeParser> dataTypeParserClass)
     {
         this.code = code;
         this.type = type;
@@ -285,9 +285,9 @@ public enum DataType
      * @return 
      * DataType
      */
-    public static DataType transfer(int code)
+    public static JdbcType transfer(int code)
     {
-        DataType dt = CODE_MAP.get(code);
+        JdbcType dt = CODE_MAP.get(code);
         if (dt == null)
         {
             throw new DataTypeException("Illegal data type code: " + code);
@@ -302,9 +302,9 @@ public enum DataType
      * @return 
      * DataType
      */
-    public static DataType transfer(String type)
+    public static JdbcType transfer(String type)
     {
-        DataType dt = TYPE_MAP.get(type);
+        JdbcType dt = TYPE_MAP.get(type);
         if (dt == null)
         {
             throw new DataTypeException("Illegal data type: " + type);

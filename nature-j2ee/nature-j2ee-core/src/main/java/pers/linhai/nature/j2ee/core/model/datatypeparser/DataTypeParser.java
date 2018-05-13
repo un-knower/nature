@@ -10,7 +10,7 @@
 package pers.linhai.nature.j2ee.core.model.datatypeparser;
 
 import pers.linhai.nature.j2ee.core.exception.DataTypeException;
-import pers.linhai.nature.j2ee.core.model.enumer.DataType;
+import pers.linhai.nature.j2ee.core.model.enumer.JdbcType;
 
 /**
  * 数据库DB抽象数据类型
@@ -39,7 +39,7 @@ public abstract class DataTypeParser
      */
     public static Object parse(String jdbcType, Object value)
     {
-        DataTypeParser dataType = DataType.transfer(jdbcType).getDataTypeParser();
+        DataTypeParser dataType = JdbcType.transfer(jdbcType).getDataTypeParser();
         if (dataType == null)
         {
             throw new DataTypeException("DataType is not supported: " + jdbcType);

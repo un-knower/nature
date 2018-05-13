@@ -51,7 +51,7 @@ public class DateTypeParser extends DataTypeParser
      * <p>Title: parse</p>
      * @param value
      * @return 
-     * @see com.DataTypeParser.crm.model.core.datatype.DataType#parse(java.lang.String)
+     * @see com.JdbcType.crm.model.core.datatype.DataType#parse(java.lang.String)
      */
     public Date parse(Object value)
     {

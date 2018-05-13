@@ -23,7 +23,7 @@ public class FloatTypeParser extends DataTypeParser
      * <p>Title: parse</p>
      * @param value
      * @return 
-     * @see com.DataTypeParser.crm.model.core.datatype.DataType#parse(java.lang.String)
+     * @see com.JdbcType.crm.model.core.datatype.DataType#parse(java.lang.String)
      */
     public Object parse(Object value)
     {

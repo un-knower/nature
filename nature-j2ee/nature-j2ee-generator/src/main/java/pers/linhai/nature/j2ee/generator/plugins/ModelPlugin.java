@@ -26,6 +26,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import pers.linhai.nature.j2ee.core.exception.IllegalFieldException;
 import pers.linhai.nature.j2ee.core.model.DateJsonDeserializer;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
+import pers.linhai.nature.j2ee.core.model.enumer.JdbcType;
 import pers.linhai.nature.j2ee.generator.core.api.CoreClassImportConstant;
 import pers.linhai.nature.j2ee.generator.core.api.GeneratedJavaFile;
 import pers.linhai.nature.j2ee.generator.core.api.IntrospectedColumn;
@@ -366,6 +367,7 @@ public class ModelPlugin extends BasePlugin
         fieldEnumeration.addImportedType(new FullyQualifiedJavaType(HashMap.class.getName()));
         fieldEnumeration.addImportedType(new FullyQualifiedJavaType(List.class.getName()));
         fieldEnumeration.addImportedType(new FullyQualifiedJavaType(ArrayList.class.getName()));
+        fieldEnumeration.addImportedType(new FullyQualifiedJavaType(JdbcType.class.getName()));
         
         fieldEnumeration.setStatic(false);
         fieldEnumeration.setVisibility(JavaVisibility.PUBLIC);
@@ -467,7 +469,7 @@ public class ModelPlugin extends BasePlugin
         jdbcType.setFinal(false);
         jdbcType.setName("jdbcType");
         jdbcType.setStatic(false);
-        jdbcType.setType(new FullyQualifiedJavaType("String"));
+        jdbcType.setType(new FullyQualifiedJavaType(JdbcType.class.getName()));
         jdbcType.setVisibility(JavaVisibility.PRIVATE);
         fieldEnumeration.addField(jdbcType);
         
@@ -476,7 +478,7 @@ public class ModelPlugin extends BasePlugin
         constructorMethod.setConstructor(true);
         constructorMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "javaField"));
         constructorMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "tableField"));
-        constructorMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "jdbcType"));
+        constructorMethod.addParameter(new Parameter(new FullyQualifiedJavaType(JdbcType.class.getName()), "jdbcType"));
         constructorMethod.addBodyLine("this.javaField = javaField;");
         constructorMethod.addBodyLine("this.tableField = tableField;");
         constructorMethod.addBodyLine("this.jdbcType = jdbcType;");
@@ -509,7 +511,7 @@ public class ModelPlugin extends BasePlugin
         getJdbcTypeMethod.setStatic(false);
         getJdbcTypeMethod.setVisibility(JavaVisibility.PUBLIC);
         getJdbcTypeMethod.setReturnType(new FullyQualifiedJavaType("String"));
-        getJdbcTypeMethod.addBodyLine("return jdbcType;");
+        getJdbcTypeMethod.addBodyLine("return jdbcType.getType();");
         fieldEnumeration.addMethod(getJdbcTypeMethod);
         
         // transfer方法
@@ -542,7 +544,7 @@ public class ModelPlugin extends BasePlugin
         for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns())
         {
             String enumFieldName = introspectedColumn.getActualColumnName().toUpperCase(Locale.ENGLISH);
-            fieldEnumeration.addEnumConstant(enumFieldName + "(\"" + introspectedColumn.getJavaProperty() + "\", \"" + introspectedColumn.getActualColumnName() + "\", \"" + introspectedColumn.getJdbcTypeName() + "\")");
+            fieldEnumeration.addEnumConstant(enumFieldName + "(\"" + introspectedColumn.getJavaProperty() + "\", \"" + introspectedColumn.getActualColumnName() + "\", JdbcType." + introspectedColumn.getJdbcTypeName() + ")");
         }
         return new GeneratedJavaFile(fieldEnumeration, getTargetProjectJavaSourceFolder(), "utf-8", new DefaultJavaFormatter());
     }
