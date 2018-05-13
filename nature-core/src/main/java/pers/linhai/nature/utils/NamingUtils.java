@@ -1,5 +1,8 @@
 package pers.linhai.nature.utils;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * 字段名，索引表名转换工具
  * @ClassName: NamingUtil 
@@ -9,6 +12,19 @@ package pers.linhai.nature.utils;
  */
 public abstract class NamingUtils
 {
+    private static final Set<Character> SEPARATOR_CHAR_SET = new HashSet<Character>();
+    static
+    {
+        SEPARATOR_CHAR_SET.add('_');
+        SEPARATOR_CHAR_SET.add('-');
+        SEPARATOR_CHAR_SET.add('@');
+        SEPARATOR_CHAR_SET.add('$');
+        SEPARATOR_CHAR_SET.add('#');
+        SEPARATOR_CHAR_SET.add(' ');
+        SEPARATOR_CHAR_SET.add('/');
+        SEPARATOR_CHAR_SET.add('&');
+    }
+    
     /**
      * 转换成数据库或索引哭需要的名字格式:驼峰形式小写，用下划线连接
      * 
@@ -50,39 +66,25 @@ public abstract class NamingUtils
     public static String getCamelCaseString(String inputString, boolean firstCharacterUppercase)
     {
         StringBuilder sb = new StringBuilder();
-
-        boolean nextUpperCase = false;
+        boolean isNextCharToUpperCase = false;
         for (int i = 0; i < inputString.length(); i++ )
         {
             char c = inputString.charAt(i);
-
-            switch (c)
+            if (SEPARATOR_CHAR_SET.contains(c))
             {
-                case '_':
-                case '-':
-                case '@':
-                case '$':
-                case '#':
-                case ' ':
-                case '/':
-                case '&':
-                    if (sb.length() > 0)
-                    {
-                        nextUpperCase = true;
-                    }
-                    break;
-
-                default:
-                    if (nextUpperCase)
-                    {
-                        sb.append(Character.toUpperCase(c));
-                        nextUpperCase = false;
-                    }
-                    else
-                    {
-                        sb.append(Character.toLowerCase(c));
-                    }
-                    break;
+                if (sb.length() > 0)
+                {
+                    isNextCharToUpperCase = true;
+                }
+            }
+            else if(isNextCharToUpperCase)
+            {
+                sb.append(Character.toUpperCase(c));
+                isNextCharToUpperCase = false;
+            }
+            else
+            {
+                sb.append(Character.toLowerCase(c));
             }
         }
 
