@@ -12,9 +12,9 @@
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
 
 		<junit.version>4.12</junit.version>
-		<spring.boot.version>2.0.1.RELEASE</spring.boot.version>
+		<spring.boot.version>2.0.2.RELEASE</spring.boot.version>
 		<spring.cloud.version>Camden.SR7</spring.cloud.version>
-		<springframework.version>5.0.5.RELEASE</springframework.version>
+		<springframework.version>5.0.6.RELEASE</springframework.version>
 		<elasticsearch.version>5.6.3</elasticsearch.version>
 		<project.organization.name>${groupId}</project.organization.name>
 	</properties>
