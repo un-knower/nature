@@ -29,64 +29,6 @@ public class ControllerException extends RuntimeException
      */
     protected int errorCode;
     
-    /**
-     * <p>Title        : MapperException lilinhai 2018年2月13日 上午11:12:03</p>
-     * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p> 
-     */
-    public ControllerException()
-    {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-    
-    /**
-     * <p>Title        : MapperException lilinhai 2018年2月13日 上午11:12:03</p>
-     * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
-     * @param message
-     * @param cause
-     * @param enableSuppression
-     * @param writableStackTrace 
-     */
-    public ControllerException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
-    {
-        super(message, cause, enableSuppression, writableStackTrace);
-        // TODO Auto-generated constructor stub
-    }
-    
-    /**
-     * <p>Title        : MapperException lilinhai 2018年2月13日 上午11:12:03</p>
-     * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
-     * @param message
-     * @param cause 
-     */
-    public ControllerException(String message, Throwable cause)
-    {
-        super(message, cause);
-        // TODO Auto-generated constructor stub
-    }
-    
-    /**
-     * <p>Title        : MapperException lilinhai 2018年2月13日 上午11:12:03</p>
-     * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
-     * @param message 
-     */
-    public ControllerException(String message)
-    {
-        super(message);
-        // TODO Auto-generated constructor stub
-    }
-    
-    /**
-     * <p>Title        : MapperException lilinhai 2018年2月13日 上午11:12:03</p>
-     * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
-     * @param cause 
-     */
-    public ControllerException(Throwable cause)
-    {
-        super(cause);
-        // TODO Auto-generated constructor stub
-    }
-    
     public ControllerException(int errorCode, String message)
     {
         super(message);

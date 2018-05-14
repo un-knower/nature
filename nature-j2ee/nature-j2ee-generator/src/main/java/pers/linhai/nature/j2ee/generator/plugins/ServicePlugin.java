@@ -94,7 +94,7 @@ public class ServicePlugin extends BasePlugin
 
         // 添加需要依赖的类
         serviceImpl.addImportedType(new FullyQualifiedJavaType(Service.class.getName()));
-        serviceImpl.addImportedType(new FullyQualifiedJavaType(getTargetPackae("interceptor") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Interceptor"));
+        serviceImpl.addImportedType(new FullyQualifiedJavaType(getTargetPackae("interceptor") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "ServiceInterceptor"));
         serviceImpl.addImportedType(new FullyQualifiedJavaType(getTargetPackae("interfaces") + ".I" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Service"));
         serviceImpl.addImportedType(new FullyQualifiedJavaType(CoreClassImportConstant.BASE_ENTITY_SERVICE_IMPL_CLASS));
         serviceImpl.addImportedType(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()));
@@ -111,7 +111,7 @@ public class ServicePlugin extends BasePlugin
                 + ", " + introspectedTable.getBaseRecordType() 
                 + ", " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query" 
                 + ", I" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Mapper"
-                + ", " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Interceptor" + ">"));
+                + ", " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "ServiceInterceptor" + ">"));
         serviceImpl.addSuperInterface(new FullyQualifiedJavaType(getTargetPackae("interfaces") + ".I" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Service"));
 
         // 添加注释
@@ -129,7 +129,7 @@ public class ServicePlugin extends BasePlugin
      */
     private GeneratedJavaFile createServiceDataInterceptor(IntrospectedTable introspectedTable)
     {
-        TopLevelClass interceptor = new TopLevelClass(getTargetPackae("interceptor") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Interceptor");
+        TopLevelClass interceptor = new TopLevelClass(getTargetPackae("interceptor") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "ServiceInterceptor");
 
         // 给interceptor实现类加注释
         CodeCommentUtils.addInterceptorClassComment(interceptor, introspectedTable);

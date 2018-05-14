@@ -13,9 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
-import pers.linhai.nature.j2ee.core.web.exception.ControllerInterceptProcessDeleteException;
-import pers.linhai.nature.j2ee.core.web.exception.ControllerInterceptProcessSaveException;
-import pers.linhai.nature.j2ee.core.web.exception.ControllerInterceptProcessUpdateException;
+import pers.linhai.nature.j2ee.core.model.BaseQuery;
+import pers.linhai.nature.j2ee.core.web.exception.ControllerException;
 
 /**
  * 实体控制层拦截器标准接口
@@ -23,7 +22,7 @@ import pers.linhai.nature.j2ee.core.web.exception.ControllerInterceptProcessUpda
  * @author lilinhai 2018年4月29日 上午10:15:45
  * @version 1.0
  */
-public interface IEntityControllerInterceptor<Key, Entity extends BaseEntity<Key>>
+public interface IEntityControllerInterceptor<Key, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery>
 {
     /**
      * 上行数据save前的拦截处理，数据校验等操作处理
@@ -31,7 +30,7 @@ public interface IEntityControllerInterceptor<Key, Entity extends BaseEntity<Key
      * @param entity 
      * void
      */
-    void beforeSave(HttpServletRequest request, HttpServletResponse response, Entity entity) throws ControllerInterceptProcessSaveException;
+    void beforeSave(HttpServletRequest request, HttpServletResponse response, Entity entity) throws ControllerException;
     
     /**
      * 上行数据delete前的拦截处理，预防处理误删、搞乱等操作
@@ -39,7 +38,7 @@ public interface IEntityControllerInterceptor<Key, Entity extends BaseEntity<Key
      * @param id 
      * void
      */
-    void beforeDelete(HttpServletRequest request, HttpServletResponse response, Key id) throws ControllerInterceptProcessDeleteException;
+    void beforeDelete(HttpServletRequest request, HttpServletResponse response, Key id) throws ControllerException;
     
     /**
      * 上行数据update前的拦截处理，数据校验等操作处理
@@ -47,5 +46,33 @@ public interface IEntityControllerInterceptor<Key, Entity extends BaseEntity<Key
      * @param entity 
      * void
      */
-    void beforeUpdate(HttpServletRequest request, HttpServletResponse response, Entity entity) throws ControllerInterceptProcessUpdateException;
+    void beforeUpdate(HttpServletRequest request, HttpServletResponse response, Entity entity) throws ControllerException;
+    
+    /**
+     * 下行数据根据ID进行get前的拦截处理，数据校验等操作处理
+     * @param id
+     * void 
+     */
+    void beforeGet(HttpServletRequest request, HttpServletResponse response, Key id) throws ControllerException;
+    
+    /**
+     * 下行数据根据查询条件进行get前的拦截处理，数据校验等操作处理
+     * @param id
+     * void 
+     */
+    void beforeGet(HttpServletRequest request, HttpServletResponse response, EntityQuery entityQuery) throws ControllerException;
+    
+    /**
+     * 下行数据根据查询条件进行find前的拦截处理，数据校验等操作处理
+     * @param id
+     * void 
+     */
+    void beforeFind(HttpServletRequest request, HttpServletResponse response, EntityQuery entityQuery) throws ControllerException;
+    
+    /**
+     * 下行数据根据查询条件进行count前的拦截处理，数据校验等操作处理
+     * @param id
+     * void 
+     */
+    void beforeCount(HttpServletRequest request, HttpServletResponse response, EntityQuery entityQuery) throws ControllerException;
 }
