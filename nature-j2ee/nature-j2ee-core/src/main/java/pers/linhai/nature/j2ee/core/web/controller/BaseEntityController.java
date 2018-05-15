@@ -81,6 +81,15 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
             logger.error("[Controller] delete(@PathVariable Key id, HttpServletRequest request) occor an error", e);
             return fail(e.getErrorCode(), e.getMessage());
         }
+        catch (ControllerException e)
+        {
+            logger.error("[Controller] delete(HttpServletRequest request, HttpServletResponse response, @PathVariable Key id) occor an error", e);
+            return fail(e.getErrorCode(), e.getMessage());
+        }
+        catch (Throwable e)
+        {
+            return fail(BaseErrorCode.DELETE_EXCEPTION, e.getMessage());
+        }
     }
     
     /**
@@ -110,7 +119,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         }
         catch (Throwable e)
         {
-            return fail(-1, e.getMessage());
+            return fail(BaseErrorCode.INSERT_EXCEPTION, e.getMessage());
         }
     }
     
@@ -143,7 +152,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         }
         catch (Throwable e)
         {
-            return fail(-1, e.getMessage());
+            return fail(BaseErrorCode.UPDATE_EXCEPTION, e.getMessage());
         }
     }
     
