@@ -119,7 +119,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public Condition noeEqual(Object value)
+    public Condition notEqual(Object value)
     {
         condition.setOperator(Operator.NOT_EQUAL.getValue());
         condition.setValue(value);
