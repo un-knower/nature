@@ -12,8 +12,8 @@ import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
 
 import pers.linhai.nature.j2ee.core.dao.EntityReflecter;
+import pers.linhai.nature.j2ee.core.dao.exception.ReflectException;
 import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
-import pers.linhai.nature.j2ee.core.exception.ReflectException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 

@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */
 
-package pers.linhai.nature.j2ee.core.exception;
+package pers.linhai.nature.j2ee.core.dao.exception;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -15,7 +15,7 @@ package pers.linhai.nature.j2ee.core.exception;
  * @author lilinhai 2018年1月22日 下午4:13:58
  * @version 1.0
  */
-public class ReflectException extends RuntimeException
+public class IllegalExpression extends RuntimeException
 {
     
     /**
@@ -28,7 +28,7 @@ public class ReflectException extends RuntimeException
      * <p>Title        : IllegalExpression lilinhai 2018年1月22日 下午4:14:15</p>
      * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p> 
      */
-    public ReflectException()
+    public IllegalExpression()
     {
         super();
         // TODO Auto-generated constructor stub
@@ -42,7 +42,7 @@ public class ReflectException extends RuntimeException
      * @param enableSuppression
      * @param writableStackTrace 
      */
-    public ReflectException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
+    public IllegalExpression(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
     {
         super(message, cause, enableSuppression, writableStackTrace);
         // TODO Auto-generated constructor stub
@@ -54,7 +54,7 @@ public class ReflectException extends RuntimeException
      * @param message
      * @param cause 
      */
-    public ReflectException(String message, Throwable cause)
+    public IllegalExpression(String message, Throwable cause)
     {
         super(message, cause);
         // TODO Auto-generated constructor stub
@@ -65,7 +65,7 @@ public class ReflectException extends RuntimeException
      * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
      * @param message 
      */
-    public ReflectException(String message)
+    public IllegalExpression(String message)
     {
         super(message);
         // TODO Auto-generated constructor stub
@@ -76,7 +76,7 @@ public class ReflectException extends RuntimeException
      * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
      * @param cause 
      */
-    public ReflectException(Throwable cause)
+    public IllegalExpression(Throwable cause)
     {
         super(cause);
     }

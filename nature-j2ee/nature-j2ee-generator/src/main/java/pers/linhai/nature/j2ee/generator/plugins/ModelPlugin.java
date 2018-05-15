@@ -23,7 +23,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import pers.linhai.nature.j2ee.core.exception.IllegalFieldException;
+import pers.linhai.nature.j2ee.core.dao.exception.IllegalFieldException;
 import pers.linhai.nature.j2ee.core.model.DateJsonDeserializer;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.model.enumer.JdbcType;

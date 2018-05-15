@@ -1,84 +1,85 @@
 /* 
  * <p>Copyright   : LinHai Technologies Co., Ltd. Copyright 2018, All right reserved.</p>
  * <p>Description : <pre>TODO(用一句话描述该文件做什么)</pre></p>
- * <p>FileName    : IllegalExpression.java</p>
- * <p>Package     : com.leloven.wanka.match.model.expression.exception</p>
- * @Creator lilinhai 2018年1月22日 下午4:13:58
+ * <p>FileName    : MapperException.java</p>
+ * <p>Package     : com.meme.crm.dao.exception</p>
+ * @Creator lilinhai 2018年2月13日 上午11:11:44
  * @Version  V1.0  
  */
 
-package pers.linhai.nature.j2ee.core.exception;
+package pers.linhai.nature.j2ee.core.dao.exception;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
- * <p>ClassName      : IllegalExpression</p>
- * @author lilinhai 2018年1月22日 下午4:13:58
+ * <p>ClassName      : MapperException</p>
+ * @author lilinhai 2018年2月13日 上午11:11:44
  * @version 1.0
  */
-public class IllegalExpression extends RuntimeException
+public class MapperException extends RuntimeException
 {
     
     /**
-     * <p>Info          : long serialVersionUID lilinhai 2018年1月22日 下午4:14:05</p>
+     * <p>Info          : long serialVersionUID lilinhai 2018年2月13日 上午11:12:07</p>
      * <p>Description   : <pre>TODO(用一句话描述这个变量表示什么) </pre></p>
      */
     private static final long serialVersionUID = 1L;
     
     /**
-     * <p>Title        : IllegalExpression lilinhai 2018年1月22日 下午4:14:15</p>
+     * <p>Title        : MapperException lilinhai 2018年2月13日 上午11:12:03</p>
      * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p> 
      */
-    public IllegalExpression()
+    public MapperException()
     {
         super();
         // TODO Auto-generated constructor stub
     }
     
     /**
-     * <p>Title        : IllegalExpression lilinhai 2018年1月22日 下午4:14:15</p>
+     * <p>Title        : MapperException lilinhai 2018年2月13日 上午11:12:03</p>
      * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
      * @param message
      * @param cause
      * @param enableSuppression
      * @param writableStackTrace 
      */
-    public IllegalExpression(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
+    public MapperException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
     {
         super(message, cause, enableSuppression, writableStackTrace);
         // TODO Auto-generated constructor stub
     }
     
     /**
-     * <p>Title        : IllegalExpression lilinhai 2018年1月22日 下午4:14:15</p>
+     * <p>Title        : MapperException lilinhai 2018年2月13日 上午11:12:03</p>
      * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
      * @param message
      * @param cause 
      */
-    public IllegalExpression(String message, Throwable cause)
+    public MapperException(String message, Throwable cause)
     {
         super(message, cause);
         // TODO Auto-generated constructor stub
     }
     
     /**
-     * <p>Title        : IllegalExpression lilinhai 2018年1月22日 下午4:14:15</p>
+     * <p>Title        : MapperException lilinhai 2018年2月13日 上午11:12:03</p>
      * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
      * @param message 
      */
-    public IllegalExpression(String message)
+    public MapperException(String message)
     {
         super(message);
         // TODO Auto-generated constructor stub
     }
     
     /**
-     * <p>Title        : IllegalExpression lilinhai 2018年1月22日 下午4:14:15</p>
+     * <p>Title        : MapperException lilinhai 2018年2月13日 上午11:12:03</p>
      * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
      * @param cause 
      */
-    public IllegalExpression(Throwable cause)
+    public MapperException(Throwable cause)
     {
         super(cause);
+        // TODO Auto-generated constructor stub
     }
     
 }

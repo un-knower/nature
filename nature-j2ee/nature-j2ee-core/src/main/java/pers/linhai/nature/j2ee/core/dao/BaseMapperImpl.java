@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import pers.linhai.nature.j2ee.core.dao.exception.MapperException;
 import pers.linhai.nature.j2ee.core.dao.processor.CustomEntityProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.DefaultEntityProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor;
@@ -29,7 +30,6 @@ import pers.linhai.nature.j2ee.core.dao.processor.IEntityProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
 import pers.linhai.nature.j2ee.core.dao.resulthandler.RowDataEntityResultHandler;
 import pers.linhai.nature.j2ee.core.dao.resulthandler.RowDataHashMapResultHandler;
-import pers.linhai.nature.j2ee.core.exception.MapperException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseModel;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;

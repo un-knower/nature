@@ -16,10 +16,10 @@ import java.util.Properties;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import pers.linhai.nature.j2ee.core.exception.EntityDeleteInterceptProcessException;
-import pers.linhai.nature.j2ee.core.exception.EntitySaveInterceptProcessException;
-import pers.linhai.nature.j2ee.core.exception.EntityUpdateInterceptProcessException;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
+import pers.linhai.nature.j2ee.core.service.exception.EntityDeleteInterceptProcessException;
+import pers.linhai.nature.j2ee.core.service.exception.EntitySaveInterceptProcessException;
+import pers.linhai.nature.j2ee.core.service.exception.EntityUpdateInterceptProcessException;
 import pers.linhai.nature.j2ee.core.service.interceptor.EntityServiceInterceptorImpl;
 import pers.linhai.nature.j2ee.generator.core.api.CommentGenerator;
 import pers.linhai.nature.j2ee.generator.core.api.CoreClassImportConstant;

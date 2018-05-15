@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import pers.linhai.nature.j2ee.core.exception.ConditionFormatException;
+import pers.linhai.nature.j2ee.core.dao.exception.ConditionFormatException;
 import pers.linhai.nature.j2ee.core.model.Where.Condition;
 import pers.linhai.nature.j2ee.core.model.datatypeparser.DataTypeParser;
 

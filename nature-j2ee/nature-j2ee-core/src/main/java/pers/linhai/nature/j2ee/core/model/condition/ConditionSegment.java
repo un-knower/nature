@@ -14,8 +14,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import pers.linhai.nature.j2ee.core.exception.ConditionFormatException;
-import pers.linhai.nature.j2ee.core.exception.IllegalOperatorException;
+import pers.linhai.nature.j2ee.core.dao.exception.ConditionFormatException;
+import pers.linhai.nature.j2ee.core.dao.exception.IllegalOperatorException;
 import pers.linhai.nature.j2ee.core.model.Where.Condition;
 
 /**

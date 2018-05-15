@@ -7,14 +7,14 @@
  * @Version  V1.0  
  */
 
-package pers.linhai.nature.j2ee.core.exception;
+package pers.linhai.nature.j2ee.core.service.exception;
 
 /**
  * <p>ClassName      : EntityValidateException</p>
  * @author lilinhai 2018年3月15日 上午10:32:31
  * @version 1.0
  */
-public class EntityDeleteInterceptProcessException extends ServiceException
+public class EntityUpdateInterceptProcessException extends ServiceException
 {
     
     /**
@@ -23,12 +23,11 @@ public class EntityDeleteInterceptProcessException extends ServiceException
     private static final long serialVersionUID = 1L;
     
     /**
-     * <p>Title        : EntityDeleteInterceptProcessException lilinhai 2018年4月2日 下午6:39:36</p>
-     * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
+     * <p>Title        : EntityUpdateInterceptProcessException lilinhai 2018年4月2日 下午6:40:36</p>
      * @param errorCode
      * @param message 
      */
-    public EntityDeleteInterceptProcessException(int errorCode, String message)
+    public EntityUpdateInterceptProcessException(int errorCode, String message)
     {
         super(errorCode, message);
     }

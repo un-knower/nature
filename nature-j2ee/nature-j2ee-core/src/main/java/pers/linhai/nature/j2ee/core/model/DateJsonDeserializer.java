@@ -17,7 +17,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
-import pers.linhai.nature.j2ee.core.exception.DataTypeException;
+import pers.linhai.nature.j2ee.core.dao.exception.DataTypeException;
 import pers.linhai.nature.j2ee.core.model.datatypeparser.DateTypeParser;
 
 /**

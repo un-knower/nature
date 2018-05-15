@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
-import pers.linhai.nature.j2ee.core.exception.DataTypeException;
+import pers.linhai.nature.j2ee.core.dao.exception.DataTypeException;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>

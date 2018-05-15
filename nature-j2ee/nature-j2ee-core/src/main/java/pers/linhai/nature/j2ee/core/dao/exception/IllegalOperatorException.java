@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */
 
-package pers.linhai.nature.j2ee.core.exception;
+package pers.linhai.nature.j2ee.core.dao.exception;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -15,7 +15,7 @@ package pers.linhai.nature.j2ee.core.exception;
  * @author lilinhai 2018年2月9日 下午11:13:29
  * @version 1.0
  */
-public class ConditionFormatException extends RuntimeException
+public class IllegalOperatorException extends RuntimeException
 {
     
     /**
@@ -26,7 +26,7 @@ public class ConditionFormatException extends RuntimeException
     /**
      * <p>Title        : IllegalFieldException lilinhai 2018年2月9日 下午11:13:39</p>
      */
-    public ConditionFormatException()
+    public IllegalOperatorException()
     {
         super();
     }
@@ -38,7 +38,7 @@ public class ConditionFormatException extends RuntimeException
      * @param enableSuppression
      * @param writableStackTrace 
      */
-    public ConditionFormatException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
+    public IllegalOperatorException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
     {
         super(message, cause, enableSuppression, writableStackTrace);
     }
@@ -48,7 +48,7 @@ public class ConditionFormatException extends RuntimeException
      * @param message
      * @param cause 
      */
-    public ConditionFormatException(String message, Throwable cause)
+    public IllegalOperatorException(String message, Throwable cause)
     {
         super(message, cause);
     }
@@ -57,7 +57,7 @@ public class ConditionFormatException extends RuntimeException
      * <p>Title        : IllegalFieldException lilinhai 2018年2月9日 下午11:13:39</p>
      * @param message 
      */
-    public ConditionFormatException(String message)
+    public IllegalOperatorException(String message)
     {
         super(message);
     }
@@ -66,7 +66,7 @@ public class ConditionFormatException extends RuntimeException
      * <p>Title        : IllegalFieldException lilinhai 2018年2月9日 下午11:13:39</p>
      * @param cause 
      */
-    public ConditionFormatException(Throwable cause)
+    public IllegalOperatorException(Throwable cause)
     {
         super(cause);
     }

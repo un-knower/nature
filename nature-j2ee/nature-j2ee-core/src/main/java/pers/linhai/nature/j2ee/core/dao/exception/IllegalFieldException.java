@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */
 
-package pers.linhai.nature.j2ee.core.exception;
+package pers.linhai.nature.j2ee.core.dao.exception;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -15,7 +15,7 @@ package pers.linhai.nature.j2ee.core.exception;
  * @author lilinhai 2018年2月9日 下午11:13:29
  * @version 1.0
  */
-public class ConditionIsNullException extends RuntimeException
+public class IllegalFieldException extends RuntimeException
 {
     
     /**
@@ -26,7 +26,7 @@ public class ConditionIsNullException extends RuntimeException
     /**
      * <p>Title        : IllegalFieldException lilinhai 2018年2月9日 下午11:13:39</p>
      */
-    public ConditionIsNullException()
+    public IllegalFieldException()
     {
         super();
     }
@@ -38,7 +38,7 @@ public class ConditionIsNullException extends RuntimeException
      * @param enableSuppression
      * @param writableStackTrace 
      */
-    public ConditionIsNullException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
+    public IllegalFieldException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
     {
         super(message, cause, enableSuppression, writableStackTrace);
     }
@@ -48,7 +48,7 @@ public class ConditionIsNullException extends RuntimeException
      * @param message
      * @param cause 
      */
-    public ConditionIsNullException(String message, Throwable cause)
+    public IllegalFieldException(String message, Throwable cause)
     {
         super(message, cause);
     }
@@ -57,7 +57,7 @@ public class ConditionIsNullException extends RuntimeException
      * <p>Title        : IllegalFieldException lilinhai 2018年2月9日 下午11:13:39</p>
      * @param message 
      */
-    public ConditionIsNullException(String message)
+    public IllegalFieldException(String message)
     {
         super(message);
     }
@@ -66,7 +66,7 @@ public class ConditionIsNullException extends RuntimeException
      * <p>Title        : IllegalFieldException lilinhai 2018年2月9日 下午11:13:39</p>
      * @param cause 
      */
-    public ConditionIsNullException(Throwable cause)
+    public IllegalFieldException(Throwable cause)
     {
         super(cause);
     }

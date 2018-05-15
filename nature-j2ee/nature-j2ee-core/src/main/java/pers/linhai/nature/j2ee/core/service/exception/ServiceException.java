@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */
 
-package pers.linhai.nature.j2ee.core.exception;
+package pers.linhai.nature.j2ee.core.service.exception;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -15,7 +15,7 @@ package pers.linhai.nature.j2ee.core.exception;
  * @author lilinhai 2018年2月13日 上午11:11:44
  * @version 1.0
  */
-public class MapperException extends RuntimeException
+public class ServiceException extends RuntimeException
 {
     
     /**
@@ -25,10 +25,15 @@ public class MapperException extends RuntimeException
     private static final long serialVersionUID = 1L;
     
     /**
+     * 错误码
+     */
+    protected int errorCode;
+    
+    /**
      * <p>Title        : MapperException lilinhai 2018年2月13日 上午11:12:03</p>
      * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p> 
      */
-    public MapperException()
+    public ServiceException()
     {
         super();
         // TODO Auto-generated constructor stub
@@ -42,7 +47,7 @@ public class MapperException extends RuntimeException
      * @param enableSuppression
      * @param writableStackTrace 
      */
-    public MapperException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
+    public ServiceException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
     {
         super(message, cause, enableSuppression, writableStackTrace);
         // TODO Auto-generated constructor stub
@@ -54,7 +59,7 @@ public class MapperException extends RuntimeException
      * @param message
      * @param cause 
      */
-    public MapperException(String message, Throwable cause)
+    public ServiceException(String message, Throwable cause)
     {
         super(message, cause);
         // TODO Auto-generated constructor stub
@@ -65,7 +70,7 @@ public class MapperException extends RuntimeException
      * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
      * @param message 
      */
-    public MapperException(String message)
+    public ServiceException(String message)
     {
         super(message);
         // TODO Auto-generated constructor stub
@@ -76,10 +81,24 @@ public class MapperException extends RuntimeException
      * <p>Description  : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
      * @param cause 
      */
-    public MapperException(Throwable cause)
+    public ServiceException(Throwable cause)
     {
         super(cause);
         // TODO Auto-generated constructor stub
     }
     
+    public ServiceException(int errorCode, String message)
+    {
+        super(message);
+        this.errorCode = errorCode;
+    }
+    
+    /**
+     * <p>Get Method   :   errorCode int</p>
+     * @return errorCode
+     */
+    public int getErrorCode()
+    {
+        return errorCode;
+    }
 }

@@ -9,7 +9,7 @@
 
 package pers.linhai.nature.j2ee.core.model.datatypeparser;
 
-import pers.linhai.nature.j2ee.core.exception.DataTypeException;
+import pers.linhai.nature.j2ee.core.dao.exception.DataTypeException;
 import pers.linhai.nature.j2ee.core.model.enumer.JdbcType;
 
 /**
