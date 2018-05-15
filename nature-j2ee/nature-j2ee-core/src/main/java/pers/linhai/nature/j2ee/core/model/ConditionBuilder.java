@@ -9,6 +9,9 @@
 
 package pers.linhai.nature.j2ee.core.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import pers.linhai.nature.j2ee.core.model.Where.Condition;
 import pers.linhai.nature.j2ee.core.model.condition.Operator;
 
@@ -30,7 +33,7 @@ public class ConditionBuilder
      * <p>Title        : ConditionBuilder lilinhai 2018年5月15日 下午6:24:46</p>
      * @param condition 
      */ 
-    public ConditionBuilder(String fieldName)
+    private ConditionBuilder(String fieldName)
     {
         condition = new Condition();
         condition.setFieldName(fieldName);
@@ -145,10 +148,39 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public Condition in(Object value)
+    public Condition in(List<Object> valueList)
     {
         condition.setOperator(Operator.IN.getValue());
-        condition.setValue(value);
+        condition.setValue(valueList);
+        return condition;
+    }
+    
+    /**
+     * 包含
+     * <p>Title         : in lilinhai 2018年5月15日 下午6:22:13</p>
+     * @param value 
+     * void
+     */
+    public Condition in(Object... values)
+    {
+        List<Object> objList = new ArrayList<Object>();
+        for (Object object : values)
+        {
+            objList.add(object);
+        }
+        return in(objList);
+    }
+    
+    /**
+     * 不包含
+     * <p>Title         : in lilinhai 2018年5月15日 下午6:22:13</p>
+     * @param value 
+     * void
+     */
+    public Condition notIn(List<Object> valueList)
+    {
+        condition.setOperator(Operator.NOT_IN.getValue());
+        condition.setValue(valueList);
         return condition;
     }
     
@@ -158,11 +190,14 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public Condition notIn(Object value)
+    public Condition notIn(Object... values)
     {
-        condition.setOperator(Operator.NOT_IN.getValue());
-        condition.setValue(value);
-        return condition;
+        List<Object> objList = new ArrayList<Object>();
+        for (Object object : values)
+        {
+            objList.add(object);
+        }
+        return notIn(objList);
     }
     
     /**
