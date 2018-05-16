@@ -111,11 +111,11 @@ public abstract class NamingUtils
             if (Character.isUpperCase(c))
             {
                 s.append(i == 0 ? "" : '-').append(Character.toLowerCase(c));
-                c = name.charAt(i + 1);
-                while (i + 1 < name.length() && Character.isUpperCase(c))
+                while (i + 1 < name.length() && Character.isUpperCase(name.charAt(i + 1)))
                 {
                     i++;
-                    s.append(Character.toLowerCase(c));
+                    c = name.charAt(i);
+                    s.append('-').append(Character.toLowerCase(c));
                 }
             }
             else
