@@ -39,9 +39,10 @@ public abstract class DataTypeParserMap
         DATA_TYPE_PARSER_MAP.put(DateTypeParser.class, new DateTypeParser());
     }
     
-    public static DataTypeParser get(Class<? extends DataTypeParser> dataTypeParserClass)
+    public static <T extends DataTypeParser> T get(Class<T> dataTypeParserClass)
     {
-        DataTypeParser dataTypeParser = DATA_TYPE_PARSER_MAP.get(dataTypeParserClass);
+        @SuppressWarnings("unchecked")
+        T dataTypeParser = (T)DATA_TYPE_PARSER_MAP.get(dataTypeParserClass);
         if (dataTypeParser == null)
         {
             throw new DataTypeException("Illegal data type parser: " + dataTypeParserClass.getName());
