@@ -30,7 +30,6 @@ import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
 import pers.linhai.nature.j2ee.core.dao.resulthandler.RowDataEntityResultHandler;
 import pers.linhai.nature.j2ee.core.dao.resulthandler.RowDataHashMapResultHandler;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
-import pers.linhai.nature.j2ee.core.model.BaseModel;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.ConditionBuilder;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
@@ -133,7 +132,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
             {
                 if (type instanceof Class)
                 {
-                    Class< ? extends BaseModel> c = (Class< ? extends BaseModel>) type;
+                    Class<?> c = (Class<?>) type;
                     if (c.getSuperclass() == BaseEntity.class)
                     {
                         entityReflecter = new EntityReflecter<Entity>((Class<Entity>) c);
