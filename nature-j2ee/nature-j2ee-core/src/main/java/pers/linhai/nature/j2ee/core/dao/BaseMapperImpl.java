@@ -10,7 +10,6 @@ package pers.linhai.nature.j2ee.core.dao;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -33,9 +32,9 @@ import pers.linhai.nature.j2ee.core.dao.resulthandler.RowDataHashMapResultHandle
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseModel;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
+import pers.linhai.nature.j2ee.core.model.ConditionBuilder;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
-import pers.linhai.nature.j2ee.core.model.Where;
-import pers.linhai.nature.j2ee.core.model.Where.Condition;
+import pers.linhai.nature.j2ee.core.model.WhereBuilder;
 import pers.linhai.nature.reflect.ConstructorAccess;
 
 /**
@@ -210,15 +209,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         try
         {
             EntityQuery eq = entityQueryConstructor.newInstance();
-            Where where = new Where();
-            List<Condition> conditionList = new ArrayList<Condition>();
-            Condition con = new Condition();
-            con.setFieldName("id");
-            con.setOperator("=");
-            con.setValue(id);
-            conditionList.add(con);
-            where.setConditionList(conditionList);
-            eq.setWhere(where);
+            eq.setWhere(WhereBuilder.where(ConditionBuilder.field("id").equal(id)).build());
             return delete(eq);
         }
         catch (Throwable e)
@@ -270,15 +261,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
             // 如果修改条件为空
             if (record.getWhere() == null)
             {
-                Where where = new Where();
-                List<Condition> conditionList = new ArrayList<Condition>();
-                Condition con = new Condition();
-                con.setFieldName("id");
-                con.setOperator("=");
-                con.setValue(record.getId());
-                conditionList.add(con);
-                where.setConditionList(conditionList);
-                record.setWhere(where);
+                record.setWhere(WhereBuilder.where(ConditionBuilder.field("id").equal(record.getId())).build());
             }
             
             return sqlSession.update(UPDATE, record);
@@ -302,15 +285,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         try
         {
             EntityQuery eq = entityQueryConstructor.newInstance();
-            Where where = new Where();
-            List<Condition> conditionList = new ArrayList<Condition>();
-            Condition con = new Condition();
-            con.setFieldName("id");
-            con.setOperator("=");
-            con.setValue(id);
-            conditionList.add(con);
-            where.setConditionList(conditionList);
-            eq.setWhere(where);
+            eq.setWhere(WhereBuilder.where(ConditionBuilder.field("id").equal(id)).build());
             return get(eq);
         }
         catch (Throwable e)
@@ -325,15 +300,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         try
         {
             EntityQuery eq = entityQueryConstructor.newInstance();
-            Where where = new Where();
-            List<Condition> conditionList = new ArrayList<Condition>();
-            Condition con = new Condition();
-            con.setFieldName("id");
-            con.setOperator("=");
-            con.setValue(id);
-            conditionList.add(con);
-            where.setConditionList(conditionList);
-            eq.setWhere(where);
+            eq.setWhere(WhereBuilder.where(ConditionBuilder.field("id").equal(id)).build());
             return get(eq, entityProcessor);
         }
         catch (Throwable e)
