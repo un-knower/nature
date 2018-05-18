@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
 import pers.linhai.nature.j2ee.core.dao.exception.DataTypeException;
+import pers.linhai.nature.j2ee.core.model.datatypeparser.DataTypeParserMap;
 import pers.linhai.nature.j2ee.core.model.datatypeparser.DateTypeParser;
 
 /**
@@ -28,8 +29,6 @@ import pers.linhai.nature.j2ee.core.model.datatypeparser.DateTypeParser;
  */
 public class DateJsonDeserializer extends JsonDeserializer<Date>
 {
-    
-    private DateTypeParser dateType = new DateTypeParser();
     
     /** 
      * <p>Overriding Method: lilinhai 2018年3月13日 下午5:31:12</p>
@@ -45,7 +44,7 @@ public class DateJsonDeserializer extends JsonDeserializer<Date>
     {
         try
         {
-            return dateType.parse(p.getText());
+            return DataTypeParserMap.get(DateTypeParser.class).parse(p.getText());
         }
         catch (DataTypeException e)
         {
