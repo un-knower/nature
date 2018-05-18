@@ -165,12 +165,13 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         }
     }
     
-    /** 
-     * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
-     * <p>Title: insert</p>
+    /**
+     * 保存单个实体
+     * <p>Overriding Method: lilinhai 2018年5月18日 上午10:14:40</p>
+     * <p>Title: save</p>
      * @param record
      * @return 
-     * @see com.meme.crm.dao.core.IBaseMapper#save(com.meme.crm.model.core.BaseEntity)
+     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#save(pers.linhai.nature.j2ee.core.model.BaseEntity)
      */
     public int save(Entity record)
     {
@@ -198,11 +199,11 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     
     /**
      * 根据主键删除
-     * <p>Overriding Method: lilinhai 2018年2月13日 下午2:02:10</p>
+     * <p>Overriding Method: lilinhai 2018年5月18日 上午10:15:15</p>
      * <p>Title: delete</p>
      * @param id
      * @return 
-     * @see com.meme.crm.dao.core.IBaseMapper#delete(java.io.Serializable)
+     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#delete(java.lang.Object)
      */
     public int delete(Key id)
     {
@@ -221,23 +222,24 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     
     /**
      * 根据查询条件entityQuery删除
-     * <p>Overriding Method: lilinhai 2018年2月13日 下午2:14:37</p>
+     * <p>Overriding Method: lilinhai 2018年5月18日 上午10:15:23</p>
      * <p>Title: delete</p>
      * @param entityQuery
      * @return 
-     * @see com.meme.crm.dao.core.IBaseMapper#delete(com.meme.crm.model.core.BaseQuery)
+     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#delete(pers.linhai.nature.j2ee.core.model.BaseQuery)
      */
     public int delete(EntityQuery entityQuery)
     {
         return sqlSession.delete(DELETE, entityQuery);
     }
     
-    /** 
-     * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
-     * <p>Title: updateByPrimaryKeySelective</p>
+    /**
+     * 修改实体，如果设置了id就根据id去修改，如果设置where就根据where去修改（后者优先）
+     * <p>Overriding Method: lilinhai 2018年5月18日 上午10:15:30</p>
+     * <p>Title: update</p>
      * @param record
      * @return 
-     * @see com.meme.crm.dao.core.IBaseMapper#update(com.meme.crm.model.core.BaseEntity)
+     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#update(pers.linhai.nature.j2ee.core.model.BaseEntity)
      */
     public int update(Entity record)
     {
@@ -273,12 +275,13 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         }
     }
     
-    /** 
-     * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
-     * <p>Title: selectByPrimaryKey</p>
+    /**
+     * 根据主键获取单个实体
+     * <p>Overriding Method: lilinhai 2018年5月18日 上午10:16:33</p>
+     * <p>Title: get</p>
      * @param id
      * @return 
-     * @see com.meme.crm.dao.core.IBaseMapper#get(java.io.Serializable)
+     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#get(java.lang.Object)
      */
     public Entity get(Key id)
     {
@@ -295,6 +298,15 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         return null;
     }
     
+    /**
+     * 根据主键获取单个实体（返回EntityBean）
+     * <p>Overriding Method: lilinhai 2018年5月18日 上午10:16:44</p>
+     * <p>Title: get</p>
+     * @param id
+     * @param entityProcessor
+     * @return 
+     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#get(java.lang.Object, pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor)
+     */
     public EntityBean get(Key id, DefaultRowDataProcessor<Entity> entityProcessor)
     {
         try
@@ -310,12 +322,13 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         return null;
     }
     
-    /** 
-     * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
-     * <p>Title: query</p>
-     * @param entityQueryBean
+    /**
+     * 根据查询条件获取单个实体，如果匹配到多个，只返回第一个
+     * <p>Overriding Method: lilinhai 2018年5月18日 上午10:17:23</p>
+     * <p>Title: get</p>
+     * @param entityQuery
      * @return 
-     * @see com.meme.crm.dao.core.IBaseMapper#get(com.meme.crm.model.core.BaseQuery)
+     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#get(pers.linhai.nature.j2ee.core.model.BaseQuery)
      */
     public Entity get(EntityQuery entityQuery)
     {
@@ -330,12 +343,14 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         return entityProcessor.getEntityList().get(0);
     }
     
-    /** 
-     * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
-     * <p>Title: query</p>
-     * @param entityQueryBean
+    /**
+     * 根据查询条件获取单个实体，如果匹配到多个，只返回第一个
+     * <p>Overriding Method: lilinhai 2018年5月18日 上午10:17:51</p>
+     * <p>Title: get</p>
+     * @param entityQuery
+     * @param entityProcessor
      * @return 
-     * @see com.meme.crm.dao.core.IBaseMapper#get(com.meme.crm.model.core.BaseQuery)
+     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#get(pers.linhai.nature.j2ee.core.model.BaseQuery, pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor)
      */
     public EntityBean get(EntityQuery entityQuery, DefaultRowDataProcessor<Entity> entityProcessor)
     {
@@ -349,14 +364,14 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         return entityProcessor.getEntityBeanList().get(0);
     }
     
-    /** 
-     * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
-     * <p>Title: queryCount</p>
+    /**
+     * 根据查询条件统计数量
+     * <p>Overriding Method: lilinhai 2018年5月18日 上午10:18:01</p>
+     * <p>Title: count</p>
      * @param entityQuery
      * @return 
-     * @see com.meme.crm.dao.core.IBaseMapper#count
+     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#count(pers.linhai.nature.j2ee.core.model.BaseQuery)
      */
-    @Override
     public long count(EntityQuery entityQuery)
     {
         final AtomicLong al = new AtomicLong();
