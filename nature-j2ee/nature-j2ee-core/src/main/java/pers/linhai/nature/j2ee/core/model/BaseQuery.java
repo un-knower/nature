@@ -161,7 +161,7 @@ public abstract class BaseQuery extends BaseModel
      */
     public List<String> getReturnFieldList()
     {
-        return returnFieldList == null ? getAllFieldList() : returnFieldList;
+        return (returnFieldList == null || returnFieldList.isEmpty()) ? getAllFieldList() : returnFieldList;
     }
     
     /**
