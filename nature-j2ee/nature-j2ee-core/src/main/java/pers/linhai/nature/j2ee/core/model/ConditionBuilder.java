@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pers.linhai.nature.j2ee.core.model.Where.Condition;
-import pers.linhai.nature.j2ee.core.model.condition.Operator;
+import pers.linhai.nature.j2ee.core.model.enumer.Operator;
 
 /**
  * 查询条件构建器

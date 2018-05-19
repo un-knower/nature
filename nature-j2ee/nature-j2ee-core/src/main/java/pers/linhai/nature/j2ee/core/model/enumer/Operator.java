@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */
 
-package pers.linhai.nature.j2ee.core.model.condition;
+package pers.linhai.nature.j2ee.core.model.enumer;
 
 /**
  * 数据库所有操作符的枚举
