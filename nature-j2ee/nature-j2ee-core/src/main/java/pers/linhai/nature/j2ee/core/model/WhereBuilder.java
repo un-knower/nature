@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pers.linhai.nature.j2ee.core.model.Where.Condition;
+import pers.linhai.nature.j2ee.core.model.Where.LogicalOperator;
 
 /**
  * 查询条件where构建器
@@ -53,7 +54,7 @@ public class WhereBuilder
     {
         condition.setId(getId());
         conditionList.add(condition);
-        expressionBuilder.append(" and ").append(condition.getId());
+        expressionBuilder.append(" ").append(LogicalOperator.AND.getValue()).append(" ").append(condition.getId());
         return this;
     }
     
@@ -61,7 +62,7 @@ public class WhereBuilder
     {
         condition.setId(getId());
         conditionList.add(condition);
-        expressionBuilder.append(" or ").append(condition.getId());
+        expressionBuilder.append(" ").append(LogicalOperator.OR.getValue()).append(" ").append(condition.getId());
         return this;
     }
     
@@ -71,7 +72,7 @@ public class WhereBuilder
         {
             this.conditionList.add(condition);
         }
-        this.expressionBuilder.append(" or ( ").append(whereBuilder.expressionBuilder).append(" ) ");
+        this.expressionBuilder.append(" ").append(LogicalOperator.OR.getValue()).append(" ( ").append(whereBuilder.expressionBuilder).append(" ) ");
         return this;
     }
     
@@ -81,7 +82,7 @@ public class WhereBuilder
         {
             this.conditionList.add(condition);
         }
-        this.expressionBuilder.append(" and ( ").append(whereBuilder.expressionBuilder).append(" ) ");
+        this.expressionBuilder.append(" ").append(LogicalOperator.AND.getValue()).append(" ( ").append(whereBuilder.expressionBuilder).append(" ) ");
         return this;
     }
     

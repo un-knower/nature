@@ -310,6 +310,14 @@ public class Where
         private String jdbcType;
         
         /**
+         * <p>Title        : Condition lilinhai 2018年5月19日 下午3:19:39</p>
+         */ 
+        public Condition()
+        {
+            
+        }
+
+        /**
          * <p>Get Method   :   id String</p>
          * @return id
          */
