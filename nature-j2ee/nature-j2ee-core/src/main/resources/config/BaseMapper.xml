@@ -155,14 +155,4 @@
         <!-- 添加动态自定义查询条件 -->
         <include refid="Common_Where" />
     </select>
-
-    <!-- 统计数量 -->
-    <select id="sum" parameterType="BaseQuery" resultType="Long">
-        <![CDATA[
-            select sum(${sumFieldName}) from ${tableName}
-        ]]>
-
-        <!-- 添加动态自定义查询条件 -->
-        <include refid="Common_Where" />
-    </select>
 </mapper>

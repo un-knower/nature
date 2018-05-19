@@ -187,13 +187,4 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * long
      */
     long count(EntityQuery entityQuery);
-    
-    /**
-     * 对某一列进行求和
-     * <p>Title         : sum lilinhai 2018年2月28日 下午5:59:34</p>
-     * @param entityQuery
-     * @return 
-     * long
-     */
-    long sum(EntityQuery entityQuery);
 }

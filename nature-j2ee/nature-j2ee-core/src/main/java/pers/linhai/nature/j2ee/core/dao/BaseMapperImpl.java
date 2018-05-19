@@ -75,11 +75,6 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     private static final String COUNT = BASE_NAME_SPACE.concat(".count");
     
     /**
-     * 汇总计算方法
-     */
-    private static final String SUM = BASE_NAME_SPACE.concat(".sum");
-    
-    /**
      * 日志记录器
      */
     protected Logger logger;
@@ -375,26 +370,6 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     {
         final AtomicLong al = new AtomicLong();
         sqlSession.select(COUNT, entityQuery, new ResultHandler<Long>()
-        {
-            public void handleResult(ResultContext< ? extends Long> resultContext)
-            {
-                al.set(resultContext.getResultObject());
-            }
-        });
-        return al.get();
-    }
-    
-    /** 
-     * <p>Overriding Method: lilinhai 2018年2月12日 下午1:37:43</p>
-     * <p>Title: queryCount</p>
-     * @param entityQuery
-     * @return 
-     * @see com.meme.crm.dao.core.IBaseMapper#sum
-     */
-    public long sum(EntityQuery entityQuery)
-    {
-        final AtomicLong al = new AtomicLong();
-        sqlSession.select(SUM, entityQuery, new ResultHandler<Long>()
         {
             public void handleResult(ResultContext< ? extends Long> resultContext)
             {

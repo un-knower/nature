@@ -45,11 +45,6 @@ public abstract class BaseQuery extends BaseModel
     private Integer size;
     
     /**
-     * 需要求和的列
-     */
-    private String sumFieldName;
-    
-    /**
      * 排序字段集合
      */
     private List<SortField> sortFieldList;
@@ -185,25 +180,6 @@ public abstract class BaseQuery extends BaseModel
             }
             this.returnFieldList = returnFieldListTemp;
         }
-    }
-    
-    /**
-     * <p>Get Method   :   sumFieldName String</p>
-     * @return sumFieldName
-     */
-    public String getSumFieldName()
-    {
-        return sumFieldName;
-    }
-    
-    /**
-     * <p>Set Method   :   sumFieldName String</p>
-     * @param sumFieldName
-     */
-    public void setSumFieldName(String sumFieldName)
-    {
-        validField(sumFieldName);
-        this.sumFieldName = getTableField(sumFieldName);
     }
     
     /**

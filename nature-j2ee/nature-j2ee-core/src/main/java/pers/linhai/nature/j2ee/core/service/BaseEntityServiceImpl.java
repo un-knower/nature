@@ -231,19 +231,6 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>,
     }
     
     /**
-     * 统计条目
-     * <p>Overriding Method: lilinhai 2018年2月24日 上午11:14:35</p>
-     * <p>Title: count</p>
-     * @param entityQuery
-     * @return 
-     * @see pers.linhai.nature.j2ee.core.service.IBaseEntityService#sum(pers.linhai.nature.j2ee.core.model.BaseQuery)
-     */
-    public long sum(EntityQuery entityQuery)
-    {
-        return mapper.sum(entityQuery);
-    }
-    
-    /**
      * 组合查询记录，返回集合，支持分页
      * <p>Title         : query lilinhai 2018年2月7日 下午5:44:18</p>
      * @param entityQuery
