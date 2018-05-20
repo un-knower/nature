@@ -23,7 +23,7 @@ import pers.linhai.nature.j2ee.core.model.condition.ConditionSegment;
 import pers.linhai.nature.j2ee.core.model.condition.StringSegment;
 
 /**
- * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
+ * 修改语句或查询的where条件
  * <p>ClassName      : Where</p>
  * @author lilinhai 2018年2月13日 下午2:42:43
  * @version 1.0
@@ -124,7 +124,7 @@ public class Where
         return conditionSegmentList;
     }
     
-    void initialize(BaseModel baseModel)
+    void initialize(ModelHelper validator)
     {
         if (this.isInitialized())
         {
@@ -144,7 +144,7 @@ public class Where
         for (Condition conditionTemp : conditionTempList)
         {
             // 校验字段名
-            baseModel.validField(conditionTemp.getFieldName());
+            validator.validField(conditionTemp.getFieldName());
             
             i++;
             if (getExpression() == null)
@@ -171,10 +171,10 @@ public class Where
             }
             
             // 获取改该字段对应的JDBC类型
-            conditionTemp.setJdbcType(baseModel.getJdbcType(conditionTemp.getFieldName()));
+            conditionTemp.setJdbcType(validator.getJdbcType(conditionTemp.getFieldName()));
             
             // 校验SQL注入 TODO
-            conditionTemp.setFieldName(baseModel.getTableField(conditionTemp.getFieldName()));
+            conditionTemp.setFieldName(validator.getTableField(conditionTemp.getFieldName()));
             
             // 解析封装成Condition对象
             ConditionSegment condition = ConditionSegment.parse(conditionTemp);

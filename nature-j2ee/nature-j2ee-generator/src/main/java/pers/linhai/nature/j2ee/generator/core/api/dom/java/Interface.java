@@ -53,6 +53,10 @@ public class Interface extends InnerInterface implements CompilationUnit {
         return importedTypes;
     }
 
+    public void addImportedType(String importedType) {
+        addImportedType(new FullyQualifiedJavaType(importedType));
+    }
+    
     @Override
     public void addImportedType(FullyQualifiedJavaType importedType) {
         if (importedType.isExplicitlyImported()

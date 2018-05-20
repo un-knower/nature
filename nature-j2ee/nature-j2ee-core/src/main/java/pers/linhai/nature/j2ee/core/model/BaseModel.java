@@ -16,7 +16,7 @@ import java.io.Serializable;
  * @author lilinhai 2018年2月13日 下午2:21:14
  * @version 1.0
  */
-public abstract class BaseModel implements Serializable
+public abstract class BaseModel implements ModelHelper, Serializable
 {
     
     /**
@@ -42,40 +42,6 @@ public abstract class BaseModel implements Serializable
     {
         this.tableName = tableName;
     }
-    
-    /**
-     * 获取java字段名对应的数据库表字段名
-     * <p>Title         : validField lilinhai 2018年2月8日 下午11:06:40</p>
-     * @param javaField 
-     * void
-     */
-    public abstract String getTableField(String javaField);
-    
-    /**
-     * 获取改该字段对应的JDBC类型
-     * <p>Title         : getJdbcType lilinhai 2018年2月10日 上午11:14:56</p>
-     * @param jdbcType
-     * @return 
-     * String
-     */
-    public abstract String getJdbcType(String javaField);
-    
-    /**
-     * 校验字段名
-     * <p>Title         : validField lilinhai 2018年2月13日 下午2:47:59</p>
-     * @param javaField 
-     * void
-     */
-    public abstract void validField(String javaField);
-    
-    /**
-     * 判断是否存在某个字段
-     * <p>Title         : existsField lilinhai 2018年4月3日 下午4:26:08</p>
-     * @param fieldName
-     * @return 
-     * boolean
-     */
-    public abstract boolean existsField(String fieldName);
     
     /**
      * <p>Get Method   :   tableName String</p>

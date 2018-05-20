@@ -94,10 +94,7 @@ public abstract class BaseEntity<Key> extends BaseModel
     public void setCreateTime(Date createTime)
     {
         this.createTime = createTime;
-        if (existsField("create_time"))
-        {
-            addPersistentField("create_time", createTime);
-        }
+        addPersistentField("create_time", createTime);
     }
     
     /**
@@ -116,10 +113,7 @@ public abstract class BaseEntity<Key> extends BaseModel
     public void setUpdateTime(Date updateTime)
     {
         this.updateTime = updateTime;
-        if (existsField("update_time"))
-        {
-            addPersistentField("update_time", updateTime);
-        }
+        addPersistentField("update_time", updateTime);
     }
     
     /**
@@ -130,16 +124,7 @@ public abstract class BaseEntity<Key> extends BaseModel
      */
     public void removePersistentField(String fieldName)
     {
-        try
-        {
-            if (persistentFieldMap.remove(fieldName) == null)
-            {
-                persistentFieldMap.remove(getTableField(fieldName));
-            }
-        }
-        catch (Throwable e)
-        {
-        }
+        persistentFieldMap.remove(getTableField(fieldName));
     }
     
     /**

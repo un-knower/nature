@@ -64,14 +64,6 @@ public abstract class BaseQuery extends BaseModel
     }
     
     /**
-     * 返回所有字段列表
-     * <p>Title         : getAllFieldList lilinhai 2018年2月12日 上午11:23:13</p>
-     * @return 
-     * List<String>
-     */
-    public abstract List<String> getAllFieldList();
-    
-    /**
      * <p>Get Method   :   page Integer</p>
      * @return page
      */
