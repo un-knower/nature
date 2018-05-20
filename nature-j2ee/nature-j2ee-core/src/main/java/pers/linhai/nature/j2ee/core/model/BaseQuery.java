@@ -11,9 +11,6 @@ package pers.linhai.nature.j2ee.core.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-
-import pers.linhai.nature.utils.NamingUtils;
 
 /**
  * 查询对象基类
@@ -144,6 +141,10 @@ public abstract class BaseQuery extends BaseModel
      */
     public void setSortFieldList(List<SortField> sortFieldList)
     {
+        for (SortField sortField : sortFieldList)
+        {
+            sortField.setFieldName(getTableField(sortField.getFieldName()));
+        }
         this.sortFieldList = sortFieldList;
     }
     
@@ -167,153 +168,9 @@ public abstract class BaseQuery extends BaseModel
             List<String> returnFieldListTemp = new ArrayList<String>();
             for (String fieldName : returnFieldList)
             {
-                validField(fieldName);
                 returnFieldListTemp.add(getTableField(fieldName));
             }
             this.returnFieldList = returnFieldListTemp;
-        }
-    }
-    
-    /**
-     * 排序字段对象
-     * <p>ClassName      : SortField</p>
-     * @author lilinhai 2018年2月8日 下午2:45:03
-     * @version 1.0
-     */
-    public static class SortField
-    {
-        
-        /**
-         * 排序字段名
-         */
-        private String fieldName;
-        
-        /**
-         * 排序方向
-         */
-        private String direction = Direction.ASC.name().toLowerCase(Locale.ENGLISH);
-        
-        /**
-         * <p>Get Method   :   fieldName String</p>
-         * @return fieldName
-         */
-        public String getFieldName()
-        {
-            return fieldName;
-        }
-        
-        /**
-         * <p>Set Method   :   fieldName String</p>
-         * @param fieldName
-         */
-        public void setFieldName(String fieldName)
-        {
-            if (fieldName == null)
-            {
-                return;
-            }
-            this.fieldName = NamingUtils.storeFieldName(fieldName);
-        }
-        
-        /**
-         * <p>Get Method   :   direction Direction</p>
-         * @return direction
-         */
-        public String getDirection()
-        {
-            return direction;
-        }
-        
-        /**
-         * <p>Set Method   :   direction Direction</p>
-         * @param direction
-         */
-        public void setDirection(String direction)
-        {
-            this.direction = Direction.fromString(direction).name().toLowerCase(Locale.ENGLISH);
-        }
-        
-        /** 
-         * <p>Overriding Method: lilinhai 2018年2月8日 下午3:08:05</p>
-         * <p>Title: toString</p>
-         * @return 
-         * @see java.lang.Object#toString()
-         */
-        public String toString()
-        {
-            return "SortField [fieldName=" + fieldName + ", direction=" + direction + "]";
-        }
-        
-        /**
-         * Enumeration for sort directions.
-         * @author Oliver Gierke
-         */
-        public static enum Direction
-        {
-            
-            ASC, DESC;
-            
-            /**
-             * Returns whether the direction is ascending.
-             * 
-             * @return
-             * @since 1.13
-             */
-            public boolean isAscending()
-            {
-                return this.equals(ASC);
-            }
-            
-            /**
-             * Returns whether the direction is descending.
-             * 
-             * @return
-             * @since 1.13
-             */
-            public boolean isDescending()
-            {
-                return this.equals(DESC);
-            }
-            
-            /**
-             * Returns the {@link Direction} enum for the given {@link String} value.
-             * 
-             * @param value
-             * @throws IllegalArgumentException in case the given value cannot be parsed into an enum value.
-             * @return
-             */
-            public static Direction fromString(String value)
-            {
-                
-                try
-                {
-                    return Direction.valueOf(value.toUpperCase(Locale.US));
-                }
-                catch (Exception e)
-                {
-                    throw new IllegalArgumentException(String.format("Invalid value '%s' for orders given! Has to be either 'desc' or 'asc' (case insensitive).", value), e);
-                }
-            }
-            
-            /**
-             * Returns the {@link Direction} enum for the given {@link String} or null if it cannot be parsed into an enum
-             * value.
-             * 
-             * @param value
-             * @return
-             */
-            public static Direction fromStringOrNull(String value)
-            {
-                
-                try
-                {
-                    return fromString(value);
-                }
-                catch (IllegalArgumentException e)
-                {
-                    return null;
-                }
-            }
         }
     }
     

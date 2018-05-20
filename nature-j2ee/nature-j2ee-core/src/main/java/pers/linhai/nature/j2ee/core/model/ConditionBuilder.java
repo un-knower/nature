@@ -33,12 +33,33 @@ public class ConditionBuilder
      * <p>Title        : ConditionBuilder lilinhai 2018年5月15日 下午6:24:46</p>
      * @param condition 
      */ 
+    private ConditionBuilder(ModelField modelField)
+    {
+        this(modelField.getJavaField());
+    }
+    
+    /**
+     * <p>Title        : ConditionBuilder lilinhai 2018年5月15日 下午6:24:46</p>
+     * @param condition 
+     */ 
     private ConditionBuilder(String fieldName)
     {
         condition = new Condition();
         condition.setFieldName(fieldName);
     }
 
+    /**
+     * 通过传入字段名初始化一个条件构建器ConditionBuilder
+     * <p>Title         : field lilinhai 2018年5月15日 下午6:23:45</p>
+     * @param modelField
+     * @return 
+     * ConditionBuilder
+     */
+    public static ConditionBuilder field(ModelField modelField)
+    {
+        return new ConditionBuilder(modelField);
+    }
+    
     /**
      * 通过传入字段名初始化一个条件构建器ConditionBuilder
      * <p>Title         : field lilinhai 2018年5月15日 下午6:23:45</p>

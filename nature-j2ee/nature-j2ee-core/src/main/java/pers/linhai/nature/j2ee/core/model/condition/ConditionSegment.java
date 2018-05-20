@@ -17,6 +17,7 @@ import java.util.Map;
 import pers.linhai.nature.j2ee.core.dao.exception.ConditionFormatException;
 import pers.linhai.nature.j2ee.core.dao.exception.IllegalOperatorException;
 import pers.linhai.nature.j2ee.core.model.Where.Condition;
+import pers.linhai.nature.j2ee.core.model.enumer.Operator;
 
 /**
  * 抽象查询条件
@@ -37,28 +38,27 @@ public abstract class ConditionSegment
             Constructor<CommonConditionSegment> commonConditionConstructor = commonConditionClass.getConstructor(Condition.class);
             commonConditionConstructor.setAccessible(true);
             
-            CONDITION_MAP.put("<>", commonConditionConstructor);
-            CONDITION_MAP.put("!=", commonConditionConstructor);
-            CONDITION_MAP.put("=", commonConditionConstructor);
-            CONDITION_MAP.put("<=", commonConditionConstructor);
-            CONDITION_MAP.put(">=", commonConditionConstructor);
-            CONDITION_MAP.put("<", commonConditionConstructor);
-            CONDITION_MAP.put(">", commonConditionConstructor);
-            CONDITION_MAP.put("like", commonConditionConstructor);
+            CONDITION_MAP.put(Operator.NOT_EQUAL.getValue(), commonConditionConstructor);
+            CONDITION_MAP.put(Operator.EQUAL.getValue(), commonConditionConstructor);
+            CONDITION_MAP.put(Operator.LESS_THAN_OR_EQUAL.getValue(), commonConditionConstructor);
+            CONDITION_MAP.put(Operator.GREATER_THAN_OR_EQUAL.getValue(), commonConditionConstructor);
+            CONDITION_MAP.put(Operator.LESS_THAN.getValue(), commonConditionConstructor);
+            CONDITION_MAP.put(Operator.GREATER_THAN.getValue(), commonConditionConstructor);
+            CONDITION_MAP.put(Operator.LIKE.getValue(), commonConditionConstructor);
             
             // in/not in条件
             Class<InConditionSegment> inConditionClass = InConditionSegment.class;
             Constructor<InConditionSegment> inConditionConstructor = inConditionClass.getConstructor(Condition.class);
             inConditionConstructor.setAccessible(true);
-            CONDITION_MAP.put("in", inConditionConstructor);
-            CONDITION_MAP.put("not in", inConditionConstructor);
+            CONDITION_MAP.put(Operator.IN.getValue(), inConditionConstructor);
+            CONDITION_MAP.put(Operator.NOT_IN.getValue(), inConditionConstructor);
             
             // is null/is not null条件
             Class<NullValueConditionSegment> nullValueConditionClass = NullValueConditionSegment.class;
             Constructor<NullValueConditionSegment> nullValueConditionConstructor = nullValueConditionClass.getConstructor(Condition.class);
             nullValueConditionConstructor.setAccessible(true);
-            CONDITION_MAP.put("is null", nullValueConditionConstructor);
-            CONDITION_MAP.put("is not null", nullValueConditionConstructor);
+            CONDITION_MAP.put(Operator.IS_NULL.getValue(), nullValueConditionConstructor);
+            CONDITION_MAP.put(Operator.IS_NOT_NULL.getValue(), nullValueConditionConstructor);
         }
         catch (Throwable e)
         {

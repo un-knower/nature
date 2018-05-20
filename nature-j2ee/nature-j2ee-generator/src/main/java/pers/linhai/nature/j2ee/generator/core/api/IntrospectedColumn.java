@@ -183,6 +183,11 @@ public class IntrospectedColumn
                || "LONGVARBINARY".equals(typeName) || "LONGVARCHAR".equals(typeName) //$NON-NLS-1$ //$NON-NLS-2$
                || "NCLOB".equals(typeName) || "VARBINARY".equals(typeName); //$NON-NLS-1$ //$NON-NLS-2$
     }
+    
+    public boolean isBitColumn()
+    {
+        return "BIT".equals(getJdbcTypeName());
+    }
 
     public boolean isStringColumn()
     {
@@ -197,10 +202,10 @@ public class IntrospectedColumn
 
     public String getJavaProperty()
     {
-        return getJavaProperty(null);
+        return getJavaProperty(null, false);
     }
 
-    public String getJavaProperty(String prefix)
+    public String getJavaProperty(String prefix, boolean firstCharToUpperCase)
     {
         if (prefix == null)
         {
@@ -209,7 +214,7 @@ public class IntrospectedColumn
 
         StringBuilder sb = new StringBuilder();
         sb.append(prefix);
-        sb.append(javaProperty);
+        sb.append(firstCharToUpperCase ? Character.toUpperCase(javaProperty.charAt(0)) : javaProperty.charAt(0)).append(javaProperty.substring(1));
 
         return sb.toString();
     }

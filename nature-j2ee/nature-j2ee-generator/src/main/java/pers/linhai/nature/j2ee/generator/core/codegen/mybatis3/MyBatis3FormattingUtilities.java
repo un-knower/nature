@@ -57,7 +57,7 @@ public class MyBatis3FormattingUtilities
         StringBuilder sb = new StringBuilder();
 
         sb.append("#{"); //$NON-NLS-1$
-        sb.append(introspectedColumn.getJavaProperty(prefix));
+        sb.append(introspectedColumn.getJavaProperty(prefix, false));
         sb.append(",jdbcType="); //$NON-NLS-1$
         sb.append(introspectedColumn.getJdbcTypeName());
 

@@ -12,7 +12,6 @@ package pers.linhai.nature.j2ee.core.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -21,6 +20,7 @@ import pers.linhai.nature.j2ee.core.dao.exception.ConditionIsNullException;
 import pers.linhai.nature.j2ee.core.dao.exception.IllegalExpression;
 import pers.linhai.nature.j2ee.core.model.condition.ConditionSegment;
 import pers.linhai.nature.j2ee.core.model.condition.StringSegment;
+import pers.linhai.nature.j2ee.core.model.enumer.LogicalOperator;
 
 /**
  * 修改语句或查询的where条件
@@ -60,15 +60,6 @@ public class Where
      * 是否已经初始化
      */
     private boolean isInitialized;
-    
-    /**
-     * <p>Get Method   :   conditionList List<Condition></p>
-     * @return conditionList
-     */
-    public List<Condition> getConditionList()
-    {
-        return conditionList;
-    }
     
     /**
      * <p>Set Method   :   conditionList List<Condition></p>
@@ -131,8 +122,7 @@ public class Where
             return;
         }
         
-        List<Condition> conditionTempList = getConditionList();
-        if (conditionTempList == null || conditionTempList.isEmpty())
+        if (conditionList == null || conditionList.isEmpty())
         {
             throw new ConditionIsNullException("Where-Condition can't be empty.");
         }
@@ -141,17 +131,17 @@ public class Where
         Map<String, ConditionSegment> conditionMap = new HashMap<String, ConditionSegment>();
         StringBuilder expressionBuff = null;
         int i = 0;
-        for (Condition conditionTemp : conditionTempList)
+        for (Condition condition : conditionList)
         {
             // 校验字段名
-            validator.validField(conditionTemp.getFieldName());
+            validator.validField(condition.getFieldName());
             
             i++;
             if (getExpression() == null)
             {
-                if (conditionTemp.getId() == null || conditionTemp.getId().trim().isEmpty())
+                if (condition.getId() == null || condition.getId().trim().isEmpty())
                 {
-                    conditionTemp.setId(String.valueOf(i));
+                    condition.setId(String.valueOf(i));
                 }
                 
                 if (expressionBuff == null)
@@ -163,32 +153,32 @@ public class Where
                 {
                     expressionBuff.append(' ').append(LogicalOperator.AND.getValue()).append(' ');
                 }
-                expressionBuff.append(conditionTemp.getId());
+                expressionBuff.append(condition.getId());
             }
-            else if (conditionTemp.getId() == null || conditionTemp.getId().isEmpty())
+            else if (condition.getId() == null || condition.getId().isEmpty())
             {
-                throw new ConditionFormatException("The Condition's id can't be empty while the expression is seted, fieldName:" + conditionTemp.getFieldName() + ", id:" + conditionTemp.getId());
+                throw new ConditionFormatException("The Condition's id can't be empty while the expression is seted, fieldName:" + condition.getFieldName() + ", id:" + condition.getId());
             }
             
             // 获取改该字段对应的JDBC类型
-            conditionTemp.setJdbcType(validator.getJdbcType(conditionTemp.getFieldName()));
+            condition.setJdbcType(validator.getJdbcType(condition.getFieldName()));
             
             // 校验SQL注入 TODO
-            conditionTemp.setFieldName(validator.getTableField(conditionTemp.getFieldName()));
+            condition.setFieldName(validator.getTableField(condition.getFieldName()));
             
             // 解析封装成Condition对象
-            ConditionSegment condition = ConditionSegment.parse(conditionTemp);
+            ConditionSegment conditionSegment = ConditionSegment.parse(condition);
             
             // 存入hashMap集合中，方便快速读取
-            ConditionSegment last = conditionMap.put(condition.getId(), condition);
+            ConditionSegment last = conditionMap.put(conditionSegment.getId(), conditionSegment);
             if (last != null)
             {
-                throw new ConditionFormatException("Condition ID repeats, fieldName:" + conditionTemp.getFieldName() + ", id:" + conditionTemp.getId());
+                throw new ConditionFormatException("Condition ID repeats, fieldName:" + condition.getFieldName() + ", id:" + condition.getId());
             }
         }
         
         // 释放临时条件对象
-        conditionTempList.clear();
+        conditionList.clear();
         setConditionList(null);
         
         if (getExpression() == null)
@@ -237,41 +227,6 @@ public class Where
             {
                 conditionSegmentList.add(new StringSegment(logicalOperator.getValue()));
             }
-        }
-    }
-    
-    public static enum LogicalOperator
-    {
-        AND("and"),
-        
-        OR("or");
-        
-        /**
-         * <p>Title        : LogicalOperator lilinhai 2018年2月10日 下午2:29:51</p>
-         * @param value 
-         */
-        private LogicalOperator(String value)
-        {
-            this.value = value;
-        }
-        
-        /**
-         * 值
-         */
-        private String value;
-        
-        /**
-         * <p>Get Method   :   value String</p>
-         * @return value
-         */
-        public String getValue()
-        {
-            return value;
-        }
-        
-        public static LogicalOperator transfer(String value)
-        {
-            return value.toLowerCase(Locale.ENGLISH).equals("and") ? AND : value.toLowerCase(Locale.ENGLISH).equals("or") ? OR : null;
         }
     }
     
