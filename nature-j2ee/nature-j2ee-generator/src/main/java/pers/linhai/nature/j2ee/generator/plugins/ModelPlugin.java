@@ -811,7 +811,7 @@ public class ModelPlugin extends BasePlugin
         methodName = "setSize";
         _method = new Method(methodName);
         _method.addJavaDocLine("/**");
-        _method.addJavaDocLine(" * 调用setPage函数，设置分页大小：每页显示多少条！");
+        _method.addJavaDocLine(" * 调用setSize函数，设置分页大小：每页显示多少条！");
         _method.addJavaDocLine(" */");
         _method.setFinal(false);
         _method.setStatic(false);
