@@ -722,9 +722,18 @@ public class ModelPlugin extends BasePlugin
         beanClass.addImportedType(ConditionBuilder.class.getName());
         beanClass.addImportedType(List.class.getName());
         beanClass.addImportedType(ArrayList.class.getName());
-        beanClass.addImportedType(Date.class.getName());
         beanClass.addImportedType(getTargetPackae("query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query");
         beanClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("field") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"));
+        
+        // 判断是否存在Date类型（包含createTime和updateTime之内外）的字段
+        for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns())
+        {
+            if (introspectedColumn.getFullyQualifiedJavaType().getFullyQualifiedNameWithoutTypeParameters().equals(Date.class.getName()))
+            {
+                beanClass.addImportedType(Date.class.getName());
+                break;
+            }
+        }
         
         // 添加范型继承关系BaseService
         if (introspectedTable.getPrimaryKeyColumns() == null || introspectedTable.getPrimaryKeyColumns().isEmpty())
