@@ -110,7 +110,7 @@ public abstract class QueryBuilder
         sortFieldList.add(sortField);
     }
     
-    protected void page(Integer page)
+    protected void _page(Integer page)
     {
         if (isOver)
         {
@@ -125,7 +125,7 @@ public abstract class QueryBuilder
         this.page = page;
     }
     
-    protected void size(Integer size)
+    protected void _size(Integer size)
     {
         if (isOver)
         {
@@ -163,11 +163,6 @@ public abstract class QueryBuilder
             // 构建已经结束，该对象不能再调用其他方法
             throw new QueryBuildException("The query builder is finished, and the object can no longer invoke other methods.");
         }
-        if (isWhereBegin)
-        {
-            // 异常处理
-            throw new QueryBuildException("The where function is called, can't be called again.");
-        }
         if (logicOperator != null)
         {
             // 异常处理
@@ -182,11 +177,6 @@ public abstract class QueryBuilder
         {
             // 构建已经结束，该对象不能再调用其他方法
             throw new QueryBuildException("The query builder is finished, and the object can no longer invoke other methods.");
-        }
-        if (isWhereBegin)
-        {
-            // 异常处理
-            throw new QueryBuildException("The where function is called, can't be called again.");
         }
         if (logicOperator != null)
         {

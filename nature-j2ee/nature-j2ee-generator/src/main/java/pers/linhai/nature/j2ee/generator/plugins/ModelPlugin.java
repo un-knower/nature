@@ -783,6 +783,34 @@ public class ModelPlugin extends BasePlugin
         _method.addBodyLine("return this;");
         beanClass.addMethod(_method);
         
+        methodName = "setPage";
+        _method = new Method(methodName);
+        _method.addJavaDocLine("/**");
+        _method.addJavaDocLine(" * 调用setPage函数，设置分页参数：第几页！");
+        _method.addJavaDocLine(" */");
+        _method.setFinal(false);
+        _method.setStatic(false);
+        _method.setVisibility(JavaVisibility.PUBLIC);
+        _method.addParameter(new Parameter(new FullyQualifiedJavaType("Integer"), "page"));
+        _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
+        _method.addBodyLine("_page(page);");
+        _method.addBodyLine("return this;");
+        beanClass.addMethod(_method);
+        
+        methodName = "setSize";
+        _method = new Method(methodName);
+        _method.addJavaDocLine("/**");
+        _method.addJavaDocLine(" * 调用setPage函数，设置分页大小：每页显示多少条！");
+        _method.addJavaDocLine(" */");
+        _method.setFinal(false);
+        _method.setStatic(false);
+        _method.setVisibility(JavaVisibility.PUBLIC);
+        _method.addParameter(new Parameter(new FullyQualifiedJavaType("Integer"), "size"));
+        _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
+        _method.addBodyLine("_size(size);");
+        _method.addBodyLine("return this;");
+        beanClass.addMethod(_method);
+        
         methodName = "build";
         _method = new Method(methodName);
         _method.addJavaDocLine("/**");

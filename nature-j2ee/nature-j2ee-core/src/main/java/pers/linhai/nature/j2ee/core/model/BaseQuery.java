@@ -139,7 +139,7 @@ public abstract class BaseQuery extends BaseModel
      */
     public void setSortFieldList(List<SortField> sortFieldList)
     {
-        if (sortFieldList != null && sortFieldList.isEmpty())
+        if (sortFieldList != null && !sortFieldList.isEmpty())
         {
             for (SortField sortField : sortFieldList)
             {
