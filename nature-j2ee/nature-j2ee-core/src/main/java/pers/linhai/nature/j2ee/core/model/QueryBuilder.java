@@ -289,6 +289,11 @@ public abstract class QueryBuilder
             // 构建已经结束，该对象不能再调用其他方法
             throw new QueryBuildException("The query builder is finished, and the object can no longer invoke other methods.");
         }
+        if (!whereBuilderStack.isEmpty())
+        {
+            // 在执行查询构建器的build方法之前，必须让所有的高优先级逻辑运算式结束
+            throw new QueryBuildException("Before executing the build method of the query builder, all high priority logic expressions must be completed.");
+        }
         query.setPage(page);
         query.setSize(size);
         query.setReturnFieldList(returnFieldList);
