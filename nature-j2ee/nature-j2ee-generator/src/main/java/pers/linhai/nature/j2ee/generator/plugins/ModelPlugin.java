@@ -31,6 +31,7 @@ import pers.linhai.nature.j2ee.core.model.ModelField;
 import pers.linhai.nature.j2ee.core.model.ModelHelper;
 import pers.linhai.nature.j2ee.core.model.QueryBuilder;
 import pers.linhai.nature.j2ee.core.model.SortField;
+import pers.linhai.nature.j2ee.core.model.enumer.Direction;
 import pers.linhai.nature.j2ee.core.model.enumer.JdbcType;
 import pers.linhai.nature.j2ee.generator.core.api.CoreClassImportConstant;
 import pers.linhai.nature.j2ee.generator.core.api.GeneratedJavaFile;
@@ -717,6 +718,7 @@ public class ModelPlugin extends BasePlugin
         // 添加需要依赖的类
         beanClass.addImportedType(new FullyQualifiedJavaType(QueryBuilder.class.getName()));
         beanClass.addImportedType(SortField.class.getName());
+        beanClass.addImportedType(Direction.class.getName());
         beanClass.addImportedType(ConditionBuilder.class.getName());
         beanClass.addImportedType(List.class.getName());
         beanClass.addImportedType(ArrayList.class.getName());
@@ -852,11 +854,11 @@ public class ModelPlugin extends BasePlugin
                 _method.setFinal(false);
                 _method.setStatic(false);
                 _method.setVisibility(JavaVisibility.PUBLIC);
-                _method.addParameter(new Parameter(new FullyQualifiedJavaType("boolean"), "isAsc"));
+                _method.addParameter(new Parameter(new FullyQualifiedJavaType(Direction.class.getName()), "direction"));
                 _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
                 _method.addBodyLine("SortField sf = new SortField();");
                 _method.addBodyLine("sf.setFieldName("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+".getJavaField());");
-                _method.addBodyLine("sf.setDirection(isAsc ? \"asc\" : \"desc\");");
+                _method.addBodyLine("sf.setDirection(direction.name());");
                 _method.addBodyLine("orderBy(sf);");
                 _method.addBodyLine("return this;");
                 beanClass.addMethod(_method);
