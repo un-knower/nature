@@ -160,10 +160,11 @@ public abstract class BaseEntity<Key> extends BaseModel
      */
     protected void addPersistentField(ModelField field, Object value)
     {
+        validField(field.getJavaField());
         PersistentField fv = new PersistentField();
         fv.setFieldName(field.getTableField());
         fv.setValue(value);
-        fv.setJdbcType(getJdbcType(field.getJavaField()));
+        fv.setJdbcType(field.getJdbcType());
         persistentFieldMap.put(field.getTableField(), fv);
     }
     
