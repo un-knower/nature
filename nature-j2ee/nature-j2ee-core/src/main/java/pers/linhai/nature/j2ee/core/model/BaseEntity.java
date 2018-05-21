@@ -14,6 +14,8 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import pers.linhai.nature.j2ee.core.model.enumer.BaseEntityField;
+
 /**
  * 抽象实体
  * <p>ClassName      : BaseEntity</p>
@@ -75,7 +77,7 @@ public abstract class BaseEntity<Key> extends BaseModel
     public void setId(Key id)
     {
         this.id = id;
-        addPersistentField("id", id);
+        addPersistentField(BaseEntityField.ID, id);
     }
     
     /**
@@ -94,7 +96,7 @@ public abstract class BaseEntity<Key> extends BaseModel
     public void setCreateTime(Date createTime)
     {
         this.createTime = createTime;
-        addPersistentField("create_time", createTime);
+        addPersistentField(BaseEntityField.CREATE_TIME, createTime);
     }
     
     /**
@@ -113,7 +115,7 @@ public abstract class BaseEntity<Key> extends BaseModel
     public void setUpdateTime(Date updateTime)
     {
         this.updateTime = updateTime;
-        addPersistentField("update_time", updateTime);
+        addPersistentField(BaseEntityField.UPDATE_TIME, updateTime);
     }
     
     /**
@@ -122,9 +124,9 @@ public abstract class BaseEntity<Key> extends BaseModel
      * @param fieldName 
      * void
      */
-    public void removePersistentField(String fieldName)
+    public void removePersistentField(ModelField field)
     {
-        persistentFieldMap.remove(getTableField(fieldName));
+        persistentFieldMap.remove(field.getTableField());
     }
     
     /**
@@ -139,19 +141,30 @@ public abstract class BaseEntity<Key> extends BaseModel
     }
     
     /**
+     * 是否有持久化字段
+     * <p>Title         : hasPersistentField lilinhai 2018年3月13日 下午7:39:25</p>
+     * @return 
+     * boolean
+     */
+    public boolean hasPersistentField(ModelField field)
+    {
+        return persistentFieldMap.containsKey(field.getTableField());
+    }
+    
+    /**
      * 添加一个持久化字段
      * <p>Title         : addPersistentField lilinhai 2018年3月13日 上午9:44:12</p>
      * @param fieldName
      * @param value 
      * void
      */
-    protected void addPersistentField(String fieldName, Object value)
+    protected void addPersistentField(ModelField field, Object value)
     {
         PersistentField fv = new PersistentField();
-        fv.setFieldName(fieldName);
+        fv.setFieldName(field.getTableField());
         fv.setValue(value);
-        fv.setJdbcType(getJdbcType(fieldName));
-        persistentFieldMap.put(fieldName, fv);
+        fv.setJdbcType(getJdbcType(field.getJavaField()));
+        persistentFieldMap.put(field.getTableField(), fv);
     }
     
     public abstract EntityBean toEntityBean();
