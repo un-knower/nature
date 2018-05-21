@@ -77,10 +77,20 @@ public abstract class BaseQuery extends BaseModel
     {
         this.page = page;
         
+        // 设置查询偏移量
+        setOffset();
+    }
+
+    /**
+     * <p>Title         : setOffset lilinhai 2018年5月21日 上午9:58:43</p>
+     * void 
+     */ 
+    private void setOffset()
+    {
         if (size != null && offset == null)
         {
             // 设置查询偏移量
-            setOffset(this.page * size);
+            this.offset = this.page * size;
         }
     }
     
@@ -91,15 +101,6 @@ public abstract class BaseQuery extends BaseModel
     public Integer getOffset()
     {
         return offset;
-    }
-    
-    /**
-     * <p>Set Method   :   offset Integer</p>
-     * @param offset
-     */
-    public void setOffset(Integer offset)
-    {
-        this.offset = offset;
     }
     
     /**
@@ -119,11 +120,8 @@ public abstract class BaseQuery extends BaseModel
     {
         this.size = size;
         
-        if (page != null && offset == null)
-        {
-            // 设置查询偏移量
-            setOffset(page * this.size);
-        }
+        // 设置查询偏移量
+        setOffset();
     }
     
     /**
@@ -141,11 +139,14 @@ public abstract class BaseQuery extends BaseModel
      */
     public void setSortFieldList(List<SortField> sortFieldList)
     {
-        for (SortField sortField : sortFieldList)
+        if (sortFieldList != null && sortFieldList.isEmpty())
         {
-            sortField.setFieldName(getTableField(sortField.getFieldName()));
+            for (SortField sortField : sortFieldList)
+            {
+                sortField.setFieldName(getTableField(sortField.getFieldName()));
+            }
+            this.sortFieldList = sortFieldList;
         }
-        this.sortFieldList = sortFieldList;
     }
     
     /**
@@ -163,7 +164,7 @@ public abstract class BaseQuery extends BaseModel
      */
     public void setReturnFieldList(List<String> returnFieldList)
     {
-        if (returnFieldList != null)
+        if (returnFieldList != null && !returnFieldList.isEmpty())
         {
             List<String> returnFieldListTemp = new ArrayList<String>();
             for (String fieldName : returnFieldList)
@@ -174,13 +175,6 @@ public abstract class BaseQuery extends BaseModel
         }
     }
     
-    /** 
-     * <p>Overriding Method: lilinhai 2018年2月15日 上午9:08:57</p>
-     * <p>Title: toString</p>
-     * <p>Description: TODO</p>
-     * @return 
-     * @see java.lang.Object#toString()
-     */
     public String toString()
     {
         return "BaseQuery [page=" + page + ", offset=" + offset + ", size=" + size + ", sortFieldList=" + sortFieldList + ", returnFieldList=" + returnFieldList + "]";
