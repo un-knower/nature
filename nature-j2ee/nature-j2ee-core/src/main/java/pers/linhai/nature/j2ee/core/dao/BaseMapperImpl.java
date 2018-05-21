@@ -34,7 +34,7 @@ import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.ConditionBuilder;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.model.WhereBuilder;
-import pers.linhai.nature.j2ee.core.model.enumer.BaseEntityField;
+import pers.linhai.nature.j2ee.core.model.enumer.BaseField;
 import pers.linhai.nature.reflect.ConstructorAccess;
 
 /**
@@ -205,7 +205,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         try
         {
             EntityQuery eq = entityQueryConstructor.newInstance();
-            eq.setWhere(WhereBuilder.where(ConditionBuilder.field(BaseEntityField.ID).equal(id)).build());
+            eq.setWhere(WhereBuilder.where(ConditionBuilder.field(BaseField.ID).equal(id)).build());
             return delete(eq);
         }
         catch (Throwable e)
@@ -247,7 +247,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
             }
             
             // 去除ID字段的更新
-            record.removePersistentField(BaseEntityField.ID);
+            record.removePersistentField(BaseField.ID);
             
             if (record.getUpdateTime() == null)
             {
@@ -258,7 +258,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
             // 如果修改条件为空
             if (record.getWhere() == null)
             {
-                record.setWhere(WhereBuilder.where(ConditionBuilder.field(BaseEntityField.ID).equal(record.getId())).build());
+                record.setWhere(WhereBuilder.where(ConditionBuilder.field(BaseField.ID).equal(record.getId())).build());
             }
             
             return sqlSession.update(UPDATE, record);
@@ -283,7 +283,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         try
         {
             EntityQuery eq = entityQueryConstructor.newInstance();
-            eq.setWhere(WhereBuilder.where(ConditionBuilder.field(BaseEntityField.ID).equal(id)).build());
+            eq.setWhere(WhereBuilder.where(ConditionBuilder.field(BaseField.ID).equal(id)).build());
             return get(eq);
         }
         catch (Throwable e)
@@ -307,7 +307,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         try
         {
             EntityQuery eq = entityQueryConstructor.newInstance();
-            eq.setWhere(WhereBuilder.where(ConditionBuilder.field(BaseEntityField.ID).equal(id)).build());
+            eq.setWhere(WhereBuilder.where(ConditionBuilder.field(BaseField.ID).equal(id)).build());
             return get(eq, entityProcessor);
         }
         catch (Throwable e)

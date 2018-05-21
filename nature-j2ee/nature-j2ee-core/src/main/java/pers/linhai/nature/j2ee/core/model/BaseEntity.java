@@ -14,7 +14,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import pers.linhai.nature.j2ee.core.model.enumer.BaseEntityField;
+import pers.linhai.nature.j2ee.core.model.enumer.BaseField;
 
 /**
  * 抽象实体
@@ -77,7 +77,7 @@ public abstract class BaseEntity<Key> extends BaseModel
     public void setId(Key id)
     {
         this.id = id;
-        addPersistentField(BaseEntityField.ID, id);
+        addPersistentField(BaseField.ID, id);
     }
     
     /**
@@ -96,7 +96,7 @@ public abstract class BaseEntity<Key> extends BaseModel
     public void setCreateTime(Date createTime)
     {
         this.createTime = createTime;
-        addPersistentField(BaseEntityField.CREATE_TIME, createTime);
+        addPersistentField(BaseField.CREATE_TIME, createTime);
     }
     
     /**
@@ -115,7 +115,7 @@ public abstract class BaseEntity<Key> extends BaseModel
     public void setUpdateTime(Date updateTime)
     {
         this.updateTime = updateTime;
-        addPersistentField(BaseEntityField.UPDATE_TIME, updateTime);
+        addPersistentField(BaseField.UPDATE_TIME, updateTime);
     }
     
     /**

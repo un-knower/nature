@@ -11,7 +11,7 @@ import pers.linhai.nature.utils.NamingUtils;
 /**
  * 数据库表公共字段枚举
  */
-public enum BaseEntityField implements ModelField
+public enum BaseField implements ModelField
 {
     ID(JdbcType.BIGINT),
     CREATE_TIME(JdbcType.TIMESTAMP),
@@ -20,7 +20,7 @@ public enum BaseEntityField implements ModelField
     /**
      * 所有字段的hashmap映射
      */
-    private static final Map<String, BaseEntityField> MAP = new HashMap<String, BaseEntityField>();
+    private static final Map<String, BaseField> MAP = new HashMap<String, BaseField>();
 
     /**
      * 数据库表所有字段名集合
@@ -49,7 +49,7 @@ public enum BaseEntityField implements ModelField
 
     static 
     {
-        for (BaseEntityField field : values())
+        for (BaseField field : values())
         {
             MAP.put(field.getJavaField(), field);
             MAP.put(field.getTableField(), field);
@@ -58,7 +58,7 @@ public enum BaseEntityField implements ModelField
         }
     }
 
-    BaseEntityField(JdbcType jdbcType)
+    BaseField(JdbcType jdbcType)
     {
         this.tableField = name().toLowerCase();
         this.javaField = NamingUtils.getCamelCaseString(tableField, false);
@@ -80,7 +80,7 @@ public enum BaseEntityField implements ModelField
         return jdbcType.getType();
     }
 
-    public static BaseEntityField transfer(String javaField)
+    public static BaseField transfer(String javaField)
     {
         return MAP.get(javaField);
     }
