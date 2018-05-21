@@ -794,6 +794,32 @@ public class ModelPlugin extends BasePlugin
         _method.addBodyLine("return this;");
         beanClass.addMethod(_method);
         
+        methodName = "start";
+        _method = new Method(methodName);
+        _method.addJavaDocLine("/**");
+        _method.addJavaDocLine(" * 调用start函数，意味着开始连接一个优先级较高的逻辑运算式（构建的该部分SQL将是带括号）！");
+        _method.addJavaDocLine(" */");
+        _method.setFinal(false);
+        _method.setStatic(false);
+        _method.setVisibility(JavaVisibility.PUBLIC);
+        _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
+        _method.addBodyLine("_start();");
+        _method.addBodyLine("return this;");
+        beanClass.addMethod(_method);
+        
+        methodName = "end";
+        _method = new Method(methodName);
+        _method.addJavaDocLine("/**");
+        _method.addJavaDocLine(" * 调用end函数，意味着结束一个带左括号的逻辑运算式，并将该表达式合并到主干或子分支！");
+        _method.addJavaDocLine(" */");
+        _method.setFinal(false);
+        _method.setStatic(false);
+        _method.setVisibility(JavaVisibility.PUBLIC);
+        _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
+        _method.addBodyLine("_end();");
+        _method.addBodyLine("return this;");
+        beanClass.addMethod(_method);
+        
         methodName = "setPage";
         _method = new Method(methodName);
         _method.addJavaDocLine("/**");

@@ -45,9 +45,18 @@ public class WhereBuilder
         expressionBuilder.append(condition.getId());
     }
     
+    private WhereBuilder()
+    {
+    }
+    
     public static WhereBuilder where(Condition condition)
     {
         return new WhereBuilder(condition);
+    }
+    
+    static WhereBuilder where()
+    {
+        return new WhereBuilder();
     }
     
     public WhereBuilder and(Condition condition)
@@ -68,11 +77,16 @@ public class WhereBuilder
     
     public WhereBuilder or(WhereBuilder whereBuilder)
     {
-        for (Condition condition : whereBuilder.conditionList)
+        if (this.conditionList.size() > 1)
         {
-            this.conditionList.add(condition);
+            this.expressionBuilder.insert(0, '(').append(')');
         }
-        this.expressionBuilder.append(" ").append(LogicalOperator.OR.getValue()).append(" ( ").append(whereBuilder.expressionBuilder).append(" ) ");
+        if (whereBuilder.conditionList.size() > 1)
+        {
+            whereBuilder.expressionBuilder.insert(0, '(').append(')');
+        }
+        this.conditionList.addAll(whereBuilder.conditionList);
+        this.expressionBuilder.append(" ").append(LogicalOperator.OR.getValue()).append(whereBuilder.expressionBuilder);
         return this;
     }
     
@@ -92,6 +106,11 @@ public class WhereBuilder
         where.setConditionList(conditionList);
         where.setExpression(expressionBuilder.toString());
         return where;
+    }
+    
+    int conditionSize()
+    {
+        return conditionList.size();
     }
     
     private String getId()

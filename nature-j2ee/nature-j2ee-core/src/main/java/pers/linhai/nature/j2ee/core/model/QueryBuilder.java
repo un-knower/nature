@@ -11,6 +11,7 @@ package pers.linhai.nature.j2ee.core.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import pers.linhai.nature.j2ee.core.model.Where.Condition;
 import pers.linhai.nature.j2ee.core.model.enumer.LogicalOperator;
@@ -74,8 +75,55 @@ public abstract class QueryBuilder
      */
     protected WhereBuilder whereBuilder;
     
+    protected Stack<LogicalOperator> logicalOperatorStack = new Stack<LogicalOperator>();
+    protected Stack<WhereBuilder> whereBuilderStack = new Stack<WhereBuilder>();
+    
+    protected void _start()
+    {
+        if (logicOperator == null)
+        {
+            // 异常处理
+            throw new QueryBuildException("Before connecting a high priority logic expression, you need to perform and or or functions first.");
+        }
+        
+        if (whereBuilder == null)
+        {
+            // 异常处理
+            throw new QueryBuildException("Before connecting a high priority logic expression, the logical expression of the trunk can not be null.");
+        }
+        whereBuilderStack.add(WhereBuilder.where());
+        logicalOperatorStack.add(logicOperator);
+    }
+    
+    protected void _end()
+    {
+        if (logicalOperatorStack.isEmpty() || whereBuilderStack.isEmpty())
+        {
+            // 在结束一个高优先逻辑运算式前，先调用start方法，打开一个高优先级逻辑运算式
+            throw new QueryBuildException("Before ending a high priority logic expression, first call the start method and open a high priority logic expression.");
+        }
+        LogicalOperator logicalOperator = logicalOperatorStack.pop();
+        WhereBuilder subWhereBuilder = whereBuilderStack.pop();
+        if (subWhereBuilder.conditionSize() <= 1)
+        {
+            // 在结束一个高优先逻辑运算式前，先保证该表达式存在2个及以上的子条件
+            throw new QueryBuildException("Before ending a high priority logic formula, it is guaranteed that the expression has 2 or more sub conditions.");
+        }
+        
+        // 同子分支或主干是合并
+        WhereBuilder mergeBranchWhereBuilder = !whereBuilderStack.isEmpty() ? whereBuilderStack.peek() : this.whereBuilder;
+        if (logicalOperator == LogicalOperator.AND)
+        {
+            mergeBranchWhereBuilder.and(subWhereBuilder);
+        }
+        else
+        {
+            mergeBranchWhereBuilder.or(subWhereBuilder);
+        }
+    }
+    
     /**
-     * 
+     * 需要返回的字段
      * <p>Title         : returnField lilinhai 2018年5月20日 下午7:17:41</p>
      * @param modelField 
      * void
@@ -207,7 +255,7 @@ public abstract class QueryBuilder
     
     protected void join(Condition condition)
     {
-        // 检查where函数是否已经条用执行 
+        // 检查where函数是否已经调用执行 
         checkIsWhereBegin();
         if (logicOperator == null)
         {
@@ -218,14 +266,19 @@ public abstract class QueryBuilder
         {
             whereBuilder = WhereBuilder.where(condition);
         }
-        else if(logicOperator == LogicalOperator.AND)
-        {
-            whereBuilder.and(condition);
-        }
         else
         {
-            whereBuilder.or(condition);
+            WhereBuilder mergeBranchWhereBuilder = !whereBuilderStack.isEmpty() ? whereBuilderStack.peek() : this.whereBuilder;
+            if(logicOperator == LogicalOperator.AND)
+            {
+                mergeBranchWhereBuilder.and(condition);
+            }
+            else
+            {
+                mergeBranchWhereBuilder.or(condition);
+            }
         }
+
         logicOperator = null;
     }
     
