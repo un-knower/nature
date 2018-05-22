@@ -78,7 +78,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public Condition lessThan(Object value)
+    public final Condition lessThan(Object value)
     {
         condition.setOperator(Operator.LESS_THAN.getValue());
         condition.setValue(value);
@@ -91,7 +91,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public Condition greaterThan(Object value)
+    public final Condition greaterThan(Object value)
     {
         condition.setOperator(Operator.GREATER_THAN.getValue());
         condition.setValue(value);
@@ -104,7 +104,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public Condition lessThanOrEqual(Object value)
+    public final Condition lessThanOrEqual(Object value)
     {
         condition.setOperator(Operator.LESS_THAN_OR_EQUAL.getValue());
         condition.setValue(value);
@@ -117,7 +117,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public Condition greaterThanOrEqual(Object value)
+    public final Condition greaterThanOrEqual(Object value)
     {
         condition.setOperator(Operator.GREATER_THAN_OR_EQUAL.getValue());
         condition.setValue(value);
@@ -130,7 +130,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public Condition equal(Object value)
+    public final Condition equal(Object value)
     {
         condition.setOperator(Operator.EQUAL.getValue());
         condition.setValue(value);
@@ -143,7 +143,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public Condition notEqual(Object value)
+    public final Condition notEqual(Object value)
     {
         condition.setOperator(Operator.NOT_EQUAL.getValue());
         condition.setValue(value);
@@ -156,7 +156,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public Condition like(Object value)
+    public final Condition like(Object value)
     {
         condition.setOperator(Operator.LIKE.getValue());
         condition.setValue(value);
@@ -169,7 +169,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public Condition in(List<Object> valueList)
+    public final <T> Condition in(List<T> valueList)
     {
         condition.setOperator(Operator.IN.getValue());
         condition.setValue(valueList);
@@ -182,10 +182,11 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public Condition in(Object... values)
+    @SafeVarargs
+    public final <T> Condition in(T... values)
     {
-        List<Object> objList = new ArrayList<Object>();
-        for (Object object : values)
+        List<T> objList = new ArrayList<T>();
+        for (T object : values)
         {
             objList.add(object);
         }
@@ -198,7 +199,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public Condition notIn(List<Object> valueList)
+    public final <T> Condition notIn(List<T> valueList)
     {
         condition.setOperator(Operator.NOT_IN.getValue());
         condition.setValue(valueList);
@@ -211,7 +212,8 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public Condition notIn(Object... values)
+    @SafeVarargs
+    public final <T> Condition notIn(T... values)
     {
         List<Object> objList = new ArrayList<Object>();
         for (Object object : values)
@@ -227,7 +229,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public Condition isNull()
+    public final Condition isNull()
     {
         condition.setOperator(Operator.IS_NULL.getValue());
         return condition;
@@ -239,7 +241,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public Condition isNotNull()
+    public final Condition isNotNull()
     {
         condition.setOperator(Operator.IS_NOT_NULL.getValue());
         return condition;

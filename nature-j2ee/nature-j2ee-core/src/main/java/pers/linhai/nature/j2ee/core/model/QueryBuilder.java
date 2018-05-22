@@ -10,10 +10,13 @@
 package pers.linhai.nature.j2ee.core.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Stack;
 
 import pers.linhai.nature.j2ee.core.model.Where.Condition;
+import pers.linhai.nature.j2ee.core.model.enumer.BaseField;
+import pers.linhai.nature.j2ee.core.model.enumer.Direction;
 import pers.linhai.nature.j2ee.core.model.enumer.LogicalOperator;
 import pers.linhai.nature.j2ee.core.model.exception.QueryBuildException;
 
@@ -367,6 +370,365 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
         return query;
     }
     
+    /**
+     * 检索：id()
+     */
+    public EntityQueryBuilder returnId()
+    {
+        _returnField(BaseField.ID);
+        return queryBuilder;
+    }
+
+    /**
+     * 排列：id()
+     */
+    public EntityQueryBuilder orderById(Direction direction)
+    {
+        SortField sf = new SortField();
+        sf.setFieldName(BaseField.ID.getJavaField());
+        sf.setDirection(direction.name());
+        orderBy(sf);
+        return queryBuilder;
+    }
+
+    /**
+     * 字段等于某个值：id()
+     */
+    public EntityQueryBuilder idEqual(Long id)
+    {
+        append(ConditionBuilder.field(BaseField.ID).equal(id));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段为null过滤：id()
+     */
+    public EntityQueryBuilder idIsNull()
+    {
+        append(ConditionBuilder.field(BaseField.ID).isNull());
+        return queryBuilder;
+    }
+
+    /**
+     * 字段不为null过滤：id()
+     */
+    public EntityQueryBuilder idIsNotNull()
+    {
+        append(ConditionBuilder.field(BaseField.ID).isNotNull());
+        return queryBuilder;
+    }
+
+    /**
+     * 字段小于某个值：id()
+     */
+    public EntityQueryBuilder idLessThan(Long id)
+    {
+        append(ConditionBuilder.field(BaseField.ID).lessThan(id));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段小于等于某个值：id()
+     */
+    public EntityQueryBuilder idLessThanOrEqual(Long id)
+    {
+        append(ConditionBuilder.field(BaseField.ID).lessThanOrEqual(id));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段大于某个值：id()
+     */
+    public EntityQueryBuilder idGreaterThan(Long id)
+    {
+        append(ConditionBuilder.field(BaseField.ID).greaterThan(id));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段大于等于某个值：id()
+     */
+    public EntityQueryBuilder idGreaterThanOrEqual(Long id)
+    {
+        append(ConditionBuilder.field(BaseField.ID).greaterThanOrEqual(id));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段在某个范围内in：id()
+     */
+    public EntityQueryBuilder idIn(Long ... idArr)
+    {
+        append(ConditionBuilder.field(BaseField.ID).in(idArr));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段在某个范围内in：id()
+     */
+    public EntityQueryBuilder idIn(List<Long> idList)
+    {
+        append(ConditionBuilder.field(BaseField.ID).in(idList));
+        return queryBuilder;
+    }
+    
+    /**
+     * 字段不在某个范围内in：id()
+     */
+    public EntityQueryBuilder idNotIn(Long ... idArr)
+    {
+        append(ConditionBuilder.field(BaseField.ID).notIn(idArr));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段不在某个范围内in：id()
+     */
+    public EntityQueryBuilder idNotIn(List<Long> idList)
+    {
+        append(ConditionBuilder.field(BaseField.ID).notIn(idList));
+        return queryBuilder;
+    }
+
+    /**
+     * 检索：create_time()
+     */
+    public EntityQueryBuilder returnCreateTime()
+    {
+        _returnField(BaseField.CREATE_TIME);
+        return queryBuilder;
+    }
+
+    /**
+     * 排列：create_time()
+     */
+    public EntityQueryBuilder orderByCreateTime(Direction direction)
+    {
+        SortField sf = new SortField();
+        sf.setFieldName(BaseField.CREATE_TIME.getJavaField());
+        sf.setDirection(direction.name());
+        orderBy(sf);
+        return queryBuilder;
+    }
+
+    /**
+     * 字段等于某个值：create_time()
+     */
+    public EntityQueryBuilder createTimeEqual(Date createTime)
+    {
+        append(ConditionBuilder.field(BaseField.CREATE_TIME).equal(createTime));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段为null过滤：create_time()
+     */
+    public EntityQueryBuilder createTimeIsNull()
+    {
+        append(ConditionBuilder.field(BaseField.CREATE_TIME).isNull());
+        return queryBuilder;
+    }
+
+    /**
+     * 字段不为null过滤：create_time()
+     */
+    public EntityQueryBuilder createTimeIsNotNull()
+    {
+        append(ConditionBuilder.field(BaseField.CREATE_TIME).isNotNull());
+        return queryBuilder;
+    }
+
+    /**
+     * 字段小于某个值：create_time()
+     */
+    public EntityQueryBuilder createTimeLessThan(Date createTime)
+    {
+        append(ConditionBuilder.field(BaseField.CREATE_TIME).lessThan(createTime));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段小于等于某个值：create_time()
+     */
+    public EntityQueryBuilder createTimeLessThanOrEqual(Date createTime)
+    {
+        append(ConditionBuilder.field(BaseField.CREATE_TIME).lessThanOrEqual(createTime));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段大于某个值：create_time()
+     */
+    public EntityQueryBuilder createTimeGreaterThan(Date createTime)
+    {
+        append(ConditionBuilder.field(BaseField.CREATE_TIME).greaterThan(createTime));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段大于等于某个值：create_time()
+     */
+    public EntityQueryBuilder createTimeGreaterThanOrEqual(Date createTime)
+    {
+        append(ConditionBuilder.field(BaseField.CREATE_TIME).greaterThanOrEqual(createTime));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段在某个范围内in：create_time()
+     */
+    public EntityQueryBuilder createTimeIn(Date ... createTimeArr)
+    {
+        append(ConditionBuilder.field(BaseField.CREATE_TIME).in(createTimeArr));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段在某个范围内in：create_time()
+     */
+    public EntityQueryBuilder createTimeIn(List<Date> createTimeList)
+    {
+        append(ConditionBuilder.field(BaseField.CREATE_TIME).in(createTimeList));
+        return queryBuilder;
+    }
+    
+    /**
+     * 字段不在某个范围内in：create_time()
+     */
+    public EntityQueryBuilder createTimeNotIn(Date ... createTimeArr)
+    {
+        append(ConditionBuilder.field(BaseField.CREATE_TIME).notIn(createTimeArr));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段不在某个范围内in：create_time()
+     */
+    public EntityQueryBuilder createTimeNotIn(List<Date> createTimeList)
+    {
+        append(ConditionBuilder.field(BaseField.CREATE_TIME).notIn(createTimeList));
+        return queryBuilder;
+    }
+
+    /**
+     * 检索：update_time()
+     */
+    public EntityQueryBuilder returnUpdateTime()
+    {
+        _returnField(BaseField.UPDATE_TIME);
+        return queryBuilder;
+    }
+
+    /**
+     * 排列：update_time()
+     */
+    public EntityQueryBuilder orderByUpdateTime(Direction direction)
+    {
+        SortField sf = new SortField();
+        sf.setFieldName(BaseField.UPDATE_TIME.getJavaField());
+        sf.setDirection(direction.name());
+        orderBy(sf);
+        return queryBuilder;
+    }
+
+    /**
+     * 字段等于某个值：update_time()
+     */
+    public EntityQueryBuilder updateTimeEqual(Date updateTime)
+    {
+        append(ConditionBuilder.field(BaseField.UPDATE_TIME).equal(updateTime));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段为null过滤：update_time()
+     */
+    public EntityQueryBuilder updateTimeIsNull()
+    {
+        append(ConditionBuilder.field(BaseField.UPDATE_TIME).isNull());
+        return queryBuilder;
+    }
+
+    /**
+     * 字段不为null过滤：update_time()
+     */
+    public EntityQueryBuilder updateTimeIsNotNull()
+    {
+        append(ConditionBuilder.field(BaseField.UPDATE_TIME).isNotNull());
+        return queryBuilder;
+    }
+
+    /**
+     * 字段小于某个值：update_time()
+     */
+    public EntityQueryBuilder updateTimeLessThan(Date updateTime)
+    {
+        append(ConditionBuilder.field(BaseField.UPDATE_TIME).lessThan(updateTime));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段小于等于某个值：update_time()
+     */
+    public EntityQueryBuilder updateTimeLessThanOrEqual(Date updateTime)
+    {
+        append(ConditionBuilder.field(BaseField.UPDATE_TIME).lessThanOrEqual(updateTime));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段大于某个值：update_time()
+     */
+    public EntityQueryBuilder updateTimeGreaterThan(Date updateTime)
+    {
+        append(ConditionBuilder.field(BaseField.UPDATE_TIME).greaterThan(updateTime));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段大于等于某个值：update_time()
+     */
+    public EntityQueryBuilder updateTimeGreaterThanOrEqual(Date updateTime)
+    {
+        append(ConditionBuilder.field(BaseField.UPDATE_TIME).greaterThanOrEqual(updateTime));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段在某个范围内in：update_time()
+     */
+    public EntityQueryBuilder updateTimeIn(Date ... updateTimeArr)
+    {
+        append(ConditionBuilder.field(BaseField.UPDATE_TIME).in(updateTimeArr));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段在某个范围内in：update_time()
+     */
+    public EntityQueryBuilder updateTimeIn(List<Date> updateTimeList)
+    {
+        append(ConditionBuilder.field(BaseField.UPDATE_TIME).in(updateTimeList));
+        return queryBuilder;
+    }
+    
+    /**
+     * 字段不在某个范围内in：update_time()
+     */
+    public EntityQueryBuilder updateTimeNotIn(Date ... updateTimeArr)
+    {
+        append(ConditionBuilder.field(BaseField.UPDATE_TIME).notIn(updateTimeArr));
+        return queryBuilder;
+    }
+
+    /**
+     * 字段不在某个范围内in：update_time()
+     */
+    public EntityQueryBuilder updateTimeNotIn(List<Date> updateTimeList)
+    {
+        append(ConditionBuilder.field(BaseField.UPDATE_TIME).notIn(updateTimeList));
+        return queryBuilder;
+    }
     
     /**
      * 检查where函数是否已经条用执行

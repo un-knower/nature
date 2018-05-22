@@ -721,22 +721,11 @@ public class ModelPlugin extends BasePlugin
         beanClass.addImportedType(Direction.class.getName());
         beanClass.addImportedType(ConditionBuilder.class.getName());
         beanClass.addImportedType(List.class.getName());
-        beanClass.addImportedType(ArrayList.class.getName());
         beanClass.addImportedType(getTargetPackae("query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query");
         beanClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("field") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"));
         
         // 添加继承关系
         beanClass.setSuperClass(new FullyQualifiedJavaType("QueryBuilder<"+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query, "+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder>"));
-        
-        // 判断是否存在Date类型（包含createTime和updateTime之内外）的字段
-        for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns())
-        {
-            if (introspectedColumn.getFullyQualifiedJavaType().getFullyQualifiedNameWithoutTypeParameters().equals(Date.class.getName()))
-            {
-                beanClass.addImportedType(Date.class.getName());
-                break;
-            }
-        }
         
         // 添加范型继承关系BaseService
         if (introspectedTable.getPrimaryKeyColumns() == null || introspectedTable.getPrimaryKeyColumns().isEmpty())
@@ -769,6 +758,15 @@ public class ModelPlugin extends BasePlugin
         Method _method = null;
         for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns())
         {
+            // 公共属性，用父类的方法，不必重新生成
+            if (FIELD_TO_BE_REMOVED_LIST.contains(introspectedColumn.getJavaProperty()))
+            {
+                continue;
+            }
+            if (introspectedColumn.getFullyQualifiedJavaType().getFullyQualifiedNameWithoutTypeParameters().equals(Date.class.getName()))
+            {
+                beanClass.addImportedType(Date.class.getName());
+            }
             String enumFieldName = introspectedColumn.getActualColumnName().toUpperCase(Locale.ENGLISH);
             methodName = introspectedColumn.getJavaProperty("return", true);
             _method = new Method(methodName);
@@ -912,12 +910,7 @@ public class ModelPlugin extends BasePlugin
                     _method.setVisibility(JavaVisibility.PUBLIC);
                     _method.addParameter(new Parameter(introspectedColumn.getFullyQualifiedJavaType(), introspectedColumn.getJavaProperty()+"Arr", true));
                     _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
-                    _method.addBodyLine("List<Object> objList = new ArrayList<Object>();");
-                    _method.addBodyLine("for (Object object : "+introspectedColumn.getJavaProperty()+"Arr)");
-                    _method.addBodyLine("{");
-                    _method.addBodyLine("objList.add(object);");
-                    _method.addBodyLine("}");
-                    _method.addBodyLine("append(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").in(objList));");
+                    _method.addBodyLine("append(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").in("+introspectedColumn.getJavaProperty()+"Arr));");
                     _method.addBodyLine("return this;");
                     beanClass.addMethod(_method);
                     
@@ -931,12 +924,35 @@ public class ModelPlugin extends BasePlugin
                     _method.setVisibility(JavaVisibility.PUBLIC);
                     _method.addParameter(new Parameter(new FullyQualifiedJavaType("List<"+introspectedColumn.getFullyQualifiedJavaType().getShortName()+">"), introspectedColumn.getJavaProperty() + "List"));
                     _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
-                    _method.addBodyLine("List<Object> objList = new ArrayList<Object>();");
-                    _method.addBodyLine("for (Object object : "+introspectedColumn.getJavaProperty()+"List)");
-                    _method.addBodyLine("{");
-                    _method.addBodyLine("objList.add(object);");
-                    _method.addBodyLine("}");
-                    _method.addBodyLine("append(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").in(objList));");
+                    _method.addBodyLine("append(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").in("+introspectedColumn.getJavaProperty()+"List));");
+                    _method.addBodyLine("return this;");
+                    beanClass.addMethod(_method);
+                    
+                    methodName = introspectedColumn.getJavaProperty() + "NotIn";
+                    _method = new Method(methodName);
+                    _method.addJavaDocLine("/**");
+                    _method.addJavaDocLine(" * 字段在某个范围内in：" + introspectedColumn.getActualColumnName() + "("+introspectedColumn.getRemarks()+")");
+                    _method.addJavaDocLine(" */");
+                    _method.setFinal(false);
+                    _method.setStatic(false);
+                    _method.setVisibility(JavaVisibility.PUBLIC);
+                    _method.addParameter(new Parameter(introspectedColumn.getFullyQualifiedJavaType(), introspectedColumn.getJavaProperty()+"Arr", true));
+                    _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
+                    _method.addBodyLine("append(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").notIn("+introspectedColumn.getJavaProperty()+"Arr));");
+                    _method.addBodyLine("return this;");
+                    beanClass.addMethod(_method);
+                    
+                    methodName = introspectedColumn.getJavaProperty() + "NotIn";
+                    _method = new Method(methodName);
+                    _method.addJavaDocLine("/**");
+                    _method.addJavaDocLine(" * 字段在某个范围内in：" + introspectedColumn.getActualColumnName() + "("+introspectedColumn.getRemarks()+")");
+                    _method.addJavaDocLine(" */");
+                    _method.setFinal(false);
+                    _method.setStatic(false);
+                    _method.setVisibility(JavaVisibility.PUBLIC);
+                    _method.addParameter(new Parameter(new FullyQualifiedJavaType("List<"+introspectedColumn.getFullyQualifiedJavaType().getShortName()+">"), introspectedColumn.getJavaProperty() + "List"));
+                    _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
+                    _method.addBodyLine("append(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").notIn("+introspectedColumn.getJavaProperty()+"List));");
                     _method.addBodyLine("return this;");
                     beanClass.addMethod(_method);
                     
