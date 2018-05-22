@@ -81,7 +81,7 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
     protected EntityQueryBuilder queryBuilder;
     protected EntityQuery query;
     
-    public EntityQueryBuilder start()
+    public final EntityQueryBuilder start()
     {
         if (logicOperator == null)
         {
@@ -99,7 +99,7 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
         return queryBuilder;
     }
     
-    public EntityQueryBuilder end()
+    public final EntityQueryBuilder end()
     {
         if (logicalOperatorStack.isEmpty() || whereBuilderStack.isEmpty())
         {
@@ -133,7 +133,7 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
      * @param modelField 
      * void
      */
-    protected EntityQueryBuilder _returnField(ModelField modelField)
+    protected final EntityQueryBuilder _returnField(ModelField modelField)
     {
         if (isOver)
         {
@@ -149,7 +149,7 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
         return queryBuilder;
     }
     
-    protected EntityQueryBuilder orderBy(SortField sortField)
+    protected final EntityQueryBuilder orderBy(SortField sortField)
     {
         if (isOver)
         {
@@ -165,7 +165,7 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
         return queryBuilder;
     }
     
-    public EntityQueryBuilder setPage(Integer page)
+    public final EntityQueryBuilder setPage(Integer page)
     {
         if (isOver)
         {
@@ -181,7 +181,7 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
         return queryBuilder;
     }
     
-    public EntityQueryBuilder setSize(Integer size)
+    public final EntityQueryBuilder setSize(Integer size)
     {
         if (isOver)
         {
@@ -197,7 +197,7 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
         return queryBuilder;
     }
     
-    public EntityQueryBuilder where()
+    public final EntityQueryBuilder where()
     {
         if (isOver)
         {
@@ -214,7 +214,7 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
         return queryBuilder;
     }
     
-    public EntityQueryBuilder and()
+    public final EntityQueryBuilder and()
     {
         if (isOver)
         {
@@ -230,7 +230,7 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
         return queryBuilder;
     }
     
-    public EntityQueryBuilder or()
+    public final EntityQueryBuilder or()
     {
         if (isOver)
         {
@@ -246,7 +246,7 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
         return queryBuilder;
     }
     
-    protected EntityQueryBuilder append(Condition condition)
+    protected final EntityQueryBuilder append(Condition condition)
     {
         // 检查where函数是否已经调用执行 
         checkIsWhereBegin();
@@ -282,7 +282,7 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
      * @return 
      * EntityQuery
      */
-    public EntityQuery build()
+    public final EntityQuery build()
     {
         if (isOver)
         {
