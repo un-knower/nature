@@ -36,6 +36,7 @@ public class JavaModelGeneratorConfigurationBuilder extends BaseConfigurationBui
         addProperty("enableSubPackages", "false");
         this.groupId = groupId;
         this.projectName = projectName;
+        projectPackageName = projectName.replaceAll("\\-", ".");
         this.outPutPath = outPutPath;
         moduleName = "model";
         artifactId = projectName + "-" + moduleName;

@@ -1,4 +1,4 @@
-package ${groupId}.${artifactId};
+package ${groupId}.${projectPackageName};
 
 import pers.linhai.nature.j2ee.core.BaseApplication;
 

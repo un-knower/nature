@@ -36,6 +36,7 @@ public class SqlMapGeneratorConfigurationBuilder extends BaseConfigurationBuilde
         
         this.groupId = groupId;
         this.projectName = projectName;
+        projectPackageName = projectName.replaceAll("\\-", ".");
         this.outPutPath = outPutPath;
         moduleName = "dao";
         artifactId = projectName + "-" + moduleName;

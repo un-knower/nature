@@ -63,6 +63,7 @@ public class Main
         Map<String, String> params = new HashMap<String, String>();
         params.put("groupId", groupId);
         params.put("artifactId", artifactId);
+        params.put("projectPackageName", artifactId.replaceAll("\\-", "."));
         params.put("dbName", dbName);
         params.put("dbDriver", dbDriver);
         params.put("dbIp", dbIp);
@@ -99,22 +100,22 @@ public class Main
         out.close();
 
         // APP模块
-        buildApp(groupId, artifactId, params, cfg, artifactDir);
+        buildApp(params, cfg, artifactDir);
         
         // common 模块
-        buildCommon(groupId, artifactId, params, cfg, artifactDir);
+        buildCommon(params, cfg, artifactDir);
         
         // dao模块
-        buildDao(artifactId, params, cfg, artifactDir);
+        buildDao(params, cfg, artifactDir);
         
         // model模块
-        buildModel(artifactId, params, cfg, artifactDir);
+        buildModel(params, cfg, artifactDir);
         
         // service模块
-        buildService(artifactId, params, cfg, artifactDir);
+        buildService(params, cfg, artifactDir);
         
         // web模块
-        buildWeb(artifactId, params, cfg, artifactDir);
+        buildWeb(params, cfg, artifactDir);
         
         // 生成业务代码
         CodeGenerator.generate(artifactDir.getAbsolutePath(), params);
@@ -137,12 +138,12 @@ public class Main
      * @throws Exception 
      * void 
      */ 
-    private static void buildWeb(String artifactId, Map<String, String> params, Configuration cfg, File artifactDir)
+    private static void buildWeb(Map<String, String> params, Configuration cfg, File artifactDir)
         throws Exception
     {
         Template temp;
         Writer out;
-        File daoArtifactDir = new File(artifactDir, artifactId + "-web");
+        File daoArtifactDir = new File(artifactDir, params.get("artifactId") + "-web");
         FileUtils.createDir(daoArtifactDir);
         
         temp = cfg.getTemplate("web/pom.xml");
@@ -166,12 +167,12 @@ public class Main
      * @throws Exception 
      * void 
      */ 
-    private static void buildService(String artifactId, Map<String, String> params, Configuration cfg, File artifactDir)
+    private static void buildService(Map<String, String> params, Configuration cfg, File artifactDir)
         throws Exception
     {
         Template temp;
         Writer out;
-        File daoArtifactDir = new File(artifactDir, artifactId + "-service");
+        File daoArtifactDir = new File(artifactDir, params.get("artifactId") + "-service");
         FileUtils.createDir(daoArtifactDir);
         
         temp = cfg.getTemplate("service/pom.xml");
@@ -202,7 +203,7 @@ public class Main
      * @throws TemplateException 
      * void 
      */ 
-    private static void buildModel(String artifactId, Map<String, String> params, Configuration cfg, File artifactDir)
+    private static void buildModel(Map<String, String> params, Configuration cfg, File artifactDir)
         throws TemplateNotFoundException,
         MalformedTemplateNameException,
         ParseException,
@@ -213,7 +214,7 @@ public class Main
     {
         Template temp;
         Writer out;
-        File daoArtifactDir = new File(artifactDir, artifactId + "-model");
+        File daoArtifactDir = new File(artifactDir, params.get("artifactId") + "-model");
         FileUtils.createDir(daoArtifactDir);
         
         temp = cfg.getTemplate("model/pom.xml");
@@ -237,12 +238,12 @@ public class Main
      * @throws Exception
      * void 
      */ 
-    private static void buildDao(String artifactId, Map<String, String> params, Configuration cfg, File artifactDir)
+    private static void buildDao(Map<String, String> params, Configuration cfg, File artifactDir)
         throws Exception
     {
         Template temp;
         Writer out;
-        File daoArtifactDir = new File(artifactDir, artifactId + "-dao");
+        File daoArtifactDir = new File(artifactDir, params.get("artifactId") + "-dao");
         FileUtils.createDir(daoArtifactDir);
         
         temp = cfg.getTemplate("dao/pom.xml");
@@ -260,19 +261,17 @@ public class Main
     /**
      * <p>Title         : buildCommon lilinhai 2018年2月22日 下午5:56:44</p>
      * <p>Description   : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
-     * @param groupId
-     * @param artifactId
      * @param params
      * @param cfg
      * @param artifactDir
      * void 
      */ 
-    private static void buildCommon(String groupId, String artifactId, Map<String, String> params, Configuration cfg, File artifactDir)
+    private static void buildCommon(Map<String, String> params, Configuration cfg, File artifactDir)
         throws Exception
     {
         Template temp;
         Writer out;
-        File commonArtifactDir = new File(artifactDir, artifactId + "-common");
+        File commonArtifactDir = new File(artifactDir, params.get("artifactId") + "-common");
         FileUtils.createDir(commonArtifactDir);
         
         temp = cfg.getTemplate("common/pom.xml");
@@ -289,20 +288,18 @@ public class Main
 
     /**
      * <p>Title         : buildApp lilinhai 2018年2月22日 下午5:27:35</p>
-     * @param groupId
-     * @param artifactId
      * @param params
      * @param cfg
      * @param artifactDir
      * @throws Exception 
      * void 
      */ 
-    private static void buildApp(String groupId, String artifactId, Map<String, String> params, Configuration cfg, File artifactDir)
+    private static void buildApp(Map<String, String> params, Configuration cfg, File artifactDir)
         throws Exception
     {
         Template temp;
         Writer out;
-        File appArtifactDir = new File(artifactDir, artifactId + "-app");
+        File appArtifactDir = new File(artifactDir, params.get("artifactId") + "-app");
         FileUtils.createDir(appArtifactDir);
         temp = cfg.getTemplate("app/pom.xml");
         out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(appArtifactDir, "pom.xml")), "UTF-8"));
@@ -339,7 +336,7 @@ public class Main
         File appJava = new File(appArtifactDir, "src/main/java");
         FileUtils.createDir(appJava);
         FileUtils.createDir(new File(appArtifactDir, "src/test/java"));
-        File appJavaPackage = new File(appJava, groupId.replaceAll("\\.", "/") + "/" + artifactId);
+        File appJavaPackage = new File(appJava, params.get("groupId").replaceAll("\\.", "/") + "/" + params.get("projectPackageName").replaceAll("\\.", "/"));
         FileUtils.createDir(appJavaPackage);
         temp = cfg.getTemplate("app/Application.java");
         out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(appJavaPackage, "Application.java")), "UTF-8"));

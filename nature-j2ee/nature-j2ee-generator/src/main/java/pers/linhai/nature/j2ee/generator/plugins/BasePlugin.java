@@ -45,6 +45,11 @@ public abstract class BasePlugin extends PluginAdapter
     protected String projectName;
     
     /**
+     * 项目包名
+     */
+    protected String projectPackageName;
+    
+    /**
      * 输出路径
      */
     protected String outPutPath;
@@ -76,6 +81,7 @@ public abstract class BasePlugin extends PluginAdapter
         super.setProperties(properties);
         groupId = getProperty("groupId");
         projectName = getProperty("projectName");
+        projectPackageName = projectName.replaceAll("\\-", ".");
         outPutPath = getProperty("outPutPath");
     }
 
@@ -104,11 +110,15 @@ public abstract class BasePlugin extends PluginAdapter
     
     protected String getTargetPackae(String moduleName, String subPackage)
     {
+        if (projectPackageName == null)
+        {
+            System.out.println(111);
+        }
         if (subPackage == null || subPackage.length() == 0)
         {
-            return groupId + "." + projectName + "." + moduleName;
+            return groupId + "." + projectPackageName + "." + moduleName;
         }
-        return groupId + "." + projectName + "." + moduleName + "." + subPackage;
+        return groupId + "." + projectPackageName + "." + moduleName + "." + subPackage;
     }
     
     protected String getProperty(String name)
