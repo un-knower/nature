@@ -63,7 +63,11 @@ public class WhereBuilder
     {
         condition.setId(getId());
         conditionList.add(condition);
-        expressionBuilder.append(" ").append(LogicalOperator.AND.getValue()).append(" ").append(condition.getId());
+        if (expressionBuilder.length() > 0)
+        {
+            expressionBuilder.append(" ").append(LogicalOperator.AND.getValue()).append(" ");
+        }
+        expressionBuilder.append(condition.getId());
         return this;
     }
     
@@ -71,7 +75,11 @@ public class WhereBuilder
     {
         condition.setId(getId());
         conditionList.add(condition);
-        expressionBuilder.append(" ").append(LogicalOperator.OR.getValue()).append(" ").append(condition.getId());
+        if (expressionBuilder.length() > 0)
+        {
+            expressionBuilder.append(" ").append(LogicalOperator.OR.getValue()).append(" ");
+        }
+        expressionBuilder.append(condition.getId());
         return this;
     }
     
@@ -92,11 +100,16 @@ public class WhereBuilder
     
     public WhereBuilder and(WhereBuilder whereBuilder)
     {
-        for (Condition condition : whereBuilder.conditionList)
+        if (this.conditionList.size() > 1)
         {
-            this.conditionList.add(condition);
+            this.expressionBuilder.insert(0, '(').append(')');
         }
-        this.expressionBuilder.append(" ").append(LogicalOperator.AND.getValue()).append(" ( ").append(whereBuilder.expressionBuilder).append(" ) ");
+        if (whereBuilder.conditionList.size() > 1)
+        {
+            whereBuilder.expressionBuilder.insert(0, '(').append(')');
+        }
+        this.conditionList.addAll(whereBuilder.conditionList);
+        this.expressionBuilder.append(" ").append(LogicalOperator.AND.getValue()).append(whereBuilder.expressionBuilder);
         return this;
     }
     
