@@ -253,7 +253,7 @@ public abstract class QueryBuilder
         }
     }
     
-    protected void join(Condition condition)
+    protected void append(Condition condition)
     {
         // 检查where函数是否已经调用执行 
         checkIsWhereBegin();

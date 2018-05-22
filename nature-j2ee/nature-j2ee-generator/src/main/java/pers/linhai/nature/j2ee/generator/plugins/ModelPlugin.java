@@ -908,7 +908,7 @@ public class ModelPlugin extends BasePlugin
                 _method.setVisibility(JavaVisibility.PUBLIC);
                 _method.addParameter(new Parameter(introspectedColumn.getFullyQualifiedJavaType(), introspectedColumn.getJavaProperty()));
                 _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
-                _method.addBodyLine("join(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").equal("+introspectedColumn.getJavaProperty()+"));");
+                _method.addBodyLine("append(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").equal("+introspectedColumn.getJavaProperty()+"));");
                 _method.addBodyLine("return this;");
                 beanClass.addMethod(_method);
                 
@@ -921,7 +921,7 @@ public class ModelPlugin extends BasePlugin
                 _method.setStatic(false);
                 _method.setVisibility(JavaVisibility.PUBLIC);
                 _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
-                _method.addBodyLine("join(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").isNull());");
+                _method.addBodyLine("append(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").isNull());");
                 _method.addBodyLine("return this;");
                 beanClass.addMethod(_method);
                 
@@ -934,7 +934,7 @@ public class ModelPlugin extends BasePlugin
                 _method.setStatic(false);
                 _method.setVisibility(JavaVisibility.PUBLIC);
                 _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
-                _method.addBodyLine("join(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").isNotNull());");
+                _method.addBodyLine("append(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").isNotNull());");
                 _method.addBodyLine("return this;");
                 beanClass.addMethod(_method);
                 
@@ -951,7 +951,7 @@ public class ModelPlugin extends BasePlugin
                     _method.setVisibility(JavaVisibility.PUBLIC);
                     _method.addParameter(new Parameter(introspectedColumn.getFullyQualifiedJavaType(), introspectedColumn.getJavaProperty()));
                     _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
-                    _method.addBodyLine("join(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").lessThan("+introspectedColumn.getJavaProperty()+"));");
+                    _method.addBodyLine("append(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").lessThan("+introspectedColumn.getJavaProperty()+"));");
                     _method.addBodyLine("return this;");
                     beanClass.addMethod(_method);
                     
@@ -965,7 +965,7 @@ public class ModelPlugin extends BasePlugin
                     _method.setVisibility(JavaVisibility.PUBLIC);
                     _method.addParameter(new Parameter(introspectedColumn.getFullyQualifiedJavaType(), introspectedColumn.getJavaProperty()));
                     _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
-                    _method.addBodyLine("join(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").lessThanOrEqual("+introspectedColumn.getJavaProperty()+"));");
+                    _method.addBodyLine("append(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").lessThanOrEqual("+introspectedColumn.getJavaProperty()+"));");
                     _method.addBodyLine("return this;");
                     beanClass.addMethod(_method);
                     
@@ -979,7 +979,7 @@ public class ModelPlugin extends BasePlugin
                     _method.setVisibility(JavaVisibility.PUBLIC);
                     _method.addParameter(new Parameter(introspectedColumn.getFullyQualifiedJavaType(), introspectedColumn.getJavaProperty()));
                     _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
-                    _method.addBodyLine("join(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").greaterThan("+introspectedColumn.getJavaProperty()+"));");
+                    _method.addBodyLine("append(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").greaterThan("+introspectedColumn.getJavaProperty()+"));");
                     _method.addBodyLine("return this;");
                     beanClass.addMethod(_method);
                     
@@ -993,7 +993,7 @@ public class ModelPlugin extends BasePlugin
                     _method.setVisibility(JavaVisibility.PUBLIC);
                     _method.addParameter(new Parameter(introspectedColumn.getFullyQualifiedJavaType(), introspectedColumn.getJavaProperty()));
                     _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
-                    _method.addBodyLine("join(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").greaterThanOrEqual("+introspectedColumn.getJavaProperty()+"));");
+                    _method.addBodyLine("append(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").greaterThanOrEqual("+introspectedColumn.getJavaProperty()+"));");
                     _method.addBodyLine("return this;");
                     beanClass.addMethod(_method);
                     
@@ -1012,7 +1012,7 @@ public class ModelPlugin extends BasePlugin
                     _method.addBodyLine("{");
                     _method.addBodyLine("objList.add(object);");
                     _method.addBodyLine("}");
-                    _method.addBodyLine("join(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").in(objList));");
+                    _method.addBodyLine("append(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").in(objList));");
                     _method.addBodyLine("return this;");
                     beanClass.addMethod(_method);
                     
@@ -1031,7 +1031,7 @@ public class ModelPlugin extends BasePlugin
                     _method.addBodyLine("{");
                     _method.addBodyLine("objList.add(object);");
                     _method.addBodyLine("}");
-                    _method.addBodyLine("join(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").in(objList));");
+                    _method.addBodyLine("append(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").in(objList));");
                     _method.addBodyLine("return this;");
                     beanClass.addMethod(_method);
                     
@@ -1048,7 +1048,7 @@ public class ModelPlugin extends BasePlugin
                         _method.setVisibility(JavaVisibility.PUBLIC);
                         _method.addParameter(new Parameter(introspectedColumn.getFullyQualifiedJavaType(), introspectedColumn.getJavaProperty()));
                         _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
-                        _method.addBodyLine("join(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").like("+introspectedColumn.getJavaProperty()+"));");
+                        _method.addBodyLine("append(ConditionBuilder.field("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+").like("+introspectedColumn.getJavaProperty()+"));");
                         _method.addBodyLine("return this;");
                         beanClass.addMethod(_method);
                     }
