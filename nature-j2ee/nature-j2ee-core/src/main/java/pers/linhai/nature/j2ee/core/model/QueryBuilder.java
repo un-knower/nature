@@ -93,6 +93,11 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
     
     public final EntityQueryBuilder start()
     {
+        if (isOver)
+        {
+            // 构建已经结束，该对象不能再调用其他方法
+            throw new QueryBuildException("The query builder is finished, and the object can no longer invoke other methods.");
+        }
         if (logicOperator == null)
         {
             // 异常处理
@@ -111,6 +116,11 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
     
     public final EntityQueryBuilder end()
     {
+        if (isOver)
+        {
+            // 构建已经结束，该对象不能再调用其他方法
+            throw new QueryBuildException("The query builder is finished, and the object can no longer invoke other methods.");
+        }
         if (logicalOperatorStack.isEmpty() || whereBuilderStack.isEmpty())
         {
             // 在结束一个高优先逻辑运算式前，先调用start方法，打开一个高优先级逻辑运算式
@@ -145,6 +155,11 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
      */
     public final EntityQueryBuilder returnAll()
     {
+        if (isOver)
+        {
+            // 构建已经结束，该对象不能再调用其他方法
+            throw new QueryBuildException("The query builder is finished, and the object can no longer invoke other methods.");
+        }
         if (isSetReturn)
         {
             //异常处理：在设置了return某个字段后，不能再调用returnAll方法
@@ -167,12 +182,6 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
      */
     protected final EntityQueryBuilder _returnField(ModelField modelField)
     {
-        if (isReturnAll)
-        {
-            //异常处理：returnAll方法设置后，不能在设置return某个具体字段
-            throw new QueryBuildException("After setting the returnAll method, you cannot set a specific field in return.");
-        }
-        isSetReturn = true;
         if (isOver)
         {
             // 构建已经结束，该对象不能再调用其他方法
@@ -183,6 +192,12 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
             // 必须在查询条件、排序和分页设置之前设置搜索字段。 
             throw new QueryBuildException("The search fields must be set before query conditions, sorting and paging settings.");
         }
+        if (isReturnAll)
+        {
+            //异常处理：returnAll方法设置后，不能在设置return某个具体字段
+            throw new QueryBuildException("After setting the returnAll method, you cannot set a specific field in return.");
+        }
+        isSetReturn = true;
         returnFieldList.add(modelField.getJavaField());
         return queryBuilder;
     }
