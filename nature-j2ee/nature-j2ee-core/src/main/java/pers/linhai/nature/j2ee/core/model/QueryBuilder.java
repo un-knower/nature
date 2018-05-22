@@ -26,6 +26,16 @@ import pers.linhai.nature.j2ee.core.model.exception.QueryBuildException;
 public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBuilder>
 {
     /**
+     * 是否设置了返回所有字段
+     */
+    private boolean isReturnAll;
+    
+    /**
+     * 是否设置了返回某个字段
+     */
+    private boolean isSetReturn;
+    
+    /**
      * 是否构建结束
      */
     private boolean isOver;
@@ -128,6 +138,28 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
     }
     
     /**
+     * 返回该表中的所有字段
+     * <p>Title         : returnAll lilinhai 2018年5月22日 下午2:37:37</p>
+     * @return 
+     * EntityQueryBuilder
+     */
+    public final EntityQueryBuilder returnAll()
+    {
+        if (isSetReturn)
+        {
+            //异常处理：在设置了return某个字段后，不能再调用returnAll方法
+            throw new QueryBuildException("After setting up a return field, you can no longer invoke the returnAll method.");
+        }
+        if (isReturnAll)
+        {
+            //异常处理：returnAll方法只能调用一次
+            throw new QueryBuildException("The returnAll method can only be called once.");
+        }
+        isReturnAll = true;
+        return queryBuilder;
+    }
+    
+    /**
      * 需要返回的字段
      * <p>Title         : returnField lilinhai 2018年5月20日 下午7:17:41</p>
      * @param modelField 
@@ -135,6 +167,12 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
      */
     protected final EntityQueryBuilder _returnField(ModelField modelField)
     {
+        if (isReturnAll)
+        {
+            //异常处理：returnAll方法设置后，不能在设置return某个具体字段
+            throw new QueryBuildException("After setting the returnAll method, you cannot set a specific field in return.");
+        }
+        isSetReturn = true;
         if (isOver)
         {
             // 构建已经结束，该对象不能再调用其他方法
@@ -208,6 +246,11 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
         {
             // 异常处理
             throw new QueryBuildException("The where function is called, can't be called again.");
+        }
+        if (!isSetReturn && !isReturnAll)
+        {
+            // 异常处理：在调用where之前，需要先设置你需要return的字段
+            throw new QueryBuildException("Before calling where, you need to set up a field that you need return.");
         }
         isWhereBegin = true;
         logicOperator = LogicalOperator.AND;
