@@ -23,7 +23,7 @@ import pers.linhai.nature.j2ee.core.model.exception.QueryBuildException;
  * @author lilinhai 2018年5月20日 下午7:09:27
  * @version 1.0
  */
-public abstract class QueryBuilder
+public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBuilder>
 {
     /**
      * 是否构建结束
@@ -53,32 +53,35 @@ public abstract class QueryBuilder
     /**
      * 第几页
      */
-    protected Integer page;
+    private Integer page;
     
     /**
      * 每页显示的大小
      */
-    protected Integer size;
+    private Integer size;
     
     /**
      * 排序字段集合
      */
-    protected List<SortField> sortFieldList = new ArrayList<SortField>();
+    private List<SortField> sortFieldList = new ArrayList<SortField>();
     
     /**
      * 待返回的字段列表
      */
-    protected List<String> returnFieldList = new ArrayList<String>();
+    private List<String> returnFieldList = new ArrayList<String>();
     
     /**
      * where条件构建器
      */
-    protected WhereBuilder whereBuilder;
+    private WhereBuilder whereBuilder;
     
-    protected Stack<LogicalOperator> logicalOperatorStack = new Stack<LogicalOperator>();
-    protected Stack<WhereBuilder> whereBuilderStack = new Stack<WhereBuilder>();
+    private Stack<LogicalOperator> logicalOperatorStack = new Stack<LogicalOperator>();
+    private Stack<WhereBuilder> whereBuilderStack = new Stack<WhereBuilder>();
     
-    protected void _start()
+    protected EntityQueryBuilder queryBuilder;
+    protected EntityQuery query;
+    
+    public EntityQueryBuilder start()
     {
         if (logicOperator == null)
         {
@@ -93,9 +96,10 @@ public abstract class QueryBuilder
         }
         whereBuilderStack.add(WhereBuilder.where());
         logicalOperatorStack.add(logicOperator);
+        return queryBuilder;
     }
     
-    protected void _end()
+    public EntityQueryBuilder end()
     {
         if (logicalOperatorStack.isEmpty() || whereBuilderStack.isEmpty())
         {
@@ -120,6 +124,7 @@ public abstract class QueryBuilder
         {
             mergeBranchWhereBuilder.or(subWhereBuilder);
         }
+        return queryBuilder;
     }
     
     /**
@@ -128,7 +133,7 @@ public abstract class QueryBuilder
      * @param modelField 
      * void
      */
-    protected void _returnField(ModelField modelField)
+    protected EntityQueryBuilder _returnField(ModelField modelField)
     {
         if (isOver)
         {
@@ -141,9 +146,10 @@ public abstract class QueryBuilder
             throw new QueryBuildException("The search fields must be set before query conditions, sorting and paging settings.");
         }
         returnFieldList.add(modelField.getJavaField());
+        return queryBuilder;
     }
     
-    protected void orderBy(SortField sortField)
+    protected EntityQueryBuilder orderBy(SortField sortField)
     {
         if (isOver)
         {
@@ -156,9 +162,10 @@ public abstract class QueryBuilder
             throw new QueryBuildException("Sorting field settings must be set after query conditions are set and before paging parameters are set.");
         }
         sortFieldList.add(sortField);
+        return queryBuilder;
     }
     
-    protected void _page(Integer page)
+    public EntityQueryBuilder setPage(Integer page)
     {
         if (isOver)
         {
@@ -171,9 +178,10 @@ public abstract class QueryBuilder
             throw new QueryBuildException("The page can't be empty or less than zero.");
         }
         this.page = page;
+        return queryBuilder;
     }
     
-    protected void _size(Integer size)
+    public EntityQueryBuilder setSize(Integer size)
     {
         if (isOver)
         {
@@ -186,9 +194,10 @@ public abstract class QueryBuilder
             throw new QueryBuildException("The size can't be empty or less-than-or-equal zero.");
         }
         this.size = size;
+        return queryBuilder;
     }
     
-    protected void _where()
+    public EntityQueryBuilder where()
     {
         if (isOver)
         {
@@ -202,9 +211,10 @@ public abstract class QueryBuilder
         }
         isWhereBegin = true;
         logicOperator = LogicalOperator.AND;
+        return queryBuilder;
     }
     
-    protected void _and()
+    public EntityQueryBuilder and()
     {
         if (isOver)
         {
@@ -217,9 +227,10 @@ public abstract class QueryBuilder
             throw new QueryBuildException("The and function is called, can't be called again.");
         }
         logicOperator = LogicalOperator.AND;
+        return queryBuilder;
     }
     
-    protected void _or()
+    public EntityQueryBuilder or()
     {
         if (isOver)
         {
@@ -232,28 +243,10 @@ public abstract class QueryBuilder
             throw new QueryBuildException("The or function is called, can't be called again.");
         }
         logicOperator = LogicalOperator.OR;
+        return queryBuilder;
     }
     
-    /**
-     * 检查where函数是否已经条用执行
-     * <p>Title         : checkIsWhereBegin lilinhai 2018年5月20日 下午9:55:55</p>
-     * void
-     */
-    protected void checkIsWhereBegin()
-    {
-        if (isOver)
-        {
-            // 构建已经结束，该对象不能再调用其他方法
-            throw new QueryBuildException("The query builder is finished, and the object can no longer invoke other methods.");
-        }
-        if (!isWhereBegin)
-        {
-            // 异常处理
-            throw new QueryBuildException("Before setting the where condition, please call the where function first.");
-        }
-    }
-    
-    protected void append(Condition condition)
+    protected EntityQueryBuilder append(Condition condition)
     {
         // 检查where函数是否已经调用执行 
         checkIsWhereBegin();
@@ -280,9 +273,16 @@ public abstract class QueryBuilder
         }
 
         logicOperator = null;
+        return queryBuilder;
     }
     
-    protected void build(BaseQuery query)
+    /**
+     * 构建最终的实体查询对象
+     * <p>Title         : build lilinhai 2018年5月22日 下午12:54:49</p>
+     * @return 
+     * EntityQuery
+     */
+    public EntityQuery build()
     {
         if (isOver)
         {
@@ -300,5 +300,27 @@ public abstract class QueryBuilder
         query.setSortFieldList(sortFieldList);
         query.setWhere(whereBuilder.build());
         isOver = true;
+        return query;
+    }
+    
+    
+    /**
+     * 检查where函数是否已经条用执行
+     * <p>Title         : checkIsWhereBegin lilinhai 2018年5月20日 下午9:55:55</p>
+     * void
+     */
+    private EntityQueryBuilder checkIsWhereBegin()
+    {
+        if (isOver)
+        {
+            // 构建已经结束，该对象不能再调用其他方法
+            throw new QueryBuildException("The query builder is finished, and the object can no longer invoke other methods.");
+        }
+        if (!isWhereBegin)
+        {
+            // 异常处理
+            throw new QueryBuildException("Before setting the where condition, please call the where function first.");
+        }
+        return queryBuilder;
     }
 }

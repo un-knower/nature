@@ -725,6 +725,9 @@ public class ModelPlugin extends BasePlugin
         beanClass.addImportedType(getTargetPackae("query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query");
         beanClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("field") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"));
         
+        // 添加继承关系
+        beanClass.setSuperClass(new FullyQualifiedJavaType("QueryBuilder<"+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query, "+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder>"));
+        
         // 判断是否存在Date类型（包含createTime和updateTime之内外）的字段
         for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns())
         {
@@ -741,9 +744,16 @@ public class ModelPlugin extends BasePlugin
             throw new GeneratorException(introspectedTable.getBaseRecordType() + " 该表没有设置主键，请设置！");
         }
         
-        // 添加继承关系
-        beanClass.setSuperClass(QueryBuilder.class.getName());
-
+        // 添加初始化对象的构造函数
+        Method queryConstructorMethod = new Method(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder");
+        queryConstructorMethod.setConstructor(true);
+        queryConstructorMethod.setVisibility(JavaVisibility.PUBLIC);
+        queryConstructorMethod.setFinal(false);
+        queryConstructorMethod.setStatic(false);
+        queryConstructorMethod.addBodyLine("queryBuilder = this;");
+        queryConstructorMethod.addBodyLine("query = new "+introspectedTable.getFullyQualifiedTable().getDomainObjectName()+"Query();");
+        beanClass.addMethod(queryConstructorMethod);
+        
         // 添加类注释
         beanClass.addJavaDocLine("/**");
         beanClass.addJavaDocLine(" * <pre>"); //$NON-NLS-1$
@@ -755,113 +765,8 @@ public class ModelPlugin extends BasePlugin
         beanClass.addJavaDocLine(" */");
 
         
-        String methodName = "where";
-        Method _method = new Method(methodName);
-        _method.addJavaDocLine("/**");
-        _method.addJavaDocLine(" * 调用where函数，意味着开始设置查询条件！");
-        _method.addJavaDocLine(" */");
-        _method.setFinal(false);
-        _method.setStatic(false);
-        _method.setVisibility(JavaVisibility.PUBLIC);
-        _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
-        _method.addBodyLine("_where();");
-        _method.addBodyLine("return this;");
-        beanClass.addMethod(_method);
-        
-        methodName = "and";
-        _method = new Method(methodName);
-        _method.addJavaDocLine("/**");
-        _method.addJavaDocLine(" * 调用and函数，意味着开始设置and逻辑运算符！");
-        _method.addJavaDocLine(" */");
-        _method.setFinal(false);
-        _method.setStatic(false);
-        _method.setVisibility(JavaVisibility.PUBLIC);
-        _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
-        _method.addBodyLine("_and();");
-        _method.addBodyLine("return this;");
-        beanClass.addMethod(_method);
-        
-        methodName = "or";
-        _method = new Method(methodName);
-        _method.addJavaDocLine("/**");
-        _method.addJavaDocLine(" * 调用or函数，意味着开始设置or逻辑运算符！");
-        _method.addJavaDocLine(" */");
-        _method.setFinal(false);
-        _method.setStatic(false);
-        _method.setVisibility(JavaVisibility.PUBLIC);
-        _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
-        _method.addBodyLine("_or();");
-        _method.addBodyLine("return this;");
-        beanClass.addMethod(_method);
-        
-        methodName = "start";
-        _method = new Method(methodName);
-        _method.addJavaDocLine("/**");
-        _method.addJavaDocLine(" * 调用start函数，意味着开始连接一个优先级较高的逻辑运算式（构建的该部分SQL将是带括号）！");
-        _method.addJavaDocLine(" */");
-        _method.setFinal(false);
-        _method.setStatic(false);
-        _method.setVisibility(JavaVisibility.PUBLIC);
-        _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
-        _method.addBodyLine("_start();");
-        _method.addBodyLine("return this;");
-        beanClass.addMethod(_method);
-        
-        methodName = "end";
-        _method = new Method(methodName);
-        _method.addJavaDocLine("/**");
-        _method.addJavaDocLine(" * 调用end函数，意味着结束一个带左括号的逻辑运算式，并将该表达式合并到主干或子分支！");
-        _method.addJavaDocLine(" */");
-        _method.setFinal(false);
-        _method.setStatic(false);
-        _method.setVisibility(JavaVisibility.PUBLIC);
-        _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
-        _method.addBodyLine("_end();");
-        _method.addBodyLine("return this;");
-        beanClass.addMethod(_method);
-        
-        methodName = "setPage";
-        _method = new Method(methodName);
-        _method.addJavaDocLine("/**");
-        _method.addJavaDocLine(" * 调用setPage函数，设置分页参数：第几页！");
-        _method.addJavaDocLine(" */");
-        _method.setFinal(false);
-        _method.setStatic(false);
-        _method.setVisibility(JavaVisibility.PUBLIC);
-        _method.addParameter(new Parameter(new FullyQualifiedJavaType("Integer"), "page"));
-        _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
-        _method.addBodyLine("_page(page);");
-        _method.addBodyLine("return this;");
-        beanClass.addMethod(_method);
-        
-        methodName = "setSize";
-        _method = new Method(methodName);
-        _method.addJavaDocLine("/**");
-        _method.addJavaDocLine(" * 调用setSize函数，设置分页大小：每页显示多少条！");
-        _method.addJavaDocLine(" */");
-        _method.setFinal(false);
-        _method.setStatic(false);
-        _method.setVisibility(JavaVisibility.PUBLIC);
-        _method.addParameter(new Parameter(new FullyQualifiedJavaType("Integer"), "size"));
-        _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
-        _method.addBodyLine("_size(size);");
-        _method.addBodyLine("return this;");
-        beanClass.addMethod(_method);
-        
-        methodName = "build";
-        _method = new Method(methodName);
-        _method.addJavaDocLine("/**");
-        _method.addJavaDocLine(" * 调用build函数，意味着builder构建结束！");
-        _method.addJavaDocLine(" */");
-        _method.setFinal(false);
-        _method.setStatic(false);
-        _method.setVisibility(JavaVisibility.PUBLIC);
-        _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"));
-        _method.addBodyLine(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query query = new " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query();");
-        _method.addBodyLine("build(query);");
-        _method.addBodyLine("return query;");
-        beanClass.addMethod(_method);
-        
+        String methodName = null;
+        Method _method = null;
         for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns())
         {
             String enumFieldName = introspectedColumn.getActualColumnName().toUpperCase(Locale.ENGLISH);
