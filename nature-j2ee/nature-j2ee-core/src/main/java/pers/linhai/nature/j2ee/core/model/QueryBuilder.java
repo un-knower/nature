@@ -358,6 +358,12 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
         query.setSortFieldList(sortFieldList);
         query.setWhere(whereBuilder.build());
         isOver = true;
+        
+        // 资源释放
+        whereBuilder = null;
+        returnFieldList = null;
+        sortFieldList = null;
+        queryBuilder = null;
         return query;
     }
     
