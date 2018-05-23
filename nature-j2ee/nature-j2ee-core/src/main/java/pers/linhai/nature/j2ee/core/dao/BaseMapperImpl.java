@@ -31,9 +31,9 @@ import pers.linhai.nature.j2ee.core.dao.resulthandler.RowDataEntityResultHandler
 import pers.linhai.nature.j2ee.core.dao.resulthandler.RowDataHashMapResultHandler;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
-import pers.linhai.nature.j2ee.core.model.ConditionBuilder;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
-import pers.linhai.nature.j2ee.core.model.WhereBuilder;
+import pers.linhai.nature.j2ee.core.model.builder.ConditionBuilder;
+import pers.linhai.nature.j2ee.core.model.builder.WhereBuilder;
 import pers.linhai.nature.j2ee.core.model.enumer.BaseField;
 import pers.linhai.nature.reflect.ConstructorAccess;
 

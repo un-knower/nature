@@ -7,11 +7,12 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.j2ee.core.model;
+package pers.linhai.nature.j2ee.core.model.builder;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import pers.linhai.nature.j2ee.core.model.ModelField;
 import pers.linhai.nature.j2ee.core.model.Where.Condition;
 import pers.linhai.nature.j2ee.core.model.enumer.Operator;
 
