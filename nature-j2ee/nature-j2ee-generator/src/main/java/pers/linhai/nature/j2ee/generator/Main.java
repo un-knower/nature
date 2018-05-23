@@ -70,6 +70,9 @@ public class Main
         params.put("dbPort", dbPort);
         params.put("dbUsername", dbUsername);
         params.put("dbPassword", dbPassword);
+        
+        // 是否rest接口默认可用，默认不可用，全部抛出异常，根据需要一个个打开
+        params.put("restApiDefaultEnabled", "false");
 
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
 

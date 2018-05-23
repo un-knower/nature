@@ -44,11 +44,14 @@ import pers.linhai.nature.utils.NamingUtils;
 public class ControllerPlugin extends BasePlugin
 {
     
+    private boolean restApiDefaultEnabled;
+    
     public void setProperties(Properties properties) 
     {
         super.setProperties(properties);
         moduleName = "web";
         artifactId = projectName + "-" + moduleName;
+        restApiDefaultEnabled = Boolean.parseBoolean(properties.getProperty("restApiDefaultEnabled"));
     }
     
     /** 
@@ -163,7 +166,14 @@ public class ControllerPlugin extends BasePlugin
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
-        processMethod1.addBodyLine("");
+        if (!restApiDefaultEnabled)
+        {
+            processMethod1.addBodyLine("throw new ControllerException(\"This api is not available.\");");
+        }
+        else
+        {
+            processMethod1.addBodyLine("");
+        }
         interceptor.addMethod(processMethod1);
         
         processMethod1 = new Method("beforeDelete");
@@ -177,7 +187,14 @@ public class ControllerPlugin extends BasePlugin
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(keyType), "id"));
-        processMethod1.addBodyLine("");
+        if (!restApiDefaultEnabled)
+        {
+            processMethod1.addBodyLine("throw new ControllerException(\"This api is not available.\");");
+        }
+        else
+        {
+            processMethod1.addBodyLine("");
+        }
         interceptor.addMethod(processMethod1);
         
         processMethod1 = new Method("beforeUpdate");
@@ -191,7 +208,14 @@ public class ControllerPlugin extends BasePlugin
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
-        processMethod1.addBodyLine("");
+        if (!restApiDefaultEnabled)
+        {
+            processMethod1.addBodyLine("throw new ControllerException(\"This api is not available.\");");
+        }
+        else
+        {
+            processMethod1.addBodyLine("");
+        }
         interceptor.addMethod(processMethod1);
         
         processMethod1 = new Method("beforeGet");
@@ -205,7 +229,14 @@ public class ControllerPlugin extends BasePlugin
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(keyType), "id"));
-        processMethod1.addBodyLine("");
+        if (!restApiDefaultEnabled)
+        {
+            processMethod1.addBodyLine("throw new ControllerException(\"This api is not available.\");");
+        }
+        else
+        {
+            processMethod1.addBodyLine("");
+        }
         interceptor.addMethod(processMethod1);
         
         processMethod1 = new Method("beforeGet");
@@ -219,7 +250,14 @@ public class ControllerPlugin extends BasePlugin
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"), "query"));
-        processMethod1.addBodyLine("");
+        if (!restApiDefaultEnabled)
+        {
+            processMethod1.addBodyLine("throw new ControllerException(\"This api is not available.\");");
+        }
+        else
+        {
+            processMethod1.addBodyLine("");
+        }
         interceptor.addMethod(processMethod1);
         
         processMethod1 = new Method("beforeFind");
@@ -233,7 +271,14 @@ public class ControllerPlugin extends BasePlugin
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"), "query"));
-        processMethod1.addBodyLine("");
+        if (!restApiDefaultEnabled)
+        {
+            processMethod1.addBodyLine("throw new ControllerException(\"This api is not available.\");");
+        }
+        else
+        {
+            processMethod1.addBodyLine("");
+        }
         interceptor.addMethod(processMethod1);
         
         processMethod1 = new Method("beforeCount");
@@ -247,7 +292,14 @@ public class ControllerPlugin extends BasePlugin
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"), "query"));
-        processMethod1.addBodyLine("");
+        if (!restApiDefaultEnabled)
+        {
+            processMethod1.addBodyLine("throw new ControllerException(\"This api is not available.\");");
+        }
+        else
+        {
+            processMethod1.addBodyLine("");
+        }
         interceptor.addMethod(processMethod1);
         
         // 添加注释

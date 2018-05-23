@@ -75,6 +75,7 @@ public class CodeGenerator
                 pluginConfiguration.addProperty("groupId", params.get("groupId"));
                 pluginConfiguration.addProperty("projectName", params.get("artifactId"));
                 pluginConfiguration.addProperty("outPutPath", outPutPath);
+                pluginConfiguration.addProperty("restApiDefaultEnabled", params.get("restApiDefaultEnabled"));
                 contextBuilder.addPluginConfiguration(pluginConfiguration);
             }
 
