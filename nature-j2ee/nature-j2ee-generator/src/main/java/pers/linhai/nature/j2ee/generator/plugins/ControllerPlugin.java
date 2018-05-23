@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import pers.linhai.nature.j2ee.core.constant.BaseErrorCode;
 import pers.linhai.nature.j2ee.core.web.exception.ControllerException;
 import pers.linhai.nature.j2ee.core.web.interceptor.IEntityControllerInterceptor;
 import pers.linhai.nature.j2ee.generator.core.api.CommentGenerator;
@@ -142,6 +143,7 @@ public class ControllerPlugin extends BasePlugin
         interceptor.addImportedType(new FullyQualifiedJavaType(ControllerException.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(IEntityControllerInterceptor.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()));
+        interceptor.addImportedType(new FullyQualifiedJavaType(BaseErrorCode.class.getName()));
         interceptor.addImportedType(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"));
 
         // 添加spring扫描注解
@@ -168,7 +170,7 @@ public class ControllerPlugin extends BasePlugin
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
         if (!restApiDefaultEnabled)
         {
-            processMethod1.addBodyLine("throw new ControllerException(\"This api is not available.\");");
+            processMethod1.addBodyLine("throw new ControllerException(BaseErrorCode.REST_API_NOT_AVAILABLE, \"This api is not available.\");");
         }
         else
         {
@@ -189,7 +191,7 @@ public class ControllerPlugin extends BasePlugin
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(keyType), "id"));
         if (!restApiDefaultEnabled)
         {
-            processMethod1.addBodyLine("throw new ControllerException(\"This api is not available.\");");
+            processMethod1.addBodyLine("throw new ControllerException(BaseErrorCode.REST_API_NOT_AVAILABLE, \"This api is not available.\");");
         }
         else
         {
@@ -210,7 +212,7 @@ public class ControllerPlugin extends BasePlugin
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
         if (!restApiDefaultEnabled)
         {
-            processMethod1.addBodyLine("throw new ControllerException(\"This api is not available.\");");
+            processMethod1.addBodyLine("throw new ControllerException(BaseErrorCode.REST_API_NOT_AVAILABLE, \"This api is not available.\");");
         }
         else
         {
@@ -231,7 +233,7 @@ public class ControllerPlugin extends BasePlugin
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(keyType), "id"));
         if (!restApiDefaultEnabled)
         {
-            processMethod1.addBodyLine("throw new ControllerException(\"This api is not available.\");");
+            processMethod1.addBodyLine("throw new ControllerException(BaseErrorCode.REST_API_NOT_AVAILABLE, \"This api is not available.\");");
         }
         else
         {
@@ -252,7 +254,7 @@ public class ControllerPlugin extends BasePlugin
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"), "query"));
         if (!restApiDefaultEnabled)
         {
-            processMethod1.addBodyLine("throw new ControllerException(\"This api is not available.\");");
+            processMethod1.addBodyLine("throw new ControllerException(BaseErrorCode.REST_API_NOT_AVAILABLE, \"This api is not available.\");");
         }
         else
         {
@@ -273,7 +275,7 @@ public class ControllerPlugin extends BasePlugin
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"), "query"));
         if (!restApiDefaultEnabled)
         {
-            processMethod1.addBodyLine("throw new ControllerException(\"This api is not available.\");");
+            processMethod1.addBodyLine("throw new ControllerException(BaseErrorCode.REST_API_NOT_AVAILABLE, \"This api is not available.\");");
         }
         else
         {
@@ -294,7 +296,7 @@ public class ControllerPlugin extends BasePlugin
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"), "query"));
         if (!restApiDefaultEnabled)
         {
-            processMethod1.addBodyLine("throw new ControllerException(\"This api is not available.\");");
+            processMethod1.addBodyLine("throw new ControllerException(BaseErrorCode.REST_API_NOT_AVAILABLE, \"This api is not available.\");");
         }
         else
         {

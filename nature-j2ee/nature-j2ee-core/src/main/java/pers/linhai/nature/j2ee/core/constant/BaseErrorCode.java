@@ -20,6 +20,11 @@ public interface BaseErrorCode
     /*****[10000 - 20000)删除相关错误码**********************************************/
     
     /**
+     * rest接口不可用
+     */
+    int REST_API_NOT_AVAILABLE = 5000;
+    
+    /**
      * 删除失败
      */
     int DELETE_FAIL = 10001;

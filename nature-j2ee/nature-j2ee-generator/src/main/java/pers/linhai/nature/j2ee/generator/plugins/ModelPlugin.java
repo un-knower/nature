@@ -801,7 +801,7 @@ public class ModelPlugin extends BasePlugin
                 _method.setFinal(false);
                 _method.setStatic(false);
                 _method.setVisibility(JavaVisibility.PUBLIC);
-                _method.setReturnType(new FullyQualifiedJavaType("GenericConditionBuilder<"+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder, "+introspectedColumn.getFullyQualifiedJavaType()+">"));
+                _method.setReturnType(new FullyQualifiedJavaType("QueryConditionBuilder<"+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder, "+introspectedColumn.getFullyQualifiedJavaType()+">"));
                 _method.addBodyLine("return build("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+", "+introspectedColumn.getFullyQualifiedJavaType().getShortName()+".class);");
                 beanClass.addMethod(_method);
             }
