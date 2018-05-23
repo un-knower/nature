@@ -221,10 +221,10 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
             // 构建已经结束，该对象不能再调用其他方法
             throw new QueryBuildException("The query builder is finished, and the object can no longer invoke other methods.");
         }
-        if (!isWhereBegin || isPageBegin)
+        if (isPageBegin)
         {
-            // 排序字段设置必须在查询条件设置之后且分页参数设置之前
-            throw new QueryBuildException("Sorting field settings must be set after query conditions are set and before paging parameters are set.");
+            // 排序字段设置必须在分页参数设置之前
+            throw new QueryBuildException("Sorting field settings must be set before paging parameters are set.");
         }
         sortFieldList.add(sortField);
         return queryBuilder;

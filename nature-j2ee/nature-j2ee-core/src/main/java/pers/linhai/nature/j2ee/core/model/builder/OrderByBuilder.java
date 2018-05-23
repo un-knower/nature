@@ -39,6 +39,7 @@ public class OrderByBuilder<EntityQueryBuilder>
         this.baseQueryBuilder = baseQueryBuilder;
         SortField sortField = new SortField();
         sortField.setFieldName(modelField.getJavaField());
+        sortField.setDirection(Direction.ASC.name());
         this.sortField = sortField;
         baseQueryBuilder.orderBy(sortField);
     }
