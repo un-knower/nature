@@ -19,19 +19,19 @@ import pers.linhai.nature.j2ee.core.model.ModelField;
  * @author lilinhai 2018年5月23日 上午9:39:06
  * @version 1.0
  */
-public final class GenericConditionBuilder<EntityQueryBuilder, FieldType>
+public final class QueryConditionBuilder<EntityQueryBuilder, FieldType>
 {
     private QueryBuilder<?, EntityQueryBuilder> baseQueryBuilder;
     
-    protected ConditionBuilder conditionBuilder;
+    protected ConditionBuilder<FieldType> conditionBuilder;
     
     /**
      * <p>Title        : EntityQueryBuilderBuilder lilinhai 2018年5月15日 下午6:24:46</p>
      * @param EntityQueryBuilder 
      */ 
-    public GenericConditionBuilder(QueryBuilder<?, EntityQueryBuilder> baseQueryBuilder, ModelField modelField)
+    public QueryConditionBuilder(QueryBuilder<?, EntityQueryBuilder> baseQueryBuilder, ModelField modelField)
     {
-        this.conditionBuilder = ConditionBuilder.field(modelField);
+        this.conditionBuilder = new ConditionBuilder<FieldType>(modelField);
         this.baseQueryBuilder = baseQueryBuilder;
     }
     

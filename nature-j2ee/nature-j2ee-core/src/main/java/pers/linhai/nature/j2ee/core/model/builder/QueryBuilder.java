@@ -414,9 +414,9 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
      * @return 
      * GenericConditionBuilder<EntityQueryBuilder,FieldType>
      */
-    protected <FieldType> GenericConditionBuilder<EntityQueryBuilder, FieldType> build(ModelField modelField, Class<FieldType> fieldTypeClass)
+    protected <FieldType> QueryConditionBuilder<EntityQueryBuilder, FieldType> build(ModelField modelField, Class<FieldType> fieldTypeClass)
     {
-        return new GenericConditionBuilder<EntityQueryBuilder, FieldType>(this, modelField);
+        return new QueryConditionBuilder<EntityQueryBuilder, FieldType>(this, modelField);
     }
     
     /**
@@ -425,7 +425,7 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
      * @return 
      * GenericConditionBuilder<EntityQueryBuilder,Long>
      */
-    public GenericConditionBuilder<EntityQueryBuilder, Long> id()
+    public QueryConditionBuilder<EntityQueryBuilder, Long> id()
     {
         return build(BaseField.ID, Long.class);
     }
@@ -436,7 +436,7 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
      * @return 
      * GenericConditionBuilder<EntityQueryBuilder,Date>
      */
-    public GenericConditionBuilder<EntityQueryBuilder, Date> createTime()
+    public QueryConditionBuilder<EntityQueryBuilder, Date> createTime()
     {
         return build(BaseField.CREATE_TIME, Date.class);
     }
@@ -447,7 +447,7 @@ public abstract class QueryBuilder<EntityQuery extends BaseQuery, EntityQueryBui
      * @return 
      * GenericConditionBuilder<EntityQueryBuilder,Date>
      */
-    public GenericConditionBuilder<EntityQueryBuilder, Date> updateTime()
+    public QueryConditionBuilder<EntityQueryBuilder, Date> updateTime()
     {
         return build(BaseField.UPDATE_TIME, Date.class);
     }

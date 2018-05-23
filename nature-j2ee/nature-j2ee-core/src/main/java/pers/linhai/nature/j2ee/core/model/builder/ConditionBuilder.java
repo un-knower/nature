@@ -22,7 +22,7 @@ import pers.linhai.nature.j2ee.core.model.enumer.Operator;
  * @author lilinhai 2018年5月15日 下午6:18:39
  * @version 1.0
  */
-public class ConditionBuilder
+public class ConditionBuilder<T>
 {
     
     /**
@@ -34,43 +34,10 @@ public class ConditionBuilder
      * <p>Title        : ConditionBuilder lilinhai 2018年5月15日 下午6:24:46</p>
      * @param condition 
      */ 
-    private ConditionBuilder(ModelField modelField)
-    {
-        this(modelField.getJavaField());
-    }
-    
-    /**
-     * <p>Title        : ConditionBuilder lilinhai 2018年5月15日 下午6:24:46</p>
-     * @param condition 
-     */ 
-    private ConditionBuilder(String fieldName)
+    public ConditionBuilder(ModelField modelField)
     {
         condition = new Condition();
-        condition.setFieldName(fieldName);
-    }
-
-    /**
-     * 通过传入字段名初始化一个条件构建器ConditionBuilder
-     * <p>Title         : field lilinhai 2018年5月15日 下午6:23:45</p>
-     * @param modelField
-     * @return 
-     * ConditionBuilder
-     */
-    public static ConditionBuilder field(ModelField modelField)
-    {
-        return new ConditionBuilder(modelField);
-    }
-    
-    /**
-     * 通过传入字段名初始化一个条件构建器ConditionBuilder
-     * <p>Title         : field lilinhai 2018年5月15日 下午6:23:45</p>
-     * @param fieldName
-     * @return 
-     * ConditionBuilder
-     */
-    public static ConditionBuilder field(String fieldName)
-    {
-        return new ConditionBuilder(fieldName);
+        condition.setFieldName(modelField.getJavaField());
     }
     
     /**
@@ -79,7 +46,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public final Condition lessThan(Object value)
+    public final Condition lessThan(T value)
     {
         condition.setOperator(Operator.LESS_THAN.getValue());
         condition.setValue(value);
@@ -92,7 +59,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public final Condition greaterThan(Object value)
+    public final Condition greaterThan(T value)
     {
         condition.setOperator(Operator.GREATER_THAN.getValue());
         condition.setValue(value);
@@ -105,7 +72,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public final Condition lessThanOrEqual(Object value)
+    public final Condition lessThanOrEqual(T value)
     {
         condition.setOperator(Operator.LESS_THAN_OR_EQUAL.getValue());
         condition.setValue(value);
@@ -118,7 +85,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public final Condition greaterThanOrEqual(Object value)
+    public final Condition greaterThanOrEqual(T value)
     {
         condition.setOperator(Operator.GREATER_THAN_OR_EQUAL.getValue());
         condition.setValue(value);
@@ -131,7 +98,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public final Condition equal(Object value)
+    public final Condition equal(T value)
     {
         condition.setOperator(Operator.EQUAL.getValue());
         condition.setValue(value);
@@ -144,7 +111,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public final Condition notEqual(Object value)
+    public final Condition notEqual(T value)
     {
         condition.setOperator(Operator.NOT_EQUAL.getValue());
         condition.setValue(value);
@@ -157,7 +124,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public final Condition like(Object value)
+    public final Condition like(T value)
     {
         condition.setOperator(Operator.LIKE.getValue());
         condition.setValue(value);
@@ -170,7 +137,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public final <T> Condition in(List<T> valueList)
+    public final Condition in(List<T> valueList)
     {
         condition.setOperator(Operator.IN.getValue());
         condition.setValue(valueList);
@@ -184,12 +151,12 @@ public class ConditionBuilder
      * void
      */
     @SafeVarargs
-    public final <T> Condition in(T... values)
+    public final Condition in(T... values)
     {
         List<T> objList = new ArrayList<T>();
-        for (T object : values)
+        for (T t : values)
         {
-            objList.add(object);
+            objList.add(t);
         }
         return in(objList);
     }
@@ -200,7 +167,7 @@ public class ConditionBuilder
      * @param value 
      * void
      */
-    public final <T> Condition notIn(List<T> valueList)
+    public final Condition notIn(List<T> valueList)
     {
         condition.setOperator(Operator.NOT_IN.getValue());
         condition.setValue(valueList);
@@ -214,12 +181,12 @@ public class ConditionBuilder
      * void
      */
     @SafeVarargs
-    public final <T> Condition notIn(T... values)
+    public final Condition notIn(T... values)
     {
-        List<Object> objList = new ArrayList<Object>();
-        for (Object object : values)
+        List<T> objList = new ArrayList<T>();
+        for (T t : values)
         {
-            objList.add(object);
+            objList.add(t);
         }
         return notIn(objList);
     }

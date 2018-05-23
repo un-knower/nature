@@ -28,7 +28,7 @@ import pers.linhai.nature.j2ee.core.model.DateJsonDeserializer;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.model.ModelField;
 import pers.linhai.nature.j2ee.core.model.ModelHelper;
-import pers.linhai.nature.j2ee.core.model.builder.GenericConditionBuilder;
+import pers.linhai.nature.j2ee.core.model.builder.QueryConditionBuilder;
 import pers.linhai.nature.j2ee.core.model.builder.OrderByBuilder;
 import pers.linhai.nature.j2ee.core.model.builder.QueryBuilder;
 import pers.linhai.nature.j2ee.core.model.enumer.JdbcType;
@@ -717,7 +717,7 @@ public class ModelPlugin extends BasePlugin
         // 添加需要依赖的类
         beanClass.addImportedType(new FullyQualifiedJavaType(QueryBuilder.class.getName()));
         beanClass.addImportedType(OrderByBuilder.class.getName());
-        beanClass.addImportedType(GenericConditionBuilder.class.getName());
+        beanClass.addImportedType(QueryConditionBuilder.class.getName());
         beanClass.addImportedType(getTargetPackae("query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query");
         beanClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("field") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"));
         
