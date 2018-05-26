@@ -42,9 +42,14 @@
             </where>
         </if>
     </sql>
+    
+    <!-- 多表联合查询 -->
+    <sql id="Multi_Table_Joint_Query">
+        
+    </sql>
 
-    <!-- 通用的查询部分sql -->
-    <sql id="Common_Find">
+    <!-- 通用的单表查询部分sql -->
+    <sql id="Single_Table_Query">
         <![CDATA[
             select
         ]]>
@@ -121,7 +126,7 @@
     <!-- 组合查询函数，支持分页功能，resultSetType (可选配置) FORWARD_ONLY，SCROLL_SENSITIVE 或 SCROLL_INSENSITIVE 中的一个，默认值为 unset （依赖驱动） -->
     <!-- statementType (可选配置)，STATEMENT，PREPARED 或 CALLABLE 的一个。这会让 MyBatis 分别使用 Statement，PreparedStatement 或 CallableStatement，默认值：PREPARED -->
     <select id="find" parameterType="BaseQuery" resultMap="BaseResultMap" resultSetType="FORWARD_ONLY" statementType="PREPARED" databaseId="mysql">
-        <include refid="Common_Find" />
+        <include refid="Single_Table_Query" />
         <if test="offset != null and size != null">
             <![CDATA[
                 limit ${offset}, ${size}
@@ -138,7 +143,7 @@
                 select * from ( select row_.*, rownum rownum_ from (
             ]]>
         </if>
-        <include refid="Common_Find" />
+        <include refid="Single_Table_Query" />
         <if test="offset != null and size != null">
             <![CDATA[
                 ) row_ where rownum <= (${offset} + ${size})) where rownum_ > ${offset}
