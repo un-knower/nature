@@ -19,20 +19,20 @@ import pers.linhai.nature.j2ee.core.model.ModelField;
  * @author lilinhai 2018年5月23日 上午9:39:06
  * @version 1.0
  */
-public final class QueryConditionBuilder<EntityQueryBuilder, FieldType>
+public final class FieldConditionBuilder<EntityWhereFieldBuilder, FieldType>
 {
-    private QueryBuilder<?, EntityQueryBuilder> baseQueryBuilder;
+    private BaseWhereBuilder<EntityWhereFieldBuilder> whereConditionBuilder;
     
     protected ConditionBuilder<FieldType> conditionBuilder;
     
     /**
      * <p>Title        : EntityQueryBuilderBuilder lilinhai 2018年5月15日 下午6:24:46</p>
-     * @param EntityQueryBuilder 
+     * @param EntityWhereConditionBuilder 
      */ 
-    public QueryConditionBuilder(QueryBuilder<?, EntityQueryBuilder> baseQueryBuilder, ModelField modelField)
+    public FieldConditionBuilder(BaseWhereBuilder<EntityWhereFieldBuilder> whereConditionBuilder, ModelField modelField)
     {
         this.conditionBuilder = new ConditionBuilder<FieldType>(modelField);
-        this.baseQueryBuilder = baseQueryBuilder;
+        this.whereConditionBuilder = whereConditionBuilder;
     }
     
     /**
@@ -41,9 +41,9 @@ public final class QueryConditionBuilder<EntityQueryBuilder, FieldType>
      * @param value 
      * void
      */
-    public final EntityQueryBuilder lessThan(FieldType value)
+    public final EntityWhereFieldBuilder lessThan(FieldType value)
     {
-        return baseQueryBuilder.append(conditionBuilder.lessThan(value));
+        return whereConditionBuilder.append(conditionBuilder.lessThan(value));
     }
     
     /**
@@ -52,9 +52,9 @@ public final class QueryConditionBuilder<EntityQueryBuilder, FieldType>
      * @param value 
      * void
      */
-    public final EntityQueryBuilder greaterThan(FieldType value)
+    public final EntityWhereFieldBuilder greaterThan(FieldType value)
     {
-        return baseQueryBuilder.append(conditionBuilder.greaterThan(value));
+        return whereConditionBuilder.append(conditionBuilder.greaterThan(value));
     }
     
     /**
@@ -63,9 +63,9 @@ public final class QueryConditionBuilder<EntityQueryBuilder, FieldType>
      * @param value 
      * void
      */
-    public final EntityQueryBuilder lessThanOrEqual(FieldType value)
+    public final EntityWhereFieldBuilder lessThanOrEqual(FieldType value)
     {
-        return baseQueryBuilder.append(conditionBuilder.lessThanOrEqual(value));
+        return whereConditionBuilder.append(conditionBuilder.lessThanOrEqual(value));
     }
     
     /**
@@ -74,9 +74,9 @@ public final class QueryConditionBuilder<EntityQueryBuilder, FieldType>
      * @param value 
      * void
      */
-    public final EntityQueryBuilder greaterThanOrEqual(FieldType value)
+    public final EntityWhereFieldBuilder greaterThanOrEqual(FieldType value)
     {
-        return baseQueryBuilder.append(conditionBuilder.greaterThanOrEqual(value));
+        return whereConditionBuilder.append(conditionBuilder.greaterThanOrEqual(value));
     }
     
     /**
@@ -85,9 +85,9 @@ public final class QueryConditionBuilder<EntityQueryBuilder, FieldType>
      * @param value 
      * void
      */
-    public final EntityQueryBuilder equal(FieldType value)
+    public final EntityWhereFieldBuilder equal(FieldType value)
     {
-        return baseQueryBuilder.append(conditionBuilder.equal(value));
+        return whereConditionBuilder.append(conditionBuilder.equal(value));
     }
     
     /**
@@ -96,9 +96,9 @@ public final class QueryConditionBuilder<EntityQueryBuilder, FieldType>
      * @param value 
      * void
      */
-    public final EntityQueryBuilder notEqual(FieldType value)
+    public final EntityWhereFieldBuilder notEqual(FieldType value)
     {
-        return baseQueryBuilder.append(conditionBuilder.notEqual(value));
+        return whereConditionBuilder.append(conditionBuilder.notEqual(value));
     }
     
     /**
@@ -107,9 +107,9 @@ public final class QueryConditionBuilder<EntityQueryBuilder, FieldType>
      * @param value 
      * void
      */
-    public final EntityQueryBuilder like(FieldType value)
+    public final EntityWhereFieldBuilder like(FieldType value)
     {
-        return baseQueryBuilder.append(conditionBuilder.like(value));
+        return whereConditionBuilder.append(conditionBuilder.like(value));
     }
     
     /**
@@ -118,9 +118,9 @@ public final class QueryConditionBuilder<EntityQueryBuilder, FieldType>
      * @param value 
      * void
      */
-    public final EntityQueryBuilder in(List<FieldType> valueList)
+    public final EntityWhereFieldBuilder in(List<FieldType> valueList)
     {
-        return baseQueryBuilder.append(conditionBuilder.in(valueList));
+        return whereConditionBuilder.append(conditionBuilder.in(valueList));
     }
     
     /**
@@ -130,9 +130,9 @@ public final class QueryConditionBuilder<EntityQueryBuilder, FieldType>
      * void
      */
     @SafeVarargs
-    public final EntityQueryBuilder in(FieldType... values)
+    public final EntityWhereFieldBuilder in(FieldType... values)
     {
-        return baseQueryBuilder.append(conditionBuilder.in(values));
+        return whereConditionBuilder.append(conditionBuilder.in(values));
     }
     
     /**
@@ -141,9 +141,9 @@ public final class QueryConditionBuilder<EntityQueryBuilder, FieldType>
      * @param value 
      * void
      */
-    public final EntityQueryBuilder notIn(List<FieldType> valueList)
+    public final EntityWhereFieldBuilder notIn(List<FieldType> valueList)
     {
-        return baseQueryBuilder.append(conditionBuilder.notIn(valueList));
+        return whereConditionBuilder.append(conditionBuilder.notIn(valueList));
     }
     
     /**
@@ -153,9 +153,9 @@ public final class QueryConditionBuilder<EntityQueryBuilder, FieldType>
      * void
      */
     @SafeVarargs
-    public final EntityQueryBuilder notIn(FieldType... values)
+    public final EntityWhereFieldBuilder notIn(FieldType... values)
     {
-        return baseQueryBuilder.append(conditionBuilder.notIn(values));
+        return whereConditionBuilder.append(conditionBuilder.notIn(values));
     }
     
     /**
@@ -164,9 +164,9 @@ public final class QueryConditionBuilder<EntityQueryBuilder, FieldType>
      * @param value 
      * void
      */
-    public final EntityQueryBuilder isNull()
+    public final EntityWhereFieldBuilder isNull()
     {
-        return baseQueryBuilder.append(conditionBuilder.isNull());
+        return whereConditionBuilder.append(conditionBuilder.isNull());
     }
     
     /**
@@ -175,8 +175,8 @@ public final class QueryConditionBuilder<EntityQueryBuilder, FieldType>
      * @param value 
      * void
      */
-    public final EntityQueryBuilder isNotNull()
+    public final EntityWhereFieldBuilder isNotNull()
     {
-        return baseQueryBuilder.append(conditionBuilder.isNotNull());
+        return whereConditionBuilder.append(conditionBuilder.isNotNull());
     }
 }

@@ -9,7 +9,6 @@
 
 package pers.linhai.nature.j2ee.core.model.builder;
 
-import pers.linhai.nature.j2ee.core.model.ModelField;
 import pers.linhai.nature.j2ee.core.model.SortField;
 import pers.linhai.nature.j2ee.core.model.enumer.Direction;
 
@@ -19,10 +18,10 @@ import pers.linhai.nature.j2ee.core.model.enumer.Direction;
  * @author lilinhai 2018年5月23日 上午11:34:14
  * @version 1.0
  */
-public class OrderByBuilder<EntityQueryBuilder>
+public class OrderByFieldBuilder<EntityOrderByBuilder>
 {
     
-    private QueryBuilder<?, EntityQueryBuilder> baseQueryBuilder;
+    private EntityOrderByBuilder entityOrderByBuilder;
     
     /**
      * 排序字段
@@ -34,25 +33,21 @@ public class OrderByBuilder<EntityQueryBuilder>
      * @param baseQueryBuilder
      * @param modelField
      */
-    public OrderByBuilder(QueryBuilder<?, EntityQueryBuilder> baseQueryBuilder, ModelField modelField)
+    public OrderByFieldBuilder(EntityOrderByBuilder entityOrderByBuilder, SortField sortField)
     {
-        this.baseQueryBuilder = baseQueryBuilder;
-        SortField sortField = new SortField();
-        sortField.setFieldName(modelField.getJavaField());
-        sortField.setDirection(Direction.ASC.name());
+        this.entityOrderByBuilder = entityOrderByBuilder;
         this.sortField = sortField;
-        baseQueryBuilder.orderBy(sortField);
     }
     
-    public EntityQueryBuilder asc()
+    public EntityOrderByBuilder asc()
     {
         sortField.setDirection(Direction.ASC.name());
-        return baseQueryBuilder.queryBuilder;
+        return entityOrderByBuilder;
     }
     
-    public EntityQueryBuilder desc()
+    public EntityOrderByBuilder desc()
     {
         sortField.setDirection(Direction.DESC.name());
-        return baseQueryBuilder.queryBuilder;
+        return entityOrderByBuilder;
     }
 }

@@ -28,9 +28,12 @@ import pers.linhai.nature.j2ee.core.model.DateJsonDeserializer;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.model.ModelField;
 import pers.linhai.nature.j2ee.core.model.ModelHelper;
-import pers.linhai.nature.j2ee.core.model.builder.QueryConditionBuilder;
-import pers.linhai.nature.j2ee.core.model.builder.OrderByBuilder;
-import pers.linhai.nature.j2ee.core.model.builder.QueryBuilder;
+import pers.linhai.nature.j2ee.core.model.builder.BaseOrderBuilder;
+import pers.linhai.nature.j2ee.core.model.builder.BaseQueryBuilder;
+import pers.linhai.nature.j2ee.core.model.builder.BaseSelectBuilder;
+import pers.linhai.nature.j2ee.core.model.builder.BaseWhereBuilder;
+import pers.linhai.nature.j2ee.core.model.builder.FieldConditionBuilder;
+import pers.linhai.nature.j2ee.core.model.builder.OrderByFieldBuilder;
 import pers.linhai.nature.j2ee.core.model.enumer.JdbcType;
 import pers.linhai.nature.j2ee.generator.core.api.CoreClassImportConstant;
 import pers.linhai.nature.j2ee.generator.core.api.GeneratedJavaFile;
@@ -292,6 +295,15 @@ public class ModelPlugin extends BasePlugin
 
         // 创建实体对应的QueryBean
         javaFileList.add(createEntityQueryBean(introspectedTable));
+        
+        // 创建实体对应的SelectBuilder
+        javaFileList.add(createEntitySelectBuilder(introspectedTable));
+        
+        // 创建实体对应的WhereBuilder
+        javaFileList.add(createEntityWhereBuilder(introspectedTable));
+        
+        // 创建实体对应的OrderBuilder
+        javaFileList.add(createEntityOrderBuilder(introspectedTable));
         
         // 创建实体对应的QueryBuilder
         javaFileList.add(createEntityQueryBuilder(introspectedTable));
@@ -709,20 +721,22 @@ public class ModelPlugin extends BasePlugin
      */ 
     private GeneratedJavaFile createEntityQueryBuilder(IntrospectedTable introspectedTable)
     {
-        TopLevelClass beanClass = new TopLevelClass(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder");
+        TopLevelClass beanClass = new TopLevelClass(getTargetPackae("builder.querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder");
 
         // 将接口访问权限设置为public
         beanClass.setVisibility(JavaVisibility.PUBLIC);
         
         // 添加需要依赖的类
-        beanClass.addImportedType(new FullyQualifiedJavaType(QueryBuilder.class.getName()));
-        beanClass.addImportedType(OrderByBuilder.class.getName());
-        beanClass.addImportedType(QueryConditionBuilder.class.getName());
+        beanClass.addImportedType(new FullyQualifiedJavaType(BaseQueryBuilder.class.getName()));
+        beanClass.addImportedType(getTargetPackae("builder.selectbuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "SelectBuilder");
+        beanClass.addImportedType(getTargetPackae("builder.wherebuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "WhereBuilder");
+        beanClass.addImportedType(getTargetPackae("builder.orderbuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "OrderBuilder");
         beanClass.addImportedType(getTargetPackae("query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query");
-        beanClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("field") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"));
         
         // 添加继承关系
-        beanClass.setSuperClass(new FullyQualifiedJavaType("QueryBuilder<"+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query, "+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder>"));
+        beanClass.setSuperClass(new FullyQualifiedJavaType("BaseQueryBuilder<"+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "SelectBuilder, "
+                +introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "WhereBuilder, "+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "OrderBuilder, "
+                +introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query>"));
         
         // 添加范型继承关系BaseService
         if (introspectedTable.getPrimaryKeyColumns() == null || introspectedTable.getPrimaryKeyColumns().isEmpty())
@@ -736,15 +750,121 @@ public class ModelPlugin extends BasePlugin
         queryConstructorMethod.setVisibility(JavaVisibility.PUBLIC);
         queryConstructorMethod.setFinal(false);
         queryConstructorMethod.setStatic(false);
-        queryConstructorMethod.addBodyLine("queryBuilder = this;");
+        queryConstructorMethod.addBodyLine("selectBuilder = new "+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "SelectBuilder();");
+        queryConstructorMethod.addBodyLine("whereBuilder = new "+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "WhereBuilder();");
+        queryConstructorMethod.addBodyLine("orderBuilder = new "+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "OrderBuilder();");
         queryConstructorMethod.addBodyLine("query = new "+introspectedTable.getFullyQualifiedTable().getDomainObjectName()+"Query();");
         beanClass.addMethod(queryConstructorMethod);
         
         // 添加类注释
         beanClass.addJavaDocLine("/**");
         beanClass.addJavaDocLine(" * <pre>"); //$NON-NLS-1$
-        beanClass.addJavaDocLine(" *    针对该实体的QueryBean封装，用于接受前端的组合查询请求参数封装。");
+        beanClass.addJavaDocLine(" *    针对该实体的QueryBuilder封装，用于针对代表（实体）的查询对象构建。");
         beanClass.addJavaDocLine(" * ClassName: " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder");
+        beanClass.addJavaDocLine(" * @author nature-j2ee-code-generator");
+        beanClass.addJavaDocLine(" * @version 1.0");
+        beanClass.addJavaDocLine(" * </pre>"); //$NON-NLS-1$
+        beanClass.addJavaDocLine(" */");
+        return new GeneratedJavaFile(beanClass, getTargetProjectJavaSourceFolder(), "utf-8", new DefaultJavaFormatter());
+    }
+    
+    /**
+     * <p>Title         : createEntityQueryBuilder lilinhai 2018年5月20日 下午5:35:33</p>
+     * <p>Description   : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
+     * @param introspectedTable
+     * @return 
+     * GeneratedJavaFile 
+     */ 
+    private GeneratedJavaFile createEntitySelectBuilder(IntrospectedTable introspectedTable)
+    {
+        TopLevelClass beanClass = new TopLevelClass(getTargetPackae("builder.selectbuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "SelectBuilder");
+
+        // 将接口访问权限设置为public
+        beanClass.setVisibility(JavaVisibility.PUBLIC);
+        
+        // 添加需要依赖的类
+        beanClass.addImportedType(BaseSelectBuilder.class.getName());
+        beanClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("field") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"));
+        
+        // 添加继承关系
+        beanClass.setSuperClass(new FullyQualifiedJavaType("BaseSelectBuilder<"+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "SelectBuilder>"));
+        
+        // 添加范型继承关系BaseService
+        if (introspectedTable.getPrimaryKeyColumns() == null || introspectedTable.getPrimaryKeyColumns().isEmpty())
+        {
+            throw new GeneratorException(introspectedTable.getBaseRecordType() + " 该表没有设置主键，请设置！");
+        }
+        
+        // 添加类注释
+        beanClass.addJavaDocLine("/**");
+        beanClass.addJavaDocLine(" * <pre>"); //$NON-NLS-1$
+        beanClass.addJavaDocLine(" *    针对该实体的字段选择器封装，用于构建查询条件的字段返回选择。");
+        beanClass.addJavaDocLine(" * ClassName: " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "SelectBuilder");
+        beanClass.addJavaDocLine(" * @author nature-j2ee-code-generator");
+        beanClass.addJavaDocLine(" * @version 1.0");
+        beanClass.addJavaDocLine(" * </pre>"); //$NON-NLS-1$
+        beanClass.addJavaDocLine(" */");
+        
+        String methodName = null;
+        Method _method = null;
+        for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns())
+        {
+            // 公共属性，用父类的方法，不必重新生成
+            if (FIELD_TO_BE_REMOVED_LIST.contains(introspectedColumn.getJavaProperty()))
+            {
+                continue;
+            }
+            String enumFieldName = introspectedColumn.getActualColumnName().toUpperCase(Locale.ENGLISH);
+            methodName = introspectedColumn.getJavaProperty();
+            _method = new Method(methodName);
+            _method.addJavaDocLine("/**");
+            _method.addJavaDocLine(" * 检索：" + introspectedColumn.getActualColumnName() + "("+introspectedColumn.getRemarks()+")");
+            _method.addJavaDocLine(" */");
+            _method.setFinal(false);
+            _method.setStatic(false);
+            _method.setVisibility(JavaVisibility.PUBLIC);
+            _method.setReturnType(new FullyQualifiedJavaType(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "SelectBuilder"));
+            _method.addBodyLine("select(" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+");");
+            _method.addBodyLine("return this;");
+            beanClass.addMethod(_method);
+        }
+        
+        return new GeneratedJavaFile(beanClass, getTargetProjectJavaSourceFolder(), "utf-8", new DefaultJavaFormatter());
+    }
+    
+    /**
+     * <p>Title         : createEntityQueryBuilder lilinhai 2018年5月20日 下午5:35:33</p>
+     * <p>Description   : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
+     * @param introspectedTable
+     * @return 
+     * GeneratedJavaFile 
+     */ 
+    private GeneratedJavaFile createEntityWhereBuilder(IntrospectedTable introspectedTable)
+    {
+        TopLevelClass beanClass = new TopLevelClass(getTargetPackae("builder.wherebuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "WhereBuilder");
+
+        // 将接口访问权限设置为public
+        beanClass.setVisibility(JavaVisibility.PUBLIC);
+        
+        // 添加需要依赖的类
+        beanClass.addImportedType(BaseWhereBuilder.class.getName());
+        beanClass.addImportedType(FieldConditionBuilder.class.getName());
+        beanClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("field") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"));
+        
+        // 添加继承关系
+        beanClass.setSuperClass(new FullyQualifiedJavaType("BaseWhereBuilder<"+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "WhereBuilder>"));
+        
+        // 添加范型继承关系BaseService
+        if (introspectedTable.getPrimaryKeyColumns() == null || introspectedTable.getPrimaryKeyColumns().isEmpty())
+        {
+            throw new GeneratorException(introspectedTable.getBaseRecordType() + " 该表没有设置主键，请设置！");
+        }
+        
+        // 添加类注释
+        beanClass.addJavaDocLine("/**");
+        beanClass.addJavaDocLine(" * <pre>"); //$NON-NLS-1$
+        beanClass.addJavaDocLine(" *    针对该实体的WhereBuilder封装，构建指定实体的查询条件。");
+        beanClass.addJavaDocLine(" * ClassName: " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "WhereBuilder");
         beanClass.addJavaDocLine(" * @author nature-j2ee-code-generator");
         beanClass.addJavaDocLine(" * @version 1.0");
         beanClass.addJavaDocLine(" * </pre>"); //$NON-NLS-1$
@@ -765,34 +885,10 @@ public class ModelPlugin extends BasePlugin
                 beanClass.addImportedType(Date.class.getName());
             }
             String enumFieldName = introspectedColumn.getActualColumnName().toUpperCase(Locale.ENGLISH);
-            methodName = introspectedColumn.getJavaProperty("return", true);
-            _method = new Method(methodName);
-            _method.addJavaDocLine("/**");
-            _method.addJavaDocLine(" * 检索：" + introspectedColumn.getActualColumnName() + "("+introspectedColumn.getRemarks()+")");
-            _method.addJavaDocLine(" */");
-            _method.setFinal(false);
-            _method.setStatic(false);
-            _method.setVisibility(JavaVisibility.PUBLIC);
-            _method.setReturnType(new FullyQualifiedJavaType(getTargetPackae("querybuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder"));
-            _method.addBodyLine("_returnField(" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+");");
-            _method.addBodyLine("return this;");
-            beanClass.addMethod(_method);
             
             // 非blob字段，都允许排序和生成where条件
             if (!introspectedColumn.isBLOBColumn())
             {
-                methodName = introspectedColumn.getJavaProperty("orderBy", true);
-                _method = new Method(methodName);
-                _method.addJavaDocLine("/**");
-                _method.addJavaDocLine(" * 排列：" + introspectedColumn.getActualColumnName() + "("+introspectedColumn.getRemarks()+")");
-                _method.addJavaDocLine(" */");
-                _method.setFinal(false);
-                _method.setStatic(false);
-                _method.setVisibility(JavaVisibility.PUBLIC);
-                _method.setReturnType(new FullyQualifiedJavaType("OrderByBuilder<"+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder>"));
-                _method.addBodyLine("return buildOrderByBuilder("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+");");
-                beanClass.addMethod(_method);
-                
                 methodName = introspectedColumn.getJavaProperty();
                 _method = new Method(methodName);
                 _method.addJavaDocLine("/**");
@@ -801,12 +897,82 @@ public class ModelPlugin extends BasePlugin
                 _method.setFinal(false);
                 _method.setStatic(false);
                 _method.setVisibility(JavaVisibility.PUBLIC);
-                _method.setReturnType(new FullyQualifiedJavaType("QueryConditionBuilder<"+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "QueryBuilder, "+introspectedColumn.getFullyQualifiedJavaType()+">"));
+                _method.setReturnType(new FullyQualifiedJavaType("FieldConditionBuilder<"+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "WhereBuilder, "+introspectedColumn.getFullyQualifiedJavaType()+">"));
                 _method.addBodyLine("return build("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+", "+introspectedColumn.getFullyQualifiedJavaType().getShortName()+".class);");
                 beanClass.addMethod(_method);
             }
             
             
+        }
+        
+        return new GeneratedJavaFile(beanClass, getTargetProjectJavaSourceFolder(), "utf-8", new DefaultJavaFormatter());
+    }
+    
+    /**
+     * <p>Title         : createEntityQueryBuilder lilinhai 2018年5月20日 下午5:35:33</p>
+     * <p>Description   : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
+     * @param introspectedTable
+     * @return 
+     * GeneratedJavaFile 
+     */ 
+    private GeneratedJavaFile createEntityOrderBuilder(IntrospectedTable introspectedTable)
+    {
+        TopLevelClass beanClass = new TopLevelClass(getTargetPackae("builder.orderbuilder") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "OrderBuilder");
+
+        // 将接口访问权限设置为public
+        beanClass.setVisibility(JavaVisibility.PUBLIC);
+        
+        // 添加需要依赖的类
+        beanClass.addImportedType(BaseOrderBuilder.class.getName());
+        beanClass.addImportedType(OrderByFieldBuilder.class.getName());
+        beanClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("field") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"));
+        
+        // 添加继承关系
+        beanClass.setSuperClass(new FullyQualifiedJavaType("BaseOrderBuilder<"+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "OrderBuilder>"));
+        
+        // 添加范型继承关系BaseService
+        if (introspectedTable.getPrimaryKeyColumns() == null || introspectedTable.getPrimaryKeyColumns().isEmpty())
+        {
+            throw new GeneratorException(introspectedTable.getBaseRecordType() + " 该表没有设置主键，请设置！");
+        }
+        
+        // 添加类注释
+        beanClass.addJavaDocLine("/**");
+        beanClass.addJavaDocLine(" * <pre>"); //$NON-NLS-1$
+        beanClass.addJavaDocLine(" *    针对该实体的排序器封装，对查询后结果的排序参数构建。");
+        beanClass.addJavaDocLine(" * ClassName: " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "OrderByBuilder");
+        beanClass.addJavaDocLine(" * @author nature-j2ee-code-generator");
+        beanClass.addJavaDocLine(" * @version 1.0");
+        beanClass.addJavaDocLine(" * </pre>"); //$NON-NLS-1$
+        beanClass.addJavaDocLine(" */");
+
+        
+        String methodName = null;
+        Method _method = null;
+        for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns())
+        {
+            // 公共属性，用父类的方法，不必重新生成
+            if (FIELD_TO_BE_REMOVED_LIST.contains(introspectedColumn.getJavaProperty()))
+            {
+                continue;
+            }
+            String enumFieldName = introspectedColumn.getActualColumnName().toUpperCase(Locale.ENGLISH);
+            
+            // 非blob字段，都允许排序和生成where条件
+            if (!introspectedColumn.isBLOBColumn())
+            {
+                methodName = introspectedColumn.getJavaProperty();
+                _method = new Method(methodName);
+                _method.addJavaDocLine("/**");
+                _method.addJavaDocLine(" * 排序：" + introspectedColumn.getActualColumnName() + "("+introspectedColumn.getRemarks()+")");
+                _method.addJavaDocLine(" */");
+                _method.setFinal(false);
+                _method.setStatic(false);
+                _method.setVisibility(JavaVisibility.PUBLIC);
+                _method.setReturnType(new FullyQualifiedJavaType("OrderByFieldBuilder<"+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "OrderBuilder>"));
+                _method.addBodyLine("return orderBy("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + "."+enumFieldName+");");
+                beanClass.addMethod(_method);
+            }
         }
         
         return new GeneratedJavaFile(beanClass, getTargetProjectJavaSourceFolder(), "utf-8", new DefaultJavaFormatter());
