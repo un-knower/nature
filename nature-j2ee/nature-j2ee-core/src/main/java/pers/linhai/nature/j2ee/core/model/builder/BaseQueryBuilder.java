@@ -126,6 +126,7 @@ public abstract class BaseQueryBuilder<EntitySelectBuilder extends BaseSelectBui
             // 排序字段设置必须在分页参数设置之前
             throw new QueryBuildException("Sorting field settings must be set before paging parameters are set.");
         }
+        isOrderByBegin = true;
         return orderBuilder;
     }
     
