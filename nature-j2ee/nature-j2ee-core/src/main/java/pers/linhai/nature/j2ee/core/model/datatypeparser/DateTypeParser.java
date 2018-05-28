@@ -32,9 +32,11 @@ public class DateTypeParser extends DataTypeParser
     {
         MAP.put(Pattern.compile("^[0-9]{4}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}$"), new SimpleDateFormat("yyyyMMddHHmmss"));
         MAP.put(Pattern.compile("^[0-9]{4}[0-9]{2}[0-9]{2}$"), new SimpleDateFormat("yyyyMMdd"));
+        MAP.put(Pattern.compile("^[0-9]{4}[0-9]{2}$"), new SimpleDateFormat("yyyyMM"));
         MAP.put(Pattern.compile("^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}$"), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         MAP.put(Pattern.compile("^[0-9]{1,2}-[0-9]{1,2}-[0-9]{4} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}$"), new SimpleDateFormat("MM-dd-yyyy HH:mm:ss"));
         MAP.put(Pattern.compile("^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$"), new SimpleDateFormat("yyyy-MM-dd"));
+        MAP.put(Pattern.compile("^[0-9]{4}-[0-9]{1,2}$"), new SimpleDateFormat("yyyy-MM"));
         MAP.put(Pattern.compile("^[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}$"), new SimpleDateFormat("MM-dd-yyyy"));
         MAP.put(Pattern.compile("^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}$"), new SimpleDateFormat("yyyy-MM-dd HH:mm"));
         MAP.put(Pattern.compile("^[0-9]{1,2}-[0-9]{1,2}-[0-9]{4} [0-9]{1,2}:[0-9]{1,2}$"), new SimpleDateFormat("MM-dd-yyyy HH:mm"));
