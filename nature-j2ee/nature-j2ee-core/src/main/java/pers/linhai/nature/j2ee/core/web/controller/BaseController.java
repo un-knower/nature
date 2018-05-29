@@ -42,6 +42,19 @@ public abstract class BaseController
     }
     
     /**
+     * 失败通用响应
+     * <p>Title         : fail lilinhai 2018年2月8日 上午9:56:12</p>
+     * @param code
+     * @param message
+     * @return 
+     * RestResponse
+     */
+    protected RestResponse fail(int code, String message, Object data)
+    {
+        return RestResponse.fail(code, message, data);
+    }
+    
+    /**
      * 成功通用响应
      * <p>Title         : success lilinhai 2018年2月8日 上午9:56:56</p>
      * @param data
