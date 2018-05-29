@@ -61,7 +61,12 @@ public class RestResponse implements Serializable
     
     public static RestResponse fail(int code, String message)
     {
-        return new RestResponse(false, code, message, null);
+        return fail(code, message, null);
+    }
+    
+    public static RestResponse fail(int code, String message, Object data)
+    {
+        return new RestResponse(false, code, message, data);
     }
     
     public static RestResponse success(int code, String massage, Object data)
