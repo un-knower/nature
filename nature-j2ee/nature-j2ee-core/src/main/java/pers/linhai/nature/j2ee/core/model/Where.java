@@ -40,12 +40,7 @@ public class Where
      * 表达式的ID字符范围限制
      */
     private static final Pattern CONDITION_ID_PATTERN = Pattern.compile("\\w+");
-    
-    /**
-     * 查询条件集合
-     */
-    private List<Condition> conditionList;
-    
+
     /**
      * 条件片段集合
      */
@@ -57,71 +52,11 @@ public class Where
     private String expression;
     
     /**
-     * 是否已经初始化
-     */
-    private boolean isInitialized;
-    
-    /**
      * <p>Set Method   :   conditionList List<Condition></p>
      * @param conditionList
      */
     public void setConditionList(List<Condition> conditionList)
     {
-        this.conditionList = conditionList;
-    }
-    
-    /**
-     * <p>Get Method   :   expression String</p>
-     * @return expression
-     */
-    public String getExpression()
-    {
-        return expression;
-    }
-    
-    /**
-     * <p>Set Method   :   expression String</p>
-     * @param expression
-     */
-    public void setExpression(String expression)
-    {
-        this.expression = expression;
-    }
-    
-    /**
-     * <p>Get Method   :   isInitialized boolean</p>
-     * @return isInitialized
-     */
-    boolean isInitialized()
-    {
-        return isInitialized;
-    }
-    
-    /**
-     * <p>Set Method   :   isInitialized boolean</p>
-     * @param isInitialized
-     */
-    void setInitialized(boolean isInitialized)
-    {
-        this.isInitialized = isInitialized;
-    }
-    
-    /**
-     * <p>Get Method   :   expressionSegmentList List<Object></p>
-     * @return expressionSegmentList
-     */
-    public List<ConditionSegment> getConditionSegmentList()
-    {
-        return conditionSegmentList;
-    }
-    
-    void initialize(ModelHelper validator)
-    {
-        if (this.isInitialized())
-        {
-            return;
-        }
-        
         if (conditionList == null || conditionList.isEmpty())
         {
             throw new ConditionIsNullException("Where-Condition can't be empty.");
@@ -133,9 +68,6 @@ public class Where
         int i = 0;
         for (Condition condition : conditionList)
         {
-            // 校验字段名
-            validator.validField(condition.getFieldName());
-            
             i++;
             if (getExpression() == null)
             {
@@ -160,12 +92,6 @@ public class Where
                 throw new ConditionFormatException("The Condition's id can't be empty while the expression is seted, fieldName:" + condition.getFieldName() + ", id:" + condition.getId());
             }
             
-            // 获取改该字段对应的JDBC类型
-            condition.setJdbcType(validator.getJdbcType(condition.getFieldName()));
-            
-            // 校验SQL注入 TODO
-            condition.setFieldName(validator.getTableField(condition.getFieldName()));
-            
             // 解析封装成Condition对象
             ConditionSegment conditionSegment = ConditionSegment.parse(condition);
             
@@ -177,10 +103,6 @@ public class Where
             }
         }
         
-        // 释放临时条件对象
-        conditionList.clear();
-        setConditionList(null);
-        
         if (getExpression() == null)
         {
             setExpression(expressionBuff.toString());
@@ -188,12 +110,63 @@ public class Where
         
         // 解析表达式
         parseExpression(conditionMap);
-        
-        // 初始化完成
-        setInitialized(true);
     }
     
-    public void parseExpression(Map<String, ConditionSegment> conditionMap)
+    /**
+     * <p>Get Method   :   expression String</p>
+     * @return expression
+     */
+    public String getExpression()
+    {
+        return expression;
+    }
+    
+    /**
+     * <p>Set Method   :   expression String</p>
+     * @param expression
+     */
+    public void setExpression(String expression)
+    {
+        this.expression = expression;
+    }
+    
+    /**
+     * <p>Get Method   :   expressionSegmentList List<Object></p>
+     * @return expressionSegmentList
+     */
+    public List<ConditionSegment> getConditionSegmentList()
+    {
+        return conditionSegmentList;
+    }
+    
+    /**
+     * 校验并初始化
+     * <p>Title         : validate lilinhai 2018年5月30日 下午9:41:58</p>
+     * @param validator 
+     * void
+     */
+    void validate(ModelHelper validator)
+    {
+        for (ConditionSegment conditionSegment : conditionSegmentList)
+        {
+            if (!(conditionSegment instanceof StringSegment))
+            {
+                // 校验字段名
+                validator.validField(conditionSegment.getFieldName());
+                
+                // 获取改该字段对应的JDBC类型
+                conditionSegment.setJdbcType(validator.getJdbcType(conditionSegment.getFieldName()));
+                
+                // 校验SQL注入
+                conditionSegment.setFieldName(validator.getTableField(conditionSegment.getFieldName()));
+                
+                // 初始化
+                conditionSegment.initialize();
+            }
+        }
+    }
+    
+    private void parseExpression(Map<String, ConditionSegment> conditionMap)
     {
         if (!CHAR_LIMIT_PATTERN.matcher(expression).matches())
         {
@@ -373,16 +346,16 @@ public class Where
             return "Condition [id=" + id + ", fieldName=" + fieldName + ", operator=" + operator + ", value=" + value + ", jdbcType=" + jdbcType + "]";
         }
     }
-    
+
     /** 
-     * <p>Overriding Method: lilinhai 2018年2月10日 下午1:42:07</p>
+     * <p>Overriding Method: lilinhai 2018年5月30日 下午9:07:32</p>
      * <p>Title: toString</p>
      * @return 
      * @see java.lang.Object#toString()
-     */
+     */ 
     public String toString()
     {
-        return "Where [conditionList=" + conditionList + ", expression=" + expression + "]";
+        return "Where [conditionSegmentList=" + conditionSegmentList + ", expression=" + expression + "]";
     }
     
 }

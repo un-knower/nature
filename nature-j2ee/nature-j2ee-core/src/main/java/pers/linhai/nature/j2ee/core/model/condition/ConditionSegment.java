@@ -170,6 +170,15 @@ public abstract class ConditionSegment
     }
     
     /**
+     * <p>Set Method   :   fieldName String</p>
+     * @param fieldName
+     */
+    public void setFieldName(String fieldName)
+    {
+        this.fieldName = fieldName;
+    }
+
+    /**
      * <p>Get Method   :   type int</p>
      * @return type
      */
@@ -177,6 +186,8 @@ public abstract class ConditionSegment
     {
         return type;
     }
+    
+    public abstract void initialize();
     
     public static ConditionSegment parse(Condition condition)
     {

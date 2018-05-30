@@ -241,7 +241,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         try
         {
             // 若ID和where条件都为空，则修改失败，返回0
-            if ((record.getId() == null && record.getWhere() == null) || !record.hasPersistentField())
+            if ((record.getId() == null && record.where() == null) || !record.hasPersistentField())
             {
                 return 0;
             }
@@ -256,7 +256,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
             }
             
             // 如果修改条件为空
-            if (record.getWhere() == null)
+            if (record.where() == null)
             {
                 record.setWhere(WhereBuilder.where(new ConditionBuilder<Key>(BaseField.ID).equal(record.getId())).build());
             }

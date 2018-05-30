@@ -32,7 +32,7 @@ public class CommonConditionSegment extends ConditionSegment
     public CommonConditionSegment(Condition condition)
     {
         super(condition, 1);
-        setValue(condition.getValue());
+        this.value = condition.getValue();
     }
     
     /**
@@ -44,11 +44,12 @@ public class CommonConditionSegment extends ConditionSegment
         return value;
     }
     
-    /**
-     * <p>Set Method   :   value Serializable</p>
-     * @param value
-     */
-    public void setValue(Object value)
+    /** 
+     * <p>Overriding Method: lilinhai 2018年5月30日 下午9:23:42</p>
+     * <p>Title: initialize</p>
+     * @see pers.linhai.nature.j2ee.core.model.condition.ConditionSegment#initialize()
+     */ 
+    public void initialize()
     {
         this.value = DataTypeParser.parse(getJdbcType(), value);
     }

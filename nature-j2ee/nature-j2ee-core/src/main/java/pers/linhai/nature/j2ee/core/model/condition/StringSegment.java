@@ -41,4 +41,15 @@ public class StringSegment extends ConditionSegment
     {
         return segment;
     }
+
+    /** 
+     * <p>Overriding Method: lilinhai 2018年5月30日 下午9:25:21</p>
+     * <p>Title: initialize</p>
+     * <p>Description: TODO</p> 
+     * @see pers.linhai.nature.j2ee.core.model.condition.ConditionSegment#initialize()
+     */ 
+    public void initialize()
+    {
+        
+    }
 }

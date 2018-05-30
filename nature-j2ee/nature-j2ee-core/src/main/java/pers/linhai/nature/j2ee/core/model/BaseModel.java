@@ -35,7 +35,7 @@ public abstract class BaseModel implements ModelHelper, Serializable
     private String tableName;
     
     /**
-     * <p>Title        : JdbcFunctionModel lilinhai 2018年2月15日 上午9:09:43</p>
+     * <p>Title        : BaseModel lilinhai 2018年2月15日 上午9:09:43</p>
      * @param tableName 
      */
     public BaseModel(String tableName)
@@ -47,7 +47,7 @@ public abstract class BaseModel implements ModelHelper, Serializable
      * <p>Get Method   :   tableName String</p>
      * @return tableName
      */
-    public String getTableName()
+    public String tableName()
     {
         return tableName;
     }
@@ -56,7 +56,7 @@ public abstract class BaseModel implements ModelHelper, Serializable
      * <p>Get Method   :   where Where</p>
      * @return where
      */
-    public Where getWhere()
+    public Where where()
     {
         return where;
     }
@@ -67,7 +67,7 @@ public abstract class BaseModel implements ModelHelper, Serializable
      */
     public void setWhere(Where where)
     {
-        where.initialize(this);
+        where.validate(this);
         this.where = where;
     }
 }

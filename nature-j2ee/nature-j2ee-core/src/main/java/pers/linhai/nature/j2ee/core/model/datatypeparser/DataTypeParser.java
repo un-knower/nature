@@ -39,6 +39,10 @@ public abstract class DataTypeParser
      */
     public static Object parse(String jdbcType, Object value)
     {
+        if (jdbcType == null)
+        {
+            throw new DataTypeException("DataType can't be null!!");
+        }
         DataTypeParser dataType = JdbcType.transfer(jdbcType).getDataTypeParser();
         if (dataType == null)
         {

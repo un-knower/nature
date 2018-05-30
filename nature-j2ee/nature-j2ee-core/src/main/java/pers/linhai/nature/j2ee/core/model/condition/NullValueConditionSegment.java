@@ -28,4 +28,16 @@ public class NullValueConditionSegment extends ConditionSegment
     {
         super(condition, 3);
     }
+
+    /** 
+     * <p>Overriding Method: lilinhai 2018年5月30日 下午9:25:05</p>
+     * <p>Title: initialize</p>
+     * <p>Description: TODO</p> 
+     * @see pers.linhai.nature.j2ee.core.model.condition.ConditionSegment#initialize()
+     */ 
+    @Override
+    public void initialize()
+    {
+        
+    }
 }
