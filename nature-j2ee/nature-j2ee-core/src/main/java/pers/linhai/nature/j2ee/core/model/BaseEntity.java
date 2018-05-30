@@ -96,7 +96,10 @@ public abstract class BaseEntity<Key> extends BaseModel
     public void setCreateTime(Date createTime)
     {
         this.createTime = createTime;
-        addPersistentField(BaseField.CREATE_TIME, createTime);
+        if (existsField(BaseField.CREATE_TIME.getJavaField()))
+        {
+            addPersistentField(BaseField.CREATE_TIME, createTime);
+        }
     }
     
     /**
@@ -115,7 +118,10 @@ public abstract class BaseEntity<Key> extends BaseModel
     public void setUpdateTime(Date updateTime)
     {
         this.updateTime = updateTime;
-        addPersistentField(BaseField.UPDATE_TIME, updateTime);
+        if (existsField(BaseField.UPDATE_TIME.getJavaField()))
+        {
+            addPersistentField(BaseField.UPDATE_TIME, updateTime);
+        }
     }
     
     /**
