@@ -96,6 +96,8 @@ public abstract class BaseEntity<Key> extends BaseModel
     public void setCreateTime(Date createTime)
     {
         this.createTime = createTime;
+        
+        // 为了兼容没有这两个字段的表
         if (existsField(BaseField.CREATE_TIME.getJavaField()))
         {
             addPersistentField(BaseField.CREATE_TIME, createTime);
@@ -118,6 +120,8 @@ public abstract class BaseEntity<Key> extends BaseModel
     public void setUpdateTime(Date updateTime)
     {
         this.updateTime = updateTime;
+        
+        // 为了兼容没有这两个字段的表
         if (existsField(BaseField.UPDATE_TIME.getJavaField()))
         {
             addPersistentField(BaseField.UPDATE_TIME, updateTime);
