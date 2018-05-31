@@ -47,35 +47,27 @@ public class ModelHelperRegister implements InitializingBean
      * @throws Exception 
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */ 
-    @SuppressWarnings("unchecked")
     public void afterPropertiesSet() throws Exception
     {
-        try
+        List<String> packages = AutoConfigurationPackages.get(this.beanFactory);
+        for (String pkg : packages)
         {
-            List<String> packages = AutoConfigurationPackages.get(this.beanFactory);
-            for (String pkg : packages)
+            // 扫描所有实体
+            String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + pkg.replace('.', '/') + '/' + "**/*.class";
+            MetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory(resourceLoader);
+            Resource[] resources = ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources(packageSearchPath);
+            for (Resource resource : resources)
             {
-                // 扫描所有实体
-                String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + pkg.replace('.', '/') + '/' + "**/*.class";
-                MetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory(resourceLoader);
-                Resource[] resources = ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources(packageSearchPath);
-                for (Resource resource : resources)
+                if (resource.isReadable())
                 {
-                    if (resource.isReadable())
+                    MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(resource);
+                    Class<?> resolvedClass = ClassUtils.forName(metadataReader.getAnnotationMetadata().getClassName(), resourceLoader.getClassLoader());
+                    if (resolvedClass.getSuperclass() == BaseEntity.class)
                     {
-                        MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(resource);
-                        Class<?> resolvedClass = ClassUtils.forName(metadataReader.getAnnotationMetadata().getClassName(), resourceLoader.getClassLoader());
-                        if (resolvedClass.getSuperclass() == BaseEntity.class)
-                        {
-                            ModelHelperCache.getInstance().put(resolvedClass.getSimpleName(), ((Class<? extends BaseEntity<?>>)resolvedClass).getConstructor().newInstance());
-                        }
+                        ModelHelperCache.getInstance().put(resolvedClass.getSimpleName(), (ModelHelper)resolvedClass.getConstructor().newInstance());
                     }
                 }
             }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
         }
     }
 }

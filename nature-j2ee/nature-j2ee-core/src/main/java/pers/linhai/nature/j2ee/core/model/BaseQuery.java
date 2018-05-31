@@ -49,7 +49,7 @@ public abstract class BaseQuery extends BaseModel
     /**
      * 待返回的字段列表
      */
-    private List<String> returnFieldList;
+    private List<String> select;
     
     /**
      * <p>Title        : BaseQuery lilinhai 2018年2月11日 下午11:40:39</p>
@@ -153,30 +153,30 @@ public abstract class BaseQuery extends BaseModel
      * <p>Get Method   :   returnFieldList List<String></p>
      * @return returnFieldList
      */
-    public List<String> getReturnFieldList()
+    public List<String> getSelect()
     {
-        return (returnFieldList == null || returnFieldList.isEmpty()) ? getAllFieldList() : returnFieldList;
+        return (select == null || select.isEmpty()) ? getAllFieldList() : select;
     }
     
     /**
      * <p>Set Method   :   returnFieldList List<String></p>
-     * @param returnFieldList
+     * @param select
      */
-    public void setReturnFieldList(List<String> returnFieldList)
+    public void setSelect(List<String> select)
     {
-        if (returnFieldList != null && !returnFieldList.isEmpty())
+        if (select != null && !select.isEmpty())
         {
             List<String> returnFieldListTemp = new ArrayList<String>();
-            for (String fieldName : returnFieldList)
+            for (String fieldName : select)
             {
                 returnFieldListTemp.add(getTableField(fieldName));
             }
-            this.returnFieldList = returnFieldListTemp;
+            this.select = returnFieldListTemp;
         }
     }
     
     public String toString()
     {
-        return "BaseQuery [page=" + page + ", offset=" + offset + ", size=" + size + ", sortFieldList=" + sortFieldList + ", returnFieldList=" + returnFieldList + "]";
+        return "BaseQuery [page=" + page + ", offset=" + offset + ", size=" + size + ", sortFieldList=" + sortFieldList + ", select=" + select + "]";
     }
 }
