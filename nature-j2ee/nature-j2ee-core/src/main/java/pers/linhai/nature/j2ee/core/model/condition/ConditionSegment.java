@@ -74,6 +74,11 @@ public abstract class ConditionSegment
     protected String id;
     
     /**
+     * 数据库表
+     */
+    protected String table;
+    
+    /**
      * 字段名
      */
     protected String fieldName;
@@ -95,10 +100,11 @@ public abstract class ConditionSegment
     protected ConditionSegment(Condition condition, int type)
     {
         this(type);
+        this.setTable(condition.getTable());
         this.fieldName = condition.getFieldName();
-        setId(condition.getId());
-        setJdbcType(condition.getJdbcType());
-        setOperator(condition.getOperator());
+        this.setId(condition.getId());
+        this.setJdbcType(condition.getJdbcType());
+        this.setOperator(condition.getOperator());
     }
     
     protected ConditionSegment(int type)
@@ -160,6 +166,24 @@ public abstract class ConditionSegment
         this.operator = operator;
     }
     
+    /**
+     * <p>Get Method   :   table String</p>
+     * @return table
+     */
+    public String getTable()
+    {
+        return table;
+    }
+
+    /**
+     * <p>Set Method   :   table String</p>
+     * @param table
+     */
+    public void setTable(String table)
+    {
+        this.table = table;
+    }
+
     /**
      * <p>Get Method   :   fieldName String</p>
      * @return fieldName

@@ -218,6 +218,11 @@ public class Where
         private String id;
         
         /**
+         * 数据库表的名
+         */
+        private String table;
+        
+        /**
          * 字段名
          */
         private String fieldName;
@@ -263,6 +268,24 @@ public class Where
             this.id = id;
         }
         
+        /**
+         * <p>Get Method   :   table String</p>
+         * @return table
+         */
+        public String getTable()
+        {
+            return table;
+        }
+
+        /**
+         * <p>Set Method   :   table String</p>
+         * @param table
+         */
+        public void setTable(String table)
+        {
+            this.table = table;
+        }
+
         /**
          * <p>Get Method   :   fieldName String</p>
          * @return fieldName
@@ -334,16 +357,16 @@ public class Where
         {
             this.jdbcType = jdbcType;
         }
-        
+
         /** 
-         * <p>Overriding Method: lilinhai 2018年2月10日 下午3:53:07</p>
+         * <p>Overriding Method: lilinhai 2018年5月31日 下午5:32:48</p>
          * <p>Title: toString</p>
          * @return 
          * @see java.lang.Object#toString()
-         */
+         */ 
         public String toString()
         {
-            return "Condition [id=" + id + ", fieldName=" + fieldName + ", operator=" + operator + ", value=" + value + ", jdbcType=" + jdbcType + "]";
+            return "Condition [id=" + id + ", table=" + table + ", fieldName=" + fieldName + ", operator=" + operator + ", value=" + value + ", jdbcType=" + jdbcType + "]";
         }
     }
 
