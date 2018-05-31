@@ -58,4 +58,12 @@ public interface ModelHelper
      * 返回所有字段列表
      */
     List<String> getAllFieldList();
+    
+    /**
+     * 获取表名
+     * <p>Title         : getTableName lilinhai 2018年5月31日 下午3:32:57</p>
+     * @return 
+     * String
+     */
+    String getTableName();
 }

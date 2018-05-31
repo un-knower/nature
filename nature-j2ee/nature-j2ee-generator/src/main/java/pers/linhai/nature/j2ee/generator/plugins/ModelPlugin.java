@@ -624,6 +624,18 @@ public class ModelPlugin extends BasePlugin
         getAllFieldListMethod.addBodyLine("return " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field.getTableFieldList();");
         beanClass.addMethod(getAllFieldListMethod);
         
+        // getTableName方法
+        Method getTableNameMethod = new Method("getTableName");
+        getTableNameMethod.addJavaDocLine("/**");
+        getTableNameMethod.addJavaDocLine(" * 获取数据库表名");
+        getTableNameMethod.addJavaDocLine(" */");
+        getTableNameMethod.setFinal(false);
+        getTableNameMethod.setStatic(false);
+        getTableNameMethod.setDefault(true);
+        getTableNameMethod.setReturnType(new FullyQualifiedJavaType("String"));
+        getTableNameMethod.addBodyLine("return " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field.TABLE_NAME;");
+        beanClass.addMethod(getTableNameMethod);
+        
         return new GeneratedJavaFile(beanClass, getTargetProjectJavaSourceFolder(), "utf-8", new DefaultJavaFormatter());
     }
     
