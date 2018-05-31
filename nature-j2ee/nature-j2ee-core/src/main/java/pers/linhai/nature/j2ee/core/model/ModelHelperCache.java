@@ -56,7 +56,7 @@ public abstract class ModelHelperCache
      */
     public String getTableName(String key)
     {
-        return ((BaseModel)modelHelperMap.get(key)).tableName();
+        return modelHelperMap.get(key).tableName();
     }
     
     public static ModelHelperCache getInstance()

@@ -612,8 +612,8 @@ public class ModelPlugin extends BasePlugin
         existsFieldMethod.addBodyLine("return " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + ".transfer(fieldName) != null;");
         beanClass.addMethod(existsFieldMethod);
         
-        // getAllFieldList方法
-        Method getAllFieldListMethod = new Method("getAllFieldList");
+        // allFieldList方法
+        Method getAllFieldListMethod = new Method("allFieldList");
         getAllFieldListMethod.addJavaDocLine("/**");
         getAllFieldListMethod.addJavaDocLine(" * 返回所有字段列表");
         getAllFieldListMethod.addJavaDocLine(" */");
@@ -624,8 +624,8 @@ public class ModelPlugin extends BasePlugin
         getAllFieldListMethod.addBodyLine("return " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field.getTableFieldList();");
         beanClass.addMethod(getAllFieldListMethod);
         
-        // getTableName方法
-        Method getTableNameMethod = new Method("getTableName");
+        // tableName方法
+        Method getTableNameMethod = new Method("tableName");
         getTableNameMethod.addJavaDocLine("/**");
         getTableNameMethod.addJavaDocLine(" * 获取数据库表名");
         getTableNameMethod.addJavaDocLine(" */");

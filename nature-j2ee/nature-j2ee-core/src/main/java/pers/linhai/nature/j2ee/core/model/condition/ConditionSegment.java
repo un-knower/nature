@@ -101,7 +101,7 @@ public abstract class ConditionSegment
     {
         this(type);
         this.setTable(condition.getTable());
-        this.fieldName = condition.getFieldName();
+        this.setFieldName(condition.getFieldName());
         this.setId(condition.getId());
         this.setJdbcType(condition.getJdbcType());
         this.setOperator(condition.getOperator());

@@ -57,7 +57,7 @@ public interface ModelHelper
     /**
      * 返回所有字段列表
      */
-    List<String> getAllFieldList();
+    List<String> allFieldList();
     
     /**
      * 获取表名
@@ -65,5 +65,5 @@ public interface ModelHelper
      * @return 
      * String
      */
-    String getTableName();
+    String tableName();
 }

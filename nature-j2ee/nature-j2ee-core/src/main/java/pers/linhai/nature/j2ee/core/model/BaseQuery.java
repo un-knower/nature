@@ -155,7 +155,7 @@ public abstract class BaseQuery extends BaseModel
      */
     public List<String> getSelect()
     {
-        return (select == null || select.isEmpty()) ? getAllFieldList() : select;
+        return (select == null || select.isEmpty()) ? allFieldList() : select;
     }
     
     /**
