@@ -67,7 +67,7 @@ public abstract class BaseModel implements ModelHelper, Serializable
      */
     public void setWhere(Where where)
     {
-        where.validate(this);
+        where.initialize(this);
         this.where = where;
     }
 }
