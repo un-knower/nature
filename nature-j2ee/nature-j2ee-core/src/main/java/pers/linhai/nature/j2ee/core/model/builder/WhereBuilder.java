@@ -117,8 +117,8 @@ public class WhereBuilder
     public Where build() 
     {
         Where where = new Where();
-        where.setConditionList(conditionList);
         where.setExpression(expressionBuilder.toString());
+        where.setConditionList(conditionList);
         return where;
     }
     
