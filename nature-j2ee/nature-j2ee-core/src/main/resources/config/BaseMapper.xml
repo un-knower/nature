@@ -55,9 +55,9 @@
         ]]>
 
         <!-- 添加需要返回的字段信息 -->
-        <foreach collection="select" index="index" item="returnField" open=" " separator=", " close=" ">
+        <foreach collection="select" index="index" item="columnName" open=" " separator=", " close=" ">
             <![CDATA[
-                ${returnField}
+                ${columnName}
             ]]>
         </foreach>
         
