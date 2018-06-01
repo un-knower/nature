@@ -49,26 +49,11 @@ public class InConditionSegment extends ConditionSegment
             }
             for (Object val : valueTempCollection)
             {
-                this.valueList.add(val);
+                this.valueList.add(DataTypeParser.parse(getJdbcType(), val));
             }
         }
     }
     
-    /** 
-     * <p>Overriding Method: lilinhai 2018年5月30日 下午9:19:14</p>
-     * <p>Title: initialize</p>
-     * @see pers.linhai.nature.j2ee.core.model.condition.ConditionSegment#initialize()
-     */ 
-    public void initialize()
-    {
-        List<Object> valueList = new ArrayList<Object>(this.valueList);
-        this.valueList.clear();
-        for (Object object : valueList)
-        {
-            this.valueList.add(DataTypeParser.parse(getJdbcType(), object));
-        }
-    }
-
     /**
      * <p>Get Method   :   valueList List<Serializable></p>
      * @return valueList

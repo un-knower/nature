@@ -211,8 +211,6 @@ public abstract class ConditionSegment
         return type;
     }
     
-    public abstract void initialize();
-    
     public static ConditionSegment parse(Condition condition)
     {
         try
