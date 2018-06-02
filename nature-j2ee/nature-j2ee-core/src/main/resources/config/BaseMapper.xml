@@ -179,7 +179,7 @@
         <foreach collection="selectColumnList" index="index" item="selectField" open=" " separator=", " close=" ">
             <foreach collection="selectField.columnList" index="index" item="columnName" open=" " separator=", " close=" ">
                 <![CDATA[
-                    ${selectField.table}.${columnName} as "${selectField.table}.${columnName}"
+                    ${selectField.table}.${columnName} as "${selectField.table}-${columnName}"
                 ]]>
             </foreach>
         </foreach>
@@ -199,7 +199,7 @@
                 ]]>
             </if>
             <![CDATA[
-                ${tableJointor.joinType} ${tableJointor.right.table} on ${tableJointor.left.column}=${tableJointor.right.column})
+                ${tableJointor.joinType} ${tableJointor.right.table} on ${tableJointor.left.table}.${tableJointor.left.column}=${tableJointor.right.table}.${tableJointor.right.column})
             ]]>
         </foreach>
         

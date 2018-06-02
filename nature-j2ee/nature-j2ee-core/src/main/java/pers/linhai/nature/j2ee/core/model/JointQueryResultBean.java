@@ -44,7 +44,7 @@ public class JointQueryResultBean extends HashMap<String, Serializable>
      */ 
     public Serializable put(String column, Serializable value)
     {
-        int dotIndex = column.indexOf('.');
+        int dotIndex = column.indexOf('-');
         if (dotIndex == -1)
         {
             throw new JointQueryException("The joint-query was successful, but the result failed because the name of the table was not found in the return-column-name：" + column);

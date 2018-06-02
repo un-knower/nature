@@ -425,7 +425,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     public void find(JointQuery entityQuery, IRowDataJointQueryProcessor rowDataJointQueryProcessor)
     {
         RowDataHashMapJointQueryResultHandler myResultHandler = new RowDataHashMapJointQueryResultHandler(ENTITY_REFLECTOR_MAP, rowDataJointQueryProcessor);
-        sqlSession.select(FIND, entityQuery, myResultHandler);
+        sqlSession.select(BASE_NAME_SPACE.concat(".jointFind"), entityQuery, myResultHandler);
     }
     
     /**

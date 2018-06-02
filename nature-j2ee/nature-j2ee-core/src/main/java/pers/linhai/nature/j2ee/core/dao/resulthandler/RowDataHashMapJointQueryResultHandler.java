@@ -19,6 +19,7 @@ import pers.linhai.nature.j2ee.core.dao.EntityReflector;
 import pers.linhai.nature.j2ee.core.dao.exception.ReflectException;
 import pers.linhai.nature.j2ee.core.dao.processor.IRowDataJointQueryProcessor;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
+import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.model.JointEntityBean;
 import pers.linhai.nature.j2ee.core.model.JointQueryResultBean;
 
@@ -65,6 +66,7 @@ public class RowDataHashMapJointQueryResultHandler implements ResultHandler<Join
                 if (method.getName().equals("process"))
                 {
                     processMethod = method;
+                    processMethod.setAccessible(true);
                     break;
                 }
             }
@@ -114,6 +116,7 @@ public class RowDataHashMapJointQueryResultHandler implements ResultHandler<Join
             
             Object[] objs = new Object[params.length];
             
+            EntityBean entityBean = null;
             int i = 0;
             for (Class< ? > class1 : params)
             {
@@ -123,7 +126,8 @@ public class RowDataHashMapJointQueryResultHandler implements ResultHandler<Join
                 }
                 else
                 {
-                    objs[i] = entityReflectorMap.get(class1).getInstance(jointEntityBean.get(class1.getSimpleName()));
+                    entityBean = jointEntityBean.get(class1.getSimpleName());
+                    objs[i] = entityReflectorMap.get(class1).getInstance(entityBean == null ? new EntityBean(true) : entityBean);
                 }
                 i++;
             }

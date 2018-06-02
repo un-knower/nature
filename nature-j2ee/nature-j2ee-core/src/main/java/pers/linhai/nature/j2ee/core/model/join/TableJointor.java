@@ -21,7 +21,7 @@ public class TableJointor
     /**
      * 序号，第一个的时候，需要完整表达
      */
-    private int index;
+    private Integer index;
     
     /**
      * 连接方式
@@ -93,19 +93,19 @@ public class TableJointor
     }
     
     /**
-     * <p>Get Method   :   index int</p>
+     * <p>Get Method   :   index Integer</p>
      * @return index
      */
-    public int getIndex()
+    public Integer getIndex()
     {
         return index;
     }
 
     /**
-     * <p>Set Method   :   index int</p>
+     * <p>Set Method   :   index Integer</p>
      * @param index
      */
-    public void setIndex(int index)
+    public void setIndex(Integer index)
     {
         this.index = index;
     }
