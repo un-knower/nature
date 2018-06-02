@@ -24,7 +24,7 @@ import pers.linhai.nature.utils.StringUtils;
  * @author lilinhai 2018年5月26日 下午5:16:54
  * @version 1.0
  */
-public class JoinQuery
+public class JointQuery
 {
     
     /**
@@ -50,7 +50,7 @@ public class JoinQuery
     /**
      * 需要查询的字段列表
      */
-    private List<SelectField> selectFieldList;
+    private List<SelectField> selectColumnList;
     
     /**
      * 查询条件集合
@@ -92,23 +92,23 @@ public class JoinQuery
      * <p>Get Method   :   selectFieldList List<SelectField></p>
      * @return selectFieldList
      */
-    public List<SelectField> getSelectFieldList()
+    public List<SelectField> getSelectColumnList()
     {
-        if (selectFieldList == null || selectFieldList.isEmpty())
+        if (selectColumnList == null || selectColumnList.isEmpty())
         {
             throw new QueryBuildException("The select-field of the join-query cannot be empty ");
         }
-        return selectFieldList;
+        return selectColumnList;
     }
 
     /**
      * <p>Set Method   :   selectFieldList List<SelectField></p>
-     * @param selectFieldList
+     * @param selectColumnList
      */
     public void setSelect(List<SelectField> select)
     {
-        this.selectFieldList = select;
-        if (selectFieldList == null || selectFieldList.isEmpty())
+        this.selectColumnList = select;
+        if (selectColumnList == null || selectColumnList.isEmpty())
         {
             throw new QueryBuildException("The select-field of the join-query cannot be empty ");
         }
@@ -166,6 +166,7 @@ public class JoinQuery
             throw new QueryBuildException("The from-field information of the join-table-query can not be empty.");
         }
         
+        int index = 0;
         for (TableJointor tableJointor : from)
         {
             // 校验joinType
@@ -174,6 +175,9 @@ public class JoinQuery
             {
                 throw new QueryBuildException("The join-type of the join-query is illegal: " + tableJointor.getJoinType());
             }
+            
+            //  序号，第一个的时候，需要完整表达
+            tableJointor.setIndex(++index);
             
             // 设置为数据库对应的值
             tableJointor.setJoinType(joinType.getDatabaseValue());

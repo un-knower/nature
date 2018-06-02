@@ -9,15 +9,12 @@
 
 package pers.linhai.nature.j2ee.core.dao.processor;
 
-import pers.linhai.nature.j2ee.core.model.EntityBean;
-
 /**
- * <p>ClassName      : IRowDataProcessor</p>
- * @author lilinhai 2018年2月13日 下午12:15:34
+ * <p>ClassName      : IRowDataJointQueryProcessor</p>
+ * @author lilinhai 2018年6月13日 下午12:15:34
  * @version 1.0
  */
-public interface IRowDataProcessor<Entity>
+public interface IRowDataJointQueryProcessor
 {
     
-    void process(EntityBean entityBean, Entity entity);
 }

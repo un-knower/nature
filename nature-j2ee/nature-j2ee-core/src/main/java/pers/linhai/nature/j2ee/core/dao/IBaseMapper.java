@@ -12,10 +12,12 @@ import java.util.List;
 
 import pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.IEntityProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.IRowDataJointQueryProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
+import pers.linhai.nature.j2ee.core.model.JointQuery;
 
 /**
  * 公共mapper
@@ -104,6 +106,15 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * void
      */
     void find(EntityQuery entityQuery, IRowDataProcessor<Entity> entityProcessor);
+    
+    /**
+     * 关联查询
+     * <p>Title         : find lilinhai 2018年6月3日 上午12:35:46</p>
+     * @param entityQuery
+     * @param rowDataJointQueryProcessor 
+     * void
+     */
+    void find(JointQuery entityQuery, IRowDataJointQueryProcessor rowDataJointQueryProcessor);
     
     /**
      * 调用自己写的statment sql语句

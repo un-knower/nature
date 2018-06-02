@@ -12,7 +12,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.ibatis.session.ResultContext;
@@ -27,12 +29,15 @@ import pers.linhai.nature.j2ee.core.dao.processor.CustomEntityProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.DefaultEntityProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.IEntityProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.IRowDataJointQueryProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
 import pers.linhai.nature.j2ee.core.dao.resulthandler.RowDataEntityResultHandler;
+import pers.linhai.nature.j2ee.core.dao.resulthandler.RowDataHashMapJointQueryResultHandler;
 import pers.linhai.nature.j2ee.core.dao.resulthandler.RowDataHashMapResultHandler;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
+import pers.linhai.nature.j2ee.core.model.JointQuery;
 import pers.linhai.nature.j2ee.core.model.builder.ConditionBuilder;
 import pers.linhai.nature.j2ee.core.model.builder.WhereBuilder;
 import pers.linhai.nature.j2ee.core.model.enumer.BaseField;
@@ -74,6 +79,11 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      * 计数方法
      */
     private static final String COUNT = BASE_NAME_SPACE.concat(".count");
+    
+    /**
+     * 实体反射器map映射
+     */
+    private static Map<Class<? extends BaseEntity<?>>, EntityReflector<? extends BaseEntity<?>>> ENTITY_REFLECTOR_MAP = new HashMap<Class<? extends BaseEntity<?>>, EntityReflector<? extends BaseEntity<?>>>();
     
     /**
      * 日志记录器
@@ -131,7 +141,9 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
                     Class<?> c = (Class<?>) type;
                     if (c.getSuperclass() == BaseEntity.class)
                     {
-                        entityReflector = new EntityReflector<Entity>((Class<Entity>) c);
+                        Class<Entity> entityClass = (Class<Entity>) c;
+                        entityReflector = new EntityReflector<Entity>(entityClass);
+                        ENTITY_REFLECTOR_MAP.put(entityClass, entityReflector);
                     }
                     else if (c.getSuperclass() == BaseQuery.class)
                     {
@@ -400,6 +412,19 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     public void find(EntityQuery entityQuery, IRowDataProcessor<Entity> entityProcessor)
     {
         RowDataHashMapResultHandler<Entity> myResultHandler = new RowDataHashMapResultHandler<Entity>(entityReflector, entityProcessor);
+        sqlSession.select(FIND, entityQuery, myResultHandler);
+    }
+    
+    /**
+     * 关联查询
+     * <p>Title         : find lilinhai 2018年6月3日 上午12:35:46</p>
+     * @param entityQuery
+     * @param rowDataJointQueryProcessor 
+     * void
+     */
+    public void find(JointQuery entityQuery, IRowDataJointQueryProcessor rowDataJointQueryProcessor)
+    {
+        RowDataHashMapJointQueryResultHandler myResultHandler = new RowDataHashMapJointQueryResultHandler(ENTITY_REFLECTOR_MAP, rowDataJointQueryProcessor);
         sqlSession.select(FIND, entityQuery, myResultHandler);
     }
     

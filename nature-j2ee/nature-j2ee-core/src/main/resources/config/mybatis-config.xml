@@ -30,9 +30,11 @@
     </settings>
 
     <typeAliases>
+        <typeAlias alias="JointQuery" type="pers.linhai.nature.j2ee.core.model.JointQuery" />
         <typeAlias alias="BaseQuery" type="pers.linhai.nature.j2ee.core.model.BaseQuery" />
         <typeAlias alias="BaseEntity" type="pers.linhai.nature.j2ee.core.model.BaseEntity" />
         <typeAlias alias="EntityBean" type="pers.linhai.nature.j2ee.core.model.EntityBean" />
+        <typeAlias alias="JointQueryResultBean" type="pers.linhai.nature.j2ee.core.model.JointQueryResultBean" />
         <typeAlias alias="Long" type="java.lang.Long" />
         <typeAlias alias="HashMap" type="java.util.HashMap" />
     </typeAliases>

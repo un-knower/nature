@@ -19,6 +19,11 @@ public class TableJointor
 {
 
     /**
+     * 序号，第一个的时候，需要完整表达
+     */
+    private int index;
+    
+    /**
      * 连接方式
      */
     private String joinType;
@@ -86,15 +91,34 @@ public class TableJointor
     {
         this.right = right;
     }
+    
+    /**
+     * <p>Get Method   :   index int</p>
+     * @return index
+     */
+    public int getIndex()
+    {
+        return index;
+    }
+
+    /**
+     * <p>Set Method   :   index int</p>
+     * @param index
+     */
+    public void setIndex(int index)
+    {
+        this.index = index;
+    }
 
     /** 
-     * <p>Overriding Method: lilinhai 2018年6月2日 下午5:04:28</p>
+     * <p>Overriding Method: lilinhai 2018年6月2日 下午9:37:02</p>
      * <p>Title: toString</p>
      * @return 
      * @see java.lang.Object#toString()
      */ 
+    @Override
     public String toString()
     {
-        return "TableJointor [joinType=" + joinType + ", left=" + left + ", right=" + right + "]";
+        return "TableJointor [index=" + index + ", joinType=" + joinType + ", left=" + left + ", right=" + right + "]";
     }
 }
