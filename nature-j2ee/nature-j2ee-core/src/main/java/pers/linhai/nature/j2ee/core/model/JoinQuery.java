@@ -12,6 +12,7 @@ package pers.linhai.nature.j2ee.core.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import pers.linhai.nature.j2ee.core.model.enumer.JoinType;
 import pers.linhai.nature.j2ee.core.model.exception.QueryBuildException;
 import pers.linhai.nature.j2ee.core.model.join.SelectField;
 import pers.linhai.nature.j2ee.core.model.join.TableJointor;
@@ -168,6 +169,14 @@ public class JoinQuery
         for (TableJointor tableJointor : from)
         {
             // 校验joinType
+            JoinType joinType = JoinType.transfer(tableJointor.getJoinType());
+            if (joinType == null)
+            {
+                throw new QueryBuildException("The join-type of the join-query is illegal: " + tableJointor.getJoinType());
+            }
+            
+            // 设置为数据库对应的值
+            tableJointor.setJoinType(joinType.getDatabaseValue());
             
             // 校验衔接表信息
             if (tableJointor.getLeft() == null || tableJointor.getRight() == null)
