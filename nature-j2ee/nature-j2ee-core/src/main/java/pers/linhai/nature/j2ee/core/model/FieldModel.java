@@ -19,12 +19,12 @@ public abstract class FieldModel
 {
     
     /**
-     * 数据库表
+     * 数据库表名
      */
     private String table;
     
     /**
-     * 列
+     * 数据库表列名
      */
     private String column;
     
@@ -34,7 +34,7 @@ public abstract class FieldModel
     private String entity;
     
     /**
-     * 排序字段名
+     * java字段名
      */
     private String field;
 
