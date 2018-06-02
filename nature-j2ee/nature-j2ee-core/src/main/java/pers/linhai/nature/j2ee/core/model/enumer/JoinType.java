@@ -29,7 +29,12 @@ public enum JoinType
     /**
      * 右连接
      */
-    RIGHT_JOIN("rightJoin", "right join");
+    RIGHT_JOIN("rightJoin", "right join"),
+    
+    /**
+     * 内连接
+     */
+    INNER_JOIN("rightJoin", "inner join");
     
     /**
      * 所有数据类型的hashmap映射，key为value
