@@ -12,7 +12,6 @@ package pers.linhai.nature.j2ee.core.model;
 import java.util.Locale;
 
 import pers.linhai.nature.j2ee.core.model.enumer.Direction;
-import pers.linhai.nature.j2ee.core.model.join.JoinTable;
 
 /**
  * 排序字段对象
@@ -20,7 +19,7 @@ import pers.linhai.nature.j2ee.core.model.join.JoinTable;
  * @author lilinhai 2018年5月20日 下午8:06:53
  * @version 1.0
  */
-public class SortField extends JoinTable
+public class SortField extends FieldModel
 {
 
     /**

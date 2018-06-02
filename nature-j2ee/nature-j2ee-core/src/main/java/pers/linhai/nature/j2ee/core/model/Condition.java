@@ -15,34 +15,13 @@ package pers.linhai.nature.j2ee.core.model;
  * @author lilinhai 2018年6月2日 下午5:05:42
  * @version 1.0
  */
-public class Condition
+public class Condition extends FieldModel
 {
 
-    
     /**
      * 子查询条件ID
      */
     private String id;
-    
-    /**
-     * 实体对应的数据库表名
-     */
-    private String table;
-    
-    /**
-     * 列
-     */
-    private String column;
-    
-    /**
-     * 数据库表对应的实体名
-     */
-    private String entity;
-    
-    /**
-     * 字段名
-     */
-    private String field;
     
     /**
      * 运算符
@@ -83,78 +62,6 @@ public class Condition
     public void setId(String id)
     {
         this.id = id;
-    }
-    
-    /**
-     * <p>Get Method   :   table String</p>
-     * @return table
-     */
-    public String getTable()
-    {
-        return table;
-    }
-
-    /**
-     * <p>Set Method   :   table String</p>
-     * @param table
-     */
-    public void setTable(String table)
-    {
-        this.table = table;
-    }
-    
-    /**
-     * <p>Get Method   :   column String</p>
-     * @return column
-     */
-    public String getColumn()
-    {
-        return column;
-    }
-
-    /**
-     * <p>Set Method   :   column String</p>
-     * @param column
-     */
-    public void setColumn(String column)
-    {
-        this.column = column;
-    }
-
-    /**
-     * <p>Get Method   :   table String</p>
-     * @return table
-     */
-    public String getEntity()
-    {
-        return entity;
-    }
-
-    /**
-     * <p>Set Method   :   table String</p>
-     * @param table
-     */
-    public void setEntity(String entity)
-    {
-        this.entity = entity;
-    }
-    
-    /**
-     * <p>Get Method   :   field String</p>
-     * @return field
-     */
-    public String getField()
-    {
-        return field;
-    }
-
-    /**
-     * <p>Set Method   :   field String</p>
-     * @param field
-     */
-    public void setField(String field)
-    {
-        this.field = field;
     }
     
     /**
@@ -223,15 +130,13 @@ public class Condition
     }
 
     /** 
-     * <p>Overriding Method: lilinhai 2018年6月2日 下午3:04:29</p>
+     * <p>Overriding Method: lilinhai 2018年6月2日 下午5:30:35</p>
      * <p>Title: toString</p>
      * @return 
      * @see java.lang.Object#toString()
      */ 
     public String toString()
     {
-        return "Condition [id=" + id + ", table=" + table + ", column=" + column + ", entity=" + entity + ", field=" + field + ", operator=" + operator + ", value=" + value + ", jdbcType="
-                + jdbcType + "]";
+        return "Condition [id=" + id + ", operator=" + operator + ", value=" + value + ", jdbcType=" + jdbcType + ", toString()=" + super.toString() + "]";
     }
-
 }

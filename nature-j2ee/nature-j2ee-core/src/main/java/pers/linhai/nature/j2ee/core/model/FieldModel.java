@@ -7,15 +7,15 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.j2ee.core.model.join;
+package pers.linhai.nature.j2ee.core.model;
 
 /**
- * 关联表
+ * 字段模型
  * <p>ClassName      : JoinTable</p>
  * @author lilinhai 2018年6月2日 下午5:00:32
  * @version 1.0
  */
-public class JoinTable
+public abstract class FieldModel
 {
     
     /**

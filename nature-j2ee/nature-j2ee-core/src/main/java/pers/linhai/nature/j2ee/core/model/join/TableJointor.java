@@ -26,12 +26,12 @@ public class TableJointor
     /**
      * 左表信息
      */
-    private JoinTable left;
+    private JoinField left;
     
     /**
      * 右表信息
      */
-    private JoinTable right;
+    private JoinField right;
 
     /**
      * <p>Get Method   :   joinType String</p>
@@ -55,7 +55,7 @@ public class TableJointor
      * <p>Get Method   :   left JoinTable</p>
      * @return left
      */
-    public JoinTable getLeft()
+    public JoinField getLeft()
     {
         return left;
     }
@@ -64,7 +64,7 @@ public class TableJointor
      * <p>Set Method   :   left JoinTable</p>
      * @param left
      */
-    public void setLeft(JoinTable left)
+    public void setLeft(JoinField left)
     {
         this.left = left;
     }
@@ -73,7 +73,7 @@ public class TableJointor
      * <p>Get Method   :   right JoinTable</p>
      * @return right
      */
-    public JoinTable getRight()
+    public JoinField getRight()
     {
         return right;
     }
@@ -82,7 +82,7 @@ public class TableJointor
      * <p>Set Method   :   right JoinTable</p>
      * @param right
      */
-    public void setRight(JoinTable right)
+    public void setRight(JoinField right)
     {
         this.right = right;
     }
