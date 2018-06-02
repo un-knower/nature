@@ -13,12 +13,12 @@
                     <choose>
                         <when test="conditionSegment.type == 1">
                             <![CDATA[
-                                ${conditionSegment.column} ${conditionSegment.operator} #{conditionSegment.value, jdbcType=${conditionSegment.jdbcType}}
+                                ${conditionSegment.table}.${conditionSegment.column} ${conditionSegment.operator} #{conditionSegment.value, jdbcType=${conditionSegment.jdbcType}}
                             ]]>
                         </when>
                         <when test="conditionSegment.type == 2">
                             <![CDATA[
-                                ${conditionSegment.column} ${conditionSegment.operator}
+                                ${conditionSegment.table}.${conditionSegment.column} ${conditionSegment.operator}
                             ]]>
                             <foreach collection="conditionSegment.valueList" index="index" item="value" open="(" separator=", " close=")">
                                 <![CDATA[
@@ -28,7 +28,7 @@
                         </when>
                         <when test="conditionSegment.type == 3">
                             <![CDATA[
-                                ${conditionSegment.column} ${conditionSegment.operator}
+                                ${conditionSegment.table}.${conditionSegment.column} ${conditionSegment.operator}
                             ]]>
                         </when>
                         <when test="conditionSegment.type == 4">
@@ -72,7 +72,7 @@
         <if test="orderFieldList != null">
             <foreach collection="orderFieldList" index="index" item="orderField" open=" order by " separator=", " close=" ">
                 <![CDATA[
-                    ${orderField.column} ${orderField.direction}
+                    ${orderField.table}.${orderField.column} ${orderField.direction}
                 ]]>
             </foreach>
         </if>

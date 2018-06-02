@@ -135,6 +135,7 @@ public abstract class BaseQuery extends BaseModel
             for (SortField sortField : orderBy)
             {
                 sortField.setColumn(getTableField(sortField.getField()));
+                sortField.setTable(tableName());
             }
             this.orderFieldList = orderBy;
         }

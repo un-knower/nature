@@ -148,8 +148,11 @@ public class Where
             // 获取改该字段对应的JDBC类型
             condition.setJdbcType(validator.getJdbcType(condition.getField()));
             
-            // 校验SQL注入 TODO
+            // 校验SQL注入
             condition.setColumn(validator.getTableField(condition.getField()));
+            
+            // 数据库表名
+            condition.setTable(validator.tableName());
             
             // 解析封装成Condition对象
             ConditionSegment conditionSegment = ConditionSegment.parse(condition);

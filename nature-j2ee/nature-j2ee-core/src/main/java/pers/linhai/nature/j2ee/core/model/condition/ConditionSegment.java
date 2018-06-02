@@ -100,7 +100,7 @@ public abstract class ConditionSegment
     protected ConditionSegment(Condition condition, int type)
     {
         this(type);
-        this.setTable(condition.getEntity());
+        this.setTable(condition.getTable());
         this.setColumn(condition.getColumn());
         this.setId(condition.getId());
         this.setJdbcType(condition.getJdbcType());
