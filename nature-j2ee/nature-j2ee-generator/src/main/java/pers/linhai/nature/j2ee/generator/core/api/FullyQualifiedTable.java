@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 import pers.linhai.nature.j2ee.generator.core.config.Context;
 import pers.linhai.nature.j2ee.generator.core.config.DomainObjectRenamingRule;
-import pers.linhai.nature.utils.NamingUtils;
+import pers.linhai.nature.utils.NamerUtils;
 
 
 /**
@@ -276,11 +276,11 @@ public class FullyQualifiedTable
         String finalDomainObjectName;
         if (stringHasValue(runtimeTableName))
         {
-            finalDomainObjectName = NamingUtils.getCamelCaseString(runtimeTableName, true);
+            finalDomainObjectName = NamerUtils.getCamelCaseString(runtimeTableName, true);
         }
         else
         {
-            finalDomainObjectName = NamingUtils.getCamelCaseString(introspectedTableName, true);
+            finalDomainObjectName = NamerUtils.getCamelCaseString(introspectedTableName, true);
         }
 
         if (domainObjectRenamingRule != null)

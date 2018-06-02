@@ -42,7 +42,7 @@ import pers.linhai.nature.j2ee.generator.core.config.GeneratedKey;
 import pers.linhai.nature.j2ee.generator.core.config.PropertyRegistry;
 import pers.linhai.nature.j2ee.generator.core.config.TableConfiguration;
 import pers.linhai.nature.j2ee.generator.core.internal.ObjectFactory;
-import pers.linhai.nature.utils.NamingUtils;
+import pers.linhai.nature.utils.NamerUtils;
 
 
 /**
@@ -288,12 +288,12 @@ public class DatabaseIntrospector
                     sb.setLength(0);
                     sb.append(calculatedColumnName);
                     sb.append('_');
-                    sb.append(NamingUtils.getCamelCaseString(introspectedColumn.getRemarks(), true));
+                    sb.append(NamerUtils.getCamelCaseString(introspectedColumn.getRemarks(), true));
                     introspectedColumn.setJavaProperty(getValidPropertyName(sb.toString()));
                 }
                 else
                 {
-                    introspectedColumn.setJavaProperty(NamingUtils.getCamelCaseString(calculatedColumnName, false));
+                    introspectedColumn.setJavaProperty(NamerUtils.getCamelCaseString(calculatedColumnName, false));
                 }
 
                 FullyQualifiedJavaType fullyQualifiedJavaType = javaTypeResolver.calculateJavaType(introspectedColumn);

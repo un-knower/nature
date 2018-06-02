@@ -9,7 +9,7 @@
 
 package pers.linhai.nature.j2ee.generator.restapi.mappings;
 
-import pers.linhai.nature.utils.NamingUtils;
+import pers.linhai.nature.j2ee.generator.utils.GeneratorNamerUtils;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -26,7 +26,7 @@ public class SaveRestApi extends RestApi
      */ 
     public SaveRestApi(String entityName)
     {
-        url = "/" + NamingUtils.controllerMappingName(entityName);
+        url = "/" + GeneratorNamerUtils.controllerMappingName(entityName);
         method = "POST";
         apiName = "新增单个实体";
         apiColor = "#10A54A";

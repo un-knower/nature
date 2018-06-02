@@ -11,7 +11,7 @@ package pers.linhai.nature.j2ee.core.dao.resulthandler;
 import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
 
-import pers.linhai.nature.j2ee.core.dao.EntityReflecter;
+import pers.linhai.nature.j2ee.core.dao.EntityReflector;
 import pers.linhai.nature.j2ee.core.dao.exception.ReflectException;
 import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
@@ -29,7 +29,7 @@ public class RowDataHashMapResultHandler<Entity extends BaseEntity< ? >> impleme
     /**
      * 实体反射器
      */
-    private EntityReflecter<Entity> entityReflecter;
+    private EntityReflector<Entity> entityReflecter;
     
     private IRowDataProcessor<Entity> rowDataProcessor;
     
@@ -39,7 +39,7 @@ public class RowDataHashMapResultHandler<Entity extends BaseEntity< ? >> impleme
      * @param entityConstructor2
      * @param entityProcessor 
      */
-    public RowDataHashMapResultHandler(EntityReflecter<Entity> entityReflecter, IRowDataProcessor<Entity> rowDataProcessor)
+    public RowDataHashMapResultHandler(EntityReflector<Entity> entityReflecter, IRowDataProcessor<Entity> rowDataProcessor)
     {
         super();
         this.entityReflecter = entityReflecter;

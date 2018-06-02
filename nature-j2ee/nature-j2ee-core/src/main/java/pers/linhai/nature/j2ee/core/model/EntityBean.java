@@ -11,7 +11,7 @@ package pers.linhai.nature.j2ee.core.model;
 
 import java.io.Serializable;
 
-import pers.linhai.nature.utils.NamingUtils;
+import pers.linhai.nature.utils.NamerUtils;
 
 /**
  * <p>ClassName      : EntityBean</p>
@@ -47,20 +47,20 @@ public class EntityBean extends ModelBean
     /** 
      * <p>Overriding Method: lilinhai 2018年3月14日 上午11:38:38</p>
      * <p>Title: put</p>
-     * @param key
+     * @param column
      * @param value
      * @return 
      * @see java.util.HashMap#put(java.lang.Object, java.lang.Object)
      */
-    public Serializable put(String key, Serializable value)
+    public Serializable put(String column, Serializable value)
     {
         if (!isInited)
         {
-            return super.put(NamingUtils.getCamelCaseString(key, false), value);
+            return super.put(NamerUtils.columnToProterty(column), value);
         }
         else
         {
-            return super.put(key, value);
+            return super.put(column, value);
         }
     }
     

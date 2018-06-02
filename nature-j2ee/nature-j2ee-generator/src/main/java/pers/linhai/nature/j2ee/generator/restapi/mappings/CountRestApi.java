@@ -9,7 +9,7 @@
 
 package pers.linhai.nature.j2ee.generator.restapi.mappings;
 
-import pers.linhai.nature.utils.NamingUtils;
+import pers.linhai.nature.j2ee.generator.utils.GeneratorNamerUtils;
 
 /**
  * <p>ClassName      : DeleteRestApi</p>
@@ -24,7 +24,7 @@ public class CountRestApi extends RestApi
      */ 
     public CountRestApi(String entityName)
     {
-        url = "/" + NamingUtils.controllerMappingName(entityName) + "/count";
+        url = "/" + GeneratorNamerUtils.controllerMappingName(entityName) + "/count";
         method = "POST";
         apiName = "根据查询条件统计实体个数";
         apiColor = "#10A54A";

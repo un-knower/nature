@@ -9,7 +9,7 @@
 
 package pers.linhai.nature.j2ee.generator.restapi.mappings;
 
-import pers.linhai.nature.utils.NamingUtils;
+import pers.linhai.nature.j2ee.generator.utils.GeneratorNamerUtils;
 
 /**
  * <p>ClassName      : DeleteRestApi</p>
@@ -24,7 +24,7 @@ public class DeleteRestApi extends RestApi
      */ 
     public DeleteRestApi(String entityName)
     {
-        url = "/" + NamingUtils.controllerMappingName(entityName) + "/{id}";
+        url = "/" + GeneratorNamerUtils.controllerMappingName(entityName) + "/{id}";
         method = "DELETE";
         apiName = "根据ID删除单个实体";
         apiColor = "#A82C2D";

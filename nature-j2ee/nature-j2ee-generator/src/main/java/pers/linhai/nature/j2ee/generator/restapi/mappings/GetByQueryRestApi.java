@@ -9,7 +9,7 @@
 
 package pers.linhai.nature.j2ee.generator.restapi.mappings;
 
-import pers.linhai.nature.utils.NamingUtils;
+import pers.linhai.nature.j2ee.generator.utils.GeneratorNamerUtils;
 
 /**
  * <p>ClassName      : DeleteRestApi</p>
@@ -24,7 +24,7 @@ public class GetByQueryRestApi extends RestApi
      */ 
     public GetByQueryRestApi(String entityName)
     {
-        url = "/" + NamingUtils.controllerMappingName(entityName) + "/get";
+        url = "/" + GeneratorNamerUtils.controllerMappingName(entityName) + "/get";
         method = "POST";
         apiName = "根据查询条件查找单个实体";
         apiColor = "#10A54A";

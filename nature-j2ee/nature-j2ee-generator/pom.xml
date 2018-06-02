@@ -43,5 +43,10 @@
 		    <artifactId>fastjson</artifactId>
             <scope>provided</scope>
 		</dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

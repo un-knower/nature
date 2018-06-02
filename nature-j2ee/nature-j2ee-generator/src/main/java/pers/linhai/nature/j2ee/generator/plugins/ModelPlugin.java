@@ -51,7 +51,7 @@ import pers.linhai.nature.j2ee.generator.core.api.dom.java.TopLevelClass;
 import pers.linhai.nature.j2ee.generator.core.api.dom.java.TopLevelEnumeration;
 import pers.linhai.nature.j2ee.generator.exception.GeneratorException;
 import pers.linhai.nature.j2ee.generator.utils.CodeGeneratorUtils;
-import pers.linhai.nature.utils.NamingUtils;
+import pers.linhai.nature.utils.NamerUtils;
 
 
 /**
@@ -326,7 +326,7 @@ public class ModelPlugin extends BasePlugin
         fieldEnumeration.addImportedType(new FullyQualifiedJavaType(List.class.getName()));
         fieldEnumeration.addImportedType(new FullyQualifiedJavaType(ArrayList.class.getName()));
         fieldEnumeration.addImportedType(new FullyQualifiedJavaType(JdbcType.class.getName()));
-        fieldEnumeration.addImportedType(new FullyQualifiedJavaType(NamingUtils.class.getName()));
+        fieldEnumeration.addImportedType(new FullyQualifiedJavaType(NamerUtils.class.getName()));
         fieldEnumeration.addImportedType(new FullyQualifiedJavaType(ModelField.class.getName()));
         
         fieldEnumeration.setStatic(false);
@@ -439,7 +439,7 @@ public class ModelPlugin extends BasePlugin
         constructorMethod.setConstructor(true);
         constructorMethod.addParameter(new Parameter(new FullyQualifiedJavaType(JdbcType.class.getName()), "jdbcType"));
         constructorMethod.addBodyLine("this.tableField = name().toLowerCase();");
-        constructorMethod.addBodyLine("this.javaField = NamingUtils.getCamelCaseString(tableField, false);");
+        constructorMethod.addBodyLine("this.javaField = NamerUtils.getCamelCaseString(tableField, false);");
         constructorMethod.addBodyLine("this.jdbcType = jdbcType;");
         constructorMethod.setVisibility(JavaVisibility.DEFAULT);
         constructorMethod.setFinal(false);

@@ -76,22 +76,6 @@ public abstract class BaseQuery extends BaseModel
     public void setPage(Integer page)
     {
         this.page = page;
-        
-        // 设置查询偏移量
-        setOffset();
-    }
-
-    /**
-     * <p>Title         : setOffset lilinhai 2018年5月21日 上午9:58:43</p>
-     * void 
-     */ 
-    private void setOffset()
-    {
-        if (size != null && offset == null)
-        {
-            // 设置查询偏移量
-            this.offset = this.page * size;
-        }
     }
     
     /**
@@ -100,7 +84,7 @@ public abstract class BaseQuery extends BaseModel
      */
     public Integer getOffset()
     {
-        return offset;
+        return this.offset = this.page * this.size;
     }
     
     /**
@@ -119,9 +103,6 @@ public abstract class BaseQuery extends BaseModel
     public void setSize(Integer size)
     {
         this.size = size;
-        
-        // 设置查询偏移量
-        setOffset();
     }
     
     /**

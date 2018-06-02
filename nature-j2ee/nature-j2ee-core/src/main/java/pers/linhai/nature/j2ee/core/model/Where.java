@@ -57,11 +57,6 @@ public class Where
     private String expression;
     
     /**
-     * 是否已经初始化
-     */
-    private boolean isInitialized;
-    
-    /**
      * <p>Set Method   :   conditionList List<Condition></p>
      * @param conditionList
      */
@@ -89,24 +84,6 @@ public class Where
     }
     
     /**
-     * <p>Get Method   :   isInitialized boolean</p>
-     * @return isInitialized
-     */
-    boolean isInitialized()
-    {
-        return isInitialized;
-    }
-    
-    /**
-     * <p>Set Method   :   isInitialized boolean</p>
-     * @param isInitialized
-     */
-    void setInitialized(boolean isInitialized)
-    {
-        this.isInitialized = isInitialized;
-    }
-    
-    /**
      * <p>Get Method   :   expressionSegmentList List<Object></p>
      * @return expressionSegmentList
      */
@@ -117,11 +94,6 @@ public class Where
     
     void initialize(ModelHelper validator)
     {
-        if (this.isInitialized())
-        {
-            return;
-        }
-        
         if (conditionList == null || conditionList.isEmpty())
         {
             throw new ConditionIsNullException("Where-Condition can't be empty.");
@@ -177,10 +149,6 @@ public class Where
             }
         }
         
-        // 释放临时条件对象
-        conditionList.clear();
-        setConditionList(null);
-        
         if (getExpression() == null)
         {
             setExpression(expressionBuff.toString());
@@ -188,9 +156,6 @@ public class Where
         
         // 解析表达式
         parseExpression(conditionMap);
-        
-        // 初始化完成
-        setInitialized(true);
     }
     
     private void parseExpression(Map<String, ConditionSegment> conditionMap)

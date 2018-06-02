@@ -33,7 +33,7 @@ import pers.linhai.nature.j2ee.generator.core.api.dom.java.Method;
 import pers.linhai.nature.j2ee.generator.core.api.dom.java.Parameter;
 import pers.linhai.nature.j2ee.generator.core.api.dom.java.TopLevelClass;
 import pers.linhai.nature.j2ee.generator.utils.CodeCommentUtils;
-import pers.linhai.nature.utils.NamingUtils;
+import pers.linhai.nature.utils.NamerUtils;
 
 
 /**
@@ -170,7 +170,7 @@ public class ServicePlugin extends BasePlugin
         processMethod1.setStatic(false);
         processMethod1.setVisibility(JavaVisibility.PUBLIC);
         processMethod1.addException(new FullyQualifiedJavaType(EntitySaveInterceptProcessException.class.getName()));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
+        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamerUtils.classToProperty(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
         processMethod1.addBodyLine("");
         interceptor.addMethod(processMethod1);
         
@@ -183,7 +183,7 @@ public class ServicePlugin extends BasePlugin
         afterMethod.setStatic(false);
         afterMethod.setVisibility(JavaVisibility.PUBLIC);
         afterMethod.addException(new FullyQualifiedJavaType(EntitySaveInterceptProcessException.class.getName()));
-        afterMethod.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
+        afterMethod.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamerUtils.classToProperty(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
         afterMethod.addBodyLine("");
         interceptor.addMethod(afterMethod);
         
@@ -222,7 +222,7 @@ public class ServicePlugin extends BasePlugin
         processMethod.setStatic(false);
         processMethod.setVisibility(JavaVisibility.PUBLIC);
         processMethod.addException(new FullyQualifiedJavaType(EntityUpdateInterceptProcessException.class.getName()));
-        processMethod.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
+        processMethod.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamerUtils.classToProperty(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
         processMethod.addBodyLine("");
         interceptor.addMethod(processMethod);
         
@@ -235,7 +235,7 @@ public class ServicePlugin extends BasePlugin
         afterUpdateMethod.setStatic(false);
         afterUpdateMethod.setVisibility(JavaVisibility.PUBLIC);
         afterUpdateMethod.addException(new FullyQualifiedJavaType(EntityUpdateInterceptProcessException.class.getName()));
-        afterUpdateMethod.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
+        afterUpdateMethod.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamerUtils.classToProperty(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
         afterUpdateMethod.addBodyLine("");
         interceptor.addMethod(afterUpdateMethod);
         
@@ -248,7 +248,7 @@ public class ServicePlugin extends BasePlugin
         processMethod2.setStatic(false);
         processMethod2.setVisibility(JavaVisibility.PUBLIC);
         processMethod2.addParameter(new Parameter(new FullyQualifiedJavaType(EntityBean.class.getName()), "entityBean"));
-        processMethod2.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
+        processMethod2.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamerUtils.classToProperty(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
         processMethod2.addBodyLine("");
         interceptor.addMethod(processMethod2);
         
@@ -261,7 +261,7 @@ public class ServicePlugin extends BasePlugin
         beforeReturn.setStatic(false);
         beforeReturn.setVisibility(JavaVisibility.PUBLIC);
         beforeReturn.addParameter(new Parameter(new FullyQualifiedJavaType("List<" + EntityBean.class.getName() + ">"), "entityBeanList"));
-        beforeReturn.addParameter(new Parameter(new FullyQualifiedJavaType("List<" + introspectedTable.getBaseRecordType() + ">"), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName()) + "List"));
+        beforeReturn.addParameter(new Parameter(new FullyQualifiedJavaType("List<" + introspectedTable.getBaseRecordType() + ">"), NamerUtils.classToProperty(introspectedTable.getFullyQualifiedTable().getDomainObjectName()) + "List"));
         beforeReturn.addBodyLine("");
         interceptor.addMethod(beforeReturn);
         

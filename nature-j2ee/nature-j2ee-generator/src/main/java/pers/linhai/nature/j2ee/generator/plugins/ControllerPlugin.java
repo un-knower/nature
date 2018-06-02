@@ -34,7 +34,8 @@ import pers.linhai.nature.j2ee.generator.core.api.dom.java.Method;
 import pers.linhai.nature.j2ee.generator.core.api.dom.java.Parameter;
 import pers.linhai.nature.j2ee.generator.core.api.dom.java.TopLevelClass;
 import pers.linhai.nature.j2ee.generator.utils.CodeCommentUtils;
-import pers.linhai.nature.utils.NamingUtils;
+import pers.linhai.nature.j2ee.generator.utils.GeneratorNamerUtils;
+import pers.linhai.nature.utils.NamerUtils;
 
 /**
  * 控制层代码生成器
@@ -110,7 +111,7 @@ public class ControllerPlugin extends BasePlugin
         
         // 添加spring扫描注解
         controllerClass.addAnnotation("@RestController");
-        controllerClass.addAnnotation("@RequestMapping(\"/" + NamingUtils.controllerMappingName(introspectedTable.getFullyQualifiedTable().getDomainObjectName()) + "\")");
+        controllerClass.addAnnotation("@RequestMapping(\"/" + GeneratorNamerUtils.controllerMappingName(introspectedTable.getFullyQualifiedTable().getDomainObjectName()) + "\")");
         
         //添加注释
         CommentGenerator commentGenerator = context.getCommentGenerator();
@@ -167,7 +168,7 @@ public class ControllerPlugin extends BasePlugin
         processMethod1.addException(new FullyQualifiedJavaType(ControllerException.class.getName()));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
+        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamerUtils.classToProperty(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
         if (!restApiDefaultEnabled)
         {
             processMethod1.addBodyLine("throw new ControllerException(BaseErrorCode.REST_API_NOT_AVAILABLE, \"This api is not available.\");");
@@ -209,7 +210,7 @@ public class ControllerPlugin extends BasePlugin
         processMethod1.addException(new FullyQualifiedJavaType(ControllerException.class.getName()));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
         processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamingUtils.variableName(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
+        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamerUtils.classToProperty(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
         if (!restApiDefaultEnabled)
         {
             processMethod1.addBodyLine("throw new ControllerException(BaseErrorCode.REST_API_NOT_AVAILABLE, \"This api is not available.\");");

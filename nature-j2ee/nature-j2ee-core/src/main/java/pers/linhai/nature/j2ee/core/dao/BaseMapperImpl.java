@@ -8,6 +8,7 @@
 
 package pers.linhai.nature.j2ee.core.dao;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Date;
@@ -35,7 +36,6 @@ import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.model.builder.ConditionBuilder;
 import pers.linhai.nature.j2ee.core.model.builder.WhereBuilder;
 import pers.linhai.nature.j2ee.core.model.enumer.BaseField;
-import pers.linhai.nature.reflect.ConstructorAccess;
 
 /**
  * <p>ClassName      : BaseMapperImpl</p>
@@ -91,12 +91,12 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     /**
      * 实体反射器
      */
-    private EntityReflecter<Entity> entityReflecter;
+    private EntityReflector<Entity> entityReflector;
     
     /**
      * 实体查询条件构造器
      */
-    protected ConstructorAccess<EntityQuery> entityQueryConstructor;
+    protected Constructor<EntityQuery> entityQueryConstructor;
     
     /**
      * <p>Title        : BaseMapperImpl lilinhai 2018年2月12日 下午2:12:25</p>
@@ -131,16 +131,17 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
                     Class<?> c = (Class<?>) type;
                     if (c.getSuperclass() == BaseEntity.class)
                     {
-                        entityReflecter = new EntityReflecter<Entity>((Class<Entity>) c);
+                        entityReflector = new EntityReflector<Entity>((Class<Entity>) c);
                     }
                     else if (c.getSuperclass() == BaseQuery.class)
                     {
-                        entityQueryConstructor = ConstructorAccess.get((Class<EntityQuery>) c);
+                        entityQueryConstructor = ((Class<EntityQuery>) c).getConstructor();
+                        entityQueryConstructor.setAccessible(true);
                     }
                 }
             }
             
-            if (entityReflecter != null && entityQueryConstructor != null)
+            if (entityReflector != null && entityQueryConstructor != null)
             {
                 logger.info(" init success.");
             }
@@ -398,7 +399,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     @Override
     public void find(EntityQuery entityQuery, IRowDataProcessor<Entity> entityProcessor)
     {
-        RowDataHashMapResultHandler<Entity> myResultHandler = new RowDataHashMapResultHandler<Entity>(entityReflecter, entityProcessor);
+        RowDataHashMapResultHandler<Entity> myResultHandler = new RowDataHashMapResultHandler<Entity>(entityReflector, entityProcessor);
         sqlSession.select(FIND, entityQuery, myResultHandler);
     }
     

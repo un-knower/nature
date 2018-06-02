@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import pers.linhai.nature.j2ee.core.model.ModelField;
 import pers.linhai.nature.j2ee.core.model.enumer.JdbcType;
-import pers.linhai.nature.utils.NamingUtils;
+import pers.linhai.nature.utils.NamerUtils;
 
 /**
  * 数据库表公共字段枚举
@@ -61,7 +61,7 @@ public enum BaseField implements ModelField
     BaseField(JdbcType jdbcType)
     {
         this.tableField = name().toLowerCase();
-        this.javaField = NamingUtils.getCamelCaseString(tableField, false);
+        this.javaField = NamerUtils.getCamelCaseString(tableField, false);
         this.jdbcType = jdbcType;
     }
 
