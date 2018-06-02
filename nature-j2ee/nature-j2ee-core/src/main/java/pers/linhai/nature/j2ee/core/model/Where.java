@@ -21,6 +21,7 @@ import pers.linhai.nature.j2ee.core.dao.exception.IllegalExpression;
 import pers.linhai.nature.j2ee.core.model.condition.ConditionSegment;
 import pers.linhai.nature.j2ee.core.model.condition.StringSegment;
 import pers.linhai.nature.j2ee.core.model.enumer.LogicalOperator;
+import pers.linhai.nature.j2ee.core.model.exception.QueryBuildException;
 
 /**
  * 修改语句或查询的where条件
@@ -99,14 +100,26 @@ public class Where
             throw new ConditionIsNullException("Where-Condition can't be empty.");
         }
         
+        boolean isValidatorNull = (validator == null);
+        
         // 条件集合
         Map<String, ConditionSegment> conditionMap = new HashMap<String, ConditionSegment>();
         StringBuilder expressionBuff = null;
         int i = 0;
         for (Condition condition : conditionList)
         {
+            if(isValidatorNull)
+            {
+                ModelHelper modelHelper = ModelHelperCache.getInstance().get(condition.getEntity());
+                if (modelHelper == null)
+                {
+                    throw new QueryBuildException(" Illegal entity name : " + condition.getEntity());
+                }
+                validator = modelHelper;
+            }
+            
             // 校验字段名
-            validator.validField(condition.getFieldName());
+            validator.validField(condition.getField());
             
             i++;
             if (getExpression() == null)
@@ -129,14 +142,14 @@ public class Where
             }
             else if (condition.getId() == null || condition.getId().isEmpty())
             {
-                throw new ConditionFormatException("The Condition's id can't be empty while the expression is seted, fieldName:" + condition.getFieldName() + ", id:" + condition.getId());
+                throw new ConditionFormatException("The Condition's id can't be empty while the expression is seted, fieldName:" + condition.getField() + ", id:" + condition.getId());
             }
             
             // 获取改该字段对应的JDBC类型
-            condition.setJdbcType(validator.getJdbcType(condition.getFieldName()));
+            condition.setJdbcType(validator.getJdbcType(condition.getField()));
             
             // 校验SQL注入 TODO
-            condition.setFieldName(validator.getTableField(condition.getFieldName()));
+            condition.setColumn(validator.getTableField(condition.getField()));
             
             // 解析封装成Condition对象
             ConditionSegment conditionSegment = ConditionSegment.parse(condition);
@@ -145,7 +158,7 @@ public class Where
             ConditionSegment last = conditionMap.put(conditionSegment.getId(), conditionSegment);
             if (last != null)
             {
-                throw new ConditionFormatException("Condition ID repeats, fieldName:" + condition.getFieldName() + ", id:" + condition.getId());
+                throw new ConditionFormatException("Condition ID repeats, fieldName:" + condition.getField() + ", id:" + condition.getId());
             }
         }
         
@@ -192,173 +205,6 @@ public class Where
             {
                 conditionSegmentList.add(new StringSegment(logicalOperator.getValue()));
             }
-        }
-    }
-    
-    /**
-     * 子查询条件封装
-     * <p>ClassName      : Condition</p>
-     * @author lilinhai 2018年2月9日 下午5:07:13
-     * @version 1.0
-     */
-    public static class Condition
-    {
-        
-        /**
-         * 子查询条件ID
-         */
-        private String id;
-        
-        /**
-         * 数据库表的名
-         */
-        private String table;
-        
-        /**
-         * 字段名
-         */
-        private String fieldName;
-        
-        /**
-         * 运算符
-         */
-        private String operator;
-        
-        /**
-         * 查询字段的值
-         */
-        private Object value;
-        
-        /**
-         * 该自定义条件字段对饮的JDBC类型
-         */
-        private String jdbcType;
-        
-        /**
-         * <p>Title        : Condition lilinhai 2018年5月19日 下午3:19:39</p>
-         */ 
-        public Condition()
-        {
-            
-        }
-
-        /**
-         * <p>Get Method   :   id String</p>
-         * @return id
-         */
-        public String getId()
-        {
-            return id;
-        }
-        
-        /**
-         * <p>Set Method   :   id String</p>
-         * @param id
-         */
-        public void setId(String id)
-        {
-            this.id = id;
-        }
-        
-        /**
-         * <p>Get Method   :   table String</p>
-         * @return table
-         */
-        public String getTable()
-        {
-            return table;
-        }
-
-        /**
-         * <p>Set Method   :   table String</p>
-         * @param table
-         */
-        public void setTable(String table)
-        {
-            this.table = table;
-        }
-
-        /**
-         * <p>Get Method   :   fieldName String</p>
-         * @return fieldName
-         */
-        public String getFieldName()
-        {
-            return fieldName;
-        }
-        
-        /**
-         * <p>Set Method   :   fieldName String</p>
-         * @param fieldName
-         */
-        public void setFieldName(String fieldName)
-        {
-            this.fieldName = fieldName;
-        }
-        
-        /**
-         * <p>Get Method   :   operator String</p>
-         * @return operator
-         */
-        public String getOperator()
-        {
-            return operator;
-        }
-        
-        /**
-         * <p>Set Method   :   operator String</p>
-         * @param operator
-         */
-        public void setOperator(String operator)
-        {
-            this.operator = operator;
-        }
-        
-        /**
-         * <p>Get Method   :   value String</p>
-         * @return value
-         */
-        public Object getValue()
-        {
-            return value;
-        }
-        
-        /**
-         * <p>Set Method   :   value String</p>
-         * @param value
-         */
-        public void setValue(Object value)
-        {
-            this.value = value;
-        }
-        
-        /**
-         * <p>Get Method   :   jdbcType String</p>
-         * @return jdbcType
-         */
-        public String getJdbcType()
-        {
-            return jdbcType;
-        }
-        
-        /**
-         * <p>Set Method   :   jdbcType String</p>
-         * @param jdbcType
-         */
-        public void setJdbcType(String jdbcType)
-        {
-            this.jdbcType = jdbcType;
-        }
-
-        /** 
-         * <p>Overriding Method: lilinhai 2018年6月1日 上午10:30:32</p>
-         * <p>Title: toString</p>
-         * @return 
-         * @see java.lang.Object#toString()
-         */ 
-        public String toString()
-        {
-            return "Condition [id=" + id + ", table=" + table + ", fieldName=" + fieldName + ", operator=" + operator + ", value=" + value + ", jdbcType=" + jdbcType + "]";
         }
     }
     

@@ -16,7 +16,7 @@ import java.util.Map;
 
 import pers.linhai.nature.j2ee.core.dao.exception.ConditionFormatException;
 import pers.linhai.nature.j2ee.core.dao.exception.IllegalOperatorException;
-import pers.linhai.nature.j2ee.core.model.Where.Condition;
+import pers.linhai.nature.j2ee.core.model.Condition;
 import pers.linhai.nature.j2ee.core.model.enumer.Operator;
 
 /**
@@ -81,7 +81,7 @@ public abstract class ConditionSegment
     /**
      * 字段名
      */
-    protected String fieldName;
+    protected String column;
     
     /**
      * 运算符
@@ -100,8 +100,8 @@ public abstract class ConditionSegment
     protected ConditionSegment(Condition condition, int type)
     {
         this(type);
-        this.setTable(condition.getTable());
-        this.setFieldName(condition.getFieldName());
+        this.setTable(condition.getEntity());
+        this.setColumn(condition.getColumn());
         this.setId(condition.getId());
         this.setJdbcType(condition.getJdbcType());
         this.setOperator(condition.getOperator());
@@ -185,21 +185,21 @@ public abstract class ConditionSegment
     }
 
     /**
-     * <p>Get Method   :   fieldName String</p>
-     * @return fieldName
+     * <p>Get Method   :   column String</p>
+     * @return column
      */
-    public String getFieldName()
+    public String getColumn()
     {
-        return fieldName;
+        return column;
     }
-    
+
     /**
-     * <p>Set Method   :   fieldName String</p>
-     * @param fieldName
+     * <p>Set Method   :   column String</p>
+     * @param column
      */
-    public void setFieldName(String fieldName)
+    public void setColumn(String column)
     {
-        this.fieldName = fieldName;
+        this.column = column;
     }
 
     /**

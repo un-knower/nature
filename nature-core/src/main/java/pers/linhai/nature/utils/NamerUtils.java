@@ -18,7 +18,6 @@ public abstract class NamerUtils
     private static final Set<Character> SEPARATOR_CHAR_SET = new HashSet<Character>();
     static
     {
-        SEPARATOR_CHAR_SET.add('_');
         SEPARATOR_CHAR_SET.add('-');
         SEPARATOR_CHAR_SET.add('@');
         SEPARATOR_CHAR_SET.add('$');
@@ -85,7 +84,7 @@ public abstract class NamerUtils
         for (int i = 0; i < inputString.length(); i++)
         {
             char c = inputString.charAt(i);
-            if (SEPARATOR_CHAR_SET.contains(c))
+            if ('_' ==  c || SEPARATOR_CHAR_SET.contains(c))
             {
                 if (sb.length() > 0)
                 {

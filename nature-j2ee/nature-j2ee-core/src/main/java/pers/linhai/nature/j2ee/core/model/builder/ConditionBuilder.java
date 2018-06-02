@@ -12,8 +12,8 @@ package pers.linhai.nature.j2ee.core.model.builder;
 import java.util.ArrayList;
 import java.util.List;
 
+import pers.linhai.nature.j2ee.core.model.Condition;
 import pers.linhai.nature.j2ee.core.model.ModelField;
-import pers.linhai.nature.j2ee.core.model.Where.Condition;
 import pers.linhai.nature.j2ee.core.model.enumer.Operator;
 
 /**
@@ -37,7 +37,7 @@ public class ConditionBuilder<FieldType>
     public ConditionBuilder(ModelField modelField)
     {
         condition = new Condition();
-        condition.setFieldName(modelField.getJavaField());
+        condition.setField(modelField.getJavaField());
     }
     
     /**

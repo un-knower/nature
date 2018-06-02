@@ -21,7 +21,7 @@ public class PersistentField
     /**
      * 数据库表实体的字段名
      */
-    private String fieldName;
+    private String column;
     
     /**
      * 查询字段的值
@@ -68,69 +68,73 @@ public class PersistentField
     {
         this.jdbcType = jdbcType;
     }
-    
+
     /**
-     * <p>Get Method   :   fieldName String</p>
-     * @return fieldName
+     * <p>Get Method   :   column String</p>
+     * @return column
      */
-    public String getFieldName()
+    public String getColumn()
     {
-        return fieldName;
+        return column;
     }
-    
+
     /**
-     * <p>Set Method   :   fieldName String</p>
-     * @param fieldName
+     * <p>Set Method   :   column String</p>
+     * @param column
      */
-    public void setFieldName(String fieldName)
+    public void setColumn(String column)
     {
-        this.fieldName = fieldName;
+        this.column = column;
     }
-    
+
     /** 
-     * <p>Overriding Method: lilinhai 2018年3月13日 上午9:30:06</p>
+     * <p>Overriding Method: lilinhai 2018年6月2日 下午3:12:37</p>
      * <p>Title: hashCode</p>
      * <p>Description: TODO</p>
      * @return 
      * @see java.lang.Object#hashCode()
-     */
+     */ 
+    @Override
     public int hashCode()
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((fieldName == null) ? 0 : fieldName.hashCode());
+        result = prime * result + ((column == null) ? 0 : column.hashCode());
         return result;
     }
-    
+
     /** 
-     * <p>Overriding Method: lilinhai 2018年3月13日 上午9:30:06</p>
+     * <p>Overriding Method: lilinhai 2018年6月2日 下午3:12:37</p>
      * <p>Title: equals</p>
+     * <p>Description: TODO</p>
      * @param obj
      * @return 
      * @see java.lang.Object#equals(java.lang.Object)
-     */
+     */ 
+    @Override
     public boolean equals(Object obj)
     {
         if (this == obj) return true;
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
         PersistentField other = (PersistentField) obj;
-        if (fieldName == null)
+        if (column == null)
         {
-            if (other.fieldName != null) return false;
+            if (other.column != null) return false;
         }
-        else if (!fieldName.equals(other.fieldName)) return false;
+        else if (!column.equals(other.column)) return false;
         return true;
     }
-    
+
     /** 
-     * <p>Overriding Method: lilinhai 2018年3月13日 上午9:25:14</p>
+     * <p>Overriding Method: lilinhai 2018年6月2日 下午3:12:39</p>
      * <p>Title: toString</p>
+     * <p>Description: TODO</p>
      * @return 
      * @see java.lang.Object#toString()
-     */
+     */ 
     public String toString()
     {
-        return "PersistentField [fieldName=" + fieldName + ", value=" + value + ", jdbcType=" + jdbcType + "]";
+        return "PersistentField [column=" + column + ", value=" + value + ", jdbcType=" + jdbcType + "]";
     }
 }

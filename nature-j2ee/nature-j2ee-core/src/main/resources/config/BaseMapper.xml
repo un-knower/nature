@@ -13,12 +13,12 @@
                     <choose>
                         <when test="conditionSegment.type == 1">
                             <![CDATA[
-                                ${conditionSegment.fieldName} ${conditionSegment.operator} #{conditionSegment.value, jdbcType=${conditionSegment.jdbcType}}
+                                ${conditionSegment.column} ${conditionSegment.operator} #{conditionSegment.value, jdbcType=${conditionSegment.jdbcType}}
                             ]]>
                         </when>
                         <when test="conditionSegment.type == 2">
                             <![CDATA[
-                                ${conditionSegment.fieldName} ${conditionSegment.operator}
+                                ${conditionSegment.column} ${conditionSegment.operator}
                             ]]>
                             <foreach collection="conditionSegment.valueList" index="index" item="value" open="(" separator=", " close=")">
                                 <![CDATA[
@@ -28,7 +28,7 @@
                         </when>
                         <when test="conditionSegment.type == 3">
                             <![CDATA[
-                                ${conditionSegment.fieldName} ${conditionSegment.operator}
+                                ${conditionSegment.column} ${conditionSegment.operator}
                             ]]>
                         </when>
                         <when test="conditionSegment.type == 4">
@@ -55,7 +55,7 @@
         ]]>
 
         <!-- 添加需要返回的字段信息 -->
-        <foreach collection="select" index="index" item="columnName" open=" " separator=", " close=" ">
+        <foreach collection="selectColumnList" index="index" item="columnName" open=" " separator=", " close=" ">
             <![CDATA[
                 ${columnName}
             ]]>
@@ -69,10 +69,10 @@
         <include refid="Common_Where" />
 
         <!-- 添加排序字段信息 -->
-        <if test="sortFieldList != null">
-            <foreach collection="sortFieldList" index="index" item="orderField" open=" order by " separator=", " close=" ">
+        <if test="orderFieldList != null">
+            <foreach collection="orderFieldList" index="index" item="orderField" open=" order by " separator=", " close=" ">
                 <![CDATA[
-                    ${orderField.fieldName} ${orderField.direction}
+                    ${orderField.column} ${orderField.direction}
                 ]]>
             </foreach>
         </if>
@@ -95,7 +95,7 @@
         ]]>
         <foreach collection="persistentFieldMap" index="index" item="persistentField" open="(" separator=", " close=")">
             <![CDATA[
-                ${persistentField.fieldName}
+                ${persistentField.column}
             ]]>
         </foreach>
         <foreach collection="persistentFieldMap" index="index" item="persistentField" open="values (" separator=", " close=")">
@@ -113,7 +113,7 @@
         <set>
             <foreach collection="persistentFieldMap" index="index" item="persistentField" open=" " separator=", " close=" ">
                 <![CDATA[
-                    ${persistentField.fieldName} = #{persistentField.value, jdbcType=${persistentField.jdbcType}}
+                    ${persistentField.column} = #{persistentField.value, jdbcType=${persistentField.jdbcType}}
                 ]]>
             </foreach>
         </set>

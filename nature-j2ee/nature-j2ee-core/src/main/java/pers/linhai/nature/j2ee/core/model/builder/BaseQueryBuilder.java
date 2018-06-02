@@ -193,7 +193,7 @@ public abstract class BaseQueryBuilder<EntitySelectBuilder extends BaseSelectBui
         query.setPage(page);
         query.setSize(size);
         query.setSelect(selectBuilder.build());
-        query.setSortFieldList(orderBuilder.build());
+        query.setOrderBy(orderBuilder.build());
         query.setWhere(whereBuilder.build());
         isOver = true;
         return query;

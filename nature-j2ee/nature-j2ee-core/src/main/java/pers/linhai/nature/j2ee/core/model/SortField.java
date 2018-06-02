@@ -12,6 +12,7 @@ package pers.linhai.nature.j2ee.core.model;
 import java.util.Locale;
 
 import pers.linhai.nature.j2ee.core.model.enumer.Direction;
+import pers.linhai.nature.j2ee.core.model.join.JoinTable;
 
 /**
  * 排序字段对象
@@ -19,36 +20,23 @@ import pers.linhai.nature.j2ee.core.model.enumer.Direction;
  * @author lilinhai 2018年5月20日 下午8:06:53
  * @version 1.0
  */
-public class SortField
+public class SortField extends JoinTable
 {
 
-    
-    /**
-     * 排序字段名
-     */
-    private String fieldName;
-    
     /**
      * 排序方向
      */
     private String direction = Direction.ASC.name().toLowerCase(Locale.ENGLISH);
     
     /**
-     * <p>Get Method   :   fieldName String</p>
-     * @return fieldName
-     */
-    public String getFieldName()
-    {
-        return fieldName;
-    }
-    
-    /**
      * <p>Set Method   :   fieldName String</p>
+     * please use setField
      * @param fieldName
      */
+    @Deprecated
     public void setFieldName(String fieldName)
     {
-        this.fieldName = fieldName;
+        setField(fieldName);
     }
     
     /**
@@ -68,16 +56,16 @@ public class SortField
     {
         this.direction = Direction.fromString(direction).name().toLowerCase(Locale.ENGLISH);
     }
-    
+
     /** 
-     * <p>Overriding Method: lilinhai 2018年2月8日 下午3:08:05</p>
+     * <p>Overriding Method: lilinhai 2018年6月2日 下午5:02:26</p>
      * <p>Title: toString</p>
      * @return 
      * @see java.lang.Object#toString()
-     */
+     */ 
     public String toString()
     {
-        return "SortField [fieldName=" + fieldName + ", direction=" + direction + "]";
+        return "SortField [direction=" + direction + ", toString()=" + super.toString() + "]";
     }
-
+    
 }

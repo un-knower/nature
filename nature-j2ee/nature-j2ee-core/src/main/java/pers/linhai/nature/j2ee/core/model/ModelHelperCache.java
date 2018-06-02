@@ -30,9 +30,9 @@ public abstract class ModelHelperCache
         
     }
     
-    public void put(String key, ModelHelper modelHelper)
+    public void put(String entity, ModelHelper modelHelper)
     {
-        modelHelperMap.put(key, modelHelper);
+        modelHelperMap.put(entity, modelHelper);
     }
     
     /**
@@ -42,21 +42,9 @@ public abstract class ModelHelperCache
      * @return 
      * ModelHelper
      */
-    public ModelHelper get(String key)
+    public ModelHelper get(String entity)
     {
-        return modelHelperMap.get(key);
-    }
-    
-    /**
-     * 获取数据库表的名字
-     * <p>Title         : getTableName lilinhai 2018年5月31日 下午3:22:50</p>
-     * @param key
-     * @return 
-     * String
-     */
-    public String getTableName(String key)
-    {
-        return modelHelperMap.get(key).tableName();
+        return modelHelperMap.get(entity);
     }
     
     public static ModelHelperCache getInstance()

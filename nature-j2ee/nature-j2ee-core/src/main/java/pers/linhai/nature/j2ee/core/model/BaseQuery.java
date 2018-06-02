@@ -44,12 +44,12 @@ public abstract class BaseQuery extends BaseModel
     /**
      * 排序字段集合
      */
-    private List<SortField> sortFieldList;
+    private List<SortField> orderFieldList;
     
     /**
      * 待返回的字段列表
      */
-    private List<String> select;
+    private List<String> selectColumnList;
     
     /**
      * <p>Title        : BaseQuery lilinhai 2018年2月11日 下午11:40:39</p>
@@ -107,26 +107,36 @@ public abstract class BaseQuery extends BaseModel
     
     /**
      * <p>Get Method   :   sortFieldList List<SortField></p>
-     * @return sortFieldList
+     * @return orderByFieldList
      */
-    public List<SortField> getSortFieldList()
+    public List<SortField> getOrderFieldList()
     {
-        return sortFieldList;
+        return orderFieldList;
     }
     
     /**
      * <p>Set Method   :   sortFieldList List<SortField></p>
      * @param sortFieldList
      */
+    @Deprecated
     public void setSortFieldList(List<SortField> sortFieldList)
     {
-        if (sortFieldList != null && !sortFieldList.isEmpty())
+        setOrderBy(sortFieldList);
+    }
+    
+    /**
+     * <p>Set Method   :   sortFieldList List<SortField></p>
+     * @param sortFieldList
+     */
+    public void setOrderBy(List<SortField> orderBy)
+    {
+        if (orderBy != null && !orderBy.isEmpty())
         {
-            for (SortField sortField : sortFieldList)
+            for (SortField sortField : orderBy)
             {
-                sortField.setFieldName(getTableField(sortField.getFieldName()));
+                sortField.setColumn(getTableField(sortField.getField()));
             }
-            this.sortFieldList = sortFieldList;
+            this.orderFieldList = orderBy;
         }
     }
     
@@ -134,9 +144,20 @@ public abstract class BaseQuery extends BaseModel
      * <p>Get Method   :   returnFieldList List<String></p>
      * @return returnFieldList
      */
-    public List<String> getSelect()
+    public List<String> getSelectColumnList()
     {
-        return (select == null || select.isEmpty()) ? allFieldList() : select;
+        return (selectColumnList == null || selectColumnList.isEmpty()) ? allFieldList() : selectColumnList;
+    }
+    
+    /**
+     * <p>Set Method   :   returnFieldList List<String></p>
+     * please use setSelect
+     * @param select
+     */
+    @Deprecated
+    public void setReturnFieldList(List<String> returnFieldList)
+    {
+        setSelect(returnFieldList);
     }
     
     /**
@@ -152,12 +173,12 @@ public abstract class BaseQuery extends BaseModel
             {
                 returnFieldListTemp.add(getTableField(fieldName));
             }
-            this.select = returnFieldListTemp;
+            this.selectColumnList = returnFieldListTemp;
         }
     }
     
     public String toString()
     {
-        return "BaseQuery [page=" + page + ", offset=" + offset + ", size=" + size + ", sortFieldList=" + sortFieldList + ", select=" + select + "]";
+        return "BaseQuery [page=" + page + ", offset=" + offset + ", size=" + size + ", selectColumnList=" + selectColumnList + "]";
     }
 }

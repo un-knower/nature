@@ -8,7 +8,7 @@
 
 package pers.linhai.nature.j2ee.core.model.condition;
 
-import pers.linhai.nature.j2ee.core.model.Where.Condition;
+import pers.linhai.nature.j2ee.core.model.Condition;
 import pers.linhai.nature.j2ee.core.model.datatypeparser.DataTypeParser;
 
 /**

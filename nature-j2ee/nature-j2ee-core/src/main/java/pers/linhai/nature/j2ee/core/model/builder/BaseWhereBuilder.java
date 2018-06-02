@@ -12,9 +12,9 @@ package pers.linhai.nature.j2ee.core.model.builder;
 import java.util.Date;
 import java.util.Stack;
 
+import pers.linhai.nature.j2ee.core.model.Condition;
 import pers.linhai.nature.j2ee.core.model.ModelField;
 import pers.linhai.nature.j2ee.core.model.Where;
-import pers.linhai.nature.j2ee.core.model.Where.Condition;
 import pers.linhai.nature.j2ee.core.model.enumer.BaseField;
 import pers.linhai.nature.j2ee.core.model.enumer.LogicalOperator;
 import pers.linhai.nature.j2ee.core.model.exception.QueryBuildException;
