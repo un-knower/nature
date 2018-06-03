@@ -47,7 +47,7 @@ public abstract class BaseModel implements ModelHelper, Serializable
      * <p>Get Method   :   tableName String</p>
      * @return tableName
      */
-    public String tableName()
+    String tableName()
     {
         return tableName;
     }

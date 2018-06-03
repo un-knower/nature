@@ -10,7 +10,6 @@
 package pers.linhai.nature.j2ee.core.model.join;
 
 import java.io.Serializable;
-import java.util.HashMap;
 
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.model.exception.JointQueryException;
@@ -21,7 +20,7 @@ import pers.linhai.nature.j2ee.core.model.exception.JointQueryException;
  * @author lilinhai 2018年6月2日 下午11:25:23
  * @version 1.0
  */
-public class JointQueryResultBean extends HashMap<String, Serializable>
+public class JointQueryResultBean extends EntityBean
 {
 
     /**
@@ -57,8 +56,7 @@ public class JointQueryResultBean extends HashMap<String, Serializable>
             entityBean = new EntityBean();
             jointEntityBean.put(entity, entityBean);
         }
-        entityBean.put(field, value);
-        return null;
+        return entityBean.put(field, value);
     }
 
     /**
