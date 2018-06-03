@@ -28,6 +28,54 @@ import pers.linhai.nature.j2ee.core.web.model.RestResponse;
 
 /**
  * 关联查询公共控制层
+ * <pre>
+ * {
+        from: [
+            {
+                joinType: "leftJoin",
+                left: {
+                    entity: "",
+                    field: ""
+                },
+                right: {
+                    entity: "",
+                    field: ""
+                }
+            }
+        ],
+        select: [
+            {
+                entity: t,
+                fieldList: ""
+            },
+            {
+                entity: t,
+                fieldList: ""
+            }
+        ],
+        where:{
+            conditionList: [
+                {
+                    "id": "1",
+                    "entity": "",
+                    "field": "field",
+                    "operator": "like",
+                    "value": "%(这是模糊查询，放到该括号中的值为真实值或真实值的一部分)%"
+                }
+            ],
+            "expression" : ""
+        },
+        orderBy: [
+            {
+                entity: t,
+                field: "",
+                direction: ""
+            }
+        ],
+        page: 0,
+        size: 10
+    }
+    </pre>
  * <p>ClassName      : JointQueryController</p>
  * @author lilinhai 2018年6月3日 下午8:12:11
  * @version 1.0
