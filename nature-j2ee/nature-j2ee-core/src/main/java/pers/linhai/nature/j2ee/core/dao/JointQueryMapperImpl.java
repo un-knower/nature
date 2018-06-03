@@ -9,16 +9,13 @@
 
 package pers.linhai.nature.j2ee.core.dao;
 
-import java.util.concurrent.atomic.AtomicLong;
-
-import org.apache.ibatis.session.ResultContext;
-import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import pers.linhai.nature.j2ee.core.dao.processor.IJointQueryRowDataProcessor;
-import pers.linhai.nature.j2ee.core.dao.resulthandler.JointQueryResultHashMapResultHandler;
+import pers.linhai.nature.j2ee.core.dao.resulthandler.JointQueryResultHandler;
+import pers.linhai.nature.j2ee.core.dao.resulthandler.LongResultHandler;
 import pers.linhai.nature.j2ee.core.model.JointQuery;
 
 /**
@@ -59,7 +56,7 @@ public class JointQueryMapperImpl implements IJointQueryMapper
      */
     public void find(JointQuery jointQuery, IJointQueryRowDataProcessor rowDataJointQueryProcessor)
     {
-        JointQueryResultHashMapResultHandler myResultHandler = new JointQueryResultHashMapResultHandler(rowDataJointQueryProcessor);
+        JointQueryResultHandler myResultHandler = new JointQueryResultHandler(rowDataJointQueryProcessor);
         sqlSession.select(JOIN_FIND, jointQuery, myResultHandler);
     }
     
@@ -67,20 +64,14 @@ public class JointQueryMapperImpl implements IJointQueryMapper
      * 根据查询条件统计数量
      * <p>Overriding Method: lilinhai 2018年5月18日 上午10:18:01</p>
      * <p>Title: count</p>
-     * @param entityQuery
+     * @param jointQuery
      * @return 
      * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#count(pers.linhai.nature.j2ee.core.model.BaseQuery)
      */
-    public long count(JointQuery entityQuery)
+    public long count(JointQuery jointQuery)
     {
-        final AtomicLong al = new AtomicLong();
-        sqlSession.select(COUNT, entityQuery, new ResultHandler<Long>()
-        {
-            public void handleResult(ResultContext< ? extends Long> resultContext)
-            {
-                al.set(resultContext.getResultObject());
-            }
-        });
-        return al.get();
+        LongResultHandler longResultHandler = new LongResultHandler();
+        sqlSession.select(COUNT, jointQuery, longResultHandler);
+        return longResultHandler.getValue();
     }
 }

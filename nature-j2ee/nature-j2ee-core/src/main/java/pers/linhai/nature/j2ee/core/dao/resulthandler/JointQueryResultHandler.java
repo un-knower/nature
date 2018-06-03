@@ -27,7 +27,7 @@ import pers.linhai.nature.j2ee.core.model.join.JointQueryResultBean;
  * @author lilinhai 2018年6月12日 下午12:55:04
  * @version 1.0
  */
-public class JointQueryResultHashMapResultHandler implements ResultHandler<JointQueryResultBean>
+public class JointQueryResultHandler implements ResultHandler<JointQueryResultBean>
 {
     private IJointQueryRowDataProcessor rowDataJointQueryProcessor;
     
@@ -47,7 +47,7 @@ public class JointQueryResultHashMapResultHandler implements ResultHandler<Joint
      * @param entityConstructor2
      * @param entityProcessor 
      */
-    public JointQueryResultHashMapResultHandler(IJointQueryRowDataProcessor rowDataJointQueryProcessor)
+    public JointQueryResultHandler(IJointQueryRowDataProcessor rowDataJointQueryProcessor)
     {
         try
         {

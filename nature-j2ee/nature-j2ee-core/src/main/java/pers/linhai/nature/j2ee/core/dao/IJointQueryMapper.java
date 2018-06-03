@@ -28,7 +28,7 @@ public interface IJointQueryMapper
      * @param rowDataJointQueryProcessor 
      * void
      */
-    void find(JointQuery entityQuery, IJointQueryRowDataProcessor rowDataJointQueryProcessor);
+    void find(JointQuery jointQuery, IJointQueryRowDataProcessor rowDataJointQueryProcessor);
     
     /**
      * 计数
@@ -37,5 +37,5 @@ public interface IJointQueryMapper
      * @return 
      * long
      */
-    long count(JointQuery entityQuery);
+    long count(JointQuery jointQuery);
 }

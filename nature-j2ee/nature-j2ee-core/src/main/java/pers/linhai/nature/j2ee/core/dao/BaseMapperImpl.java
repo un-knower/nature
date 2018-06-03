@@ -13,10 +13,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
-import org.apache.ibatis.session.ResultContext;
-import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +25,9 @@ import pers.linhai.nature.j2ee.core.dao.processor.IEntityQueryRowDataProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.impls.CustomEntityProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityQueryRowDataProcessor;
-import pers.linhai.nature.j2ee.core.dao.resulthandler.CustomEntityQueryResultHandler;
-import pers.linhai.nature.j2ee.core.dao.resulthandler.EntityQueryHashMapResultHandler;
+import pers.linhai.nature.j2ee.core.dao.resulthandler.EntityResultHandler;
+import pers.linhai.nature.j2ee.core.dao.resulthandler.EntityBeanResultHandler;
+import pers.linhai.nature.j2ee.core.dao.resulthandler.LongResultHandler;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
@@ -377,15 +375,9 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      */
     public long count(EntityQuery entityQuery)
     {
-        final AtomicLong al = new AtomicLong();
-        sqlSession.select(COUNT, entityQuery, new ResultHandler<Long>()
-        {
-            public void handleResult(ResultContext< ? extends Long> resultContext)
-            {
-                al.set(resultContext.getResultObject());
-            }
-        });
-        return al.get();
+        LongResultHandler longResultHandler = new LongResultHandler();
+        sqlSession.select(COUNT, entityQuery, longResultHandler);
+        return longResultHandler.getValue();
     }
     
     /** 
@@ -406,7 +398,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     @Override
     public void find(EntityQuery entityQuery, IEntityQueryRowDataProcessor<Entity> entityProcessor)
     {
-        EntityQueryHashMapResultHandler<Entity> myResultHandler = new EntityQueryHashMapResultHandler<Entity>(entityReflector, entityProcessor);
+        EntityBeanResultHandler<Entity> myResultHandler = new EntityBeanResultHandler<Entity>(entityReflector, entityProcessor);
         sqlSession.select(FIND, entityQuery, myResultHandler);
     }
     
@@ -420,7 +412,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      */
     public void find(String statment, Object params, ICustomEntityQueryRowDataProcessor<Entity> entityProcessor)
     {
-        CustomEntityQueryResultHandler<Entity> myResultHandler = new CustomEntityQueryResultHandler<Entity>(entityProcessor);
+        EntityResultHandler<Entity> myResultHandler = new EntityResultHandler<Entity>(entityProcessor);
         sqlSession.select(namespace.concat(".").concat(statment), params, myResultHandler);
     }
     
@@ -465,7 +457,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      */
     public <T> void execFind(String statment, Object params, ICustomEntityQueryRowDataProcessor<T> entityProcessor)
     {
-        CustomEntityQueryResultHandler<T> myResultHandler = new CustomEntityQueryResultHandler<T>(entityProcessor);
+        EntityResultHandler<T> myResultHandler = new EntityResultHandler<T>(entityProcessor);
         sqlSession.select(namespace.concat(".").concat(statment), params, myResultHandler);
     }
     

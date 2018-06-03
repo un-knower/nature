@@ -19,7 +19,7 @@ import pers.linhai.nature.j2ee.core.dao.processor.ICustomEntityQueryRowDataProce
  * @author lilinhai 2018年2月12日 下午12:55:04
  * @version 1.0
  */
-public class CustomEntityQueryResultHandler<Entity> implements ResultHandler<Entity>
+public class EntityResultHandler<Entity> implements ResultHandler<Entity>
 {
     
     private ICustomEntityQueryRowDataProcessor<Entity> entityProcessor;
@@ -30,7 +30,7 @@ public class CustomEntityQueryResultHandler<Entity> implements ResultHandler<Ent
      * @param entityConstructor
      * @param entityProcessor 
      */
-    public CustomEntityQueryResultHandler(ICustomEntityQueryRowDataProcessor<Entity> entityProcessor)
+    public EntityResultHandler(ICustomEntityQueryRowDataProcessor<Entity> entityProcessor)
     {
         super();
         this.entityProcessor = entityProcessor;

@@ -23,7 +23,7 @@ import pers.linhai.nature.j2ee.core.model.EntityBean;
  * @author lilinhai 2018年2月12日 下午12:55:04
  * @version 1.0
  */
-public class EntityQueryHashMapResultHandler<Entity extends BaseEntity< ? >> implements ResultHandler<EntityBean>
+public class EntityBeanResultHandler<Entity extends BaseEntity< ? >> implements ResultHandler<EntityBean>
 {
     
     /**
@@ -39,7 +39,7 @@ public class EntityQueryHashMapResultHandler<Entity extends BaseEntity< ? >> imp
      * @param entityConstructor2
      * @param entityProcessor 
      */
-    public EntityQueryHashMapResultHandler(EntityReflector<Entity> entityReflecter, IEntityQueryRowDataProcessor<Entity> rowDataProcessor)
+    public EntityBeanResultHandler(EntityReflector<Entity> entityReflecter, IEntityQueryRowDataProcessor<Entity> rowDataProcessor)
     {
         super();
         this.entityReflecter = entityReflecter;
