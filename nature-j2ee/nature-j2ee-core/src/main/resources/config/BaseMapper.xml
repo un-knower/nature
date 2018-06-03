@@ -8,7 +8,7 @@
     <!-- 添加 -->
     <insert id="save" parameterType="BaseEntity" useGeneratedKeys="true" keyProperty="id">
         <![CDATA[
-            insert into ${tableName}
+            insert into ${table}
         ]]>
         <foreach collection="persistentFieldMap" index="index" item="persistentField" open="(" separator=", " close=")">
             <![CDATA[
@@ -25,7 +25,7 @@
     <!-- 根据查询条件删除 -->
     <delete id="delete" parameterType="BaseQuery">
         <![CDATA[
-            delete from ${tableName}
+            delete from ${table}
         ]]>
 
         <!-- 添加动态自定义查询条件 -->
@@ -35,7 +35,7 @@
     <!-- 修改 -->
     <update id="update" parameterType="BaseEntity">
         <![CDATA[
-            update ${tableName}
+            update ${table}
         ]]>
         <set>
             <foreach collection="persistentFieldMap" index="index" item="persistentField" open=" " separator=", " close=" ">
@@ -81,7 +81,7 @@
     <!-- 统计数量 -->
     <select id="count" parameterType="BaseQuery" resultType="Long">
         <![CDATA[
-            select count(*) from ${tableName}
+            select count(*) from ${table}
         ]]>
 
         <!-- 添加动态自定义查询条件 -->
@@ -151,7 +151,7 @@
         </foreach>
         
         <![CDATA[
-            from ${tableName}
+            from ${table}
         ]]>
 
         <!-- 添加动态自定义查询条件 -->

@@ -32,7 +32,7 @@ public abstract class BaseModel implements ModelHelper, Serializable
     /**
      * 数据库表名
      */
-    private String tableName;
+    private String table;
     
     /**
      * <p>Title        : BaseModel lilinhai 2018年2月15日 上午9:09:43</p>
@@ -40,7 +40,7 @@ public abstract class BaseModel implements ModelHelper, Serializable
      */
     public BaseModel()
     {
-        this.tableName = table();
+        this.table = table();
     }
     
     /**
@@ -49,7 +49,7 @@ public abstract class BaseModel implements ModelHelper, Serializable
      */
     String tableName()
     {
-        return tableName;
+        return table;
     }
     
     /**
