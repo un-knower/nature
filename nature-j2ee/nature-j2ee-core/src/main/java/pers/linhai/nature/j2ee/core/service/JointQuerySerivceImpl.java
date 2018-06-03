@@ -47,7 +47,7 @@ public class JointQuerySerivceImpl implements IJointQuerySerivce
      * @return 
      * List<JointEntityBean>
      */
-    public List<JointEntityBean> findEntityBean(JointQuery jointQuery)
+    public List<JointEntityBean> find(JointQuery jointQuery)
     {
         try
         {

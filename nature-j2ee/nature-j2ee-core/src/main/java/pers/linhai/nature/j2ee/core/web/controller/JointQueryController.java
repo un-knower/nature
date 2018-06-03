@@ -106,7 +106,7 @@ public class JointQueryController extends BaseController
                 // 前端若是不分页，则最多返回1000条
                 jointQuery.setPage(0);
                 jointQuery.setSize(1000);
-                return success(jointQuerySerivce.findEntityBean(jointQuery));
+                return success(jointQuerySerivce.find(jointQuery));
             }
             // 分页查询
             else
@@ -120,7 +120,7 @@ public class JointQueryController extends BaseController
                 pageData.setPage(jointQuery.getPage());
                 pageData.setSize(jointQuery.getSize());
                 pageData.setTotal(jointQuerySerivce.count(jointQuery));
-                pageData.setDataList(jointQuerySerivce.findEntityBean(jointQuery));
+                pageData.setDataList(jointQuerySerivce.find(jointQuery));
                 return success(pageData);
             }
         }

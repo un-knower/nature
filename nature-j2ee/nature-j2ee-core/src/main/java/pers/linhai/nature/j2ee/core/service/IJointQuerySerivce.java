@@ -30,7 +30,7 @@ public interface IJointQuerySerivce
      * @return 
      * List<JointEntityBean>
      */
-    public List<JointEntityBean> findEntityBean(JointQuery jointQuery);
+    public List<JointEntityBean> find(JointQuery jointQuery);
     
     /**
      * 统计条目
