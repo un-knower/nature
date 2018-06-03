@@ -40,7 +40,7 @@
     </typeAliases>
     
     <mappers>
-        <mapper resource="config/BaseMapper.xml" />
-        <mapper resource="config/JointQueryMapper.xml" />
+        <mapper resource="mapper/BaseMapper.xml" />
+        <mapper resource="mapper/JointQueryMapper.xml" />
     </mappers>
 </configuration>
