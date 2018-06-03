@@ -34,7 +34,7 @@ public enum JoinType
     /**
      * 内连接
      */
-    INNER_JOIN("rightJoin", "inner join");
+    INNER_JOIN("innerJoin", "inner join");
     
     /**
      * 所有数据类型的hashmap映射，key为value
