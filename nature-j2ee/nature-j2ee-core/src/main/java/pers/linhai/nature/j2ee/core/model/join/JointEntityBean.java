@@ -7,9 +7,11 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.j2ee.core.model;
+package pers.linhai.nature.j2ee.core.model.join;
 
 import java.util.HashMap;
+
+import pers.linhai.nature.j2ee.core.model.EntityBean;
 
 /**
  * 关联查询的实体bean

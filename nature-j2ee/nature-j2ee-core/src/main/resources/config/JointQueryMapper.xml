@@ -1,59 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="pers.linhai.nature.j2ee.core.dao.IBaseMapper">
+<mapper namespace="pers.linhai.nature.j2ee.core.dao.IJointQueryMapper">
 
-    <!-- 公共的结果映射类型 -->
-    <resultMap id="BaseResultMap" type="EntityBean" />
-
-    <!-- 添加 -->
-    <insert id="save" parameterType="BaseEntity" useGeneratedKeys="true" keyProperty="id">
-        <![CDATA[
-            insert into ${tableName}
-        ]]>
-        <foreach collection="persistentFieldMap" index="index" item="persistentField" open="(" separator=", " close=")">
-            <![CDATA[
-                ${persistentField.column}
-            ]]>
-        </foreach>
-        <foreach collection="persistentFieldMap" index="index" item="persistentField" open="values (" separator=", " close=")">
-            <![CDATA[
-                #{persistentField.value, jdbcType=${persistentField.jdbcType}}
-            ]]>
-        </foreach>
-    </insert>
-
-    <!-- 根据查询条件删除 -->
-    <delete id="delete" parameterType="BaseQuery">
-        <![CDATA[
-            delete from ${tableName}
-        ]]>
-
-        <!-- 添加动态自定义查询条件 -->
-        <include refid="Common_Where" />
-    </delete>
-
-    <!-- 修改 -->
-    <update id="update" parameterType="BaseEntity">
-        <![CDATA[
-            update ${tableName}
-        ]]>
-        <set>
-            <foreach collection="persistentFieldMap" index="index" item="persistentField" open=" " separator=", " close=" ">
-                <![CDATA[
-                    ${persistentField.column} = #{persistentField.value, jdbcType=${persistentField.jdbcType}}
-                ]]>
-            </foreach>
-        </set>
-
-        <!-- 添加动态自定义条件 -->
-        <include refid="Common_Where" />
-    </update>
-
+    <!-- 关联查询的结果映射类型 -->
+    <resultMap id="JointResultMap" type="JointQueryResultBean" />
+    
     <!-- mysql的分页语法支持 -->
-    <!-- 组合查询函数，支持分页功能，resultSetType (可选配置) FORWARD_ONLY，SCROLL_SENSITIVE 或 SCROLL_INSENSITIVE 中的一个，默认值为 unset （依赖驱动） -->
+    <!-- 组合关联查询函数，支持分页功能，resultSetType (可选配置) FORWARD_ONLY，SCROLL_SENSITIVE 或 SCROLL_INSENSITIVE 中的一个，默认值为 unset （依赖驱动） -->
     <!-- statementType (可选配置)，STATEMENT，PREPARED 或 CALLABLE 的一个。这会让 MyBatis 分别使用 Statement，PreparedStatement 或 CallableStatement，默认值：PREPARED -->
-    <select id="find" parameterType="BaseQuery" resultMap="BaseResultMap" resultSetType="FORWARD_ONLY" statementType="PREPARED" databaseId="mysql">
-        <include refid="Table_Query" />
+    <select id="jointFind" parameterType="JointQuery" resultMap="JointResultMap" resultSetType="FORWARD_ONLY" statementType="PREPARED" databaseId="mysql">
+        <include refid="Joint_Query" />
         <if test="page != null and size != null">
             <![CDATA[
                 limit ${offset}, ${size}
@@ -62,27 +18,30 @@
     </select>
 
     <!-- oracle的分页语法支持 -->
-    <!-- 组合查询函数，支持分页功能，resultSetType (可选配置) FORWARD_ONLY，SCROLL_SENSITIVE 或 SCROLL_INSENSITIVE 中的一个，默认值为 unset （依赖驱动） -->
+    <!-- 组合关联查询函数，支持分页功能，resultSetType (可选配置) FORWARD_ONLY，SCROLL_SENSITIVE 或 SCROLL_INSENSITIVE 中的一个，默认值为 unset （依赖驱动） -->
     <!-- statementType (可选配置)，STATEMENT，PREPARED 或 CALLABLE 的一个。这会让 MyBatis 分别使用 Statement，PreparedStatement 或 CallableStatement，默认值：PREPARED -->
-    <select id="find" parameterType="BaseQuery" resultMap="BaseResultMap" resultSetType="FORWARD_ONLY" statementType="PREPARED" databaseId="oracle">
+    <select id="jointFind" parameterType="JointQuery" resultMap="JointResultMap" resultSetType="FORWARD_ONLY" statementType="PREPARED" databaseId="oracle">
         <if test="page != null and size != null">
             <![CDATA[
                 select * from ( select row_.*, rownum rownum_ from (
             ]]>
         </if>
-        <include refid="Table_Query" />
+        <include refid="Joint_Query" />
         <if test="page != null and size != null">
             <![CDATA[
                 ) row_ where rownum <= (${offset} + ${size})) where rownum_ > ${offset}
             ]]>
         </if>
     </select>
-
+    
     <!-- 统计数量 -->
-    <select id="count" parameterType="BaseQuery" resultType="Long">
+    <select id="count" parameterType="JointQuery" resultType="Long">
         <![CDATA[
-            select count(*) from ${tableName}
+            select count(*) from 
         ]]>
+        
+        <!-- 关联表的表达 -->
+        <include refid="Common_From" />
 
         <!-- 添加动态自定义查询条件 -->
         <include refid="Common_Where" />
@@ -96,12 +55,12 @@
                     <choose>
                         <when test="conditionSegment.type == 1">
                             <![CDATA[
-                                ${conditionSegment.column} ${conditionSegment.operator} #{conditionSegment.value, jdbcType=${conditionSegment.jdbcType}}
+                                ${conditionSegment.table}.${conditionSegment.column} ${conditionSegment.operator} #{conditionSegment.value, jdbcType=${conditionSegment.jdbcType}}
                             ]]>
                         </when>
                         <when test="conditionSegment.type == 2">
                             <![CDATA[
-                                ${conditionSegment.column} ${conditionSegment.operator}
+                                ${conditionSegment.table}.${conditionSegment.column} ${conditionSegment.operator}
                             ]]>
                             <foreach collection="conditionSegment.valueList" index="index" item="value" open="(" separator=", " close=")">
                                 <![CDATA[
@@ -111,7 +70,7 @@
                         </when>
                         <when test="conditionSegment.type == 3">
                             <![CDATA[
-                                ${conditionSegment.column} ${conditionSegment.operator}
+                                ${conditionSegment.table}.${conditionSegment.column} ${conditionSegment.operator}
                             ]]>
                         </when>
                         <when test="conditionSegment.type == 4">
@@ -131,29 +90,48 @@
         <if test="orderFieldList != null">
             <foreach collection="orderFieldList" index="index" item="orderField" open=" order by " separator=", " close=" ">
                 <![CDATA[
-                    ${orderField.column} ${orderField.direction}
+                    ${orderField.table}.${orderField.column} ${orderField.direction}
                 ]]>
             </foreach>
         </if>
     </sql>
     
-    <!-- 通用的单表查询部分sql -->
-    <sql id="Table_Query">
+    <!-- 关联表的表达 -->
+    <sql id="Common_From">
+        <foreach collection="tableJointorList" index="index" item="tableJointor" open=" " separator=" " close=" ">
+            <if test="tableJointor.index == 1">
+                <![CDATA[
+                    ${tableJointor.left.table}
+                ]]>
+            </if>
+            <![CDATA[
+                ${tableJointor.joinType} ${tableJointor.right.table} on ${tableJointor.left.table}.${tableJointor.left.column}=${tableJointor.right.table}.${tableJointor.right.column}
+            ]]>
+        </foreach>
+    </sql>
+    
+    <!-- 多表联合查询 -->
+    <sql id="Joint_Query">
         <![CDATA[
             select
         ]]>
-
-        <!-- 添加需要返回的字段信息 -->
-        <foreach collection="selectColumnList" index="index" item="columnName" open=" " separator=", " close=" ">
-            <![CDATA[
-                ${columnName}
-            ]]>
+        
+        <!-- 添加需要查询返回的字段信息 -->
+        <foreach collection="selectColumnList" index="index" item="selectField" open=" " separator=", " close=" ">
+            <foreach collection="selectField.columnList" index="index" item="columnName" open=" " separator=", " close=" ">
+                <![CDATA[
+                    ${selectField.table}.${columnName} as "${selectField.table}@${columnName}"
+                ]]>
+            </foreach>
         </foreach>
         
         <![CDATA[
-            from ${tableName}
+            from
         ]]>
-
+        
+        <!-- 关联表的表达 -->
+        <include refid="Common_From" />
+        
         <!-- 添加动态自定义查询条件 -->
         <include refid="Common_Where" />
 

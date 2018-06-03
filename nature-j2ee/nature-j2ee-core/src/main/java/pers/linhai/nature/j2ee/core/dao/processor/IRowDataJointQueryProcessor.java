@@ -16,5 +16,5 @@ package pers.linhai.nature.j2ee.core.dao.processor;
  */
 public interface IRowDataJointQueryProcessor
 {
-    
+
 }

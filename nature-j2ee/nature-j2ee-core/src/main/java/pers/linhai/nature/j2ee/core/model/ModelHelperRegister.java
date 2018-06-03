@@ -22,15 +22,16 @@ import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 
 /**
  * <p>ClassName      : ModelHelperRegister</p>
+ * 已废弃，不再需要
  * @author lilinhai 2018年5月31日 上午11:45:56
  * @version 1.0
  */
-@Component
+/*@Component*/
+@Deprecated
 public class ModelHelperRegister implements InitializingBean   
 {
     

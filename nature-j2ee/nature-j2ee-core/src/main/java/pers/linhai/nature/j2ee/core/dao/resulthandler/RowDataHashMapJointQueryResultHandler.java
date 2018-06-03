@@ -9,19 +9,17 @@
 package pers.linhai.nature.j2ee.core.dao.resulthandler;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
 
-import pers.linhai.nature.j2ee.core.dao.EntityReflector;
 import pers.linhai.nature.j2ee.core.dao.exception.ReflectException;
 import pers.linhai.nature.j2ee.core.dao.processor.IRowDataJointQueryProcessor;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
-import pers.linhai.nature.j2ee.core.model.JointEntityBean;
-import pers.linhai.nature.j2ee.core.model.JointQueryResultBean;
+import pers.linhai.nature.j2ee.core.model.ModelReflectorCache;
+import pers.linhai.nature.j2ee.core.model.join.JointEntityBean;
+import pers.linhai.nature.j2ee.core.model.join.JointQueryResultBean;
 
 /**
  * 公共结果记录处理器
@@ -31,12 +29,6 @@ import pers.linhai.nature.j2ee.core.model.JointQueryResultBean;
  */
 public class RowDataHashMapJointQueryResultHandler implements ResultHandler<JointQueryResultBean>
 {
-    
-    /**
-     * 实体反射器map映射
-     */
-    private Map<Class<? extends BaseEntity<?>>, EntityReflector<? extends BaseEntity<?>>> entityReflectorMap = new HashMap<Class<? extends BaseEntity<?>>, EntityReflector<? extends BaseEntity<?>>>();
-    
     private IRowDataJointQueryProcessor rowDataJointQueryProcessor;
     
     /**
@@ -55,11 +47,10 @@ public class RowDataHashMapJointQueryResultHandler implements ResultHandler<Join
      * @param entityConstructor2
      * @param entityProcessor 
      */
-    public RowDataHashMapJointQueryResultHandler(Map<Class<? extends BaseEntity<?>>, EntityReflector<? extends BaseEntity<?>>> entityReflectorMap, IRowDataJointQueryProcessor rowDataJointQueryProcessor)
+    public RowDataHashMapJointQueryResultHandler(IRowDataJointQueryProcessor rowDataJointQueryProcessor)
     {
         try
         {
-            this.entityReflectorMap = entityReflectorMap;
             Method[] declaredMethods = rowDataJointQueryProcessor.getClass().getDeclaredMethods();
             for (Method method : declaredMethods)
             {
@@ -127,7 +118,7 @@ public class RowDataHashMapJointQueryResultHandler implements ResultHandler<Join
                 else
                 {
                     entityBean = jointEntityBean.get(class1.getSimpleName());
-                    objs[i] = entityReflectorMap.get(class1).getInstance(entityBean == null ? new EntityBean(true) : entityBean);
+                    objs[i] = ModelReflectorCache.getInstance().get(class1).getInstance(entityBean == null ? new EntityBean(true) : entityBean);
                 }
                 i++;
             }

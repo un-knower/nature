@@ -9,8 +9,15 @@
 
 package pers.linhai.nature.j2ee.core.dao;
 
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import pers.linhai.nature.j2ee.core.dao.exception.ReflectException;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
@@ -24,15 +31,20 @@ import pers.linhai.nature.j2ee.core.model.EntityBean;
 public class EntityReflector<Entity extends BaseEntity< ? >>
 {
     
+    private static final Map<String, Field> COMMON_FIELD_MAP = new HashMap<String, Field>(3);
+    static
+    {
+        Set<String> excludeFieldSet = new HashSet<String>();
+        excludeFieldSet.add("persistentFieldMap");
+        parse(BaseEntity.class.getDeclaredFields(), COMMON_FIELD_MAP, excludeFieldSet);
+    }
+    
+    private Map<String, Field> entityFieldMap = new HashMap<String, Field>();
+    
     /**
      * 实体构造函器
      */
     private Constructor<Entity> entityConstructor;
-    
-    /**
-     * 方法访问器
-     */
-    private Method method;
     
     /**
      * <p>Title        : EntityReflecter lilinhai 2018年3月16日 下午4:11:34</p>
@@ -43,8 +55,8 @@ public class EntityReflector<Entity extends BaseEntity< ? >>
         {
             entityConstructor = c.getConstructor();
             entityConstructor.setAccessible(true);
-            method = c.getDeclaredMethod("initialize", EntityBean.class);
-            method.setAccessible(true);
+            
+            parse(c.getDeclaredFields(), entityFieldMap, null);
         }
         catch (Throwable e)
         {
@@ -52,17 +64,63 @@ public class EntityReflector<Entity extends BaseEntity< ? >>
         }
     }
     
+    public Entity newInstance()
+    {
+        try
+        {
+            return entityConstructor.newInstance();
+        }
+        catch (Throwable e)
+        {
+            throw new ReflectException("EntityReflector.newInstance fail: ", e);
+        }
+    }
+    
     public Entity getInstance(EntityBean entityBean)
     {
         try
         {
-            Entity entity = entityConstructor.newInstance();
-            method.invoke(entity, entityBean);
+            Entity entity = newInstance();
+            Field field = null;
+            for (Entry<String, Serializable> e : entityBean.entrySet())
+            {
+                if ((field = COMMON_FIELD_MAP.get(e.getKey())) != null || (field = entityFieldMap.get(e.getKey())) != null)
+                {
+                    field.set(entity, e.getValue());
+                }
+            }
             return entity;
         }
         catch (Throwable e)
         {
             throw new ReflectException("EntityReflector.getInstance fail: ", e);
+        }
+    }
+    
+    /**
+     * 解析
+     * <p>Title         : parse lilinhai 2018年2月21日 上午9:13:25</p>
+     * @param fs
+     * @param fieldList 
+     * void
+     */
+    protected static void parse(Field[] fs, Map<String, Field> fieldMap, Set<String> excludeFieldSet)
+    {
+        for (Field field : fs)
+        {
+            // 静态成员跳过处理
+            if (Modifier.isStatic(field.getModifiers()))
+            {
+                continue;
+            }
+            
+            if (excludeFieldSet != null && excludeFieldSet.contains(field.getName()))
+            {
+                continue;
+            }
+            
+            field.setAccessible(true);
+            fieldMap.put(field.getName(), field);
         }
     }
 }

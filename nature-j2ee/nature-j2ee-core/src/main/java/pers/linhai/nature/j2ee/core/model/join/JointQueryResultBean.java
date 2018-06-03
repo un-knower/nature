@@ -7,11 +7,12 @@
  * @Version  V1.0  
  */ 
 
-package pers.linhai.nature.j2ee.core.model;
+package pers.linhai.nature.j2ee.core.model.join;
 
 import java.io.Serializable;
 import java.util.HashMap;
 
+import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.model.exception.JointQueryException;
 import pers.linhai.nature.utils.NamerUtils;
 
@@ -44,7 +45,7 @@ public class JointQueryResultBean extends HashMap<String, Serializable>
      */ 
     public Serializable put(String column, Serializable value)
     {
-        int dotIndex = column.indexOf('-');
+        int dotIndex = column.indexOf('@');
         if (dotIndex == -1)
         {
             throw new JointQueryException("The joint-query was successful, but the result failed because the name of the table was not found in the return-column-name：" + column);

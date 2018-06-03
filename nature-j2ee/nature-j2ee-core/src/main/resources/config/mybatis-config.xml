@@ -34,12 +34,13 @@
         <typeAlias alias="BaseQuery" type="pers.linhai.nature.j2ee.core.model.BaseQuery" />
         <typeAlias alias="BaseEntity" type="pers.linhai.nature.j2ee.core.model.BaseEntity" />
         <typeAlias alias="EntityBean" type="pers.linhai.nature.j2ee.core.model.EntityBean" />
-        <typeAlias alias="JointQueryResultBean" type="pers.linhai.nature.j2ee.core.model.JointQueryResultBean" />
+        <typeAlias alias="JointQueryResultBean" type="pers.linhai.nature.j2ee.core.model.join.JointQueryResultBean" />
         <typeAlias alias="Long" type="java.lang.Long" />
         <typeAlias alias="HashMap" type="java.util.HashMap" />
     </typeAliases>
     
     <mappers>
         <mapper resource="config/BaseMapper.xml" />
+        <mapper resource="config/JointQueryMapper.xml" />
     </mappers>
 </configuration>
