@@ -10,12 +10,11 @@
 package pers.linhai.nature.j2ee.core.dao.processor;
 
 /**
- * <p>ClassName      : IEntityHandler</p>
- * @author lilinhai 2018年2月13日 下午12:15:34
+ * <p>ClassName      : IRowDataJointQueryProcessor</p>
+ * @author lilinhai 2018年6月13日 下午12:15:34
  * @version 1.0
  */
-public interface IEntityProcessor<Entity>
+public interface IJointQueryRowDataProcessor
 {
-    
-    void process(Entity entity);
+
 }

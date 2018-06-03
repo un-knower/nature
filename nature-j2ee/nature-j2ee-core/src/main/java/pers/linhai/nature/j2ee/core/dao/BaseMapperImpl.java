@@ -23,13 +23,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import pers.linhai.nature.j2ee.core.dao.exception.MapperException;
-import pers.linhai.nature.j2ee.core.dao.processor.CustomEntityProcessor;
-import pers.linhai.nature.j2ee.core.dao.processor.DefaultEntityProcessor;
-import pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor;
-import pers.linhai.nature.j2ee.core.dao.processor.IEntityProcessor;
-import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
-import pers.linhai.nature.j2ee.core.dao.resulthandler.RowDataEntityResultHandler;
-import pers.linhai.nature.j2ee.core.dao.resulthandler.RowDataHashMapResultHandler;
+import pers.linhai.nature.j2ee.core.dao.processor.ICustomEntityQueryRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.IEntityQueryRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.impls.CustomEntityProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityQueryRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.resulthandler.CustomEntityQueryResultHandler;
+import pers.linhai.nature.j2ee.core.dao.resulthandler.EntityQueryHashMapResultHandler;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
@@ -308,9 +308,9 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      * @param id
      * @param entityProcessor
      * @return 
-     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#get(java.lang.Object, pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor)
+     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#get(java.lang.Object, pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityQueryRowDataProcessor)
      */
-    public EntityBean get(Key id, DefaultRowDataProcessor<Entity> entityProcessor)
+    public EntityBean get(Key id, DefaultEntityQueryRowDataProcessor<Entity> entityProcessor)
     {
         try
         {
@@ -337,7 +337,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     {
         entityQuery.setPage(0);
         entityQuery.setSize(1);
-        DefaultRowDataProcessor<Entity> entityProcessor = new DefaultRowDataProcessor<Entity>();
+        DefaultEntityQueryRowDataProcessor<Entity> entityProcessor = new DefaultEntityQueryRowDataProcessor<Entity>();
         find(entityQuery, entityProcessor);
         if (entityProcessor.getEntityList().isEmpty())
         {
@@ -353,9 +353,9 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      * @param entityQuery
      * @param entityProcessor
      * @return 
-     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#get(pers.linhai.nature.j2ee.core.model.BaseQuery, pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor)
+     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#get(pers.linhai.nature.j2ee.core.model.BaseQuery, pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityQueryRowDataProcessor)
      */
-    public EntityBean get(EntityQuery entityQuery, DefaultRowDataProcessor<Entity> entityProcessor)
+    public EntityBean get(EntityQuery entityQuery, DefaultEntityQueryRowDataProcessor<Entity> entityProcessor)
     {
         entityQuery.setPage(0);
         entityQuery.setSize(1);
@@ -398,15 +398,15 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     @Override
     public List<Entity> find(EntityQuery entityQuery)
     {
-        DefaultRowDataProcessor<Entity> entityProcessor = new DefaultRowDataProcessor<Entity>();
+        DefaultEntityQueryRowDataProcessor<Entity> entityProcessor = new DefaultEntityQueryRowDataProcessor<Entity>();
         find(entityQuery, entityProcessor);
         return entityProcessor.getEntityList();
     }
     
     @Override
-    public void find(EntityQuery entityQuery, IRowDataProcessor<Entity> entityProcessor)
+    public void find(EntityQuery entityQuery, IEntityQueryRowDataProcessor<Entity> entityProcessor)
     {
-        RowDataHashMapResultHandler<Entity> myResultHandler = new RowDataHashMapResultHandler<Entity>(entityReflector, entityProcessor);
+        EntityQueryHashMapResultHandler<Entity> myResultHandler = new EntityQueryHashMapResultHandler<Entity>(entityReflector, entityProcessor);
         sqlSession.select(FIND, entityQuery, myResultHandler);
     }
     
@@ -418,9 +418,9 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      * @param entityProcessor 
      * void
      */
-    public void find(String statment, Object params, IEntityProcessor<Entity> entityProcessor)
+    public void find(String statment, Object params, ICustomEntityQueryRowDataProcessor<Entity> entityProcessor)
     {
-        RowDataEntityResultHandler<Entity> myResultHandler = new RowDataEntityResultHandler<Entity>(entityProcessor);
+        CustomEntityQueryResultHandler<Entity> myResultHandler = new CustomEntityQueryResultHandler<Entity>(entityProcessor);
         sqlSession.select(namespace.concat(".").concat(statment), params, myResultHandler);
     }
     
@@ -463,9 +463,9 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      * @param entityProcessor 
      * void
      */
-    public <T> void execFind(String statment, Object params, IEntityProcessor<T> entityProcessor)
+    public <T> void execFind(String statment, Object params, ICustomEntityQueryRowDataProcessor<T> entityProcessor)
     {
-        RowDataEntityResultHandler<T> myResultHandler = new RowDataEntityResultHandler<T>(entityProcessor);
+        CustomEntityQueryResultHandler<T> myResultHandler = new CustomEntityQueryResultHandler<T>(entityProcessor);
         sqlSession.select(namespace.concat(".").concat(statment), params, myResultHandler);
     }
     

@@ -21,8 +21,8 @@ import com.alibaba.fastjson.JSON;
 import pers.linhai.nature.j2ee.core.constant.BaseErrorCode;
 import pers.linhai.nature.j2ee.core.dao.IBaseMapper;
 import pers.linhai.nature.j2ee.core.dao.exception.MapperException;
-import pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor;
-import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.IEntityQueryRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityQueryRowDataProcessor;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
@@ -176,7 +176,7 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>,
     
     public EntityBean getEntityBean(Key id)
     {
-        DefaultRowDataProcessor<Entity> rowDataServiceProcessor = new DefaultRowDataProcessor<Entity>();
+        DefaultEntityQueryRowDataProcessor<Entity> rowDataServiceProcessor = new DefaultEntityQueryRowDataProcessor<Entity>();
         mapper.get(id, rowDataServiceProcessor);
         
         List<EntityBean> entityBeanList = rowDataServiceProcessor.getEntityBeanList();
@@ -204,7 +204,7 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>,
     
     public EntityBean getEntityBean(EntityQuery entityQuery)
     {
-        DefaultRowDataProcessor<Entity> rowDataServiceProcessor = new DefaultRowDataProcessor<Entity>();
+        DefaultEntityQueryRowDataProcessor<Entity> rowDataServiceProcessor = new DefaultEntityQueryRowDataProcessor<Entity>();
         mapper.get(entityQuery, rowDataServiceProcessor);
         
         List<EntityBean> entityBeanList = rowDataServiceProcessor.getEntityBeanList();
@@ -255,9 +255,9 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>,
      * <p>Title: find</p>
      * @param entityQuery
      * @param entityProcessor 
-     * @see pers.linhai.nature.j2ee.core.service.IBaseEntityService#find(pers.linhai.nature.j2ee.core.model.BaseQuery, pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor)
+     * @see pers.linhai.nature.j2ee.core.service.IBaseEntityService#find(pers.linhai.nature.j2ee.core.model.BaseQuery, pers.linhai.nature.j2ee.core.dao.processor.IEntityQueryRowDataProcessor)
      */
-    public void find(EntityQuery entityQuery, IRowDataProcessor<Entity> entityProcessor)
+    public void find(EntityQuery entityQuery, IEntityQueryRowDataProcessor<Entity> entityProcessor)
     {
         mapper.find(entityQuery, entityProcessor);
     }
@@ -273,7 +273,7 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>,
     {
         try
         {
-            DefaultRowDataProcessor<Entity> rowDataServiceProcessor = new DefaultRowDataProcessor<Entity>();
+            DefaultEntityQueryRowDataProcessor<Entity> rowDataServiceProcessor = new DefaultEntityQueryRowDataProcessor<Entity>();
             mapper.find(entityQuery, rowDataServiceProcessor);
             
             List<EntityBean> entityBeanList = rowDataServiceProcessor.getEntityBeanList();

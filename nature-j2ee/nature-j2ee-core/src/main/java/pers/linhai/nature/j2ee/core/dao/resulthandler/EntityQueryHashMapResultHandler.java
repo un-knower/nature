@@ -13,7 +13,7 @@ import org.apache.ibatis.session.ResultHandler;
 
 import pers.linhai.nature.j2ee.core.dao.EntityReflector;
 import pers.linhai.nature.j2ee.core.dao.exception.ReflectException;
-import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.IEntityQueryRowDataProcessor;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 
@@ -23,7 +23,7 @@ import pers.linhai.nature.j2ee.core.model.EntityBean;
  * @author lilinhai 2018年2月12日 下午12:55:04
  * @version 1.0
  */
-public class RowDataHashMapResultHandler<Entity extends BaseEntity< ? >> implements ResultHandler<EntityBean>
+public class EntityQueryHashMapResultHandler<Entity extends BaseEntity< ? >> implements ResultHandler<EntityBean>
 {
     
     /**
@@ -31,7 +31,7 @@ public class RowDataHashMapResultHandler<Entity extends BaseEntity< ? >> impleme
      */
     private EntityReflector<Entity> entityReflecter;
     
-    private IRowDataProcessor<Entity> rowDataProcessor;
+    private IEntityQueryRowDataProcessor<Entity> rowDataProcessor;
     
     /**
      * <p>Title        : RowDataResultHandler lilinhai 2018年2月13日 下午12:20:21</p>
@@ -39,7 +39,7 @@ public class RowDataHashMapResultHandler<Entity extends BaseEntity< ? >> impleme
      * @param entityConstructor2
      * @param entityProcessor 
      */
-    public RowDataHashMapResultHandler(EntityReflector<Entity> entityReflecter, IRowDataProcessor<Entity> rowDataProcessor)
+    public EntityQueryHashMapResultHandler(EntityReflector<Entity> entityReflecter, IEntityQueryRowDataProcessor<Entity> rowDataProcessor)
     {
         super();
         this.entityReflecter = entityReflecter;

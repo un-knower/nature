@@ -10,9 +10,9 @@ package pers.linhai.nature.j2ee.core.dao;
 
 import java.util.List;
 
-import pers.linhai.nature.j2ee.core.dao.processor.DefaultRowDataProcessor;
-import pers.linhai.nature.j2ee.core.dao.processor.IEntityProcessor;
-import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.ICustomEntityQueryRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.IEntityQueryRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityQueryRowDataProcessor;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
@@ -67,7 +67,7 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * @return 
      * EntityBean
      */
-    EntityBean get(Key id, DefaultRowDataProcessor<Entity> entityProcessor);
+    EntityBean get(Key id, DefaultEntityQueryRowDataProcessor<Entity> entityProcessor);
     
     /**
      * 根据条件查询单个记录
@@ -85,7 +85,7 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * @return 
      * EntityBean
      */
-    EntityBean get(EntityQuery entityQuery, DefaultRowDataProcessor<Entity> entityProcessor);
+    EntityBean get(EntityQuery entityQuery, DefaultEntityQueryRowDataProcessor<Entity> entityProcessor);
     
     /**
      * 组合查询记录，返回集合，支持分页
@@ -103,7 +103,7 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * @param entityProcessor 
      * void
      */
-    void find(EntityQuery entityQuery, IRowDataProcessor<Entity> entityProcessor);
+    void find(EntityQuery entityQuery, IEntityQueryRowDataProcessor<Entity> entityProcessor);
     
     /**
      * 调用自己写的statment sql语句
@@ -113,7 +113,7 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * @param entityProcessor 
      * void
      */
-    void find(String statment, Object params, IEntityProcessor<Entity> entityProcessor);
+    void find(String statment, Object params, ICustomEntityQueryRowDataProcessor<Entity> entityProcessor);
     
     /**
      * 调用自己写的statment sql语句
@@ -141,7 +141,7 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * @param entityProcessor 
      * void
      */
-    <T> void execFind(String statment, Object params, IEntityProcessor<T> entityProcessor);
+    <T> void execFind(String statment, Object params, ICustomEntityQueryRowDataProcessor<T> entityProcessor);
     
     /**
      * 调用自己写的statment sql语句

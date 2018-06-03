@@ -11,7 +11,7 @@ package pers.linhai.nature.j2ee.core.service;
 
 import java.util.List;
 
-import pers.linhai.nature.j2ee.core.dao.processor.IRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.IEntityQueryRowDataProcessor;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
@@ -95,7 +95,7 @@ public interface IBaseEntityService<Key, Entity extends BaseEntity<Key>, EntityQ
      * @param entityProcessor 
      * void
      */
-    void find(EntityQuery entityQuery, IRowDataProcessor<Entity> entityProcessor);
+    void find(EntityQuery entityQuery, IEntityQueryRowDataProcessor<Entity> entityProcessor);
     
     /**
      * 组合条件查询多记录，根据IEntityProcessor的实现，定制化处理返回结果

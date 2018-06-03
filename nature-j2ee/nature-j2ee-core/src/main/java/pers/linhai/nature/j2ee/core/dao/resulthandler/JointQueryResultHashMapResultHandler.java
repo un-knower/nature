@@ -14,7 +14,7 @@ import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
 
 import pers.linhai.nature.j2ee.core.dao.exception.ReflectException;
-import pers.linhai.nature.j2ee.core.dao.processor.IRowDataJointQueryProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.IJointQueryRowDataProcessor;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.model.ModelReflectorCache;
@@ -27,9 +27,9 @@ import pers.linhai.nature.j2ee.core.model.join.JointQueryResultBean;
  * @author lilinhai 2018年6月12日 下午12:55:04
  * @version 1.0
  */
-public class RowDataHashMapJointQueryResultHandler implements ResultHandler<JointQueryResultBean>
+public class JointQueryResultHashMapResultHandler implements ResultHandler<JointQueryResultBean>
 {
-    private IRowDataJointQueryProcessor rowDataJointQueryProcessor;
+    private IJointQueryRowDataProcessor rowDataJointQueryProcessor;
     
     /**
      * process方法反射函数
@@ -47,7 +47,7 @@ public class RowDataHashMapJointQueryResultHandler implements ResultHandler<Join
      * @param entityConstructor2
      * @param entityProcessor 
      */
-    public RowDataHashMapJointQueryResultHandler(IRowDataJointQueryProcessor rowDataJointQueryProcessor)
+    public JointQueryResultHashMapResultHandler(IJointQueryRowDataProcessor rowDataJointQueryProcessor)
     {
         try
         {

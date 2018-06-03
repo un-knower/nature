@@ -7,10 +7,12 @@
  * @Version  V1.0  
  */
 
-package pers.linhai.nature.j2ee.core.dao.processor;
+package pers.linhai.nature.j2ee.core.dao.processor.impls;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import pers.linhai.nature.j2ee.core.dao.processor.ICustomEntityQueryRowDataProcessor;
 
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
@@ -18,7 +20,7 @@ import java.util.List;
  * @author lilinhai 2018年2月13日 下午12:22:43
  * @version 1.0
  */
-public class CustomEntityProcessor<Entity> implements IEntityProcessor<Entity>
+public class CustomEntityProcessor<Entity> implements ICustomEntityQueryRowDataProcessor<Entity>
 {
     
     private List<Entity> entityList = new ArrayList<Entity>();
@@ -27,7 +29,7 @@ public class CustomEntityProcessor<Entity> implements IEntityProcessor<Entity>
      * <p>Overriding Method: lilinhai 2018年2月13日 下午12:23:02</p>
      * <p>Title: process</p>
      * @param entity 
-     * @see com.meme.crm.dao.core.IRowDataProcessor#preUpdate(com.meme.crm.model.core.BaseEntity)
+     * @see com.meme.crm.dao.core.IEntityQueryRowDataProcessor#preUpdate(com.meme.crm.model.core.BaseEntity)
      */
     public void process(Entity entity)
     {

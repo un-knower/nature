@@ -11,18 +11,18 @@ package pers.linhai.nature.j2ee.core.dao.resulthandler;
 import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
 
-import pers.linhai.nature.j2ee.core.dao.processor.IEntityProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.ICustomEntityQueryRowDataProcessor;
 
 /**
- * 公共结果记录处理器
+ * 自定义实体结果记录处理器
  * <p>ClassName      : MyResultHandler</p>
  * @author lilinhai 2018年2月12日 下午12:55:04
  * @version 1.0
  */
-public class RowDataEntityResultHandler<Entity> implements ResultHandler<Entity>
+public class CustomEntityQueryResultHandler<Entity> implements ResultHandler<Entity>
 {
     
-    private IEntityProcessor<Entity> entityProcessor;
+    private ICustomEntityQueryRowDataProcessor<Entity> entityProcessor;
     
     /**
      * <p>Title        : RowDataResultHandler lilinhai 2018年2月13日 下午12:20:21</p>
@@ -30,7 +30,7 @@ public class RowDataEntityResultHandler<Entity> implements ResultHandler<Entity>
      * @param entityConstructor
      * @param entityProcessor 
      */
-    public RowDataEntityResultHandler(IEntityProcessor<Entity> entityProcessor)
+    public CustomEntityQueryResultHandler(ICustomEntityQueryRowDataProcessor<Entity> entityProcessor)
     {
         super();
         this.entityProcessor = entityProcessor;
