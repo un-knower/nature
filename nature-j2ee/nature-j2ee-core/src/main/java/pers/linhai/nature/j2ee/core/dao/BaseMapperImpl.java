@@ -133,7 +133,9 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
                     {
                         Class<Entity> entityClass = (Class<Entity>) c;
                         entityReflector = new EntityReflector<Entity>(entityClass);
-                        ModelHelperCache.getInstance().put(entityClass.getSimpleName(), entityReflector.newInstance());
+                        
+                        Entity entity = entityReflector.newInstance();
+                        ModelHelperCache.getInstance().put(entity.entity(), entity);
                         
                         //将反射器添加到缓存，供关联查询使用
                         ModelReflectorCache.getInstance().put(entityClass, entityReflector);
