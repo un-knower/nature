@@ -39,8 +39,9 @@
         <typeAlias alias="HashMap" type="java.util.HashMap" />
     </typeAliases>
     
+    <!-- 加载公共的mapper文件 -->
     <mappers>
-        <mapper resource="mapper/BaseMapper.xml" />
-        <mapper resource="mapper/JointQueryMapper.xml" />
+        <mapper resource="common-mapper/BaseMapper.xml" />
+        <mapper resource="common-mapper/JointQueryMapper.xml" />
     </mappers>
 </configuration>
