@@ -115,7 +115,14 @@ public class JointQueryResultHandler implements ResultHandler<JointQueryResultBe
                 else
                 {
                     entityBean = jointEntityBean.get(class1.getSimpleName());
-                    objs[i] = ModelReflectorCache.getInstance().get(class1).getInstance(entityBean == null ? new EntityBean() : entityBean);
+                    if (entityBean == null)
+                    {
+                        objs[i] = null;
+                    }
+                    else
+                    {
+                        objs[i] = ModelReflectorCache.getInstance().get(class1).getInstance(entityBean);
+                    }
                 }
                 i++;
             }
