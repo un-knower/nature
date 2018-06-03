@@ -65,7 +65,7 @@ public abstract class BaseSelectBuilder<EntitySelectFieldBuilder>
             //异常处理：returnAll方法设置后，不能在设置return某个具体字段
             throw new QueryBuildException("After setting the returnAll method, you cannot set a specific field in return.");
         }
-        returnFieldList.add(modelField.getJavaField());
+        returnFieldList.add(modelField.getField());
         isSetReturn = true;
     }
     

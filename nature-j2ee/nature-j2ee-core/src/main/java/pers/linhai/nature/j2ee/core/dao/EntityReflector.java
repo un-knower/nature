@@ -57,6 +57,7 @@ public class EntityReflector<Entity extends BaseEntity< ? >>
             entityConstructor.setAccessible(true);
             
             parse(c.getDeclaredFields(), entityFieldMap, null);
+            entityFieldMap.putAll(COMMON_FIELD_MAP);
         }
         catch (Throwable e)
         {
@@ -84,7 +85,7 @@ public class EntityReflector<Entity extends BaseEntity< ? >>
             Field field = null;
             for (Entry<String, Serializable> e : entityBean.entrySet())
             {
-                if ((field = COMMON_FIELD_MAP.get(e.getKey())) != null || (field = entityFieldMap.get(e.getKey())) != null)
+                if ((field = entityFieldMap.get(e.getKey())) != null)
                 {
                     field.set(entity, e.getValue());
                 }

@@ -26,7 +26,7 @@ public interface ModelHelper
      * @param javaField 
      * void
      */
-    String getTableField(String javaField);
+    String getColumn(String field);
     
     /**
      * 获取改该字段对应的JDBC类型
@@ -35,7 +35,7 @@ public interface ModelHelper
      * @return 
      * String
      */
-    String getJdbcType(String javaField);
+    String getJdbcType(String field);
     
     /**
      * 校验字段名
@@ -43,7 +43,7 @@ public interface ModelHelper
      * @param javaField 
      * void
      */
-    void validField(String javaField);
+    void validField(String field);
     
     /**
      * 判断是否存在某个字段
@@ -55,9 +55,14 @@ public interface ModelHelper
     boolean existsField(String fieldName);
     
     /**
-     * 返回所有字段列表
+     * 返回所有Java字段列表
      */
-    List<String> allFieldList();
+    List<String> fieldList();
+    
+    /**
+     * 返回所有Table字段列表
+     */
+    List<String> columnList();
     
     /**
      * 获取表名
@@ -65,5 +70,13 @@ public interface ModelHelper
      * @return 
      * String
      */
-    String tableName();
+    String table();
+    
+    /**
+     * 获取表名
+     * <p>Title         : getTableName lilinhai 2018年5月31日 下午3:32:57</p>
+     * @return 
+     * String
+     */
+    String entity();
 }

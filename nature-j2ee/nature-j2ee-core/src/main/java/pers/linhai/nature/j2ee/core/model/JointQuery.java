@@ -81,8 +81,8 @@ public class JointQuery
                 {
                     throw new QueryBuildException(" Illegal entity name : " + sortField.getEntity());
                 }
-                sortField.setTable(modelHelper.tableName());
-                sortField.setColumn(modelHelper.getTableField(sortField.getField()));
+                sortField.setTable(modelHelper.table());
+                sortField.setColumn(modelHelper.getColumn(sortField.getField()));
             }
             this.orderFieldList = orderBy;
         }
@@ -130,12 +130,12 @@ public class JointQuery
                 throw new QueryBuildException("The select-field of the join-query cannot be empty ");
             }
             
-            selectField.setTable(modelHelper.tableName());
+            selectField.setTable(modelHelper.table());
             
             List<String> columnList = new ArrayList<String>();
             for (String field : selectField.getFieldList())
             {
-                columnList.add(modelHelper.getTableField(field));
+                columnList.add(modelHelper.getColumn(field));
             }
             selectField.setColumnList(columnList);
         }
@@ -194,8 +194,8 @@ public class JointQuery
                 throw new QueryBuildException(" Illegal left-entity name : " + tableJointor.getLeft().getEntity());
             }
             
-            tableJointor.getLeft().setTable(modelHelper.tableName());
-            tableJointor.getLeft().setColumn(modelHelper.getTableField(tableJointor.getLeft().getField()));
+            tableJointor.getLeft().setTable(modelHelper.table());
+            tableJointor.getLeft().setColumn(modelHelper.getColumn(tableJointor.getLeft().getField()));
             
             modelHelper = ModelHelperCache.getInstance().get(tableJointor.getRight().getEntity());
             if (modelHelper == null)
@@ -203,8 +203,8 @@ public class JointQuery
                 throw new QueryBuildException(" Illegal right-entity name : " + tableJointor.getRight().getEntity());
             }
             
-            tableJointor.getRight().setTable(modelHelper.tableName());
-            tableJointor.getRight().setColumn(modelHelper.getTableField(tableJointor.getRight().getField()));
+            tableJointor.getRight().setTable(modelHelper.table());
+            tableJointor.getRight().setColumn(modelHelper.getColumn(tableJointor.getRight().getField()));
         }
     }
 

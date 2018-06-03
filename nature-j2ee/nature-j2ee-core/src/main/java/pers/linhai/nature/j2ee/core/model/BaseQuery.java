@@ -52,13 +52,9 @@ public abstract class BaseQuery extends BaseModel
     private List<String> selectColumnList;
     
     /**
-     * <p>Title        : BaseQuery lilinhai 2018年2月11日 下午11:40:39</p>
-     * @param tableName 
+     * java字段列表
      */
-    public BaseQuery(String tableName)
-    {
-        super(tableName);
-    }
+    private List<String> selectFieldList;
     
     /**
      * <p>Get Method   :   page Integer</p>
@@ -134,7 +130,7 @@ public abstract class BaseQuery extends BaseModel
         {
             for (SortField sortField : orderBy)
             {
-                sortField.setColumn(getTableField(sortField.getField()));
+                sortField.setColumn(getColumn(sortField.getField()));
                 sortField.setTable(tableName());
             }
             this.orderFieldList = orderBy;
@@ -147,9 +143,18 @@ public abstract class BaseQuery extends BaseModel
      */
     public List<String> getSelectColumnList()
     {
-        return (selectColumnList == null || selectColumnList.isEmpty()) ? allFieldList() : selectColumnList;
+        return (selectColumnList == null || selectColumnList.isEmpty()) ? columnList() : selectColumnList;
     }
     
+    /**
+     * <p>Get Method   :   selectFieldList List<String></p>
+     * @return selectFieldList
+     */
+    public List<String> getSelectFieldList()
+    {
+        return (selectFieldList == null || selectFieldList.isEmpty()) ? fieldList() : selectFieldList;
+    }
+
     /**
      * <p>Set Method   :   returnFieldList List<String></p>
      * please use setSelect
@@ -172,8 +177,9 @@ public abstract class BaseQuery extends BaseModel
             List<String> returnFieldListTemp = new ArrayList<String>();
             for (String fieldName : select)
             {
-                returnFieldListTemp.add(getTableField(fieldName));
+                returnFieldListTemp.add(getColumn(fieldName));
             }
+            this.selectFieldList = select;
             this.selectColumnList = returnFieldListTemp;
         }
     }

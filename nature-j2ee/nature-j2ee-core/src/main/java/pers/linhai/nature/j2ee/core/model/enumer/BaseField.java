@@ -25,22 +25,22 @@ public enum BaseField implements ModelField
     /**
      * 数据库表所有字段名集合
      */
-    private static final List<String> TABLE_FIELD_LIST = new ArrayList<String>();
+    private static final List<String> COLUMN_LIST = new ArrayList<String>();
 
     /**
      * java实体所有字段名集合
      */
-    private static final List<String> JAVA_FIELD_LIST = new ArrayList<String>();
+    private static final List<String> FIELD_LIST = new ArrayList<String>();
 
     /**
      * 对应的java实体字段名
      */
-    private String javaField;
+    private String field;
 
     /**
      * 对应的table数据库表字段名
      */
-    private String tableField;
+    private String column;
 
     /**
      * 字段对应的JDBC类型
@@ -51,28 +51,28 @@ public enum BaseField implements ModelField
     {
         for (BaseField field : values())
         {
-            MAP.put(field.getJavaField(), field);
-            MAP.put(field.getTableField(), field);
-            TABLE_FIELD_LIST.add(field.getTableField());
-            JAVA_FIELD_LIST.add(field.getJavaField());
+            MAP.put(field.getField(), field);
+            MAP.put(field.getColumn(), field);
+            COLUMN_LIST.add(field.getColumn());
+            FIELD_LIST.add(field.getField());
         }
     }
 
     BaseField(JdbcType jdbcType)
     {
-        this.tableField = name().toLowerCase();
-        this.javaField = NamerUtils.getCamelCaseString(tableField, false);
+        this.column = name().toLowerCase();
+        this.field = NamerUtils.columnToProterty(column);
         this.jdbcType = jdbcType;
     }
 
-    public String getJavaField()
+    public String getField()
     {
-        return javaField;
+        return field;
     }
 
-    public String getTableField()
+    public String getColumn()
     {
-        return tableField;
+        return column;
     }
 
     public String getJdbcType()
@@ -85,13 +85,13 @@ public enum BaseField implements ModelField
         return MAP.get(javaField);
     }
 
-    public static List<String> getTableFieldList()
+    public static List<String> columnList()
     {
-        return TABLE_FIELD_LIST;
+        return COLUMN_LIST;
     }
 
-    public static List<String> getJavaFieldList()
+    public static List<String> fieldList()
     {
-        return JAVA_FIELD_LIST;
+        return FIELD_LIST;
     }
 }

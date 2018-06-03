@@ -102,9 +102,6 @@ public class RowDataHashMapJointQueryResultHandler implements ResultHandler<Join
             JointQueryResultBean jointQueryResultBean = resultContext.getResultObject();
             JointEntityBean jointEntityBean = jointQueryResultBean.getJointEntityBean();
             
-            // 设置为已经初始化
-            jointEntityBean.setInited();
-            
             Object[] objs = new Object[params.length];
             
             EntityBean entityBean = null;
@@ -118,7 +115,7 @@ public class RowDataHashMapJointQueryResultHandler implements ResultHandler<Join
                 else
                 {
                     entityBean = jointEntityBean.get(class1.getSimpleName());
-                    objs[i] = ModelReflectorCache.getInstance().get(class1).getInstance(entityBean == null ? new EntityBean(true) : entityBean);
+                    objs[i] = ModelReflectorCache.getInstance().get(class1).getInstance(entityBean == null ? new EntityBean() : entityBean);
                 }
                 i++;
             }

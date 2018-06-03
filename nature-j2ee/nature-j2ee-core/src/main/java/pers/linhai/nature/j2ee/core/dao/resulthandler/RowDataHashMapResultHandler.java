@@ -57,7 +57,6 @@ public class RowDataHashMapResultHandler<Entity extends BaseEntity< ? >> impleme
         try
         {
             EntityBean entityBean = resultContext.getResultObject();
-            entityBean.setInited(true);
             Entity entity = entityReflecter.getInstance(entityBean);
             rowDataProcessor.process(entityBean, entity);
         }

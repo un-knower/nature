@@ -149,10 +149,10 @@ public class Where
             condition.setJdbcType(validator.getJdbcType(condition.getField()));
             
             // 校验SQL注入
-            condition.setColumn(validator.getTableField(condition.getField()));
+            condition.setColumn(validator.getColumn(condition.getField()));
             
             // 数据库表名
-            condition.setTable(validator.tableName());
+            condition.setTable(validator.table());
             
             // 解析封装成Condition对象
             ConditionSegment conditionSegment = ConditionSegment.parse(condition);

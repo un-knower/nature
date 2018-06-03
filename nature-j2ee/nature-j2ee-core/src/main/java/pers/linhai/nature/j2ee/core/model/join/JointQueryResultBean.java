@@ -14,7 +14,6 @@ import java.util.HashMap;
 
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.model.exception.JointQueryException;
-import pers.linhai.nature.utils.NamerUtils;
 
 /**
  * 关联查询的实体bean
@@ -50,16 +49,15 @@ public class JointQueryResultBean extends HashMap<String, Serializable>
         {
             throw new JointQueryException("The joint-query was successful, but the result failed because the name of the table was not found in the return-column-name：" + column);
         }
-        String tableName = column.substring(0, dotIndex);
-        String columnName = column.substring(dotIndex + 1);
-        String entity = NamerUtils.getCamelCaseString(tableName, true);
+        String entity = column.substring(0, dotIndex);
+        String field = column.substring(dotIndex + 1);
         EntityBean entityBean = jointEntityBean.get(entity);
         if (entityBean == null)
         {
             entityBean = new EntityBean();
             jointEntityBean.put(entity, entityBean);
         }
-        entityBean.put(columnName, value);
+        entityBean.put(field, value);
         return null;
     }
 

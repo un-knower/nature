@@ -146,7 +146,7 @@
         <!-- 添加需要返回的字段信息 -->
         <foreach collection="selectColumnList" index="index" item="columnName" open=" " separator=", " close=" ">
             <![CDATA[
-                ${columnName}
+                ${columnName} as "${selectFieldList[index]}"
             ]]>
         </foreach>
         

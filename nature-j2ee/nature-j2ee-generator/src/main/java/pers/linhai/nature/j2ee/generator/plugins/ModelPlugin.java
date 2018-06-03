@@ -190,46 +190,15 @@ public class ModelPlugin extends BasePlugin
         }
         if (hasDateField)
         {
+            topLevelClass.addImportedType(Date.class.getName());
             topLevelClass.addImportedType(JsonDeserialize.class.getName());
             topLevelClass.addImportedType(DateJsonDeserializer.class.getName());
-        }
-        
-        // 判断是否存在Date类型（包含createTime和updateTime之内外）的字段
-        for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns())
-        {
-            if (introspectedColumn.getFullyQualifiedJavaType().getFullyQualifiedNameWithoutTypeParameters().equals(Date.class.getName()))
-            {
-                topLevelClass.addImportedType(Date.class.getName());
-                break;
-            }
         }
 
         String keyType = introspectedTable.getPrimaryKeyColumns().get(0).getFullyQualifiedJavaType().getShortName();
         topLevelClass.setSuperClass(new FullyQualifiedJavaType("BaseEntity<" + keyType + ">"));
         topLevelClass.addSuperInterface(new FullyQualifiedJavaType(getTargetPackae("helper") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Helper"));
 
-        // 添加初始化对象的构造函数
-        Method queryConstructorMethod = new Method(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
-        queryConstructorMethod.setConstructor(true);
-        queryConstructorMethod.setVisibility(JavaVisibility.PUBLIC);
-        queryConstructorMethod.setFinal(false);
-        queryConstructorMethod.setStatic(false);
-        queryConstructorMethod.addBodyLine("super("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field.TABLE_NAME);");
-        topLevelClass.addMethod(queryConstructorMethod);
-        
-        Method initializeMethod = new Method("initialize");
-        initializeMethod.setConstructor(false);
-        initializeMethod.setVisibility(JavaVisibility.DEFAULT);
-        initializeMethod.setFinal(false);
-        initializeMethod.setStatic(false);
-        initializeMethod.addParameter(new Parameter(new FullyQualifiedJavaType(EntityBean.class.getName()), "entityBean"));
-        for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns())
-        {
-            String enumFieldName = introspectedColumn.getActualColumnName().toUpperCase(Locale.ENGLISH);
-            initializeMethod.addBodyLine("this." + introspectedColumn.getJavaProperty() + " = ("+introspectedColumn.getFullyQualifiedJavaType().getShortName()+")entityBean.get("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field." + enumFieldName + ".getJavaField());");
-        }
-        topLevelClass.addMethod(initializeMethod);
-        
         Method toEntityBeanMethod = new Method("toEntityBean");
         toEntityBeanMethod.setConstructor(false);
         toEntityBeanMethod.setVisibility(JavaVisibility.PUBLIC);
@@ -237,11 +206,10 @@ public class ModelPlugin extends BasePlugin
         toEntityBeanMethod.setStatic(false);
         toEntityBeanMethod.setReturnType(new FullyQualifiedJavaType(EntityBean.class.getName()));
         toEntityBeanMethod.addBodyLine("EntityBean entityBean = new EntityBean();");
-        toEntityBeanMethod.addBodyLine("entityBean.setInited(true);");
         for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns())
         {
             String enumFieldName = introspectedColumn.getActualColumnName().toUpperCase(Locale.ENGLISH);
-            toEntityBeanMethod.addBodyLine("entityBean.put(" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field." + enumFieldName + ".getJavaField(), this." + introspectedColumn.getJavaProperty() + ");");
+            toEntityBeanMethod.addBodyLine("entityBean.put(" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field." + enumFieldName + ".getField(), this." + introspectedColumn.getJavaProperty() + ");");
         }
         toEntityBeanMethod.addBodyLine("return entityBean;");
         topLevelClass.addMethod(toEntityBeanMethod);
@@ -357,7 +325,7 @@ public class ModelPlugin extends BasePlugin
         tableFieldList.addJavaDocLine(" * 数据库表所有字段名集合");
         tableFieldList.addJavaDocLine(" */");
         tableFieldList.setFinal(true);
-        tableFieldList.setName("TABLE_FIELD_LIST");
+        tableFieldList.setName("COLUMN_LIST");
         tableFieldList.setStatic(true);
         tableFieldList.setType(new FullyQualifiedJavaType(List.class.getName() + "<String>"));
         tableFieldList.setInitializationString("new ArrayList<String>()");
@@ -369,7 +337,7 @@ public class ModelPlugin extends BasePlugin
         javaFieldList.addJavaDocLine(" * java实体所有字段名集合");
         javaFieldList.addJavaDocLine(" */");
         javaFieldList.setFinal(true);
-        javaFieldList.setName("JAVA_FIELD_LIST");
+        javaFieldList.setName("FIELD_LIST");
         javaFieldList.setStatic(true);
         javaFieldList.setType(new FullyQualifiedJavaType(List.class.getName() + "<String>"));
         javaFieldList.setInitializationString("new ArrayList<String>()");
@@ -382,22 +350,35 @@ public class ModelPlugin extends BasePlugin
         tableNameField.addJavaDocLine(" * 数据库表名");
         tableNameField.addJavaDocLine(" */");
         tableNameField.setFinal(true);
-        tableNameField.setName("TABLE_NAME");
+        tableNameField.setName("TABLE");
         tableNameField.setStatic(true);
         tableNameField.setType(new FullyQualifiedJavaType(String.class.getName()));
         tableNameField.setInitializationString("\""+introspectedTable.getFullyQualifiedTableNameAtRuntime()+"\"");
         tableNameField.setVisibility(JavaVisibility.PUBLIC);
         fieldEnumeration.addField(tableNameField);
         
+        //java实体类名
+        Field entityNameField = new Field();
+        entityNameField.addJavaDocLine("/**");
+        entityNameField.addJavaDocLine(" * java实体类名");
+        entityNameField.addJavaDocLine(" */");
+        entityNameField.setFinal(true);
+        entityNameField.setName("ENTITY");
+        entityNameField.setStatic(true);
+        entityNameField.setType(new FullyQualifiedJavaType(String.class.getName()));
+        entityNameField.setInitializationString("\""+introspectedTable.getFullyQualifiedTable().getDomainObjectName()+"\"");
+        entityNameField.setVisibility(JavaVisibility.PUBLIC);
+        fieldEnumeration.addField(entityNameField);
+        
         // 添加static块
         InitializationBlock initializationBlock = new InitializationBlock();
         initializationBlock.setStatic(true);
         initializationBlock.addBodyLine("for ("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"+" field : values())");
         initializationBlock.addBodyLine("{");
-        initializationBlock.addBodyLine("MAP.put(field.getJavaField(), field);");
-        initializationBlock.addBodyLine("MAP.put(field.getTableField(), field);");
-        initializationBlock.addBodyLine("TABLE_FIELD_LIST.add(field.getTableField());");
-        initializationBlock.addBodyLine("JAVA_FIELD_LIST.add(field.getJavaField());");
+        initializationBlock.addBodyLine("MAP.put(field.getField(), field);");
+        initializationBlock.addBodyLine("MAP.put(field.getColumn(), field);");
+        initializationBlock.addBodyLine("COLUMN_LIST.add(field.getColumn());");
+        initializationBlock.addBodyLine("FIELD_LIST.add(field.getField());");
         initializationBlock.addBodyLine("}");
         fieldEnumeration.addInitializationBlock(initializationBlock);
         
@@ -406,7 +387,7 @@ public class ModelPlugin extends BasePlugin
         javaField.addJavaDocLine(" * 对应的java实体字段名");
         javaField.addJavaDocLine(" */");
         javaField.setFinal(false);
-        javaField.setName("javaField");
+        javaField.setName("field");
         javaField.setStatic(false);
         javaField.setType(new FullyQualifiedJavaType("String"));
         javaField.setVisibility(JavaVisibility.PRIVATE);
@@ -417,7 +398,7 @@ public class ModelPlugin extends BasePlugin
         tableField.addJavaDocLine(" * 对应的table数据库表字段名");
         tableField.addJavaDocLine(" */");
         tableField.setFinal(false);
-        tableField.setName("tableField");
+        tableField.setName("column");
         tableField.setStatic(false);
         tableField.setType(new FullyQualifiedJavaType("String"));
         tableField.setVisibility(JavaVisibility.PRIVATE);
@@ -438,8 +419,8 @@ public class ModelPlugin extends BasePlugin
         Method constructorMethod = new Method(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field");
         constructorMethod.setConstructor(true);
         constructorMethod.addParameter(new Parameter(new FullyQualifiedJavaType(JdbcType.class.getName()), "jdbcType"));
-        constructorMethod.addBodyLine("this.tableField = name().toLowerCase();");
-        constructorMethod.addBodyLine("this.javaField = NamerUtils.getCamelCaseString(tableField, false);");
+        constructorMethod.addBodyLine("this.column = name().toLowerCase();");
+        constructorMethod.addBodyLine("this.field = NamerUtils.columnToProterty(column);");
         constructorMethod.addBodyLine("this.jdbcType = jdbcType;");
         constructorMethod.setVisibility(JavaVisibility.DEFAULT);
         constructorMethod.setFinal(false);
@@ -447,21 +428,21 @@ public class ModelPlugin extends BasePlugin
         fieldEnumeration.addMethod(constructorMethod);
         
         // getJavaField方法
-        Method getJavaFieldMethod = new Method("getJavaField");
+        Method getJavaFieldMethod = new Method("getField");
         getJavaFieldMethod.setFinal(false);
         getJavaFieldMethod.setStatic(false);
         getJavaFieldMethod.setVisibility(JavaVisibility.PUBLIC);
         getJavaFieldMethod.setReturnType(new FullyQualifiedJavaType("String"));
-        getJavaFieldMethod.addBodyLine("return javaField;");
+        getJavaFieldMethod.addBodyLine("return field;");
         fieldEnumeration.addMethod(getJavaFieldMethod);
         
         // getTableField方法
-        Method getTableFieldMethod = new Method("getTableField");
+        Method getTableFieldMethod = new Method("getColumn");
         getTableFieldMethod.setFinal(false);
         getTableFieldMethod.setStatic(false);
         getTableFieldMethod.setVisibility(JavaVisibility.PUBLIC);
         getTableFieldMethod.setReturnType(new FullyQualifiedJavaType("String"));
-        getTableFieldMethod.addBodyLine("return tableField;");
+        getTableFieldMethod.addBodyLine("return column;");
         fieldEnumeration.addMethod(getTableFieldMethod);
         
         // getJdbcType方法
@@ -478,27 +459,27 @@ public class ModelPlugin extends BasePlugin
         transferMethod.setFinal(false);
         transferMethod.setStatic(true);
         transferMethod.setVisibility(JavaVisibility.PUBLIC);
-        transferMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "javaField"));
+        transferMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "field"));
         transferMethod.setReturnType(new FullyQualifiedJavaType(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"));
-        transferMethod.addBodyLine("return MAP.get(javaField);");
+        transferMethod.addBodyLine("return MAP.get(field);");
         fieldEnumeration.addMethod(transferMethod);
         
-        // getTableFieldList方法
-        Method getTableFieldListMethod = new Method("getTableFieldList");
+        // getColumnList方法
+        Method getTableFieldListMethod = new Method("getColumnList");
         getTableFieldListMethod.setFinal(false);
         getTableFieldListMethod.setStatic(true);
         getTableFieldListMethod.setVisibility(JavaVisibility.PUBLIC);
         getTableFieldListMethod.setReturnType(new FullyQualifiedJavaType(List.class.getName() + "<String>"));
-        getTableFieldListMethod.addBodyLine("return TABLE_FIELD_LIST;");
+        getTableFieldListMethod.addBodyLine("return COLUMN_LIST;");
         fieldEnumeration.addMethod(getTableFieldListMethod);
         
-        // getTableFieldList方法
-        Method getJavaFieldListMethod = new Method("getJavaFieldList");
+        // getFieldList方法
+        Method getJavaFieldListMethod = new Method("getFieldList");
         getJavaFieldListMethod.setFinal(false);
         getJavaFieldListMethod.setStatic(true);
         getJavaFieldListMethod.setVisibility(JavaVisibility.PUBLIC);
         getJavaFieldListMethod.setReturnType(new FullyQualifiedJavaType(List.class.getName() + "<String>"));
-        getJavaFieldListMethod.addBodyLine("return JAVA_FIELD_LIST;");
+        getJavaFieldListMethod.addBodyLine("return FIELD_LIST;");
         fieldEnumeration.addMethod(getJavaFieldListMethod);
         for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns())
         {
@@ -555,30 +536,30 @@ public class ModelPlugin extends BasePlugin
         validFieldMethod.setFinal(false);
         validFieldMethod.setStatic(false);
         validFieldMethod.setDefault(true);
-        validFieldMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "javaField"));
+        validFieldMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "field"));
         validFieldMethod.addBodyLine("// 如果枚举为空，说明是非法字段");
-        validFieldMethod.addBodyLine("if (" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + ".transfer(javaField) == null)");
+        validFieldMethod.addBodyLine("if (" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + ".transfer(field) == null)");
         validFieldMethod.addBodyLine("{");
-        validFieldMethod.addBodyLine("throw new IllegalFieldException(\" There is an illegal field : \" + javaField);");
+        validFieldMethod.addBodyLine("throw new IllegalFieldException(\" There is an illegal field : \" + field);");
         validFieldMethod.addBodyLine("}");
         beanClass.addMethod(validFieldMethod);
         
-        // getTableField方法
-        Method getTableFieldBaseMethod = new Method("getTableField");
+        // getColumn方法
+        Method getTableFieldBaseMethod = new Method("getColumn");
         getTableFieldBaseMethod.addJavaDocLine("/**");
         getTableFieldBaseMethod.addJavaDocLine(" * 获取java字段名对应的数据库表字段名");
         getTableFieldBaseMethod.addJavaDocLine(" */");
         getTableFieldBaseMethod.setFinal(false);
         getTableFieldBaseMethod.setStatic(false);
         getTableFieldBaseMethod.setDefault(true);
-        getTableFieldBaseMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "javaField"));
+        getTableFieldBaseMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "field"));
         getTableFieldBaseMethod.setReturnType(new FullyQualifiedJavaType("String"));
         getTableFieldBaseMethod.addBodyLine(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field e = null;");
-        getTableFieldBaseMethod.addBodyLine("if ((e = " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + ".transfer(javaField)) != null)");
+        getTableFieldBaseMethod.addBodyLine("if ((e = " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + ".transfer(field)) != null)");
         getTableFieldBaseMethod.addBodyLine("{");
-        getTableFieldBaseMethod.addBodyLine("return e.getTableField();");
+        getTableFieldBaseMethod.addBodyLine("return e.getColumn();");
         getTableFieldBaseMethod.addBodyLine("}");
-        getTableFieldBaseMethod.addBodyLine("throw new IllegalFieldException(\" Can't find the table-field from the java-field : \" + javaField);");
+        getTableFieldBaseMethod.addBodyLine("throw new IllegalFieldException(\" Can't find the table-field from the java-field : \" + field);");
         beanClass.addMethod(getTableFieldBaseMethod);
         
         // getJdbcType方法
@@ -589,14 +570,14 @@ public class ModelPlugin extends BasePlugin
         getJdbcTypeBaseMethod.setFinal(false);
         getJdbcTypeBaseMethod.setStatic(false);
         getJdbcTypeBaseMethod.setDefault(true);
-        getJdbcTypeBaseMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "javaField"));
+        getJdbcTypeBaseMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "field"));
         getJdbcTypeBaseMethod.setReturnType(new FullyQualifiedJavaType("String"));
         getJdbcTypeBaseMethod.addBodyLine(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field e = null;");
-        getJdbcTypeBaseMethod.addBodyLine("if ((e = " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + ".transfer(javaField)) != null)");
+        getJdbcTypeBaseMethod.addBodyLine("if ((e = " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + ".transfer(field)) != null)");
         getJdbcTypeBaseMethod.addBodyLine("{");
         getJdbcTypeBaseMethod.addBodyLine("return e.getJdbcType();");
         getJdbcTypeBaseMethod.addBodyLine("}");
-        getJdbcTypeBaseMethod.addBodyLine("throw new IllegalFieldException(\" Can't find the jdbc-type from the java-field : \" + javaField);");
+        getJdbcTypeBaseMethod.addBodyLine("throw new IllegalFieldException(\" Can't find the jdbc-type from the java-field : \" + field);");
         beanClass.addMethod(getJdbcTypeBaseMethod);
         
         // existsFieldMethod方法
@@ -607,13 +588,13 @@ public class ModelPlugin extends BasePlugin
         existsFieldMethod.setFinal(false);
         existsFieldMethod.setStatic(false);
         existsFieldMethod.setDefault(true);
-        existsFieldMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "fieldName"));
+        existsFieldMethod.addParameter(new Parameter(new FullyQualifiedJavaType("String"), "field"));
         existsFieldMethod.setReturnType(new FullyQualifiedJavaType("boolean"));
-        existsFieldMethod.addBodyLine("return " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + ".transfer(fieldName) != null;");
+        existsFieldMethod.addBodyLine("return " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field" + ".transfer(field) != null;");
         beanClass.addMethod(existsFieldMethod);
         
-        // allFieldList方法
-        Method getAllFieldListMethod = new Method("allFieldList");
+        // fieldList方法
+        Method getAllFieldListMethod = new Method("fieldList");
         getAllFieldListMethod.addJavaDocLine("/**");
         getAllFieldListMethod.addJavaDocLine(" * 返回所有字段列表");
         getAllFieldListMethod.addJavaDocLine(" */");
@@ -621,11 +602,23 @@ public class ModelPlugin extends BasePlugin
         getAllFieldListMethod.setStatic(false);
         getAllFieldListMethod.setDefault(true);
         getAllFieldListMethod.setReturnType(new FullyQualifiedJavaType(List.class.getName() + "<String>"));
-        getAllFieldListMethod.addBodyLine("return " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field.getTableFieldList();");
+        getAllFieldListMethod.addBodyLine("return " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field.getFieldList();");
         beanClass.addMethod(getAllFieldListMethod);
         
-        // tableName方法
-        Method getTableNameMethod = new Method("tableName");
+        // columnList方法
+        Method getAllColumnListMethod = new Method("columnList");
+        getAllColumnListMethod.addJavaDocLine("/**");
+        getAllColumnListMethod.addJavaDocLine(" * 返回所有字段列表");
+        getAllColumnListMethod.addJavaDocLine(" */");
+        getAllColumnListMethod.setFinal(false);
+        getAllColumnListMethod.setStatic(false);
+        getAllColumnListMethod.setDefault(true);
+        getAllColumnListMethod.setReturnType(new FullyQualifiedJavaType(List.class.getName() + "<String>"));
+        getAllColumnListMethod.addBodyLine("return " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field.getColumnList();");
+        beanClass.addMethod(getAllColumnListMethod);
+        
+        // table方法
+        Method getTableNameMethod = new Method("table");
         getTableNameMethod.addJavaDocLine("/**");
         getTableNameMethod.addJavaDocLine(" * 获取数据库表名");
         getTableNameMethod.addJavaDocLine(" */");
@@ -633,8 +626,20 @@ public class ModelPlugin extends BasePlugin
         getTableNameMethod.setStatic(false);
         getTableNameMethod.setDefault(true);
         getTableNameMethod.setReturnType(new FullyQualifiedJavaType("String"));
-        getTableNameMethod.addBodyLine("return " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field.TABLE_NAME;");
+        getTableNameMethod.addBodyLine("return " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field.TABLE;");
         beanClass.addMethod(getTableNameMethod);
+        
+        // entity方法
+        Method getEntityMethod = new Method("entity");
+        getEntityMethod.addJavaDocLine("/**");
+        getEntityMethod.addJavaDocLine(" * 获取数据库表名");
+        getEntityMethod.addJavaDocLine(" */");
+        getEntityMethod.setFinal(false);
+        getEntityMethod.setStatic(false);
+        getEntityMethod.setDefault(true);
+        getEntityMethod.setReturnType(new FullyQualifiedJavaType("String"));
+        getEntityMethod.addBodyLine("return " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field.ENTITY;");
+        beanClass.addMethod(getEntityMethod);
         
         return new GeneratedJavaFile(beanClass, getTargetProjectJavaSourceFolder(), "utf-8", new DefaultJavaFormatter());
     }
@@ -656,7 +661,6 @@ public class ModelPlugin extends BasePlugin
         // 添加需要依赖的类
         beanClass.addImportedType(CoreClassImportConstant.BASE_QUERY_CLASS);
         beanClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("helper") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Helper"));
-        beanClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("field") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"));
         
         // 添加范型继承关系BaseService
         if (introspectedTable.getPrimaryKeyColumns() == null || introspectedTable.getPrimaryKeyColumns().isEmpty())
@@ -679,15 +683,6 @@ public class ModelPlugin extends BasePlugin
         beanClass.addJavaDocLine(" */");
 
         CodeGeneratorUtils.generateToString(introspectedTable, beanClass);
-        
-        // 添加初始化对象的构造函数
-        Method queryConstructorMethod = new Method(introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query");
-        queryConstructorMethod.setConstructor(true);
-        queryConstructorMethod.setVisibility(JavaVisibility.PUBLIC);
-        queryConstructorMethod.setFinal(false);
-        queryConstructorMethod.setStatic(false);
-        queryConstructorMethod.addBodyLine("super("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field.TABLE_NAME);");
-        beanClass.addMethod(queryConstructorMethod);
         
         Field field = new Field();
         field.setFinal(true);

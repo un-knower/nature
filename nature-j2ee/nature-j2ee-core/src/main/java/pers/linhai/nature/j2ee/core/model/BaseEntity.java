@@ -53,15 +53,6 @@ public abstract class BaseEntity<Key> extends BaseModel
     protected Date updateTime;
     
     /**
-     * <p>Title        : BaseEntity lilinhai 2018年2月13日 下午2:53:51</p>
-     * @param tableName 
-     */
-    public BaseEntity(String tableName)
-    {
-        super(tableName);
-    }
-    
-    /**
      * <p>Get Method   :   id Key</p>
      * @return id
      */
@@ -98,7 +89,7 @@ public abstract class BaseEntity<Key> extends BaseModel
         this.createTime = createTime;
         
         // 为了兼容没有这两个字段的表
-        if (existsField(BaseField.CREATE_TIME.getJavaField()))
+        if (existsField(BaseField.CREATE_TIME.getField()))
         {
             addPersistentField(BaseField.CREATE_TIME, createTime);
         }
@@ -122,7 +113,7 @@ public abstract class BaseEntity<Key> extends BaseModel
         this.updateTime = updateTime;
         
         // 为了兼容没有这两个字段的表
-        if (existsField(BaseField.UPDATE_TIME.getJavaField()))
+        if (existsField(BaseField.UPDATE_TIME.getField()))
         {
             addPersistentField(BaseField.UPDATE_TIME, updateTime);
         }
@@ -136,7 +127,7 @@ public abstract class BaseEntity<Key> extends BaseModel
      */
     public void removePersistentField(ModelField field)
     {
-        persistentFieldMap.remove(field.getTableField());
+        persistentFieldMap.remove(field.getColumn());
     }
     
     /**
@@ -158,7 +149,7 @@ public abstract class BaseEntity<Key> extends BaseModel
      */
     public boolean hasPersistentField(ModelField field)
     {
-        return persistentFieldMap.containsKey(field.getTableField());
+        return persistentFieldMap.containsKey(field.getColumn());
     }
     
     /**
@@ -170,12 +161,12 @@ public abstract class BaseEntity<Key> extends BaseModel
      */
     protected void addPersistentField(ModelField field, Object value)
     {
-        validField(field.getJavaField());
+        validField(field.getField());
         PersistentField fv = new PersistentField();
-        fv.setColumn(field.getTableField());
+        fv.setColumn(field.getColumn());
         fv.setValue(value);
         fv.setJdbcType(field.getJdbcType());
-        persistentFieldMap.put(field.getTableField(), fv);
+        persistentFieldMap.put(field.getColumn(), fv);
     }
     
     public abstract EntityBean toEntityBean();

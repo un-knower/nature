@@ -67,7 +67,7 @@ public abstract class BaseOrderBuilder<EntityOrderByBuilder>
     protected OrderByFieldBuilder<EntityOrderByBuilder> orderBy(ModelField modelField)
     {
         SortField sortField = new SortField();
-        sortField.setField(modelField.getJavaField());
+        sortField.setField(modelField.getField());
         sortField.setDirection(Direction.ASC.name());
         orderBy(sortField);
         return new OrderByFieldBuilder<EntityOrderByBuilder>(entityOrderByBuilder, sortField);

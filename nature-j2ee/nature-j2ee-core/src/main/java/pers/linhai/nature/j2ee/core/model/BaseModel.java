@@ -38,9 +38,9 @@ public abstract class BaseModel implements ModelHelper, Serializable
      * <p>Title        : BaseModel lilinhai 2018年2月15日 上午9:09:43</p>
      * @param tableName 
      */
-    public BaseModel(String tableName)
+    public BaseModel()
     {
-        this.tableName = tableName;
+        this.tableName = table();
     }
     
     /**

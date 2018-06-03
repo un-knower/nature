@@ -37,7 +37,7 @@ public class ConditionBuilder<FieldType>
     public ConditionBuilder(ModelField modelField)
     {
         condition = new Condition();
-        condition.setField(modelField.getJavaField());
+        condition.setField(modelField.getField());
     }
     
     /**

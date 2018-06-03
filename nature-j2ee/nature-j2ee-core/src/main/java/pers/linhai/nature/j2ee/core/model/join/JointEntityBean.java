@@ -26,16 +26,4 @@ public class JointEntityBean extends HashMap<String, EntityBean>
      * <p>Info          : long serialVersionUID lilinhai 2018年6月2日 下午11:25:35</p>
      */
     private static final long serialVersionUID = 1L;
-    
-    /**
-     * <p>Set Method   :   isInited boolean</p>
-     * @param isInited
-     */
-    public void setInited()
-    {
-        for (Entry<String, EntityBean> e : entrySet())
-        {
-            e.getValue().setInited(true);
-        }
-    }
 }
