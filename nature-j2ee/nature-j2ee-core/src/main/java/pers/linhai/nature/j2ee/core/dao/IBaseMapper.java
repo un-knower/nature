@@ -12,7 +12,7 @@ import java.util.List;
 
 import pers.linhai.nature.j2ee.core.dao.processor.ICustomEntityQueryRowDataProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.IEntityQueryRowDataProcessor;
-import pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityQueryRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityQueryRowDataProcessorImpl;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
@@ -67,7 +67,7 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * @return 
      * EntityBean
      */
-    EntityBean get(Key id, DefaultEntityQueryRowDataProcessor<Entity> entityProcessor);
+    EntityBean get(Key id, DefaultEntityQueryRowDataProcessorImpl<Entity> entityProcessor);
     
     /**
      * 根据条件查询单个记录
@@ -85,7 +85,7 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * @return 
      * EntityBean
      */
-    EntityBean get(EntityQuery entityQuery, DefaultEntityQueryRowDataProcessor<Entity> entityProcessor);
+    EntityBean get(EntityQuery entityQuery, DefaultEntityQueryRowDataProcessorImpl<Entity> entityProcessor);
     
     /**
      * 组合查询记录，返回集合，支持分页

@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */
 
-package pers.linhai.nature.j2ee.core.service;
+package pers.linhai.nature.j2ee.core.web.model;
 
 import java.util.ArrayList;
 import java.util.List;

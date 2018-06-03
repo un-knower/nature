@@ -27,10 +27,10 @@ import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.service.IBaseEntityService;
-import pers.linhai.nature.j2ee.core.service.PaginationData;
 import pers.linhai.nature.j2ee.core.service.exception.ServiceException;
 import pers.linhai.nature.j2ee.core.web.exception.ControllerException;
 import pers.linhai.nature.j2ee.core.web.interceptor.IEntityControllerInterceptor;
+import pers.linhai.nature.j2ee.core.web.model.PaginationData;
 import pers.linhai.nature.j2ee.core.web.model.RestResponse;
 
 /**
@@ -270,7 +270,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         catch (Throwable e)
         {
             logger.error("[Controller] find(@RequestBody EntityQuery entityQuery, HttpServletRequest request) occor an error", e);
-            return fail(BaseErrorCode.QUERY_EXCEPTION, e.getMessage() + "，entityQuery：" + JSON.toJSONString(entityQuery));
+            return fail(BaseErrorCode.QUERY_EXCEPTION, e.getMessage());
         }
     }
     
@@ -297,7 +297,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         catch (Throwable e)
         {
             logger.error("[Controller] count(@RequestBody EntityQuery entityQuery, HttpServletRequest request) occor an error", e);
-            return fail(BaseErrorCode.QUERY_EXCEPTION, e.getMessage() + "，entityQuery：" + JSON.toJSONString(entityQuery));
+            return fail(BaseErrorCode.QUERY_EXCEPTION, e.getMessage());
         }
     }
 }

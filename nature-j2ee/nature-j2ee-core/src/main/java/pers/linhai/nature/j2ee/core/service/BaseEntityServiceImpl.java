@@ -22,7 +22,7 @@ import pers.linhai.nature.j2ee.core.constant.BaseErrorCode;
 import pers.linhai.nature.j2ee.core.dao.IBaseMapper;
 import pers.linhai.nature.j2ee.core.dao.exception.MapperException;
 import pers.linhai.nature.j2ee.core.dao.processor.IEntityQueryRowDataProcessor;
-import pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityQueryRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityQueryRowDataProcessorImpl;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
@@ -176,7 +176,7 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>,
     
     public EntityBean getEntityBean(Key id)
     {
-        DefaultEntityQueryRowDataProcessor<Entity> rowDataServiceProcessor = new DefaultEntityQueryRowDataProcessor<Entity>();
+        DefaultEntityQueryRowDataProcessorImpl<Entity> rowDataServiceProcessor = new DefaultEntityQueryRowDataProcessorImpl<Entity>();
         mapper.get(id, rowDataServiceProcessor);
         
         List<EntityBean> entityBeanList = rowDataServiceProcessor.getEntityBeanList();
@@ -204,7 +204,7 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>,
     
     public EntityBean getEntityBean(EntityQuery entityQuery)
     {
-        DefaultEntityQueryRowDataProcessor<Entity> rowDataServiceProcessor = new DefaultEntityQueryRowDataProcessor<Entity>();
+        DefaultEntityQueryRowDataProcessorImpl<Entity> rowDataServiceProcessor = new DefaultEntityQueryRowDataProcessorImpl<Entity>();
         mapper.get(entityQuery, rowDataServiceProcessor);
         
         List<EntityBean> entityBeanList = rowDataServiceProcessor.getEntityBeanList();
@@ -273,7 +273,7 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>,
     {
         try
         {
-            DefaultEntityQueryRowDataProcessor<Entity> rowDataServiceProcessor = new DefaultEntityQueryRowDataProcessor<Entity>();
+            DefaultEntityQueryRowDataProcessorImpl<Entity> rowDataServiceProcessor = new DefaultEntityQueryRowDataProcessorImpl<Entity>();
             mapper.find(entityQuery, rowDataServiceProcessor);
             
             List<EntityBean> entityBeanList = rowDataServiceProcessor.getEntityBeanList();

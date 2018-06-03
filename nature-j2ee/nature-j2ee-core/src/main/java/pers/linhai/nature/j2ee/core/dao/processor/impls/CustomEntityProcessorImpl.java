@@ -20,7 +20,7 @@ import pers.linhai.nature.j2ee.core.dao.processor.ICustomEntityQueryRowDataProce
  * @author lilinhai 2018年2月13日 下午12:22:43
  * @version 1.0
  */
-public class CustomEntityProcessor<Entity> implements ICustomEntityQueryRowDataProcessor<Entity>
+public class CustomEntityProcessorImpl<Entity> implements ICustomEntityQueryRowDataProcessor<Entity>
 {
     
     private List<Entity> entityList = new ArrayList<Entity>();

@@ -22,9 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pers.linhai.nature.j2ee.core.dao.exception.MapperException;
 import pers.linhai.nature.j2ee.core.dao.processor.ICustomEntityQueryRowDataProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.IEntityQueryRowDataProcessor;
-import pers.linhai.nature.j2ee.core.dao.processor.impls.CustomEntityProcessor;
-import pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityProcessor;
-import pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityQueryRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.impls.CustomEntityProcessorImpl;
+import pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityProcessorImpl;
+import pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityQueryRowDataProcessorImpl;
 import pers.linhai.nature.j2ee.core.dao.resulthandler.EntityResultHandler;
 import pers.linhai.nature.j2ee.core.dao.resulthandler.EntityBeanResultHandler;
 import pers.linhai.nature.j2ee.core.dao.resulthandler.LongResultHandler;
@@ -306,9 +306,9 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      * @param id
      * @param entityProcessor
      * @return 
-     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#get(java.lang.Object, pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityQueryRowDataProcessor)
+     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#get(java.lang.Object, pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityQueryRowDataProcessorImpl)
      */
-    public EntityBean get(Key id, DefaultEntityQueryRowDataProcessor<Entity> entityProcessor)
+    public EntityBean get(Key id, DefaultEntityQueryRowDataProcessorImpl<Entity> entityProcessor)
     {
         try
         {
@@ -335,7 +335,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     {
         entityQuery.setPage(0);
         entityQuery.setSize(1);
-        DefaultEntityQueryRowDataProcessor<Entity> entityProcessor = new DefaultEntityQueryRowDataProcessor<Entity>();
+        DefaultEntityQueryRowDataProcessorImpl<Entity> entityProcessor = new DefaultEntityQueryRowDataProcessorImpl<Entity>();
         find(entityQuery, entityProcessor);
         if (entityProcessor.getEntityList().isEmpty())
         {
@@ -351,9 +351,9 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      * @param entityQuery
      * @param entityProcessor
      * @return 
-     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#get(pers.linhai.nature.j2ee.core.model.BaseQuery, pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityQueryRowDataProcessor)
+     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#get(pers.linhai.nature.j2ee.core.model.BaseQuery, pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityQueryRowDataProcessorImpl)
      */
-    public EntityBean get(EntityQuery entityQuery, DefaultEntityQueryRowDataProcessor<Entity> entityProcessor)
+    public EntityBean get(EntityQuery entityQuery, DefaultEntityQueryRowDataProcessorImpl<Entity> entityProcessor)
     {
         entityQuery.setPage(0);
         entityQuery.setSize(1);
@@ -390,7 +390,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     @Override
     public List<Entity> find(EntityQuery entityQuery)
     {
-        DefaultEntityQueryRowDataProcessor<Entity> entityProcessor = new DefaultEntityQueryRowDataProcessor<Entity>();
+        DefaultEntityQueryRowDataProcessorImpl<Entity> entityProcessor = new DefaultEntityQueryRowDataProcessorImpl<Entity>();
         find(entityQuery, entityProcessor);
         return entityProcessor.getEntityList();
     }
@@ -425,7 +425,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      */
     public List<Entity> find(String statment, Object params)
     {
-        DefaultEntityProcessor<Entity> entityProcessor = new DefaultEntityProcessor<Entity>();
+        DefaultEntityProcessorImpl<Entity> entityProcessor = new DefaultEntityProcessorImpl<Entity>();
         find(statment, params, entityProcessor);
         return entityProcessor.getEntityList();
     }
@@ -470,7 +470,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      */
     public <T> List<T> execFind(String statment, Object params, Class<T> clazz)
     {
-        CustomEntityProcessor<T> entityProcessor = new CustomEntityProcessor<T>();
+        CustomEntityProcessorImpl<T> entityProcessor = new CustomEntityProcessorImpl<T>();
         execFind(statment, params, entityProcessor);
         return entityProcessor.getEntityList();
     }
@@ -484,7 +484,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      */
     public List<Entity> execFind(String statment, Object params)
     {
-        CustomEntityProcessor<Entity> entityProcessor = new CustomEntityProcessor<Entity>();
+        CustomEntityProcessorImpl<Entity> entityProcessor = new CustomEntityProcessorImpl<Entity>();
         execFind(statment, params, entityProcessor);
         return entityProcessor.getEntityList();
     }

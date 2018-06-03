@@ -28,6 +28,11 @@ public class JointQuery
 {
     
     /**
+     * 结果处理器唯一标示
+     */
+    private String processorId;
+    
+    /**
      * 第几页
      */
     private Integer page;
@@ -279,6 +284,24 @@ public class JointQuery
     {
         where.initialize(null);
         this.where = where;
+    }
+    
+    /**
+     * <p>Get Method   :   processorId String</p>
+     * @return processorId
+     */
+    public String getProcessorId()
+    {
+        return processorId;
+    }
+
+    /**
+     * <p>Set Method   :   processorId String</p>
+     * @param processorId
+     */
+    public void setProcessorId(String processorId)
+    {
+        this.processorId = processorId;
     }
 
     /** 
