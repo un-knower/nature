@@ -150,7 +150,7 @@
             ]]>
             <if test="columnName != selectFieldList[index]">
                 <![CDATA[
-                    as ${selectFieldList[index]}
+                    as "${selectFieldList[index]}"
                 ]]>
             </if>
         </foreach>
