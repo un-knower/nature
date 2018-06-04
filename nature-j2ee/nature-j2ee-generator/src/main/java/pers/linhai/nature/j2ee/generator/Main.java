@@ -51,7 +51,7 @@ public class Main
         String outPutPath = "C:\\Users\\lilinhai\\Desktop";
 
         String groupId = "com.meme";
-        String artifactId = "crm";
+        String artifactId = "crm2";
         String dbIp = "localhost";
         String dbPort = "3306";
         String dbUsername = "root";
@@ -107,6 +107,9 @@ public class Main
         
         // common 模块
         buildCommon(params, cfg, artifactDir);
+        
+        // component 模块
+        buildComponent(params, cfg, artifactDir);
         
         // dao模块
         buildDao(params, cfg, artifactDir);
@@ -288,6 +291,34 @@ public class Main
         FileUtils.createDir(java);
         FileUtils.createDir(new File(commonArtifactDir, "src/test/java"));
     }
+    
+    /**
+     * <p>Title         : buildCommon lilinhai 2018年2月22日 下午5:56:44</p>
+     * <p>Description   : <pre>TODO(这里用一句话描述这个方法的作用)</pre></p>
+     * @param params
+     * @param cfg
+     * @param artifactDir
+     * void 
+     */ 
+    private static void buildComponent(Map<String, String> params, Configuration cfg, File artifactDir)
+        throws Exception
+    {
+        Template temp;
+        Writer out;
+        File componentArtifactDir = new File(artifactDir, params.get("artifactId") + "-component");
+        FileUtils.createDir(componentArtifactDir);
+        
+        temp = cfg.getTemplate("component/pom.xml");
+        out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(componentArtifactDir, "pom.xml")), "UTF-8"));
+        temp.process(params, out);
+        out.close();
+        
+        File resources = new File(componentArtifactDir, "src/main/resources");
+        FileUtils.createDir(resources);
+        File java = new File(componentArtifactDir, "src/main/java");
+        FileUtils.createDir(java);
+        FileUtils.createDir(new File(componentArtifactDir, "src/test/java"));
+    }
 
     /**
      * <p>Title         : buildApp lilinhai 2018年2月22日 下午5:27:35</p>
@@ -302,7 +333,7 @@ public class Main
     {
         Template temp;
         Writer out;
-        File appArtifactDir = new File(artifactDir, params.get("artifactId") + "-app");
+        File appArtifactDir = new File(artifactDir, params.get("artifactId") + "-application");
         FileUtils.createDir(appArtifactDir);
         temp = cfg.getTemplate("app/pom.xml");
         out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(appArtifactDir, "pom.xml")), "UTF-8"));

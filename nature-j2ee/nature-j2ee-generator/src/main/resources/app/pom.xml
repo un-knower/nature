@@ -6,7 +6,7 @@
 		<artifactId>${artifactId}</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>${artifactId}-app</artifactId>
+    <artifactId>${artifactId}-application</artifactId>
     <name>${r'${project.artifactId}'}</name>
     
     <dependencies>

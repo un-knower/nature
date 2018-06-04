@@ -28,12 +28,13 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>${artifactId}-app</module>
-		<module>${artifactId}-web</module>
-		<module>${artifactId}-service</module>
-		<module>${artifactId}-dao</module>
-		<module>${artifactId}-model</module>
+		<module>${artifactId}-application</module>
 		<module>${artifactId}-common</module>
+        <module>${artifactId}-component</module>
+        <module>${artifactId}-model</module>
+        <module>${artifactId}-dao</module>
+        <module>${artifactId}-service</module>
+		<module>${artifactId}-web</module>
 	</modules>
 
 	<!-- 如果在子项目中不写该依赖项，那么子项目中是不会从父项目继承该依赖项的；只有在子项目中写了该依赖项，才会从父项目中继承该项，并且version 和 scope 都读取自 父pom。 -->
@@ -132,6 +133,14 @@
 				<version>${r'${spring.boot.version}'}</version>
 			</dependency>
             
+            <!-- spring boot测试 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${r'${spring.boot.version}'}</version>
+                <scope>test</scope>
+            </dependency>
+            
             <!-- json -->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
@@ -194,12 +203,6 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-test</artifactId>
-				<version>${r'${springframework.version}'}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-all</artifactId>
 				<version>1.10.19</version>
@@ -255,15 +258,16 @@
 		    <groupId>com.alibaba</groupId>
 		    <artifactId>fastjson</artifactId>
 		</dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
 		
 		<!-- junit测试用例需要用到的依赖，其他模块通过继承获得，是test级别 -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
