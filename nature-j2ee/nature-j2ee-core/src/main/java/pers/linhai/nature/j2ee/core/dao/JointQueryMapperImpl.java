@@ -13,7 +13,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import pers.linhai.nature.j2ee.core.dao.processor.IJointQueryRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.JointQueryRowDataProcessor;
 import pers.linhai.nature.j2ee.core.dao.resulthandler.JointQueryResultHandler;
 import pers.linhai.nature.j2ee.core.dao.resulthandler.LongResultHandler;
 import pers.linhai.nature.j2ee.core.model.JointQuery;
@@ -54,7 +54,7 @@ public class JointQueryMapperImpl implements IJointQueryMapper
      * @param rowDataJointQueryProcessor 
      * void
      */
-    public void find(JointQuery jointQuery, IJointQueryRowDataProcessor rowDataJointQueryProcessor)
+    public void find(JointQuery jointQuery, JointQueryRowDataProcessor rowDataJointQueryProcessor)
     {
         JointQueryResultHandler myResultHandler = new JointQueryResultHandler(rowDataJointQueryProcessor);
         sqlSession.select(JOIN_FIND, jointQuery, myResultHandler);

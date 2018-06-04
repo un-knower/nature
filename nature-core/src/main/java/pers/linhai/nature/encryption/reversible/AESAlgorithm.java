@@ -34,9 +34,9 @@ public class AESAlgorithm extends ReversibleAlgorithm
      * <p>Title        : AESEncryptionAlgorithm lilinhai 2018年4月9日 下午11:20:34</p>
      * @param cipher 
      */ 
-    public AESAlgorithm(String secret)
+    public AESAlgorithm(String salt)
     {
-        this(secret, DEFAULT_KEY_SIZE);
+        this(salt, DEFAULT_KEY_SIZE);
     }
     
     /**

@@ -108,4 +108,33 @@ public interface BaseErrorCode
     int PAGE_QUERY_SIZE_TOO_LARGE_EXCEPTION = 30023;
     
     /*****[30000 - 40000)添加相关错误码**********************************************/
+    
+    /*****[70000 - 80000)关联查询错误码范围定义**************************************************************************/
+    
+    /**
+     * processorId解密盐值未定义
+     */
+    int JOINT_QUERY_PROCESSORID_AES_DECRYPT_SALT_UNDEFINED = 70005;
+    
+    /**
+     * processorId未定义
+     */
+    int JOINT_QUERY_PROCESSORID_UNDEFINED = 70010;
+    
+    /**
+     * processorId非法
+     */
+    int JOINT_QUERY_PROCESSORID_ILLEGAL = 70011;
+    
+    /**
+     * processorId不支持
+     */
+    int JOINT_QUERY_PROCESSORID_NOT_SUPPORTED = 70012;
+    
+    /**
+     * 关联查询结果处理失败
+     */
+    int JOINT_QUERY_PROCESS_ERROR = 70020;
+    
+    /*****[70000 - 80000)关联查询错误码范围定义**************************************************************************/
 }

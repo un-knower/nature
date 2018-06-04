@@ -376,7 +376,7 @@ public class ModelPlugin extends BasePlugin
         initializationBlock.addBodyLine("for ("+introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"+" field : values())");
         initializationBlock.addBodyLine("{");
         initializationBlock.addBodyLine("MAP.put(field.getField(), field);");
-        initializationBlock.addBodyLine("MAP.put(field.getColumn(), field);");
+        //initializationBlock.addBodyLine("MAP.put(field.getColumn(), field);");
         initializationBlock.addBodyLine("COLUMN_LIST.add(field.getColumn());");
         initializationBlock.addBodyLine("FIELD_LIST.add(field.getField());");
         initializationBlock.addBodyLine("}");

@@ -14,7 +14,7 @@ import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
 
 import pers.linhai.nature.j2ee.core.dao.exception.ReflectException;
-import pers.linhai.nature.j2ee.core.dao.processor.IJointQueryRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.JointQueryRowDataProcessor;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.model.ModelReflectorCache;
@@ -29,7 +29,7 @@ import pers.linhai.nature.j2ee.core.model.join.JointQueryResultBean;
  */
 public class JointQueryResultHandler implements ResultHandler<JointQueryResultBean>
 {
-    private IJointQueryRowDataProcessor rowDataJointQueryProcessor;
+    private JointQueryRowDataProcessor rowDataJointQueryProcessor;
     
     /**
      * process方法反射函数
@@ -39,7 +39,7 @@ public class JointQueryResultHandler implements ResultHandler<JointQueryResultBe
     /**
      * process方法的参数类型
      */
-    private Class<?>[] params;
+    private Class<?>[] paramClasses;
     
     /**
      * <p>Title        : RowDataResultHandler lilinhai 2018年2月13日 下午12:20:21</p>
@@ -47,7 +47,7 @@ public class JointQueryResultHandler implements ResultHandler<JointQueryResultBe
      * @param entityConstructor2
      * @param entityProcessor 
      */
-    public JointQueryResultHandler(IJointQueryRowDataProcessor rowDataJointQueryProcessor)
+    public JointQueryResultHandler(JointQueryRowDataProcessor rowDataJointQueryProcessor)
     {
         try
         {
@@ -76,7 +76,7 @@ public class JointQueryResultHandler implements ResultHandler<JointQueryResultBe
                 }
             }
             
-            this.params = params;
+            this.paramClasses = params;
             this.rowDataJointQueryProcessor = rowDataJointQueryProcessor;
         }
         catch (Throwable e)
@@ -102,31 +102,33 @@ public class JointQueryResultHandler implements ResultHandler<JointQueryResultBe
             JointQueryResultBean jointQueryResultBean = resultContext.getResultObject();
             JointEntityBean jointEntityBean = jointQueryResultBean.getJointEntityBean();
             
-            Object[] objs = new Object[params.length];
+            Object[] objs = new Object[paramClasses.length];
             
             EntityBean entityBean = null;
             int i = 0;
-            for (Class< ? > class1 : params)
+            for (Class< ? > paramClass : paramClasses)
             {
-                if (class1 == JointEntityBean.class)
+                if (paramClass == JointEntityBean.class)
                 {
                     objs[i] = jointEntityBean;
                 }
                 else
                 {
-                    entityBean = jointEntityBean.get(class1.getSimpleName());
+                    entityBean = jointEntityBean.get(paramClass.getSimpleName());
                     if (entityBean == null)
                     {
                         objs[i] = null;
                     }
                     else
                     {
-                        objs[i] = ModelReflectorCache.getInstance().get(class1).getInstance(entityBean);
+                        objs[i] = ModelReflectorCache.getInstance().get(paramClass).getInstance(entityBean);
                     }
                 }
                 i++;
             }
             
+            // 加到集合中，返回到前端用
+            rowDataJointQueryProcessor.addJointEntityBean(jointEntityBean);
             processMethod.invoke(rowDataJointQueryProcessor, objs);
         }
         catch (Throwable e1)

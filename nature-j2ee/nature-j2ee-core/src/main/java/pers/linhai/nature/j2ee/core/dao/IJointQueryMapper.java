@@ -9,7 +9,7 @@
 
 package pers.linhai.nature.j2ee.core.dao;
 
-import pers.linhai.nature.j2ee.core.dao.processor.IJointQueryRowDataProcessor;
+import pers.linhai.nature.j2ee.core.dao.processor.JointQueryRowDataProcessor;
 import pers.linhai.nature.j2ee.core.model.JointQuery;
 
 /**
@@ -28,7 +28,7 @@ public interface IJointQueryMapper
      * @param rowDataJointQueryProcessor 
      * void
      */
-    void find(JointQuery jointQuery, IJointQueryRowDataProcessor rowDataJointQueryProcessor);
+    void find(JointQuery jointQuery, JointQueryRowDataProcessor rowDataJointQueryProcessor);
     
     /**
      * 计数

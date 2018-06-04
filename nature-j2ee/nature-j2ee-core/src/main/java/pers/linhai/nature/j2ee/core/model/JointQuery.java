@@ -305,13 +305,14 @@ public class JointQuery
     }
 
     /** 
-     * <p>Overriding Method: lilinhai 2018年6月2日 下午4:05:21</p>
+     * <p>Overriding Method: lilinhai 2018年6月4日 下午3:27:31</p>
      * <p>Title: toString</p>
      * @return 
      * @see java.lang.Object#toString()
      */ 
     public String toString()
     {
-        return "JoinQuery [page=" + page + ", offset=" + offset + ", size=" + size + ", orderFieldList=" + orderFieldList + "]";
+        return "JointQuery [processorId=" + processorId + ", page=" + page + ", offset=" + offset + ", size=" + size + ", tableJointorList=" + tableJointorList + ", selectColumnList="
+                + selectColumnList + ", where=" + where + ", orderFieldList=" + orderFieldList + "]";
     }
 }
