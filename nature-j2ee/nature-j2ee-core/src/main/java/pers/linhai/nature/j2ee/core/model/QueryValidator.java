@@ -18,6 +18,7 @@ import pers.linhai.nature.j2ee.core.constant.BaseErrorCode;
 import pers.linhai.nature.j2ee.core.model.condition.CommonConditionSegment;
 import pers.linhai.nature.j2ee.core.model.condition.ConditionSegment;
 import pers.linhai.nature.j2ee.core.model.condition.InConditionSegment;
+import pers.linhai.nature.j2ee.core.model.enumer.BaseField;
 import pers.linhai.nature.j2ee.core.model.exception.QueryValidException;
 import pers.linhai.nature.j2ee.core.model.join.SelectField;
 
@@ -43,22 +44,30 @@ public class QueryValidator
      * <p>Set Method   :   allowSelectFieldSet Set<String></p>
      * @param allowSelectFieldSet
      */
-    public void addAllowSelectField(String field)
+    public void addAllowSelectField(ModelField modelField)
     {
-        this.allowSelectFieldSet.add(field);
+        if (modelField.getClass() == BaseField.class)
+        {
+            throw new QueryValidException(BaseErrorCode.QUERY_VALIDATOR_BUILD_NOT_SUPPORT, " Query validator does not support BaseField type.");
+        }
+        this.allowSelectFieldSet.add(modelField.getEntity() + "." + modelField.getField());
     }
     
     /**
      * <p>Set Method   :   allowQueryFieldMap Map<String,Set<Object>></p>
      * @param allowConditionFieldMap
      */
-    public void addAllowConditionField(String field, Object val)
+    public void addAllowConditionField(ModelField modelField, Object val)
     {
-        Set<String> allowValSet = this.allowConditionFieldMap.get(field);
+        if (modelField.getClass() == BaseField.class)
+        {
+            throw new QueryValidException(BaseErrorCode.QUERY_VALIDATOR_BUILD_NOT_SUPPORT, " Query validator does not support BaseField type.");
+        }
+        Set<String> allowValSet = this.allowConditionFieldMap.get(modelField.getEntity() + "." + modelField.getField());
         if (allowValSet == null)
         {
             allowValSet = new HashSet<String>();
-            this.allowConditionFieldMap.put(field, allowValSet);
+            this.allowConditionFieldMap.put(modelField.getEntity() + "." + modelField.getField(), allowValSet);
         }
         allowValSet.add(String.valueOf(val));
     }

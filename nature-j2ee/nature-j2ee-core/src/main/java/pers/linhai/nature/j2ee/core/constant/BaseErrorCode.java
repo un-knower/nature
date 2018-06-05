@@ -112,6 +112,11 @@ public interface BaseErrorCode
     /*****[40000 - 50000)添加相关错误码**********************************************/
     
     /**
+     * 校验器构建不支持
+     */
+    int QUERY_VALIDATOR_BUILD_NOT_SUPPORT = 40001;
+    
+    /**
      * 查询字段不被允许
      */
     int QUERY_FIELD_NOT_ALLOWED = 40005;
