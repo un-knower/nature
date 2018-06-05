@@ -95,7 +95,10 @@ public class JointQuerySerivceImpl implements IJointQuerySerivce
         
         // 解密并得到关联查询结果处理器
         JointQueryRowDataProcessor jointQueryRowDataProcessor = jointQueryHelper.getJointQueryRowDataProcessor();
-        jointQueryHelper.getQueryValidator().validQuery(jointQuery);
+        if (jointQueryHelper.getQueryValidator() != null)
+        {
+            jointQueryHelper.getQueryValidator().validQuery(jointQuery);
+        }
         return jointQueryRowDataProcessor;
     }
     
