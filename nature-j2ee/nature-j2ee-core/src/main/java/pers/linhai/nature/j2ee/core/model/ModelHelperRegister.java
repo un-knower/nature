@@ -53,6 +53,12 @@ public class ModelHelperRegister implements InitializingBean
         List<String> packages = AutoConfigurationPackages.get(this.beanFactory);
         for (String pkg : packages)
         {
+            // 如果扫描包不以框架开头
+            if (getClass().getPackage().getName().startsWith(pkg))
+            {
+                continue;
+            }
+            
             // 扫描所有实体
             String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + pkg.replace('.', '/') + '/' + "**/*.class";
             MetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory(resourceLoader);

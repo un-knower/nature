@@ -111,4 +111,47 @@ public class SelectField
         return "SelectField [entity=" + entity + ", fieldList=" + fieldList + ", table=" + table + ", columnList=" + columnList + "]";
     }
 
+    /** 
+     * <p>Overriding Method: lilinhai 2018年6月5日 下午3:07:14</p>
+     * <p>Title: hashCode</p>
+     * <p>Description: TODO</p>
+     * @return 
+     * @see java.lang.Object#hashCode()
+     */ 
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((entity == null) ? 0 : entity.hashCode());
+        result = prime * result + ((table == null) ? 0 : table.hashCode());
+        return result;
+    }
+
+    /** 
+     * <p>Overriding Method: lilinhai 2018年6月5日 下午3:07:14</p>
+     * <p>Title: equals</p>
+     * @param obj
+     * @return 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */ 
+    public boolean equals(Object obj)
+    {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        SelectField other = (SelectField) obj;
+        if (entity == null)
+        {
+            if (other.entity != null) return false;
+        }
+        else if (!entity.equals(other.entity)) return false;
+        if (table == null)
+        {
+            if (other.table != null) return false;
+        }
+        else if (!table.equals(other.table)) return false;
+        return true;
+    }
+
 }

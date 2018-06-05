@@ -16,6 +16,10 @@ package pers.linhai.nature.j2ee.core.model;
  */
 public interface ModelField
 {
+    String getEntity();
+    
+    String getTable();
+    
     String getField();
 
     String getColumn();

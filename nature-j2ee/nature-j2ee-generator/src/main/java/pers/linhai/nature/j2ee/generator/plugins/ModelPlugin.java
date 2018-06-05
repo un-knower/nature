@@ -427,6 +427,24 @@ public class ModelPlugin extends BasePlugin
         constructorMethod.setStatic(false);
         fieldEnumeration.addMethod(constructorMethod);
         
+        // getEntity方法
+        Method getEntityMethod = new Method("getEntity");
+        getEntityMethod.setFinal(false);
+        getEntityMethod.setStatic(false);
+        getEntityMethod.setVisibility(JavaVisibility.PUBLIC);
+        getEntityMethod.setReturnType(new FullyQualifiedJavaType("String"));
+        getEntityMethod.addBodyLine("return ENTITY;");
+        fieldEnumeration.addMethod(getEntityMethod);
+        
+        // getTable方法
+        Method getTableMethod = new Method("getTable");
+        getTableMethod.setFinal(false);
+        getTableMethod.setStatic(false);
+        getTableMethod.setVisibility(JavaVisibility.PUBLIC);
+        getTableMethod.setReturnType(new FullyQualifiedJavaType("String"));
+        getTableMethod.addBodyLine("return TABLE;");
+        fieldEnumeration.addMethod(getTableMethod);
+        
         // getJavaField方法
         Method getJavaFieldMethod = new Method("getField");
         getJavaFieldMethod.setFinal(false);

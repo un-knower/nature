@@ -10,11 +10,8 @@
 package pers.linhai.nature.j2ee.core.dao.processor;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.join.JointEntityBean;
 
 /**
@@ -26,26 +23,6 @@ public abstract class JointQueryRowDataProcessor
 {
 
     protected List<JointEntityBean> jointEntityBeanList = new ArrayList<JointEntityBean>();
-    
-    private Set<String> entitySet = new HashSet<String>();
-    
-    /**
-     * <p>Get Method   :   entityClassSet Set<Class<? extends BaseEntity<?>>></p>
-     * @return entityClassSet
-     */
-    public boolean canProcess(String entity)
-    {
-        return entitySet.contains(entity);
-    }
-    
-    /**
-     * <p>Get Method   :   entityClassSet Set<Class<? extends BaseEntity<?>>></p>
-     * @return entityClassSet
-     */
-    public void addProcessEntity(Class<? extends BaseEntity<?>> clazz)
-    {
-        entitySet.add(clazz.getSimpleName());
-    }
     
     public void addJointEntityBean(JointEntityBean jointEntityBean)
     {
@@ -60,6 +37,4 @@ public abstract class JointQueryRowDataProcessor
     {
         return jointEntityBeanList;
     }
-    
-    
 }

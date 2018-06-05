@@ -17,6 +17,7 @@ import java.util.Map;
 import pers.linhai.nature.j2ee.core.dao.exception.ConditionFormatException;
 import pers.linhai.nature.j2ee.core.dao.exception.IllegalOperatorException;
 import pers.linhai.nature.j2ee.core.model.Condition;
+import pers.linhai.nature.j2ee.core.model.FieldModel;
 import pers.linhai.nature.j2ee.core.model.enumer.Operator;
 
 /**
@@ -25,7 +26,7 @@ import pers.linhai.nature.j2ee.core.model.enumer.Operator;
  * @author lilinhai 2018年2月15日 下午3:39:28
  * @version 1.0
  */
-public abstract class ConditionSegment
+public abstract class ConditionSegment extends FieldModel
 {
     
     private static final Map<String, Constructor< ? extends ConditionSegment>> CONDITION_MAP = new HashMap<String, Constructor< ? extends ConditionSegment>>();
@@ -74,16 +75,6 @@ public abstract class ConditionSegment
     protected String id;
     
     /**
-     * 数据库表
-     */
-    protected String table;
-    
-    /**
-     * 字段名
-     */
-    protected String column;
-    
-    /**
      * 运算符
      */
     protected String operator;
@@ -101,7 +92,9 @@ public abstract class ConditionSegment
     {
         this(type);
         this.setTable(condition.getTable());
+        this.setEntity(condition.getEntity());
         this.setColumn(condition.getColumn());
+        this.setField(condition.getField());
         this.setId(condition.getId());
         this.setJdbcType(condition.getJdbcType());
         this.setOperator(condition.getOperator());
@@ -166,42 +159,6 @@ public abstract class ConditionSegment
         this.operator = operator;
     }
     
-    /**
-     * <p>Get Method   :   table String</p>
-     * @return table
-     */
-    public String getTable()
-    {
-        return table;
-    }
-
-    /**
-     * <p>Set Method   :   table String</p>
-     * @param table
-     */
-    public void setTable(String table)
-    {
-        this.table = table;
-    }
-
-    /**
-     * <p>Get Method   :   column String</p>
-     * @return column
-     */
-    public String getColumn()
-    {
-        return column;
-    }
-
-    /**
-     * <p>Set Method   :   column String</p>
-     * @param column
-     */
-    public void setColumn(String column)
-    {
-        this.column = column;
-    }
-
     /**
      * <p>Get Method   :   type int</p>
      * @return type

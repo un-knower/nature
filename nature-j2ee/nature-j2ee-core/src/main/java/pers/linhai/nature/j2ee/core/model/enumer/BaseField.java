@@ -64,6 +64,29 @@ public enum BaseField implements ModelField
         this.field = NamerUtils.columnToProterty(column);
         this.jdbcType = jdbcType;
     }
+    
+    /** 
+     * <p>Overriding Method: lilinhai 2018年6月5日 下午4:46:38</p>
+     * <p>Title: getEntity</p>
+     * @return 
+     * @see pers.linhai.nature.j2ee.core.model.ModelField#getEntity()
+     */ 
+    @Override
+    public String getEntity()
+    {
+        return null;
+    }
+
+    /** 
+     * <p>Overriding Method: lilinhai 2018年6月5日 下午4:46:38</p>
+     * <p>Title: getTable</p>
+     * @return 
+     * @see pers.linhai.nature.j2ee.core.model.ModelField#getTable()
+     */ 
+    public String getTable()
+    {
+        return null;
+    }
 
     public String getField()
     {

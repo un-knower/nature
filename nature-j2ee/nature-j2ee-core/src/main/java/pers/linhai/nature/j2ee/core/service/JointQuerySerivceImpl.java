@@ -18,10 +18,10 @@ import org.springframework.stereotype.Service;
 
 import pers.linhai.nature.j2ee.core.constant.BaseErrorCode;
 import pers.linhai.nature.j2ee.core.dao.IJointQueryMapper;
+import pers.linhai.nature.j2ee.core.dao.JointQueryHelper;
 import pers.linhai.nature.j2ee.core.dao.processor.JointQueryRowDataProcessor;
 import pers.linhai.nature.j2ee.core.model.JointQuery;
 import pers.linhai.nature.j2ee.core.model.join.JointEntityBean;
-import pers.linhai.nature.j2ee.core.model.join.TableJointor;
 import pers.linhai.nature.j2ee.core.service.exception.ServiceException;
 import pers.linhai.nature.j2ee.core.spring.BeanFactory;
 import pers.linhai.nature.utils.StringUtils;
@@ -86,20 +86,16 @@ public class JointQuerySerivceImpl implements IJointQuerySerivce
             throw new ServiceException(BaseErrorCode.JOINT_QUERY_PROCESSORID_UNDEFINED, "Joint-Query Processor ID is undefined.");
         }
         
-        // 解密并得到关联查询结果处理器
-        JointQueryRowDataProcessor jointQueryRowDataProcessor = BeanFactory.getBean(jointQuery.getProcessorId(), JointQueryRowDataProcessor.class);
-        if (jointQueryRowDataProcessor == null)
+        JointQueryHelper jointQueryHelper = BeanFactory.getBean(jointQuery.getProcessorId(), JointQueryHelper.class);
+        
+        if (jointQueryHelper == null)
         {
             throw new ServiceException(BaseErrorCode.JOINT_QUERY_PROCESSORID_ILLEGAL, "Joint-Query Processor ID is illegal.");
         }
         
-        for (TableJointor tableJointor : jointQuery.getTableJointorList())
-        {
-            if (!jointQueryRowDataProcessor.canProcess(tableJointor.getLeft().getEntity()) || !jointQueryRowDataProcessor.canProcess(tableJointor.getRight().getEntity()))
-            {
-                throw new ServiceException(BaseErrorCode.JOINT_QUERY_PROCESSORID_NOT_SUPPORTED, "The processor cannot handle a given entity: " + tableJointor.getLeft().getEntity() + ", " + tableJointor.getRight().getEntity());
-            }
-        }
+        // 解密并得到关联查询结果处理器
+        JointQueryRowDataProcessor jointQueryRowDataProcessor = jointQueryHelper.getJointQueryRowDataProcessor();
+        jointQueryHelper.getQueryValidator().validQuery(jointQuery);
         return jointQueryRowDataProcessor;
     }
     
