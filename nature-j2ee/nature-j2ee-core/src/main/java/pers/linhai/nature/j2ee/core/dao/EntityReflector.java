@@ -9,7 +9,6 @@
 
 package pers.linhai.nature.j2ee.core.dao;
 
-import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -83,7 +82,7 @@ public class EntityReflector<Entity extends BaseEntity< ? >>
         {
             Entity entity = newInstance();
             Field field = null;
-            for (Entry<String, Serializable> e : entityBean.entrySet())
+            for (Entry<String, Object> e : entityBean.entrySet())
             {
                 if ((field = entityFieldMap.get(e.getKey())) != null)
                 {

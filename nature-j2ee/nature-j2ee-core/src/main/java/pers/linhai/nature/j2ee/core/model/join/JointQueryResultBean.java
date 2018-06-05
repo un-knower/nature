@@ -9,8 +9,6 @@
 
 package pers.linhai.nature.j2ee.core.model.join;
 
-import java.io.Serializable;
-
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 
 /**
@@ -40,7 +38,7 @@ public class JointQueryResultBean extends EntityBean
      * @return 
      * @see pers.linhai.nature.j2ee.core.model.EntityBean#put(java.lang.String, java.io.Serializable)
      */ 
-    public Serializable put(String column, Serializable value)
+    public Object put(String column, Object value)
     {
         return jointEntityBean.put(column, value);
     }

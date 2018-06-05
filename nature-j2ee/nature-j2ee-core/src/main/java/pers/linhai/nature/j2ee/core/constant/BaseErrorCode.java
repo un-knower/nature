@@ -117,6 +117,11 @@ public interface BaseErrorCode
     int QUERY_VALIDATOR_BUILD_NOT_SUPPORT = 40001;
     
     /**
+     * 校验器构建OPERATOR不能为空
+     */
+    int QUERY_VALIDATOR_OPERATOR_CAN_NOT_BE_NULL = 40002;
+    
+    /**
      * 查询字段不被允许
      */
     int QUERY_FIELD_NOT_ALLOWED = 40005;
@@ -135,6 +140,16 @@ public interface BaseErrorCode
      * 查询where条件未定义
      */
     int QUERY_WHERE_CONDITION_IS_UNDEFINED = 40012;
+    
+    /**
+     * 逻辑表达式不允许使用or
+     */
+    int QUERY_WHERE_LOGIC_OR_NOT_ALLOWED = 40013;
+    
+    /**
+     * 查询条件操作符不被允许
+     */
+    int QUERY_CONDITION_FIELD_OPERATOR_NOW_ALLOWED = 40014;
     
     /**
      * 查询返回记录数未设置

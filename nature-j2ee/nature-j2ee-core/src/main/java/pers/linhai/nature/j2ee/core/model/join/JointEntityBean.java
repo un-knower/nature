@@ -9,7 +9,6 @@
 
 package pers.linhai.nature.j2ee.core.model.join;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
@@ -39,7 +38,7 @@ public class JointEntityBean extends HashMap<String, EntityBean>
      * @return 
      * @see pers.linhai.nature.j2ee.core.model.EntityBean#put(java.lang.String, java.io.Serializable)
      */ 
-    Serializable put(String column, Serializable value)
+    Object put(String column, Object value)
     {
         int dotIndex = column.indexOf('@');
         if (dotIndex == -1)

@@ -23,7 +23,7 @@ import java.util.Set;
  * @author lilinhai 2018年2月16日 下午5:00:25
  * @version 1.0
  */
-public class ModelBean extends HashMap<String, Serializable>
+public class ModelBean extends HashMap<String, Object>
 {
     
     /**
