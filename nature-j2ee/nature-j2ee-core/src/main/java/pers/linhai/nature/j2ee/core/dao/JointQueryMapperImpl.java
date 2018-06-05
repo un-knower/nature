@@ -37,7 +37,7 @@ public class JointQueryMapperImpl implements IJointQueryMapper
     /**
      * 查询方法
      */
-    private static final String JOIN_FIND = BASE_NAME_SPACE.concat(".jointFind");
+    private static final String JOIN_FIND = BASE_NAME_SPACE.concat(".find");
     
     /**
      * 计数方法

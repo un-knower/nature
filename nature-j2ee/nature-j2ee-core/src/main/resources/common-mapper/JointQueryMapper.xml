@@ -8,7 +8,7 @@
     <!-- mysql的分页语法支持 -->
     <!-- 组合关联查询函数，支持分页功能，resultSetType (可选配置) FORWARD_ONLY，SCROLL_SENSITIVE 或 SCROLL_INSENSITIVE 中的一个，默认值为 unset （依赖驱动） -->
     <!-- statementType (可选配置)，STATEMENT，PREPARED 或 CALLABLE 的一个。这会让 MyBatis 分别使用 Statement，PreparedStatement 或 CallableStatement，默认值：PREPARED -->
-    <select id="jointFind" parameterType="JointQuery" resultMap="JointResultMap" resultSetType="FORWARD_ONLY" statementType="PREPARED" databaseId="mysql">
+    <select id="find" parameterType="JointQuery" resultMap="JointResultMap" resultSetType="FORWARD_ONLY" statementType="PREPARED" databaseId="mysql">
         <include refid="Joint_Query" />
         <if test="page != null and size != null">
             <![CDATA[
@@ -20,7 +20,7 @@
     <!-- oracle的分页语法支持 -->
     <!-- 组合关联查询函数，支持分页功能，resultSetType (可选配置) FORWARD_ONLY，SCROLL_SENSITIVE 或 SCROLL_INSENSITIVE 中的一个，默认值为 unset （依赖驱动） -->
     <!-- statementType (可选配置)，STATEMENT，PREPARED 或 CALLABLE 的一个。这会让 MyBatis 分别使用 Statement，PreparedStatement 或 CallableStatement，默认值：PREPARED -->
-    <select id="jointFind" parameterType="JointQuery" resultMap="JointResultMap" resultSetType="FORWARD_ONLY" statementType="PREPARED" databaseId="oracle">
+    <select id="find" parameterType="JointQuery" resultMap="JointResultMap" resultSetType="FORWARD_ONLY" statementType="PREPARED" databaseId="oracle">
         <if test="page != null and size != null">
             <![CDATA[
                 select * from ( select row_.*, rownum rownum_ from (
