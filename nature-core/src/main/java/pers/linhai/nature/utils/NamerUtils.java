@@ -173,7 +173,7 @@ public abstract class NamerUtils
     public static final String classToProperty(String name)
     {
         StringBuffer s = new StringBuffer();
-        s.append(Character.toLowerCase(name.charAt(0))).append(name.substring(1));
+        s.append(name).setCharAt(0, Character.toLowerCase(name.charAt(0)));
         return s.toString();
     }
     

@@ -13,6 +13,7 @@ import java.io.Serializable;
 
 import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.model.exception.JointQueryException;
+import pers.linhai.nature.utils.NamerUtils;
 
 /**
  * 关联查询的实体bean
@@ -48,15 +49,14 @@ public class JointQueryResultBean extends EntityBean
         {
             throw new JointQueryException("The joint-query was successful, but the result failed because the name of the table was not found in the return-column-name：" + column);
         }
-        String entity = column.substring(0, dotIndex);
-        String field = column.substring(dotIndex + 1);
-        EntityBean entityBean = jointEntityBean.get(entity);
+        String entityProperty = NamerUtils.classToProperty(column.substring(0, dotIndex));
+        EntityBean entityBean = jointEntityBean.get(entityProperty);
         if (entityBean == null)
         {
             entityBean = new EntityBean();
-            jointEntityBean.put(entity, entityBean);
+            jointEntityBean.put(entityProperty, entityBean);
         }
-        return entityBean.put(field, value);
+        return entityBean.put(column.substring(dotIndex + 1), value);
     }
 
     /**

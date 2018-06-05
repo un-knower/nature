@@ -114,7 +114,7 @@ public class JointQueryResultHandler implements ResultHandler<JointQueryResultBe
                 }
                 else
                 {
-                    entityBean = jointEntityBean.get(paramClass.getSimpleName());
+                    entityBean = jointEntityBean.get(paramClass);
                     if (entityBean == null)
                     {
                         objs[i] = null;
