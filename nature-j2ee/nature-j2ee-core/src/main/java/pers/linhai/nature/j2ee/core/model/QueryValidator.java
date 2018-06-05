@@ -57,7 +57,7 @@ public class QueryValidator
      * <p>Set Method   :   allowQueryFieldMap Map<String,Set<Object>></p>
      * @param allowConditionFieldMap
      */
-    public void addAllowConditionField(ModelField modelField, Object val)
+    public void addAllowConditionField(ModelField modelField, Object... vals)
     {
         if (modelField.getClass() == BaseField.class)
         {
@@ -69,7 +69,14 @@ public class QueryValidator
             allowValSet = new HashSet<String>();
             this.allowConditionFieldMap.put(modelField.getEntity() + "." + modelField.getField(), allowValSet);
         }
-        allowValSet.add(String.valueOf(val));
+        
+        if (vals != null)
+        {
+            for (Object val : vals)
+            {
+                allowValSet.add(String.valueOf(val));
+            }
+        }
     }
     
     public void validQuery(BaseQuery query)
@@ -142,6 +149,7 @@ public class QueryValidator
     }
 
     /**
+     * 设置允许返回最大大小
      * <p>Set Method   :   allowReturnSize Integer</p>
      * @param allowReturnSize
      */
@@ -226,7 +234,7 @@ public class QueryValidator
             throw new QueryValidException(BaseErrorCode.QUERY_CONDITION_FIELD_NOT_ALLOWED, "This field is not allowed to participate in the search :" + fieldInfo);
         }
         
-        if (!allowValSet.contains(value))
+        if (!allowValSet.isEmpty() && !allowValSet.contains(value))
         {
             throw new QueryValidException(BaseErrorCode.QUERY_CONDITION_FIELD_VALUE_NOT_ALLOWED, "This field-value is not allowed to participate in the search :" 
                     + fieldInfo + ", value: " + value);
