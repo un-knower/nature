@@ -22,4 +22,15 @@ public class EntityBean extends ModelBean
      */
     private static final long serialVersionUID = 1L;
     
+    /**
+     * 删除指定键值
+     * <p>Title         : remove lilinhai 2018年6月6日 下午11:21:15</p>
+     * @param field
+     * @return 
+     * Object
+     */
+    public Object remove(ModelField field)
+    {
+        return super.remove(field.getField());
+    }
 }
