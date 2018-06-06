@@ -55,6 +55,25 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
     int update(Entity record);
     
     /**
+     * 更新指定sql语句
+     * <p>Title         : update lilinhai 2018年6月6日 下午11:28:20</p>
+     * @param statment
+     * @param params
+     * @return 
+     * int
+     */
+    int update(String statment, Object params);
+    
+    /**
+     * 更新指定sql语句
+     * <p>Title         : update lilinhai 2018年6月6日 下午11:28:20</p>
+     * @param statment
+     * @return 
+     * int
+     */
+    int update(String statment);
+    
+    /**
      * 根据主键id查找单个记录。
      */
     Entity get(Key id);
@@ -77,6 +96,24 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * Entity
      */
     Entity get(EntityQuery entityQuery);
+    
+    /**
+     * 调用自己写的statment sql语句
+     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
+     * @param statment
+     * @param params
+     * void
+     */
+    Entity get(String statment, Object params);
+    
+    /**
+     * 调用自己写的statment sql语句
+     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
+     * @param statment
+     * @param params
+     * void
+     */
+    <T> T get(String statment, Object params, Class<T> clazz);
     
     /**
      * <p>Title         : get lilinhai 2018年3月15日 上午12:00:03</p>
@@ -110,16 +147,6 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
      * @param statment
      * @param params
-     * @param entityProcessor 
-     * void
-     */
-    void find(String statment, Object params, ICustomEntityQueryRowDataProcessor<Entity> entityProcessor);
-    
-    /**
-     * 调用自己写的statment sql语句
-     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
-     * @param statment
-     * @param params
      * void
      */
     List<Entity> find(String statment, Object params);
@@ -129,19 +156,10 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
      * @param statment
      * @param params
-     * void
-     */
-    Entity get(String statment, Object params);
-    
-    /**
-     * 调用自己写的statment sql语句
-     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
-     * @param statment
-     * @param params
      * @param entityProcessor 
      * void
      */
-    <T> void execFind(String statment, Object params, ICustomEntityQueryRowDataProcessor<T> entityProcessor);
+    <T> void find(String statment, Object params, ICustomEntityQueryRowDataProcessor<T> entityProcessor);
     
     /**
      * 调用自己写的statment sql语句
@@ -150,34 +168,7 @@ public interface IBaseMapper<Key, Entity extends BaseEntity<Key>, EntityQuery ex
      * @param params
      * void
      */
-    <T> List<T> execFind(String statment, Object params, Class<T> clazz);
-    
-    /**
-     * 调用自己写的statment sql语句
-     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
-     * @param statment
-     * @param params
-     * void
-     */
-    List<Entity> execFind(String statment, Object params);
-    
-    /**
-     * 调用自己写的statment sql语句
-     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
-     * @param statment
-     * @param params
-     * void
-     */
-    <T> T execGet(String statment, Object params, Class<T> clazz);
-    
-    /**
-     * 调用自己写的statment sql语句
-     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
-     * @param statment
-     * @param params
-     * void
-     */
-    public Entity execGet(String statment, Object params);
+    <T> List<T> find(String statment, Object params, Class<T> clazz);
     
     /**
      * 统计记录条数

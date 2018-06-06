@@ -22,11 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pers.linhai.nature.j2ee.core.dao.exception.MapperException;
 import pers.linhai.nature.j2ee.core.dao.processor.ICustomEntityQueryRowDataProcessor;
 import pers.linhai.nature.j2ee.core.dao.processor.IEntityQueryRowDataProcessor;
-import pers.linhai.nature.j2ee.core.dao.processor.impls.CustomEntityProcessorImpl;
 import pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityProcessorImpl;
 import pers.linhai.nature.j2ee.core.dao.processor.impls.DefaultEntityQueryRowDataProcessorImpl;
-import pers.linhai.nature.j2ee.core.dao.resulthandler.EntityResultHandler;
 import pers.linhai.nature.j2ee.core.dao.resulthandler.EntityBeanResultHandler;
+import pers.linhai.nature.j2ee.core.dao.resulthandler.EntityResultHandler;
 import pers.linhai.nature.j2ee.core.dao.resulthandler.LongResultHandler;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
@@ -128,7 +127,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
             {
                 if (type instanceof Class)
                 {
-                    Class<?> c = (Class<?>) type;
+                    Class< ? > c = (Class< ? >) type;
                     if (c.getSuperclass() == BaseEntity.class)
                     {
                         Class<Entity> entityClass = (Class<Entity>) c;
@@ -279,6 +278,31 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     }
     
     /**
+     * 更新指定sql语句
+     * <p>Title         : update lilinhai 2018年6月6日 下午11:28:20</p>
+     * @param statment
+     * @param params
+     * @return 
+     * int
+     */
+    public int update(String statment, Object params)
+    {
+        return sqlSession.update(namespace.concat(".").concat(statment), params);
+    }
+    
+    /**
+     * 更新指定sql语句
+     * <p>Title         : update lilinhai 2018年6月6日 下午11:28:20</p>
+     * @param statment
+     * @return 
+     * int
+     */
+    public int update(String statment)
+    {
+        return sqlSession.update(namespace.concat(".").concat(statment));
+    }
+    
+    /**
      * 根据主键获取单个实体
      * <p>Overriding Method: lilinhai 2018年5月18日 上午10:16:33</p>
      * <p>Title: get</p>
@@ -368,18 +392,37 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
     }
     
     /**
-     * 根据查询条件统计数量
-     * <p>Overriding Method: lilinhai 2018年5月18日 上午10:18:01</p>
-     * <p>Title: count</p>
-     * @param entityQuery
-     * @return 
-     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#count(pers.linhai.nature.j2ee.core.model.BaseQuery)
+     * 调用自己写的statment sql语句
+     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
+     * @param statment
+     * @param params
+     * void
      */
-    public long count(EntityQuery entityQuery)
+    public <T> T get(String statment, Object params, Class<T> clazz)
     {
-        LongResultHandler longResultHandler = new LongResultHandler();
-        sqlSession.select(COUNT, entityQuery, longResultHandler);
-        return longResultHandler.getValue();
+        List<T> el = find(statment, params, clazz);
+        if (el != null && !el.isEmpty())
+        {
+            return el.get(0);
+        }
+        return null;
+    }
+    
+    /**
+     * 调用自己写的statment sql语句
+     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
+     * @param statment
+     * @param params
+     * void
+     */
+    public Entity get(String statment, Object params)
+    {
+        List<Entity> el = find(statment, params);
+        if (el != null && !el.isEmpty())
+        {
+            return el.get(0);
+        }
+        return null;
     }
     
     /** 
@@ -409,13 +452,13 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
      * @param statment
      * @param params
-     * @param entityProcessor 
      * void
      */
-    public void find(String statment, Object params, ICustomEntityQueryRowDataProcessor<Entity> entityProcessor)
+    public <T> List<T> find(String statment, Object params, Class<T> clazz)
     {
-        EntityResultHandler<Entity> myResultHandler = new EntityResultHandler<Entity>(entityProcessor);
-        sqlSession.select(namespace.concat(".").concat(statment), params, myResultHandler);
+        DefaultEntityProcessorImpl<T> entityProcessor = new DefaultEntityProcessorImpl<T>();
+        find(statment, params, entityProcessor);
+        return entityProcessor.getEntityList();
     }
     
     /**
@@ -437,91 +480,27 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
      * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
      * @param statment
      * @param params
-     * void
-     */
-    public Entity get(String statment, Object params)
-    {
-        List<Entity> el = find(statment, params);
-        if (el != null && !el.isEmpty())
-        {
-            return el.get(0);
-        }
-        return null;
-    }
-    
-    /**
-     * 调用自己写的statment sql语句
-     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
-     * @param statment
-     * @param params
      * @param entityProcessor 
      * void
      */
-    public <T> void execFind(String statment, Object params, ICustomEntityQueryRowDataProcessor<T> entityProcessor)
+    public <T> void find(String statment, Object params, ICustomEntityQueryRowDataProcessor<T> entityProcessor)
     {
         EntityResultHandler<T> myResultHandler = new EntityResultHandler<T>(entityProcessor);
         sqlSession.select(namespace.concat(".").concat(statment), params, myResultHandler);
     }
     
     /**
-     * 调用自己写的statment sql语句
-     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
-     * @param statment
-     * @param params
-     * void
+     * 根据查询条件统计数量
+     * <p>Overriding Method: lilinhai 2018年5月18日 上午10:18:01</p>
+     * <p>Title: count</p>
+     * @param entityQuery
+     * @return 
+     * @see pers.linhai.nature.j2ee.core.dao.IBaseMapper#count(pers.linhai.nature.j2ee.core.model.BaseQuery)
      */
-    public <T> List<T> execFind(String statment, Object params, Class<T> clazz)
+    public long count(EntityQuery entityQuery)
     {
-        CustomEntityProcessorImpl<T> entityProcessor = new CustomEntityProcessorImpl<T>();
-        execFind(statment, params, entityProcessor);
-        return entityProcessor.getEntityList();
-    }
-    
-    /**
-     * 调用自己写的statment sql语句
-     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
-     * @param statment
-     * @param params
-     * void
-     */
-    public List<Entity> execFind(String statment, Object params)
-    {
-        CustomEntityProcessorImpl<Entity> entityProcessor = new CustomEntityProcessorImpl<Entity>();
-        execFind(statment, params, entityProcessor);
-        return entityProcessor.getEntityList();
-    }
-    
-    /**
-     * 调用自己写的statment sql语句
-     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
-     * @param statment
-     * @param params
-     * void
-     */
-    public <T> T execGet(String statment, Object params, Class<T> clazz)
-    {
-        List<T> el = execFind(statment, params, clazz);
-        if (el != null && !el.isEmpty())
-        {
-            return el.get(0);
-        }
-        return null;
-    }
-    
-    /**
-     * 调用自己写的statment sql语句
-     * <p>Title         : select lilinhai 2018年2月24日 上午9:51:17</p>
-     * @param statment
-     * @param params
-     * void
-     */
-    public Entity execGet(String statment, Object params)
-    {
-        List<Entity> el = execFind(statment, params);
-        if (el != null && !el.isEmpty())
-        {
-            return el.get(0);
-        }
-        return null;
+        LongResultHandler longResultHandler = new LongResultHandler();
+        sqlSession.select(COUNT, entityQuery, longResultHandler);
+        return longResultHandler.getValue();
     }
 }
