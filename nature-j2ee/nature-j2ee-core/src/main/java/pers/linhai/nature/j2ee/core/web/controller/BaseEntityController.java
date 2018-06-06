@@ -170,12 +170,6 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         {
             entityControllerInterceptor.beforeGet(request, response, id);
             EntityBean record = entityService.getEntityBean(id);
-            if (record == null)
-            {
-                RestResponse restResponse = fail(BaseErrorCode.GET_FAIL, "[Controller] find occor an error, id：" + id);
-                logger.error(JSON.toJSONString(restResponse));
-                return restResponse;
-            }
             return success(record);
         }
         catch (ControllerException e)
@@ -204,12 +198,6 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         {
             entityControllerInterceptor.beforeGet(request, response, entityQuery);
             EntityBean record = entityService.getEntityBean(entityQuery);
-            if (record == null)
-            {
-                RestResponse restResponse = fail(BaseErrorCode.GET_FAIL, "[Controller] findOne occor an error, entityQuery：" + JSON.toJSONString(entityQuery));
-                logger.error(JSON.toJSONString(restResponse));
-                return restResponse;
-            }
             return success(record);
         }
         catch (ControllerException e)
