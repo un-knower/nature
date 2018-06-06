@@ -11,12 +11,8 @@ package pers.linhai.nature.j2ee.core.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.alibaba.fastjson.JSON;
 
 import pers.linhai.nature.j2ee.core.constant.BaseErrorCode;
 import pers.linhai.nature.j2ee.core.dao.IBaseMapper;
@@ -40,12 +36,6 @@ import pers.linhai.nature.j2ee.core.service.interceptor.IEntityServiceIntercepto
 public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery, Mapper extends IBaseMapper<Key, Entity, EntityQuery>, EntityServiceInterceptor extends IEntityServiceInterceptor<Key, Entity, EntityQuery, Mapper>>
         extends BaseService implements IBaseEntityService<Key, Entity, EntityQuery>
 {
-    
-    /**
-     * 日志记录器
-     */
-    protected Logger logger;
-    
     @Autowired
     protected Mapper mapper;
     
@@ -54,15 +44,6 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>,
      */
     @Autowired
     private EntityServiceInterceptor entityServiceInterceptor;
-    
-    /**
-     * <p>Title        : BaseEntityServiceImpl lilinhai 2018年4月21日 下午10:34:47</p>
-     */
-    public BaseEntityServiceImpl()
-    {
-        logger = LoggerFactory.getLogger(getClass().getInterfaces()[0].getName());
-        logger.info(" init success.");
-    }
     
     /**
      * 公共业务层删除方法
@@ -116,7 +97,7 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>,
             int c = mapper.save(record);
             if (c != 1)
             {
-                throw new EntitySaveInterceptProcessException(BaseErrorCode.INSERT_FAIL, "[Controller] save occor an error, record：" + JSON.toJSONString(record.toEntityBean()));
+                throw new EntitySaveInterceptProcessException(BaseErrorCode.INSERT_FAIL, "[Controller] save occor an error, record：" + toJSON(record.toEntityBean()));
             }
             entityServiceInterceptor.afterSave(record);
         }
@@ -151,7 +132,7 @@ public abstract class BaseEntityServiceImpl<Key, Entity extends BaseEntity<Key>,
             int c = mapper.update(record);
             if (c != 1)
             {
-                throw new EntityUpdateInterceptProcessException(10300, "[Controller] update occor an error, record：" + JSON.toJSONString(record.toEntityBean()));
+                throw new EntityUpdateInterceptProcessException(10300, "[Controller] update occor an error, record：" + toJSON(record.toEntityBean()));
             }
             entityServiceInterceptor.afterUpdate(record);
         }

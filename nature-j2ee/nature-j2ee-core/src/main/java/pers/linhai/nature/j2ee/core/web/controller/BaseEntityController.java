@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.alibaba.fastjson.JSON;
-
 import pers.linhai.nature.j2ee.core.constant.BaseErrorCode;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
@@ -208,7 +206,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         catch (Throwable e)
         {
             logger.error("[Controller] get(@RequestBody EntityQuery entityQuery, HttpServletRequest request) occor an error", e);
-            return fail(BaseErrorCode.GET_EXCEPTION, e.getMessage() + "，entityQuery：" + JSON.toJSONString(entityQuery));
+            return fail(BaseErrorCode.GET_EXCEPTION, e.getMessage() + "，entityQuery：" + toJSON(entityQuery));
         }
     }
     
