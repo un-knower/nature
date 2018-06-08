@@ -127,7 +127,7 @@ public class Main
         CodeGenerator.generate(artifactDir.getAbsolutePath(), params);
         
         // 代码生成完后，生成对应的rest-api在线文档
-        File appArtifactDir = new File(artifactDir, artifactId + "-app");
+        File appArtifactDir = new File(artifactDir, artifactId + "-application");
         File appResourcesDoc = new File(appArtifactDir, "doc/api");
         FileUtils.createDir(appResourcesDoc);
         Collections.sort(EntityRestApiCache.getInstance().getEntityRestApiList());
@@ -359,9 +359,9 @@ public class Main
         FileUtils.createDir(appResourcesSpring);
         build(cfg, params, new File(ClassUtils.getDefaultClassLoader().getResource("app/spring").getPath()), appResourcesSpring, "app/spring/");
         
-        File appResourcesDatasource = new File(appResources, "datasource");
+        File appResourcesDatasource = new File(appResources, "nature");
         FileUtils.createDir(appResourcesDatasource);
-        build(cfg, params, new File(ClassUtils.getDefaultClassLoader().getResource("app/datasource").getPath()), appResourcesDatasource, "app/datasource/");
+        build(cfg, params, new File(ClassUtils.getDefaultClassLoader().getResource("app/nature").getPath()), appResourcesDatasource, "app/nature/");
         
         File appResourcesLog4j2 = new File(appResources, "log4j2");
         FileUtils.createDir(appResourcesLog4j2);

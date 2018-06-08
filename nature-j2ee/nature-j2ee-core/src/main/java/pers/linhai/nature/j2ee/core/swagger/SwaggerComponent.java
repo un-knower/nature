@@ -34,7 +34,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Component
 @EnableSwagger2
-@ConfigurationProperties(prefix = "swagger")
+@ConfigurationProperties("nature.swagger")
 public class SwaggerComponent extends Docket implements InitializingBean
 {
     

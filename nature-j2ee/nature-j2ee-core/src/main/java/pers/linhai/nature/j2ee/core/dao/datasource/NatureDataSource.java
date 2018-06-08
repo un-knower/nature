@@ -29,7 +29,7 @@ import com.alibaba.druid.wall.WallFilter;
  * @version 1.0
  */
 @Component
-@ConfigurationProperties(prefix = "datasource")
+@ConfigurationProperties(prefix = "nature.datasource")
 public class NatureDataSource extends DruidDataSource
 {
     /**

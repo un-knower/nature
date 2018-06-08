@@ -66,10 +66,14 @@ datasource:
   
   # nature数据源监控器
   monitor: 
-    enabled: false                          # nature数据源监控器是否可用
+    enabled: true                           # nature数据源监控器是否可用
     username: "admin"                       # nature数据源监控器的登录用户名
     password: "123456"                      # nature数据源监控器的登录用户名
     resetEnable: false                      # nature数据源监控器：是否能够重置数据
     allow: "127.0.0.1"                      # 允许哪些ip地址访问监控器
     #deny:                                  # IP黑名单 (存在共同时，deny优先于allow) : 如果满足deny的话提示:Sorry, you are not permitted to view this
-      
+ 
+  # swagger-api配置区
+  swagger: 
+    enable: true
+          
