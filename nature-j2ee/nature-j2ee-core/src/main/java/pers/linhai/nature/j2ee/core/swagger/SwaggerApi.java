@@ -35,7 +35,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Component
 @EnableSwagger2
 @ConfigurationProperties("nature.swagger")
-public class SwaggerComponent extends Docket implements InitializingBean
+public class SwaggerApi extends Docket implements InitializingBean
 {
     
     @Autowired
@@ -45,7 +45,7 @@ public class SwaggerComponent extends Docket implements InitializingBean
      * <p>Title        : SwaggerComponent lilinhai 2018年6月8日 下午5:14:30</p>
      * @param documentationType 
      */
-    public SwaggerComponent()
+    public SwaggerApi()
     {
         super(DocumentationType.SWAGGER_2);
     }
