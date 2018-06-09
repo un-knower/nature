@@ -3,10 +3,8 @@ window.onload = () => {
   const buildSystemAsync = async (baseUrl) => {
     try {
       const configUI = {"apisSorter":"alpha","jsonEditor":false,"showRequestHeaders":false,"deepLinking":true,"displayOperationId":false,"defaultModelsExpandDepth":1,"defaultModelExpandDepth":1,"defaultModelRendering":"example","displayRequestDuration":false,"docExpansion":"none","filter":false,"operationsSorter":"alpha","showExtensions":false,"tagsSorter":"alpha"};
-
       const configSecurity = {};
-
-      const resources = [{"name":"default","url":"/rest-api/api-docs","swaggerVersion":"2.0","location":"/rest-api/api-docs"}];
+      const resources = [{"name":"default","url":"/api-docs","swaggerVersion":"2.0","location":"/api-docs"}];
       resources.forEach(resource => {
         resource.url = baseUrl + resource.url;
       });
