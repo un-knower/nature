@@ -36,8 +36,10 @@ public abstract class BrowseUtils
             {
                 //创建一个URI实例,注意不是URL
                 java.net.URI uri = URI.create(url);
+                
                 //获取当前系统桌面扩展
                 Desktop dp = Desktop.getDesktop();
+                
                 //判断系统桌面是否支持要执行的功能
                 if (dp.isSupported(Desktop.Action.BROWSE))
                 {
