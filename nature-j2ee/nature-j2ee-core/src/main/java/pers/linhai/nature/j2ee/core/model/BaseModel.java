@@ -11,6 +11,8 @@ package pers.linhai.nature.j2ee.core.model;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * <p>ClassName      : IBaseJdbc</p>
  * @author lilinhai 2018年2月13日 下午2:21:14
@@ -47,7 +49,8 @@ public abstract class BaseModel implements ModelHelper, Serializable
      * <p>Get Method   :   tableName String</p>
      * @return tableName
      */
-    String tableName()
+    @JsonIgnore
+    public String getTable()
     {
         return table;
     }
