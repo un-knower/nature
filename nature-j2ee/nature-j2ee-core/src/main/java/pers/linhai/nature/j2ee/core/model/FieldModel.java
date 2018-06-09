@@ -9,6 +9,8 @@
 
 package pers.linhai.nature.j2ee.core.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 字段模型
  * <p>ClassName      : JoinTable</p>
@@ -21,11 +23,13 @@ public abstract class FieldModel
     /**
      * 数据库表名
      */
+    @JsonIgnore
     private String table;
     
     /**
      * 数据库表列名
      */
+    @JsonIgnore
     private String column;
     
     /**

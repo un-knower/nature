@@ -12,6 +12,8 @@ package pers.linhai.nature.j2ee.core.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 查询对象基类
  * <p>ClassName      : BaseQuery</p>
@@ -34,6 +36,7 @@ public abstract class BaseQuery extends BaseModel
     /**
      * 第X页的开始下标
      */
+    @JsonIgnore
     private Integer offset;
     
     /**
@@ -141,6 +144,7 @@ public abstract class BaseQuery extends BaseModel
      * <p>Get Method   :   returnFieldList List<String></p>
      * @return returnFieldList
      */
+    @JsonIgnore
     public List<String> getSelectColumnList()
     {
         return (selectColumnList == null || selectColumnList.isEmpty()) ? columnList() : selectColumnList;
@@ -150,6 +154,7 @@ public abstract class BaseQuery extends BaseModel
      * <p>Get Method   :   selectFieldList List<String></p>
      * @return selectFieldList
      */
+    @JsonIgnore
     public List<String> getSelectFieldList()
     {
         return (selectFieldList == null || selectFieldList.isEmpty()) ? fieldList() : selectFieldList;

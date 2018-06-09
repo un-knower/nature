@@ -12,6 +12,8 @@ package pers.linhai.nature.j2ee.core.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import pers.linhai.nature.j2ee.core.model.enumer.JoinType;
 import pers.linhai.nature.j2ee.core.model.exception.QueryBuildException;
 import pers.linhai.nature.j2ee.core.model.join.SelectField;
@@ -40,6 +42,7 @@ public class JointQuery
     /**
      * 第X页的开始下标
      */
+    @JsonIgnore
     private Integer offset;
     
     /**
@@ -97,6 +100,7 @@ public class JointQuery
      * <p>Get Method   :   selectFieldList List<SelectField></p>
      * @return selectFieldList
      */
+    @JsonIgnore
     public List<SelectField> getSelectColumnList()
     {
         if (selectColumnList == null || selectColumnList.isEmpty())
@@ -150,6 +154,7 @@ public class JointQuery
      * <p>Get Method   :   tableJointorList List<TableJointor></p>
      * @return tableJointorList
      */
+    @JsonIgnore
     public List<TableJointor> getTableJointorList()
     {
         if (tableJointorList == null || tableJointorList.isEmpty())
@@ -262,6 +267,7 @@ public class JointQuery
      * <p>Get Method   :   sortFieldList List<SortField></p>
      * @return orderByFieldList
      */
+    @JsonIgnore
     public List<SortField> getOrderFieldList()
     {
         return orderFieldList;

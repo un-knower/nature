@@ -825,7 +825,7 @@ keyframes blinker { 50%{
 	-webkit-animation: swagger-ui-pulse 2s infinite;
 	animation: swagger-ui-pulse 2s infinite;
 	will-change: transform;
-	background-color: transparent;
+	background-color: #408080;
 	color: #fff;
 	border-color: #4990e2
 }

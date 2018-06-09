@@ -9,6 +9,8 @@
 
 package pers.linhai.nature.j2ee.core.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
  * <p>ClassName      : Condition</p>
@@ -36,6 +38,7 @@ public class Condition extends FieldModel
     /**
      * 该自定义条件字段对饮的JDBC类型
      */
+    @JsonIgnore
     private String jdbcType;
     
     /**

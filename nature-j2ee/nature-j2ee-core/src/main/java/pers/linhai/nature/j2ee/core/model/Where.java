@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import pers.linhai.nature.j2ee.core.dao.exception.ConditionFormatException;
 import pers.linhai.nature.j2ee.core.dao.exception.ConditionIsNullException;
 import pers.linhai.nature.j2ee.core.dao.exception.IllegalExpression;
@@ -50,6 +52,7 @@ public class Where
     /**
      * 条件片段集合
      */
+    @JsonIgnore
     private List<ConditionSegment> conditionSegmentList;
     
     /**
