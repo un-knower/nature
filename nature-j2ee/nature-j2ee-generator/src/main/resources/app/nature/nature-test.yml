@@ -74,6 +74,6 @@ nature:
       allow: "127.0.0.1"                      # 允许哪些ip地址访问监控器
       #deny:                                  # IP黑名单 (存在共同时，deny优先于allow) : 如果满足deny的话提示:Sorry, you are not permitted to view this
       
-  # swagger-api配置区
-  swagger: 
-    enable: true
+  # rest-api配置区
+  restApi: 
+    enabled: true

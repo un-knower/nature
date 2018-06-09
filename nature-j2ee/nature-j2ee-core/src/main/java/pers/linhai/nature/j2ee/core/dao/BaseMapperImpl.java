@@ -184,7 +184,8 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
                 return 0;
             }
             
-            if (record.getCreateTime() == null)
+            // 如果新增记录的时候，未设置创建时间，则刷新创建时间
+            if (!record.hasPersistentField(BaseField.CREATE_TIME))
             {
                 // 设置创建时间
                 record.setCreateTime(new Date());
@@ -256,7 +257,8 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
             // 去除ID字段的更新
             record.removePersistentField(BaseField.ID);
             
-            if (record.getUpdateTime() == null)
+            // 如果修改 该记录时候，未设置修改 时间，则自动刷新修改时间
+            if (!record.hasPersistentField(BaseField.UPDATE_TIME))
             {
                 // 刷新修改时间
                 record.setUpdateTime(new Date());

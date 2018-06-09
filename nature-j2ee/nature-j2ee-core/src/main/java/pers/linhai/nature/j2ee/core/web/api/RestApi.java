@@ -7,7 +7,7 @@
  * @Version  V1.0  
  */
 
-package pers.linhai.nature.j2ee.core.swagger;
+package pers.linhai.nature.j2ee.core.web.api;
 
 import java.util.List;
 
@@ -34,8 +34,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Component
 @EnableSwagger2
-@ConfigurationProperties("nature.swagger")
-public class SwaggerApi extends Docket implements InitializingBean
+@ConfigurationProperties("nature.rest-api")
+public class RestApi extends Docket implements InitializingBean
 {
     
     @Autowired
@@ -45,7 +45,7 @@ public class SwaggerApi extends Docket implements InitializingBean
      * <p>Title        : SwaggerComponent lilinhai 2018年6月8日 下午5:14:30</p>
      * @param documentationType 
      */
-    public SwaggerApi()
+    public RestApi()
     {
         super(DocumentationType.SWAGGER_2);
     }
@@ -77,17 +77,23 @@ public class SwaggerApi extends Docket implements InitializingBean
         
     }
     
-    public void setEnable(boolean enable)
+    /**
+     * 是否开启rest-api功能
+     * <p>Title         : setEnabled lilinhai 2018年6月8日 下午11:05:29</p>
+     * @param enabled 
+     * void
+     */
+    public void setEnabled(boolean enabled)
     {
-        this.enable(enable);
+        this.enable(enabled);
     }
     
     private ApiInfo apiInfo()
     {
-        return new ApiInfoBuilder().title("springboot利用swagger构建api文档")
-                .description("简单优雅的restfun风格，http://blog.csdn.net/saytime")
+        return new ApiInfoBuilder().title("Nature J2EE Rest Api Docs")
+                .description("Nature J2EE框架Rest Api文档")
                 .termsOfServiceUrl("http://blog.csdn.net/saytime")
-                .version("1.0")
+                .version("2.0")
                 .build();
     }
 }

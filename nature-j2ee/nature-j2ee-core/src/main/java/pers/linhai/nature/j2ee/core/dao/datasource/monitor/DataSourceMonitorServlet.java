@@ -22,7 +22,7 @@ import com.alibaba.druid.support.http.StatViewServlet;
  * @version 1.0
  */
 @Component
-@ConfigurationProperties("datasource.monitor")
+@ConfigurationProperties("nature.datasource.monitor")
 public class DataSourceMonitorServlet extends ServletRegistrationBean<StatViewServlet>
 {
     
