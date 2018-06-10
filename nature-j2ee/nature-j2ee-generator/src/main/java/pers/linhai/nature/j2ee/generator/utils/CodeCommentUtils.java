@@ -257,32 +257,11 @@ public class CodeCommentUtils
     
     public static void addFieldComment(Field field, IntrospectedTable introspectedTable, IntrospectedColumn introspectedColumn)
     {
-
-        field.addJavaDocLine("/**"); //$NON-NLS-1$
-        field.addJavaDocLine(" * <pre>"); //$NON-NLS-1$
         String remarks = introspectedColumn.getRemarks();
         if (StringUtility.stringHasValue(remarks))
         {
             remarks = remarks.replace('\n', ' ').replace("\"", "\\\"");
-            field.addJavaDocLine(" *   1）字段含义："); //$NON-NLS-1$
-            String[] remarkLines = remarks.split(System.getProperty("line.separator")); //$NON-NLS-1$
-            for (String remarkLine : remarkLines)
-            {
-                field.addJavaDocLine(" *      " + remarkLine); //$NON-NLS-1$
-            }
         }
-        else
-        {
-            field.addJavaDocLine(" *   1）<label style=\"color:red\">警告：该字段在数据库表中未加注释，请加上！</label>"); //$NON-NLS-1$
-        }
-
-        field.addJavaDocLine(" *"); //$NON-NLS-1$
-        StringBuilder sb = new StringBuilder();
-        sb.append(" *   2）该字段对应数据库表中： "); //$NON-NLS-1$
-        sb.append(introspectedTable.getFullyQualifiedTable()).append('.').append(introspectedColumn.getActualColumnName());
-        field.addJavaDocLine(sb.toString());
-        field.addJavaDocLine(" * </pre>"); //$NON-NLS-1$
-        field.addJavaDocLine(" */"); //$NON-NLS-1$
         field.addAnnotation("@ApiModelProperty(value = \"" 
                 + (StringUtility.stringHasValue(remarks) ? remarks : "警告：该字段在数据库表中未加注释，请加上！") 
                     + "，对应数据库中[" + introspectedTable.getFullyQualifiedTable() + "." + introspectedColumn.getActualColumnName() + "]\")");
