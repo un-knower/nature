@@ -33,14 +33,6 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
     protected EntityService entityService;
     
     /**
-     * <p>Title        : BaseEntityController lilinhai 2018年4月21日 下午10:45:38</p>
-     */
-    public BaseEntityController()
-    {
-        logger.info(" init success.");
-    }
-    
-    /**
      * 创建一个实体
      * <p>Title         : insert lilinhai 2018年2月5日 下午11:23:43</p>
      * @param record
