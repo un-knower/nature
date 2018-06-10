@@ -51,7 +51,7 @@ public class Main
         String outPutPath = "C:\\Users\\lilinhai\\Desktop";
 
         String groupId = "com.meme";
-        String artifactId = "crm11";
+        String artifactId = "crm";
         String dbIp = "localhost";
         String dbPort = "3306";
         String dbUsername = "root";
@@ -71,8 +71,8 @@ public class Main
         params.put("dbUsername", dbUsername);
         params.put("dbPassword", dbPassword);
         
-        // 是否rest接口默认可用，默认不可用，全部抛出异常，根据需要一个个打开
-        params.put("restApiDefaultEnabled", "false");
+        // 是否rest接口默认可用，默认不可用，根据需要一个个打开
+        params.put("restApiDefaultEnabled", "true");
 
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
 

@@ -9,16 +9,7 @@
 
 package pers.linhai.nature.j2ee.core.web.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import pers.linhai.nature.j2ee.core.constant.BaseErrorCode;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
@@ -27,7 +18,6 @@ import pers.linhai.nature.j2ee.core.model.EntityBean;
 import pers.linhai.nature.j2ee.core.service.IBaseEntityService;
 import pers.linhai.nature.j2ee.core.service.exception.ServiceException;
 import pers.linhai.nature.j2ee.core.web.exception.ControllerException;
-import pers.linhai.nature.j2ee.core.web.interceptor.IEntityControllerInterceptor;
 import pers.linhai.nature.j2ee.core.web.model.PaginationData;
 import pers.linhai.nature.j2ee.core.web.model.RestResponse;
 
@@ -37,16 +27,8 @@ import pers.linhai.nature.j2ee.core.web.model.RestResponse;
  * @author lilinhai 2018年2月5日 下午5:45:55
  * @version 1.0
  */
-public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery
-    , EntityControllerInterceptor extends IEntityControllerInterceptor<Key, Entity, EntityQuery>, EntityService extends IBaseEntityService<Key, Entity, EntityQuery>> extends BaseController
+public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, EntityQuery extends BaseQuery, EntityService extends IBaseEntityService<Key, Entity, EntityQuery>> extends BaseController
 {
-    
-    /**
-     * 控制层拦截器
-     */
-    @Autowired
-    private EntityControllerInterceptor entityControllerInterceptor;
-    
     @Autowired
     protected EntityService entityService;
     
@@ -59,18 +41,45 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
     }
     
     /**
+     * 创建一个实体
+     * <p>Title         : insert lilinhai 2018年2月5日 下午11:23:43</p>
+     * @param record
+     * @return 
+     * ResponseResult
+     */
+    protected RestResponse save(Entity record)
+    {
+        try
+        {
+            entityService.save(record);
+            return success(record.toEntityBean());
+        }
+        catch (ServiceException e)
+        {
+            return fail(e.getErrorCode(), e.getMessage());
+        }
+        catch (ControllerException e)
+        {
+            logger.error("[Controller] save(@RequestBody Entity record) occor an error", e);
+            return fail(e.getErrorCode(), e.getMessage());
+        }
+        catch (Throwable e)
+        {
+            return fail(BaseErrorCode.INSERT_EXCEPTION, e.getMessage());
+        }
+    }
+    
+    /**
      * 根据主键删除一个实体
      * <p>Title         : deleteByPrimaryKey lilinhai 2018年2月5日 下午11:23:58</p>
      * @param id
      * @return 
      * ResponseResult
      */
-    @DeleteMapping("/{id}")
-    protected RestResponse delete(HttpServletRequest request, HttpServletResponse response, @PathVariable Key id)
+    protected RestResponse delete(Key id)
     {
         try
         {
-            entityControllerInterceptor.beforeDelete(request, response, id);
             entityService.delete(id);
             return success();
         }
@@ -81,43 +90,12 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         }
         catch (ControllerException e)
         {
-            logger.error("[Controller] delete(HttpServletRequest request, HttpServletResponse response, @PathVariable Key id) occor an error", e);
+            logger.error("[Controller] delete(@PathVariable Key id) occor an error", e);
             return fail(e.getErrorCode(), e.getMessage());
         }
         catch (Throwable e)
         {
             return fail(BaseErrorCode.DELETE_EXCEPTION, e.getMessage());
-        }
-    }
-    
-    /**
-     * 创建一个实体
-     * <p>Title         : insert lilinhai 2018年2月5日 下午11:23:43</p>
-     * @param record
-     * @return 
-     * ResponseResult
-     */
-    @PostMapping("")
-    protected RestResponse save(HttpServletRequest request, HttpServletResponse response, @RequestBody Entity record)
-    {
-        try
-        {
-            entityControllerInterceptor.beforeSave(request, response, record);
-            entityService.save(record);
-            return success(record.toEntityBean());
-        }
-        catch (ServiceException e)
-        {
-            return fail(e.getErrorCode(), e.getMessage());
-        }
-        catch (ControllerException e)
-        {
-            logger.error("[Controller] save(HttpServletRequest request, HttpServletResponse response, @RequestBody Entity record) occor an error", e);
-            return fail(e.getErrorCode(), e.getMessage());
-        }
-        catch (Throwable e)
-        {
-            return fail(BaseErrorCode.INSERT_EXCEPTION, e.getMessage());
         }
     }
     
@@ -129,13 +107,11 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
      * @return 
      * ResponseResult
      */
-    @PutMapping("/{id}")
-    protected RestResponse update(HttpServletRequest request, HttpServletResponse response, @RequestBody Entity record, @PathVariable Key id)
+    protected RestResponse update(Entity record, Key id)
     {
         try
         {
             record.setId(id);
-            entityControllerInterceptor.beforeUpdate(request, response, record);
             entityService.update(record);
             return success(record.toEntityBean());
         }
@@ -145,7 +121,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         }
         catch (ControllerException e)
         {
-            logger.error("[Controller] update(HttpServletRequest request, HttpServletResponse response, @RequestBody Entity record, @PathVariable Key id) occor an error", e);
+            logger.error("[Controller] update(@RequestBody Entity record, @PathVariable Key id) occor an error", e);
             return fail(e.getErrorCode(), e.getMessage());
         }
         catch (Throwable e)
@@ -161,18 +137,16 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
      * @return 
      * ResponseResult
      */
-    @GetMapping("/{id}")
-    protected RestResponse get(HttpServletRequest request, HttpServletResponse response, @PathVariable Key id)
+    protected RestResponse get(Key id)
     {
         try
         {
-            entityControllerInterceptor.beforeGet(request, response, id);
             EntityBean record = entityService.getEntityBean(id);
             return success(record);
         }
         catch (ControllerException e)
         {
-            logger.error("[Controller] get(HttpServletRequest request, HttpServletResponse response, @PathVariable Key id) occor an error", e);
+            logger.error("[Controller] get(@PathVariable Key id) occor an error", e);
             return fail(e.getErrorCode(), e.getMessage());
         }
         catch (Throwable e)
@@ -189,18 +163,16 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
      * @return 
      * ResponseResult
      */
-    @PostMapping("/get")
-    protected RestResponse get(HttpServletRequest request, HttpServletResponse response, @RequestBody EntityQuery entityQuery)
+    protected RestResponse get(EntityQuery entityQuery)
     {
         try
         {
-            entityControllerInterceptor.beforeGet(request, response, entityQuery);
             EntityBean record = entityService.getEntityBean(entityQuery);
             return success(record);
         }
         catch (ControllerException e)
         {
-            logger.error("[Controller] get(HttpServletRequest request, HttpServletResponse response, @RequestBody EntityQuery entityQuery) occor an error", e);
+            logger.error("[Controller] get(@RequestBody EntityQuery entityQuery) occor an error", e);
             return fail(e.getErrorCode(), e.getMessage());
         }
         catch (Throwable e)
@@ -217,13 +189,10 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
      * @return 
      * RestResponse
      */
-    @PostMapping("/find")
-    protected RestResponse find(HttpServletRequest request, HttpServletResponse response, @RequestBody EntityQuery entityQuery)
+    protected RestResponse find(EntityQuery entityQuery)
     {
         try
         {
-            entityControllerInterceptor.beforeFind(request, response, entityQuery);
-            
             // 分页参数为空，则不进行分页查询
             if (entityQuery.getPage() == null || entityQuery.getSize() == null)
             {
@@ -250,7 +219,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         }
         catch (ControllerException e)
         {
-            logger.error("[Controller] find(HttpServletRequest request, HttpServletResponse response, @RequestBody EntityQuery entityQuery) occor an error", e);
+            logger.error("[Controller] find(@RequestBody EntityQuery entityQuery) occor an error", e);
             return fail(e.getErrorCode(), e.getMessage());
         }
         catch (Throwable e)
@@ -267,17 +236,15 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
      * @return 
      * RestResponse
      */
-    @PostMapping("/count")
-    protected RestResponse count(HttpServletRequest request, HttpServletResponse response, @RequestBody EntityQuery entityQuery)
+    protected RestResponse count(EntityQuery entityQuery)
     {
         try
         {
-            entityControllerInterceptor.beforeCount(request, response, entityQuery);
             return success(entityService.count(entityQuery));
         }
         catch (ControllerException e)
         {
-            logger.error("[Controller] count(HttpServletRequest request, HttpServletResponse response, @RequestBody EntityQuery entityQuery) occor an error", e);
+            logger.error("[Controller] count(@RequestBody EntityQuery entityQuery) occor an error", e);
             return fail(e.getErrorCode(), e.getMessage());
         }
         catch (Throwable e)

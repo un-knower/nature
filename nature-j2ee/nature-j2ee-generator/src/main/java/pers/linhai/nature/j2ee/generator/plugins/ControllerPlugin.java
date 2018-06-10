@@ -16,13 +16,16 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import pers.linhai.nature.j2ee.core.constant.BaseErrorCode;
-import pers.linhai.nature.j2ee.core.web.exception.ControllerException;
-import pers.linhai.nature.j2ee.core.web.interceptor.IEntityControllerInterceptor;
+import pers.linhai.nature.j2ee.core.web.model.RestResponse;
 import pers.linhai.nature.j2ee.generator.core.api.CommentGenerator;
 import pers.linhai.nature.j2ee.generator.core.api.CoreClassImportConstant;
 import pers.linhai.nature.j2ee.generator.core.api.GeneratedJavaFile;
@@ -68,9 +71,6 @@ public class ControllerPlugin extends BasePlugin
     {
         List<GeneratedJavaFile> javaFileList = new ArrayList<GeneratedJavaFile>();
         
-        //创建实体对应的interceptor实现类
-        javaFileList.add(createControllerDataInterceptor(introspectedTable));
-        
         // 创建实体对应的Controller实现类
         javaFileList.add(createController(introspectedTable));
         return javaFileList;
@@ -95,220 +95,210 @@ public class ControllerPlugin extends BasePlugin
         
         // 添加需要依赖的类
         controllerClass.addImportedType(new FullyQualifiedJavaType(RestController.class.getName()));
-        controllerClass.addImportedType(new FullyQualifiedJavaType(RequestMapping.class.getName()));
+        controllerClass.addImportedType(new FullyQualifiedJavaType(RequestBody.class.getName()));
+        controllerClass.addImportedType(new FullyQualifiedJavaType(PathVariable.class.getName()));
+        controllerClass.addImportedType(new FullyQualifiedJavaType(HttpServletRequest.class.getName()));
+        controllerClass.addImportedType(new FullyQualifiedJavaType(HttpServletResponse.class.getName()));
+        controllerClass.addImportedType(new FullyQualifiedJavaType(RestResponse.class.getName()));
         controllerClass.addImportedType(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()));
-        controllerClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("interceptor") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "ControllerInterceptor"));
         controllerClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"));
         controllerClass.addImportedType(new FullyQualifiedJavaType(CoreClassImportConstant.BASE_ENTITY_CONTROLLER_CLASS));
         controllerClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("service", "interfaces") + ".I" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Service"));
         
+        if (restApiDefaultEnabled)
+        {
+            controllerClass.addImportedType(new FullyQualifiedJavaType(RequestMapping.class.getName()));
+            controllerClass.addImportedType(new FullyQualifiedJavaType(PostMapping.class.getName()));
+            controllerClass.addImportedType(new FullyQualifiedJavaType(DeleteMapping.class.getName()));
+            controllerClass.addImportedType(new FullyQualifiedJavaType(PutMapping.class.getName()));
+            controllerClass.addImportedType(new FullyQualifiedJavaType(GetMapping.class.getName()));
+        }
+        
         // 添加范型继承关系BaseService
         String keyType = introspectedTable.getPrimaryKeyColumns().get(0).getFullyQualifiedJavaType().getShortName();
         controllerClass.setSuperClass(new FullyQualifiedJavaType("BaseEntityController<" + keyType + ", " + introspectedTable.getBaseRecordType() + ", "
-            + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query" + ", "
-            + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "ControllerInterceptor" + ", I" 
+            + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query" + ", I" 
             + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Service" + ">"));
         
         // 添加spring扫描注解
         controllerClass.addAnnotation("@RestController");
-        controllerClass.addAnnotation("@RequestMapping(\"/" + GeneratorNamerUtils.controllerMappingName(introspectedTable.getFullyQualifiedTable().getDomainObjectName()) + "\")");
+        if (restApiDefaultEnabled)
+        {
+            controllerClass.addAnnotation("@RequestMapping(\"/" + GeneratorNamerUtils.controllerMappingName(introspectedTable.getFullyQualifiedTable().getDomainObjectName()) + "\")");
+        }
+        else
+        {
+            controllerClass.addJavaDocLine("//@RequestMapping(\"/" + GeneratorNamerUtils.controllerMappingName(introspectedTable.getFullyQualifiedTable().getDomainObjectName()) + "\")");
+        }
         
         //添加注释
         CommentGenerator commentGenerator = context.getCommentGenerator();
         commentGenerator.addJavaFileComment(controllerClass);
+        
+        // process1添加数据前的校验方法
+        Method processMethod1 = new Method("save");
+        processMethod1.addJavaDocLine("/**");
+        processMethod1.addJavaDocLine(" * 创建一个实体[" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]");
+        processMethod1.addJavaDocLine(" */");
+        processMethod1.setFinal(false);
+        processMethod1.setStatic(false);
+        processMethod1.setVisibility(JavaVisibility.PUBLIC);
+        processMethod1.setReturnType(new FullyQualifiedJavaType(RestResponse.class.getSimpleName()));
+        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
+        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
+        Parameter entityParam = new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamerUtils.classToProperty(introspectedTable.getFullyQualifiedTable().getDomainObjectName()));
+        entityParam.addAnnotation("@RequestBody");
+        processMethod1.addParameter(entityParam);
+        if (restApiDefaultEnabled)
+        {
+            processMethod1.addAnnotation("@PostMapping(\"\")");
+        }
+        else
+        {
+            processMethod1.addJavaDocLine("//@PostMapping(\"\")");
+        }
+        processMethod1.addBodyLine("return super.save("+NamerUtils.classToProperty(introspectedTable.getFullyQualifiedTable().getDomainObjectName())+");");
+        controllerClass.addMethod(processMethod1);
+        
+        processMethod1 = new Method("delete");
+        processMethod1.addJavaDocLine("/**");
+        processMethod1.addJavaDocLine(" * 根据主键删除一个实体[" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]");
+        processMethod1.addJavaDocLine(" */");
+        processMethod1.setFinal(false);
+        processMethod1.setStatic(false);
+        processMethod1.setVisibility(JavaVisibility.PUBLIC);
+        processMethod1.setReturnType(new FullyQualifiedJavaType(RestResponse.class.getSimpleName()));
+        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
+        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
+        Parameter idParam = new Parameter(new FullyQualifiedJavaType(keyType), "id");
+        idParam.addAnnotation("@PathVariable");
+        processMethod1.addParameter(idParam);
+        if (restApiDefaultEnabled)
+        {
+            processMethod1.addAnnotation("@DeleteMapping(\"/{id}\")");
+        }
+        else
+        {
+            processMethod1.addJavaDocLine("//@DeleteMapping(\"/{id}\")");
+        }
+        processMethod1.addBodyLine("return super.delete(id);");
+        controllerClass.addMethod(processMethod1);
+        
+        processMethod1 = new Method("update");
+        processMethod1.addJavaDocLine("/**");
+        processMethod1.addJavaDocLine(" * 根据主键修改实体属性[" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]");
+        processMethod1.addJavaDocLine(" */");
+        processMethod1.setFinal(false);
+        processMethod1.setStatic(false);
+        processMethod1.setVisibility(JavaVisibility.PUBLIC);
+        processMethod1.setReturnType(new FullyQualifiedJavaType(RestResponse.class.getSimpleName()));
+        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
+        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
+        processMethod1.addParameter(entityParam);
+        idParam = new Parameter(new FullyQualifiedJavaType(keyType), "id");
+        idParam.addAnnotation("@PathVariable");
+        processMethod1.addParameter(idParam);
+        if (restApiDefaultEnabled)
+        {
+            processMethod1.addAnnotation("@PutMapping(\"/{id}\")");
+        }
+        else
+        {
+            processMethod1.addJavaDocLine("//@PutMapping(\"/id\")");
+        }
+        processMethod1.addBodyLine("return super.update("+NamerUtils.classToProperty(introspectedTable.getFullyQualifiedTable().getDomainObjectName())+", id);");
+        controllerClass.addMethod(processMethod1);
+        
+        processMethod1 = new Method("get");
+        processMethod1.addJavaDocLine("/**");
+        processMethod1.addJavaDocLine(" * 根据主键查找单个记录[" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]");
+        processMethod1.addJavaDocLine(" */");
+        processMethod1.setFinal(false);
+        processMethod1.setStatic(false);
+        processMethod1.setVisibility(JavaVisibility.PUBLIC);
+        processMethod1.setReturnType(new FullyQualifiedJavaType(RestResponse.class.getSimpleName()));
+        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
+        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
+        processMethod1.addParameter(idParam);
+        if (restApiDefaultEnabled)
+        {
+            processMethod1.addAnnotation("@GetMapping(\"/{id}\")");
+        }
+        else
+        {
+            processMethod1.addJavaDocLine("//@GetMapping(\"/id\")");
+        }
+        processMethod1.addBodyLine("return super.get(id);");
+        controllerClass.addMethod(processMethod1);
+        
+        processMethod1 = new Method("get");
+        processMethod1.addJavaDocLine("/**");
+        processMethod1.addJavaDocLine(" * 根据查询条件查找单个记录[" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]");
+        processMethod1.addJavaDocLine(" */");
+        processMethod1.setFinal(false);
+        processMethod1.setStatic(false);
+        processMethod1.setVisibility(JavaVisibility.PUBLIC);
+        processMethod1.setReturnType(new FullyQualifiedJavaType(RestResponse.class.getSimpleName()));
+        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
+        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
+        Parameter queryParam = new Parameter(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"), "query");
+        queryParam.addAnnotation("@RequestBody");
+        processMethod1.addParameter(queryParam);
+        if (restApiDefaultEnabled)
+        {
+            processMethod1.addAnnotation("@PostMapping(\"/get\")");
+        }
+        else
+        {
+            processMethod1.addJavaDocLine("//@PostMapping(\"/get\")");
+        }
+        processMethod1.addBodyLine("return super.get(query);");
+        controllerClass.addMethod(processMethod1);
+        
+        processMethod1 = new Method("find");
+        processMethod1.addJavaDocLine("/**");
+        processMethod1.addJavaDocLine(" * 根据查询条件返回多个 实体，支持分页，若同时传了分页参数page和size，则执行分页查询，否则按默认最大返回1000条执行[" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]");
+        processMethod1.addJavaDocLine(" */");
+        processMethod1.setFinal(false);
+        processMethod1.setStatic(false);
+        processMethod1.setVisibility(JavaVisibility.PUBLIC);
+        processMethod1.setReturnType(new FullyQualifiedJavaType(RestResponse.class.getSimpleName()));
+        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
+        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
+        processMethod1.addParameter(queryParam);
+        if (restApiDefaultEnabled)
+        {
+            processMethod1.addAnnotation("@PostMapping(\"/find\")");
+        }
+        else 
+        {
+            processMethod1.addJavaDocLine("//@PostMapping(\"/find\")");
+        }
+        processMethod1.addBodyLine("return super.find(query);");
+        controllerClass.addMethod(processMethod1);
+        
+        processMethod1 = new Method("count");
+        processMethod1.addJavaDocLine("/**");
+        processMethod1.addJavaDocLine(" * 根据查询条件统计满足条件的实体个数[" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]理");
+        processMethod1.addJavaDocLine(" */");
+        processMethod1.setFinal(false);
+        processMethod1.setStatic(false);
+        processMethod1.setVisibility(JavaVisibility.PUBLIC);
+        processMethod1.setReturnType(new FullyQualifiedJavaType(RestResponse.class.getSimpleName()));
+        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
+        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
+        processMethod1.addParameter(queryParam);
+        if (restApiDefaultEnabled)
+        {
+            processMethod1.addAnnotation("@PostMapping(\"/count\")");
+        }
+        else
+        {
+            processMethod1.addJavaDocLine("//@PostMapping(\"/count\")");
+        }
+        processMethod1.addBodyLine("return super.count(query);");
+        controllerClass.addMethod(processMethod1);
+        
         return new GeneratedJavaFile(controllerClass, getTargetProjectJavaSourceFolder(), "utf-8", new DefaultJavaFormatter());
     }
-    
-    
-    /**
-     * 创建实体对应的interceptor接口
-     * <p>Title         : createServiceInterface lilinhai 2018年2月5日 下午2:36:13</p>
-     * @param introspectedTable
-     * @return 
-     * GeneratedJavaFile 
-     */
-    private GeneratedJavaFile createControllerDataInterceptor(IntrospectedTable introspectedTable)
-    {
-        TopLevelClass interceptor = new TopLevelClass(getTargetPackae("interceptor") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "ControllerInterceptor");
-
-        // 给interceptor实现类加注释
-        CodeCommentUtils.addInterceptorClassComment(interceptor, introspectedTable);
-
-        // 将接口访问权限设置为public
-        interceptor.setVisibility(JavaVisibility.PUBLIC);
-
-        // 添加需要依赖的类
-        interceptor.addImportedType(new FullyQualifiedJavaType(Component.class.getName()));
-        interceptor.addImportedType(new FullyQualifiedJavaType(HttpServletRequest.class.getName()));
-        interceptor.addImportedType(new FullyQualifiedJavaType(HttpServletResponse.class.getName()));
-        interceptor.addImportedType(new FullyQualifiedJavaType(ControllerException.class.getName()));
-        interceptor.addImportedType(new FullyQualifiedJavaType(IEntityControllerInterceptor.class.getName()));
-        interceptor.addImportedType(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()));
-        interceptor.addImportedType(new FullyQualifiedJavaType(BaseErrorCode.class.getName()));
-        interceptor.addImportedType(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"));
-
-        // 添加spring扫描注解
-        interceptor.addAnnotation("@Component");
-        
-        // 添加范型继承关系BaseService
-        String keyType = introspectedTable.getPrimaryKeyColumns().get(0).getFullyQualifiedJavaType().getShortName();
-
-        // 添加范型继承关系BaseService
-        interceptor.addSuperInterface(new FullyQualifiedJavaType(IEntityControllerInterceptor.class.getName() + "<" + keyType + ", " + introspectedTable.getBaseRecordType()
-            + ", " + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query" + ">"));
-
-        // process1添加数据前的校验方法
-        Method processMethod1 = new Method("beforeSave");
-        processMethod1.addJavaDocLine("/**");
-        processMethod1.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]上行数据save前的拦截处理，数据校验等操作处理");
-        processMethod1.addJavaDocLine(" */");
-        processMethod1.setFinal(false);
-        processMethod1.setStatic(false);
-        processMethod1.setVisibility(JavaVisibility.PUBLIC);
-        processMethod1.addException(new FullyQualifiedJavaType(ControllerException.class.getName()));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamerUtils.classToProperty(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
-        if (!restApiDefaultEnabled)
-        {
-            processMethod1.addBodyLine("throw new ControllerException(BaseErrorCode.REST_API_NOT_AVAILABLE, \"This api is not available.\");");
-        }
-        else
-        {
-            processMethod1.addBodyLine("");
-        }
-        interceptor.addMethod(processMethod1);
-        
-        processMethod1 = new Method("beforeDelete");
-        processMethod1.addJavaDocLine("/**");
-        processMethod1.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]上行数据delete前的拦截处理，预防处理误删、搞乱等操作");
-        processMethod1.addJavaDocLine(" */");
-        processMethod1.setFinal(false);
-        processMethod1.setStatic(false);
-        processMethod1.setVisibility(JavaVisibility.PUBLIC);
-        processMethod1.addException(new FullyQualifiedJavaType(ControllerException.class.getName()));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(keyType), "id"));
-        if (!restApiDefaultEnabled)
-        {
-            processMethod1.addBodyLine("throw new ControllerException(BaseErrorCode.REST_API_NOT_AVAILABLE, \"This api is not available.\");");
-        }
-        else
-        {
-            processMethod1.addBodyLine("");
-        }
-        interceptor.addMethod(processMethod1);
-        
-        processMethod1 = new Method("beforeUpdate");
-        processMethod1.addJavaDocLine("/**");
-        processMethod1.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]上行数据update前的拦截处理，数据校验等操作处理");
-        processMethod1.addJavaDocLine(" */");
-        processMethod1.setFinal(false);
-        processMethod1.setStatic(false);
-        processMethod1.setVisibility(JavaVisibility.PUBLIC);
-        processMethod1.addException(new FullyQualifiedJavaType(ControllerException.class.getName()));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(introspectedTable.getBaseRecordType()), NamerUtils.classToProperty(introspectedTable.getFullyQualifiedTable().getDomainObjectName())));
-        if (!restApiDefaultEnabled)
-        {
-            processMethod1.addBodyLine("throw new ControllerException(BaseErrorCode.REST_API_NOT_AVAILABLE, \"This api is not available.\");");
-        }
-        else
-        {
-            processMethod1.addBodyLine("");
-        }
-        interceptor.addMethod(processMethod1);
-        
-        processMethod1 = new Method("beforeGet");
-        processMethod1.addJavaDocLine("/**");
-        processMethod1.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]下行数据根据ID进行get前的拦截处理，数据校验等操作处理");
-        processMethod1.addJavaDocLine(" */");
-        processMethod1.setFinal(false);
-        processMethod1.setStatic(false);
-        processMethod1.setVisibility(JavaVisibility.PUBLIC);
-        processMethod1.addException(new FullyQualifiedJavaType(ControllerException.class.getName()));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(keyType), "id"));
-        if (!restApiDefaultEnabled)
-        {
-            processMethod1.addBodyLine("throw new ControllerException(BaseErrorCode.REST_API_NOT_AVAILABLE, \"This api is not available.\");");
-        }
-        else
-        {
-            processMethod1.addBodyLine("");
-        }
-        interceptor.addMethod(processMethod1);
-        
-        processMethod1 = new Method("beforeGet");
-        processMethod1.addJavaDocLine("/**");
-        processMethod1.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]下行数据根据查询条件进行get前的拦截处理，数据校验等操作处理");
-        processMethod1.addJavaDocLine(" */");
-        processMethod1.setFinal(false);
-        processMethod1.setStatic(false);
-        processMethod1.setVisibility(JavaVisibility.PUBLIC);
-        processMethod1.addException(new FullyQualifiedJavaType(ControllerException.class.getName()));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"), "query"));
-        if (!restApiDefaultEnabled)
-        {
-            processMethod1.addBodyLine("throw new ControllerException(BaseErrorCode.REST_API_NOT_AVAILABLE, \"This api is not available.\");");
-        }
-        else
-        {
-            processMethod1.addBodyLine("");
-        }
-        interceptor.addMethod(processMethod1);
-        
-        processMethod1 = new Method("beforeFind");
-        processMethod1.addJavaDocLine("/**");
-        processMethod1.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]下行数据根据查询条件进行find前的拦截处理，数据校验等操作处理");
-        processMethod1.addJavaDocLine(" */");
-        processMethod1.setFinal(false);
-        processMethod1.setStatic(false);
-        processMethod1.setVisibility(JavaVisibility.PUBLIC);
-        processMethod1.addException(new FullyQualifiedJavaType(ControllerException.class.getName()));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"), "query"));
-        if (!restApiDefaultEnabled)
-        {
-            processMethod1.addBodyLine("throw new ControllerException(BaseErrorCode.REST_API_NOT_AVAILABLE, \"This api is not available.\");");
-        }
-        else
-        {
-            processMethod1.addBodyLine("");
-        }
-        interceptor.addMethod(processMethod1);
-        
-        processMethod1 = new Method("beforeCount");
-        processMethod1.addJavaDocLine("/**");
-        processMethod1.addJavaDocLine(" * [" + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "]下行数据根据查询条件进行count前的拦截处理，数据校验等操作处理");
-        processMethod1.addJavaDocLine(" */");
-        processMethod1.setFinal(false);
-        processMethod1.setStatic(false);
-        processMethod1.setVisibility(JavaVisibility.PUBLIC);
-        processMethod1.addException(new FullyQualifiedJavaType(ControllerException.class.getName()));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletRequest.class.getName()), "request"));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(HttpServletResponse.class.getName()), "response"));
-        processMethod1.addParameter(new Parameter(new FullyQualifiedJavaType(getTargetPackae("model", "query") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Query"), "query"));
-        if (!restApiDefaultEnabled)
-        {
-            processMethod1.addBodyLine("throw new ControllerException(BaseErrorCode.REST_API_NOT_AVAILABLE, \"This api is not available.\");");
-        }
-        else
-        {
-            processMethod1.addBodyLine("");
-        }
-        interceptor.addMethod(processMethod1);
-        
-        // 添加注释
-        CommentGenerator commentGenerator = context.getCommentGenerator();
-        commentGenerator.addJavaFileComment(interceptor);
-        return new GeneratedJavaFile(interceptor, getTargetProjectJavaSourceFolder(), "utf-8", new DefaultJavaFormatter());
-    }
-    
 }
