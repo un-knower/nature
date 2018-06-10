@@ -11,6 +11,8 @@ package pers.linhai.nature.j2ee.core.model.join;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 关联查询的字段信息
  * <p>ClassName      : SelectField</p>
@@ -24,8 +26,10 @@ public class SelectField
     
     private List<String> fieldList;
     
+    @JsonIgnore
     private String table;
     
+    @JsonIgnore
     private List<String> columnList;
 
     /**

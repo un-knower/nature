@@ -9,6 +9,8 @@
 
 package pers.linhai.nature.j2ee.core.model.join;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 数据库表连接器
  * <p>ClassName      : TableJointor</p>
@@ -21,6 +23,7 @@ public class TableJointor
     /**
      * 序号，第一个的时候，需要完整表达
      */
+    @JsonIgnore
     private Integer index;
     
     /**
