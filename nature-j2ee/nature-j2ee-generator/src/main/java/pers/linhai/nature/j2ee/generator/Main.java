@@ -72,7 +72,7 @@ public class Main
         params.put("dbPassword", dbPassword);
         
         // 是否rest接口默认可用，默认不可用，根据需要一个个打开
-        params.put("restApiDefaultEnabled", "true");
+        params.put("restApiDefaultEnabled", "false");
 
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
 
