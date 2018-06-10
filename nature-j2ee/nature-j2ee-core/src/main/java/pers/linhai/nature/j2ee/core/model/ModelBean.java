@@ -38,6 +38,24 @@ public class ModelBean extends HashMap<String, Object>
         
     }
     
+    /** 
+     * <p>Overriding Method: lilinhai 2018年6月10日 上午10:43:40</p>
+     * <p>Title: put</p>
+     * @param key
+     * @return 
+     * @see java.util.HashMap#put(java.lang.Object, java.lang.Object)
+     */ 
+    public Object put(String key, Object value)
+    {
+        if (value != null)
+        {
+            return super.put(key, value);
+        }
+        return null;
+    }
+
+
+
     /**
      * 
      * <p>Title        : EntityBean lilinhai 2018年2月17日 下午7:33:13</p>
