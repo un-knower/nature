@@ -14,6 +14,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import io.swagger.annotations.ApiModelProperty;
 import pers.linhai.nature.j2ee.core.model.enumer.BaseField;
 
 /**
@@ -43,12 +44,14 @@ public abstract class BaseEntity<Key> extends BaseModel
     /**
      *  入库时间
      */
+    @ApiModelProperty(value = "实体创建时间，若前端传入该参数了，则用传入的时间作为创建时间，若未传，则由框架自身获取当前系统时间作为创建时间。")
     @JsonDeserialize(using = DateJsonDeserializer.class)
     protected Date createTime;
     
     /**
      *  修改时间
      */
+    @ApiModelProperty(value = "实体修改时间，若前端传入该参数了，则用传入的时间作为修改时间，若未传，则由框架自身获取当前系统时间作为修改 时间。")
     @JsonDeserialize(using = DateJsonDeserializer.class)
     protected Date updateTime;
     

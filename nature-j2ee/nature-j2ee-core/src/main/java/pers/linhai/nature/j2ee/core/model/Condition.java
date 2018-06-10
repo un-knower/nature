@@ -11,6 +11,8 @@ package pers.linhai.nature.j2ee.core.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * <p>Description    : <pre>TODO(这里用一句话描述这个类的作用)</pre></p>
  * <p>ClassName      : Condition</p>
@@ -23,16 +25,19 @@ public class Condition extends FieldModel
     /**
      * 子查询条件ID
      */
+    @ApiModelProperty(value = "可为空，用于唯一标识一个conditon对象，若不设，则由系统自动分配id。注意：当设置了多个conditon对象的逻辑关系式expression时，id为必填项。")
     private String id;
     
     /**
      * 运算符
      */
+    @ApiModelProperty(value = "字段和字段值之间的运算符，支持如下枚举值：<, <=, >, >=, =, !=, like, in, not in, is null, is not null")
     private String operator;
     
     /**
      * 查询字段的值
      */
+    @ApiModelProperty(value = "字段值，当运算符operator为in或not in时，此时value需要定义为json数组格式[]，否则无法映射到后端。")
     private Object value;
     
     /**
@@ -72,6 +77,7 @@ public class Condition extends FieldModel
      * please use setField
      * @param fieldName
      */
+    @ApiModelProperty(value="【即将废弃】实体属性名，注：该属性后期将废弃，请使用新属性field", name="field", example="username")
     @Deprecated
     public void setFieldName(String fieldName)
     {

@@ -11,6 +11,8 @@ package pers.linhai.nature.j2ee.core.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * 字段模型
  * <p>ClassName      : JoinTable</p>
@@ -35,11 +37,13 @@ public abstract class FieldModel
     /**
      * 数据库表对应的实体名
      */
+    @ApiModelProperty(value = "字段所属的实体，当进行单表查询时，该参数无需设置。进行关联查询时必须设置该参数，参数格式为数据表名的驼峰命名。")
     private String entity;
     
     /**
      * java字段名
      */
+    @ApiModelProperty(value = "字段名，参数格式为数据库字段的驼峰命名。")
     private String field;
 
     /**

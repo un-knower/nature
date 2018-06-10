@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.annotations.ApiModelProperty;
 import pers.linhai.nature.j2ee.core.dao.exception.ConditionFormatException;
 import pers.linhai.nature.j2ee.core.dao.exception.ConditionIsNullException;
 import pers.linhai.nature.j2ee.core.dao.exception.IllegalExpression;
@@ -47,6 +48,7 @@ public class Where
     /**
      * 查询条件集合
      */
+    @ApiModelProperty(value = "可以定义一个或多个condition条件，多个时，他们的逻辑关系默认为and，若需要定制多个condition之间的逻辑关系，需要结合expression字段进行配置，详见expression描述。")
     private List<Condition> conditionList;
     
     /**
@@ -58,6 +60,7 @@ public class Where
     /**
      * 逻辑表达式
      */
+    @ApiModelProperty(value = "where条件中较为复杂的表达式，用于将两个或两个以上的condition(此时conditon对象上必须定义id属性)对象用and或or逻辑运算符进行连接，如：1 and 2 or 3 。")
     private String expression;
     
     /**

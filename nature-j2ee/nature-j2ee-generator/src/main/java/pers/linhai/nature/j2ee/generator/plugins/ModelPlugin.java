@@ -23,6 +23,8 @@ import java.util.Set;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pers.linhai.nature.j2ee.core.dao.exception.IllegalFieldException;
 import pers.linhai.nature.j2ee.core.model.DateJsonDeserializer;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
@@ -176,6 +178,8 @@ public class ModelPlugin extends BasePlugin
         topLevelClass.addImportedType(new FullyQualifiedJavaType(CoreClassImportConstant.BASE_ENTITY_CLASS));
         topLevelClass.addImportedType(getTargetPackae("helper") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Helper");
         topLevelClass.addImportedType(EntityBean.class.getName());
+        topLevelClass.addImportedType(ApiModelProperty.class.getName());
+        topLevelClass.addImportedType(ApiModel.class.getName());
         topLevelClass.addImportedType(new FullyQualifiedJavaType(getTargetPackae("field") + "." + introspectedTable.getFullyQualifiedTable().getDomainObjectName() + "Field"));
         boolean hasDateField = false;
         

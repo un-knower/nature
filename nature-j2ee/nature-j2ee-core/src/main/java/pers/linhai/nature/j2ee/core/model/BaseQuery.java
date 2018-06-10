@@ -14,6 +14,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * 查询对象基类
  * <p>ClassName      : BaseQuery</p>
@@ -31,6 +33,7 @@ public abstract class BaseQuery extends BaseModel
     /**
      * 第几页
      */
+    @ApiModelProperty(value = "分页查询参数，第几页。若不传，值为空，表示不按分页查找，此时默认最大返回1000条记录。")
     private Integer page;
     
     /**
@@ -42,6 +45,7 @@ public abstract class BaseQuery extends BaseModel
     /**
      * 每页显示的大小
      */
+    @ApiModelProperty(value = "分页查询参数，每页显示条数。若不传，值为空，表示不按分页查找，此时默认最大返回1000条记录。")
     private Integer size;
     
     /**
@@ -108,6 +112,7 @@ public abstract class BaseQuery extends BaseModel
      * <p>Get Method   :   sortFieldList List<SortField></p>
      * @return orderByFieldList
      */
+    @JsonIgnore
     public List<SortField> getOrderFieldList()
     {
         return orderFieldList;
@@ -117,6 +122,7 @@ public abstract class BaseQuery extends BaseModel
      * <p>Set Method   :   sortFieldList List<SortField></p>
      * @param sortFieldList
      */
+    @ApiModelProperty(value="【即将废弃】排序声明属性，注：该属性后期将废弃，请使用新属性orderBy", name="orderBy")
     @Deprecated
     public void setSortFieldList(List<SortField> sortFieldList)
     {
@@ -127,6 +133,7 @@ public abstract class BaseQuery extends BaseModel
      * <p>Set Method   :   sortFieldList List<SortField></p>
      * @param sortFieldList
      */
+    @ApiModelProperty(value = "排序字段列表，可以传入多个排序字段同时排序。", name = "orderBy")
     public void setOrderBy(List<SortField> orderBy)
     {
         if (orderBy != null && !orderBy.isEmpty())
@@ -165,6 +172,7 @@ public abstract class BaseQuery extends BaseModel
      * please use setSelect
      * @param select
      */
+    @ApiModelProperty(value="【即将废弃】返回字段声明属性，注：该属性后期将废弃，请使用新属性select", name="select")
     @Deprecated
     public void setReturnFieldList(List<String> returnFieldList)
     {
@@ -175,6 +183,7 @@ public abstract class BaseQuery extends BaseModel
      * <p>Set Method   :   returnFieldList List<String></p>
      * @param select
      */
+    @ApiModelProperty(value = "需要查询并返回的字段列表，若不传，默认返回所有字段。", name = "select")
     public void setSelect(List<String> select)
     {
         if (select != null && !select.isEmpty())

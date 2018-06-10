@@ -13,6 +13,8 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * <p>ClassName      : IBaseJdbc</p>
  * @author lilinhai 2018年2月13日 下午2:21:14
@@ -29,6 +31,7 @@ public abstract class BaseModel implements ModelHelper, Serializable
     /**
      * 查询条件集合
      */
+    @ApiModelProperty(value = "查询条件，或实体修改条件，在实体创建时，传入该条件无效 。")
     private Where where;
     
     /**

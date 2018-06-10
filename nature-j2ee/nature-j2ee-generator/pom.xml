@@ -27,6 +27,12 @@
 		    <artifactId>freemarker</artifactId>
             <scope>provided</scope>
 		</dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        
         <!-- 默认集成tomcat -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

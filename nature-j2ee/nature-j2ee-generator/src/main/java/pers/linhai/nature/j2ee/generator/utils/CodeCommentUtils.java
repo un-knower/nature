@@ -204,6 +204,7 @@ public class CodeCommentUtils
         String remarks = introspectedTable.getRemarks();
         if (StringUtility.stringHasValue(remarks))
         {
+            remarks = remarks.replace('\n', ' ').replace("\"", "\\\"");
             topLevelClass.addJavaDocLine(" *   1）实体含义："); //$NON-NLS-1$
             String[] remarkLines = remarks.split(System.getProperty("line.separator")); //$NON-NLS-1$
             for (String remarkLine : remarkLines)
@@ -223,6 +224,8 @@ public class CodeCommentUtils
         topLevelClass.addJavaDocLine(sb.toString());
         topLevelClass.addJavaDocLine(" * </pre>"); //$NON-NLS-1$
         topLevelClass.addJavaDocLine(" */"); //$NON-NLS-1$
+        
+        topLevelClass.addAnnotation("@ApiModel(description = \"" + (StringUtility.stringHasValue(remarks) ? remarks : "警告：该实体在数据库表["+introspectedTable.getFullyQualifiedTable().getIntrospectedTableName()+"]中未加注释，请加上！") + "\")");
     }
 
     /**
@@ -260,6 +263,7 @@ public class CodeCommentUtils
         String remarks = introspectedColumn.getRemarks();
         if (StringUtility.stringHasValue(remarks))
         {
+            remarks = remarks.replace('\n', ' ').replace("\"", "\\\"");
             field.addJavaDocLine(" *   1）字段含义："); //$NON-NLS-1$
             String[] remarkLines = remarks.split(System.getProperty("line.separator")); //$NON-NLS-1$
             for (String remarkLine : remarkLines)
@@ -279,5 +283,8 @@ public class CodeCommentUtils
         field.addJavaDocLine(sb.toString());
         field.addJavaDocLine(" * </pre>"); //$NON-NLS-1$
         field.addJavaDocLine(" */"); //$NON-NLS-1$
+        field.addAnnotation("@ApiModelProperty(value = \"" 
+                + (StringUtility.stringHasValue(remarks) ? remarks : "警告：该字段在数据库表中未加注释，请加上！") 
+                    + "，对应数据库中[" + introspectedTable.getFullyQualifiedTable() + "." + introspectedColumn.getActualColumnName() + "]\")");
     }
 }
