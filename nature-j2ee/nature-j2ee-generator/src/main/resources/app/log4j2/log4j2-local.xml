@@ -5,7 +5,7 @@
         <Property name="COMMON_LOG_PATTERN">%d %p [%t] %c %m%n</Property>
         
         <!-- 日志输出目录 -->
-        <Property name="logDir">logs</Property>
+        <Property name="logDir">../logs</Property>
         
         <!-- 根日志 -->
         <Property name="rootLogFile">${groupId}.${artifactId}</Property>

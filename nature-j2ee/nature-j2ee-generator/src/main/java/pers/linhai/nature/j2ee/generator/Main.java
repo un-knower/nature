@@ -51,7 +51,7 @@ public class Main
         String outPutPath = "C:\\Users\\lilinhai\\Desktop";
 
         String groupId = "com.meme";
-        String artifactId = "crm";
+        String artifactId = "crmtest";
         String dbIp = "localhost";
         String dbPort = "3306";
         String dbUsername = "root";
@@ -133,6 +133,11 @@ public class Main
         Collections.sort(EntityRestApiCache.getInstance().getEntityRestApiList());
         params.put("apiJsonData", JSON.toJSONString(EntityRestApiCache.getInstance().getEntityRestApiList()));
         build(cfg, params, new File(ClassUtils.getDefaultClassLoader().getResource("app/doc").getPath()), appResourcesDoc, "app/doc/");
+        
+        // 生成启动脚本
+        File scriptDir = new File(appArtifactDir, "script");
+        FileUtils.createDir(scriptDir);
+        build(cfg, params, new File(ClassUtils.getDefaultClassLoader().getResource("app/script").getPath()), scriptDir, "app/script/");
     }
 
     /**
