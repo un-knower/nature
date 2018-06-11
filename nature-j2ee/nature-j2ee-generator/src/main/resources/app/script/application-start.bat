@@ -1,4 +1,4 @@
-@echo off&color 0E&Title ${artifactId}-application CMD Console
+@echo off&color 0E&Title ${artifactId}-application-console
 if exist "%JAVA_HOME%" (
     echo Detection of a running Java environment 
 	set PATH=%JAVA_HOME%\bin;%PATH%
