@@ -11,7 +11,7 @@ if exist "%JAVA_HOME%" (
 )
 
 :getJdkHome
-for /f "delims=" %%i in ('dir /ad /b "%cd%" ^| findstr "jdk\-.*$"') do (
+for /f "delims=" %%i in ('dir /ad /b "%cd%" ^| findstr "jdk.*$"') do (
 	set JDK_HOME=%%~fi
 	if exist "%JDK_HOME%" (
 	    goto findJdk
