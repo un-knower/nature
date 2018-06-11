@@ -14,7 +14,6 @@ import java.util.List;
 
 import pers.linhai.nature.j2ee.core.model.ModelField;
 import pers.linhai.nature.j2ee.core.model.SortField;
-import pers.linhai.nature.j2ee.core.model.enumer.BaseField;
 import pers.linhai.nature.j2ee.core.model.enumer.Direction;
 
 /**
@@ -81,7 +80,7 @@ public abstract class BaseOrderBuilder<EntityOrderByBuilder>
      */
     public OrderByFieldBuilder<EntityOrderByBuilder> id()
     {
-        return orderBy(BaseField.ID);
+        return orderBy(ModelField.ID);
     }
     
     /**
@@ -92,7 +91,7 @@ public abstract class BaseOrderBuilder<EntityOrderByBuilder>
      */
     public OrderByFieldBuilder<EntityOrderByBuilder> createTime()
     {
-        return orderBy(BaseField.CREATE_TIME);
+        return orderBy(ModelField.CREATE_TIME);
     }
     
     /**
@@ -103,7 +102,7 @@ public abstract class BaseOrderBuilder<EntityOrderByBuilder>
      */
     public OrderByFieldBuilder<EntityOrderByBuilder> updateTime()
     {
-        return orderBy(BaseField.UPDATE_TIME);
+        return orderBy(ModelField.UPDATE_TIME);
     }
 
     /**

@@ -30,11 +30,11 @@ import pers.linhai.nature.j2ee.core.dao.resulthandler.LongResultHandler;
 import pers.linhai.nature.j2ee.core.model.BaseEntity;
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
 import pers.linhai.nature.j2ee.core.model.EntityBean;
+import pers.linhai.nature.j2ee.core.model.ModelField;
 import pers.linhai.nature.j2ee.core.model.ModelHelperCache;
 import pers.linhai.nature.j2ee.core.model.ModelReflectorCache;
 import pers.linhai.nature.j2ee.core.model.builder.ConditionBuilder;
 import pers.linhai.nature.j2ee.core.model.builder.WhereBuilder;
-import pers.linhai.nature.j2ee.core.model.enumer.BaseField;
 
 /**
  * <p>ClassName      : BaseMapperImpl</p>
@@ -185,7 +185,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
             }
             
             // 如果新增记录的时候，未设置创建时间，则刷新创建时间
-            if (!record.hasPersistentField(BaseField.CREATE_TIME))
+            if (!record.hasPersistentField(ModelField.CREATE_TIME))
             {
                 // 设置创建时间
                 record.setCreateTime(new Date());
@@ -213,7 +213,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         try
         {
             EntityQuery eq = entityQueryConstructor.newInstance();
-            eq.setWhere(WhereBuilder.where(new ConditionBuilder<Key>(BaseField.ID).equal(id)).build());
+            eq.setWhere(WhereBuilder.where(new ConditionBuilder<Key>(ModelField.ID).equal(id)).build());
             return delete(eq);
         }
         catch (Throwable e)
@@ -255,10 +255,10 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
             }
             
             // 去除ID字段的更新
-            record.removePersistentField(BaseField.ID);
+            record.removePersistentField(ModelField.ID);
             
             // 如果修改 该记录时候，未设置修改 时间，则自动刷新修改时间
-            if (!record.hasPersistentField(BaseField.UPDATE_TIME))
+            if (!record.hasPersistentField(ModelField.UPDATE_TIME))
             {
                 // 刷新修改时间
                 record.setUpdateTime(new Date());
@@ -267,7 +267,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
             // 如果修改条件为空
             if (record.where() == null)
             {
-                record.setWhere(WhereBuilder.where(new ConditionBuilder<Key>(BaseField.ID).equal(record.getId())).build());
+                record.setWhere(WhereBuilder.where(new ConditionBuilder<Key>(ModelField.ID).equal(record.getId())).build());
             }
             
             return sqlSession.update(UPDATE, record);
@@ -317,7 +317,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         try
         {
             EntityQuery eq = entityQueryConstructor.newInstance();
-            eq.setWhere(WhereBuilder.where(new ConditionBuilder<Key>(BaseField.ID).equal(id)).build());
+            eq.setWhere(WhereBuilder.where(new ConditionBuilder<Key>(ModelField.ID).equal(id)).build());
             return get(eq);
         }
         catch (Throwable e)
@@ -341,7 +341,7 @@ public class BaseMapperImpl<Key, Entity extends BaseEntity<Key>, EntityQuery ext
         try
         {
             EntityQuery eq = entityQueryConstructor.newInstance();
-            eq.setWhere(WhereBuilder.where(new ConditionBuilder<Key>(BaseField.ID).equal(id)).build());
+            eq.setWhere(WhereBuilder.where(new ConditionBuilder<Key>(ModelField.ID).equal(id)).build());
             return get(eq, entityProcessor);
         }
         catch (Throwable e)

@@ -15,7 +15,6 @@ import java.util.Stack;
 import pers.linhai.nature.j2ee.core.model.Condition;
 import pers.linhai.nature.j2ee.core.model.ModelField;
 import pers.linhai.nature.j2ee.core.model.Where;
-import pers.linhai.nature.j2ee.core.model.enumer.BaseField;
 import pers.linhai.nature.j2ee.core.model.enumer.LogicalOperator;
 import pers.linhai.nature.j2ee.core.model.exception.QueryBuildException;
 
@@ -169,7 +168,7 @@ public abstract class BaseWhereBuilder<EntityWhereBuilder>
      */
     public FieldConditionBuilder<EntityWhereBuilder, Long> id()
     {
-        return build(BaseField.ID, Long.class);
+        return build(ModelField.ID, Long.class);
     }
     
     /**
@@ -180,7 +179,7 @@ public abstract class BaseWhereBuilder<EntityWhereBuilder>
      */
     public FieldConditionBuilder<EntityWhereBuilder, Date> createTime()
     {
-        return build(BaseField.CREATE_TIME, Date.class);
+        return build(ModelField.CREATE_TIME, Date.class);
     }
     
     /**
@@ -191,7 +190,7 @@ public abstract class BaseWhereBuilder<EntityWhereBuilder>
      */
     public FieldConditionBuilder<EntityWhereBuilder, Date> updateTime()
     {
-        return build(BaseField.UPDATE_TIME, Date.class);
+        return build(ModelField.UPDATE_TIME, Date.class);
     }
 
     /**

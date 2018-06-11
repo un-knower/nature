@@ -15,7 +15,6 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import io.swagger.annotations.ApiModelProperty;
-import pers.linhai.nature.j2ee.core.model.enumer.BaseField;
 
 /**
  * 抽象实体
@@ -71,7 +70,7 @@ public abstract class BaseEntity<Key> extends BaseModel
     public void setId(Key id)
     {
         this.id = id;
-        addPersistentField(BaseField.ID, id);
+        addPersistentField(ModelField.ID, id);
     }
     
     /**
@@ -92,9 +91,9 @@ public abstract class BaseEntity<Key> extends BaseModel
         this.createTime = createTime;
         
         // 为了兼容没有这两个字段的表
-        if (existsField(BaseField.CREATE_TIME.getField()))
+        if (existsField(ModelField.CREATE_TIME.getField()))
         {
-            addPersistentField(BaseField.CREATE_TIME, createTime);
+            addPersistentField(ModelField.CREATE_TIME, createTime);
         }
     }
     
@@ -116,9 +115,9 @@ public abstract class BaseEntity<Key> extends BaseModel
         this.updateTime = updateTime;
         
         // 为了兼容没有这两个字段的表
-        if (existsField(BaseField.UPDATE_TIME.getField()))
+        if (existsField(ModelField.UPDATE_TIME.getField()))
         {
-            addPersistentField(BaseField.UPDATE_TIME, updateTime);
+            addPersistentField(ModelField.UPDATE_TIME, updateTime);
         }
     }
     

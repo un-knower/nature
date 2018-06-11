@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pers.linhai.nature.j2ee.core.model.ModelField;
-import pers.linhai.nature.j2ee.core.model.enumer.BaseField;
 import pers.linhai.nature.j2ee.core.model.exception.QueryBuildException;
 
 /**
@@ -87,7 +86,7 @@ public abstract class BaseSelectBuilder<EntitySelectFieldBuilder>
      */
     public EntitySelectFieldBuilder id()
     {
-        select(BaseField.ID);
+        select(ModelField.ID);
         return entitySelectBuilder;
     }
     
@@ -96,7 +95,7 @@ public abstract class BaseSelectBuilder<EntitySelectFieldBuilder>
      */
     public EntitySelectFieldBuilder createTime()
     {
-        select(BaseField.CREATE_TIME);
+        select(ModelField.CREATE_TIME);
         return entitySelectBuilder;
     }
     
@@ -105,7 +104,7 @@ public abstract class BaseSelectBuilder<EntitySelectFieldBuilder>
      */
     public EntitySelectFieldBuilder updateTime()
     {
-        select(BaseField.UPDATE_TIME);
+        select(ModelField.UPDATE_TIME);
         return entitySelectBuilder;
     }
 

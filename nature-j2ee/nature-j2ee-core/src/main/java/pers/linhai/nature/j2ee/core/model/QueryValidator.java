@@ -19,7 +19,6 @@ import pers.linhai.nature.j2ee.core.model.condition.CommonConditionSegment;
 import pers.linhai.nature.j2ee.core.model.condition.ConditionSegment;
 import pers.linhai.nature.j2ee.core.model.condition.InConditionSegment;
 import pers.linhai.nature.j2ee.core.model.condition.StringSegment;
-import pers.linhai.nature.j2ee.core.model.enumer.BaseField;
 import pers.linhai.nature.j2ee.core.model.enumer.LogicalOperator;
 import pers.linhai.nature.j2ee.core.model.enumer.Operator;
 import pers.linhai.nature.j2ee.core.model.exception.QueryValidException;
@@ -63,9 +62,9 @@ public class QueryValidator
      */
     public void addAllowSelectField(ModelField modelField)
     {
-        if (modelField.getClass() == BaseField.class)
+        if (modelField.getClass() == ModelField.class)
         {
-            throw new QueryValidException(BaseErrorCode.QUERY_VALIDATOR_BUILD_NOT_SUPPORT, " Query validator does not support BaseField type.");
+            throw new QueryValidException(BaseErrorCode.QUERY_VALIDATOR_BUILD_NOT_SUPPORT, " Query validator does not support ModelField type.");
         }
         this.allowSelectFieldSet.add(modelField.getEntity() + "." + modelField.getField());
     }
@@ -76,9 +75,9 @@ public class QueryValidator
      */
     public void addAllowConditionField(ModelField modelField, Operator operator, Object... vals)
     {
-        if (modelField.getClass() == BaseField.class)
+        if (modelField.getClass() == ModelField.class)
         {
-            throw new QueryValidException(BaseErrorCode.QUERY_VALIDATOR_BUILD_NOT_SUPPORT, " Query validator does not support BaseField type.");
+            throw new QueryValidException(BaseErrorCode.QUERY_VALIDATOR_BUILD_NOT_SUPPORT, " Query validator does not support ModelField type.");
         }
         if (operator == null)
         {
