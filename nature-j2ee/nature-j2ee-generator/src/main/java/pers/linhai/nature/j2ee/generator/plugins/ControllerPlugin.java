@@ -204,7 +204,7 @@ public class ControllerPlugin extends BasePlugin
         }
         else
         {
-            processMethod1.addJavaDocLine("//@PutMapping(\"/id\")");
+            processMethod1.addJavaDocLine("//@PutMapping(\"/{id}\")");
         }
         processMethod1.addBodyLine("return super.update("+NamerUtils.classToProperty(introspectedTable.getFullyQualifiedTable().getDomainObjectName())+", id);");
         controllerClass.addMethod(processMethod1);
@@ -226,7 +226,7 @@ public class ControllerPlugin extends BasePlugin
         }
         else
         {
-            processMethod1.addJavaDocLine("//@GetMapping(\"/id\")");
+            processMethod1.addJavaDocLine("//@GetMapping(\"/{id}\")");
         }
         processMethod1.addBodyLine("return super.get(id);");
         controllerClass.addMethod(processMethod1);
