@@ -161,7 +161,7 @@ public class Where
             condition.setTable(validator.table());
             
             // 设置所属实体
-            condition.setTable(validator.entity());
+            condition.setEntity(validator.entity());
             
             // 解析封装成Condition对象
             ConditionSegment conditionSegment = ConditionSegment.parse(condition);
