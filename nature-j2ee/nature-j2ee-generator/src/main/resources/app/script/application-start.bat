@@ -10,6 +10,8 @@ for /f "delims=" %%i in ('dir /ad /b "%curdir%..\" ^| findstr "^jdk.*$"') do (
 	set JAVA_HOME=%curdir%..\%%i
 	goto foundJavaHome
 )
+echo WARNING: Can't find the java home.
+pause
 :foundJavaHome
 echo USING JAVA_HOME: %JAVA_HOME%
 set PATH=%JAVA_HOME%\bin;%PATH%
