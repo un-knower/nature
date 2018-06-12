@@ -151,14 +151,17 @@ public class Where
                 throw new ConditionFormatException("The Condition's id can't be empty while the expression is seted, fieldName:" + condition.getField() + ", id:" + condition.getId());
             }
             
-            // 获取改该字段对应的JDBC类型
+            // 获取该字段对应的JDBC类型
             condition.setJdbcType(validator.getJdbcType(condition.getField()));
             
             // 校验SQL注入
             condition.setColumn(validator.getColumn(condition.getField()));
             
-            // 数据库表名
+            // 所属数据库表名
             condition.setTable(validator.table());
+            
+            // 设置所属实体
+            condition.setTable(validator.entity());
             
             // 解析封装成Condition对象
             ConditionSegment conditionSegment = ConditionSegment.parse(condition);
