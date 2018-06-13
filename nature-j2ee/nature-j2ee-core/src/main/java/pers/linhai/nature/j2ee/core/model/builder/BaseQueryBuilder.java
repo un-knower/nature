@@ -10,6 +10,7 @@
 package pers.linhai.nature.j2ee.core.model.builder;
 
 import pers.linhai.nature.j2ee.core.model.BaseQuery;
+import pers.linhai.nature.j2ee.core.model.Where;
 import pers.linhai.nature.j2ee.core.model.exception.QueryBuildException;
 
 /**
@@ -194,7 +195,11 @@ public abstract class BaseQueryBuilder<EntitySelectBuilder extends BaseSelectBui
         query.setSize(size);
         query.setSelect(selectBuilder.build());
         query.setOrderBy(orderBuilder.build());
-        query.setWhere(whereBuilder.build());
+        Where where = whereBuilder.build();
+        if (where != null)
+        {
+            query.setWhere(where);
+        }
         isOver = true;
         return query;
     }

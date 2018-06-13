@@ -199,6 +199,10 @@ public abstract class BaseWhereBuilder<EntityWhereBuilder>
      */
     public Where build()
     {
+        if (whereBuilder == null)
+        {
+            return null;
+        }
         if (!whereBuilderStack.isEmpty())
         {
             // 在执行查询构建器的build方法之前，必须让所有的高优先级逻辑运算式结束
