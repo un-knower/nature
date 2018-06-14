@@ -122,7 +122,7 @@ public abstract class BaseQuery extends BaseModel
      * <p>Set Method   :   sortFieldList List<SortField></p>
      * @param sortFieldList
      */
-    @ApiModelProperty(value="【即将废弃】排序声明属性，注：该属性后期将废弃，请使用新属性orderBy", name="orderBy")
+    @ApiModelProperty(value = "【即将废弃】排序声明属性，注：该属性后期将废弃，请使用新属性orderBy", name="orderBy")
     @Deprecated
     public void setSortFieldList(List<SortField> sortFieldList)
     {
@@ -172,7 +172,7 @@ public abstract class BaseQuery extends BaseModel
      * please use setSelect
      * @param select
      */
-    @ApiModelProperty(value="【即将废弃】返回字段声明属性，注：该属性后期将废弃，请使用新属性select", name="select")
+    @ApiModelProperty(value = "【即将废弃】返回字段声明属性，注：该属性后期将废弃，请使用新属性select", name="select")
     @Deprecated
     public void setReturnFieldList(List<String> returnFieldList)
     {
