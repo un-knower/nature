@@ -33,4 +33,30 @@ public class EntityBean extends ModelBean
     {
         return super.remove(field.getField());
     }
+
+    /**
+     * 添加字段
+     * <p>Title         : put lilinhai 2018年6月14日 上午11:29:49</p>
+     * @param field
+     * @param value
+     * @return 
+     * Object
+     */
+    public Object set(ModelField field, Object value)
+    {
+        return set(field.getField(), value);
+    }
+    
+    /**
+     * 添加字段
+     * <p>Title         : put lilinhai 2018年6月14日 上午11:29:49</p>
+     * @param field
+     * @param value
+     * @return 
+     * Object
+     */
+    public Object set(String field, Object value)
+    {
+        return super.put(field, value);
+    }
 }
