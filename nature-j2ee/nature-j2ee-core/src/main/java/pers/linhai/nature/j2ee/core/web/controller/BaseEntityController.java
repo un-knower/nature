@@ -52,7 +52,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         }
         catch (ControllerException e)
         {
-            logger.error("[Controller] save(@RequestBody Entity record) occor an error", e);
+            logger.error("[Controller] save(Entity record) occor an error", e);
             return fail(e.getErrorCode(), e.getMessage());
         }
         catch (Throwable e)
@@ -77,12 +77,12 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         }
         catch (ServiceException e)
         {
-            logger.error("[Controller] delete(@PathVariable Key id, HttpServletRequest request) occor an error", e);
+            logger.error("[Controller] delete(Key id) occor an error", e);
             return fail(e.getErrorCode(), e.getMessage());
         }
         catch (ControllerException e)
         {
-            logger.error("[Controller] delete(@PathVariable Key id) occor an error", e);
+            logger.error("[Controller] delete(Key id) occor an error", e);
             return fail(e.getErrorCode(), e.getMessage());
         }
         catch (Throwable e)
@@ -113,7 +113,7 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         }
         catch (ControllerException e)
         {
-            logger.error("[Controller] update(@RequestBody Entity record, @PathVariable Key id) occor an error", e);
+            logger.error("[Controller] update(Entity record) occor an error", e);
             return fail(e.getErrorCode(), e.getMessage());
         }
         catch (Throwable e)
@@ -138,12 +138,12 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         }
         catch (ControllerException e)
         {
-            logger.error("[Controller] get(@PathVariable Key id) occor an error", e);
+            logger.error("[Controller] get(Key id) occor an error", e);
             return fail(e.getErrorCode(), e.getMessage());
         }
         catch (Throwable e)
         {
-            logger.error("[Controller] get(@PathVariable Key id, HttpServletRequest request) occor an error", e);
+            logger.error("[Controller] get(Key id) occor an error", e);
             return fail(BaseErrorCode.GET_EXCEPTION, e.getMessage() + "，ID：" + id);
         }
     }
@@ -164,12 +164,12 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         }
         catch (ControllerException e)
         {
-            logger.error("[Controller] get(@RequestBody EntityQuery entityQuery) occor an error", e);
+            logger.error("[Controller] get(EntityQuery entityQuery) occor an error", e);
             return fail(e.getErrorCode(), e.getMessage());
         }
         catch (Throwable e)
         {
-            logger.error("[Controller] get(@RequestBody EntityQuery entityQuery, HttpServletRequest request) occor an error", e);
+            logger.error("[Controller] get(EntityQuery entityQuery) occor an error", e);
             return fail(BaseErrorCode.GET_EXCEPTION, e.getMessage() + "，entityQuery：" + toJSON(entityQuery));
         }
     }
@@ -211,12 +211,12 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         }
         catch (ControllerException e)
         {
-            logger.error("[Controller] find(@RequestBody EntityQuery entityQuery) occor an error", e);
+            logger.error("[Controller] find(EntityQuery entityQuery) occor an error", e);
             return fail(e.getErrorCode(), e.getMessage());
         }
         catch (Throwable e)
         {
-            logger.error("[Controller] find(@RequestBody EntityQuery entityQuery, HttpServletRequest request) occor an error", e);
+            logger.error("[Controller] find(EntityQuery entityQuery) occor an error", e);
             return fail(BaseErrorCode.QUERY_EXCEPTION, e.getMessage());
         }
     }
@@ -236,12 +236,12 @@ public abstract class BaseEntityController<Key, Entity extends BaseEntity<Key>, 
         }
         catch (ControllerException e)
         {
-            logger.error("[Controller] count(@RequestBody EntityQuery entityQuery) occor an error", e);
+            logger.error("[Controller] count(EntityQuery entityQuery) occor an error", e);
             return fail(e.getErrorCode(), e.getMessage());
         }
         catch (Throwable e)
         {
-            logger.error("[Controller] count(@RequestBody EntityQuery entityQuery, HttpServletRequest request) occor an error", e);
+            logger.error("[Controller] count(EntityQuery entityQuery) occor an error", e);
             return fail(BaseErrorCode.QUERY_EXCEPTION, e.getMessage());
         }
     }

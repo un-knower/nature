@@ -9,7 +9,7 @@
 
 package pers.linhai.nature.j2ee.core.model.join;
 
-import pers.linhai.nature.j2ee.core.model.FieldModel;
+import pers.linhai.nature.j2ee.core.model.SqlField;
 
 /**
  * 关联表字段
@@ -17,7 +17,7 @@ import pers.linhai.nature.j2ee.core.model.FieldModel;
  * @author lilinhai 2018年6月2日 下午5:00:32
  * @version 1.0
  */
-public class JoinField extends FieldModel
+public class JoinField extends SqlField
 {
 
 }

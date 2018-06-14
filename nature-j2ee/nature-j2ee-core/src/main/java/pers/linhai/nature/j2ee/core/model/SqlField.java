@@ -14,12 +14,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * 字段模型
+ * SQL字段模型
  * <p>ClassName      : JoinTable</p>
  * @author lilinhai 2018年6月2日 下午5:00:32
  * @version 1.0
  */
-public abstract class FieldModel
+public abstract class SqlField
 {
     
     /**

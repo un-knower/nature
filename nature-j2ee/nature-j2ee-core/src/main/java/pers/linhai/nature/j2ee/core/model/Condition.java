@@ -19,7 +19,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author lilinhai 2018年6月2日 下午5:05:42
  * @version 1.0
  */
-public class Condition extends FieldModel
+public class Condition extends SqlField
 {
 
     /**

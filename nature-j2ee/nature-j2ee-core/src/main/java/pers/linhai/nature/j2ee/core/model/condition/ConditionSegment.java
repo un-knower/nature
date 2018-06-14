@@ -17,7 +17,7 @@ import java.util.Map;
 import pers.linhai.nature.j2ee.core.dao.exception.ConditionFormatException;
 import pers.linhai.nature.j2ee.core.dao.exception.IllegalOperatorException;
 import pers.linhai.nature.j2ee.core.model.Condition;
-import pers.linhai.nature.j2ee.core.model.FieldModel;
+import pers.linhai.nature.j2ee.core.model.SqlField;
 import pers.linhai.nature.j2ee.core.model.enumer.Operator;
 
 /**
@@ -26,7 +26,7 @@ import pers.linhai.nature.j2ee.core.model.enumer.Operator;
  * @author lilinhai 2018年2月15日 下午3:39:28
  * @version 1.0
  */
-public abstract class ConditionSegment extends FieldModel
+public abstract class ConditionSegment extends SqlField
 {
     
     private static final Map<String, Constructor< ? extends ConditionSegment>> CONDITION_MAP = new HashMap<String, Constructor< ? extends ConditionSegment>>();
