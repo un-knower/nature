@@ -11,6 +11,7 @@
 package pers.linhai.nature.indexaccess.core.impls;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -24,7 +25,6 @@ import pers.linhai.nature.indexaccess.interfaces.DataConverter;
 import pers.linhai.nature.indexaccess.model.core.DataTypeCollection;
 import pers.linhai.nature.indexaccess.model.datatypes.DataType;
 import pers.linhai.nature.indexaccess.model.type.Type;
-import pers.linhai.nature.reflect.ConstructorAccess;
 
 /**
  * 数据转换器
@@ -42,19 +42,19 @@ public class DataConverterImpl<T extends Type> implements DataConverter<T>
     /**
      * 数据entity的构造器，以便用于查询的时候，直接返回该类型的数据
      */
-    private ConstructorAccess<T> entityConstructor;
+    private Constructor<T> entityConstructor;
 
     /**
      * 
      * <默认构造函数>
      *
      * @param dataTypeCollection
-     * @param entityConstructor
+     * @param constructor
      */
-    DataConverterImpl(DataTypeCollection dataTypeCollection, ConstructorAccess<T> entityConstructor)
+    DataConverterImpl(DataTypeCollection dataTypeCollection, Constructor<T> constructor)
     {
         this.dataTypeCollection = dataTypeCollection;
-        this.entityConstructor = entityConstructor;
+        this.entityConstructor = constructor;
     }
 
     /**
@@ -91,8 +91,16 @@ public class DataConverterImpl<T extends Type> implements DataConverter<T>
      */
     public T convert(Map<String, Object> valueMap)
     {
-        T t = entityConstructor.newInstance();
-        mapping(t, valueMap);
+        T t = null;
+        try
+        {
+            t = entityConstructor.newInstance();
+            mapping(t, valueMap);
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+        }
         return t;
     }
     
@@ -106,24 +114,32 @@ public class DataConverterImpl<T extends Type> implements DataConverter<T>
      */ 
     public T convert(Map<String, Object> valueMap, Map<String, HighlightField> highlightFieldMap)
     {
-        T t = entityConstructor.newInstance();
-        for (Entry<String, Object> e : valueMap.entrySet())
+        T t = null;
+        try
         {
-            HighlightField hf = highlightFieldMap.get(e.getKey());
-            if (hf != null)
+            t = entityConstructor.newInstance();
+            for (Entry<String, Object> e : valueMap.entrySet())
             {
-                Text[] ts =  hf.getFragments();
-                StringBuilder sb = new StringBuilder();
-                for (Text text : ts)
+                HighlightField hf = highlightFieldMap.get(e.getKey());
+                if (hf != null)
                 {
-                    sb.append(text.string());
+                    Text[] ts =  hf.getFragments();
+                    StringBuilder sb = new StringBuilder();
+                    for (Text text : ts)
+                    {
+                        sb.append(text.string());
+                    }
+                    dataTypeCollection.get(e.getKey()).setEntityFieldValue(t, sb.toString());
                 }
-                dataTypeCollection.get(e.getKey()).setEntityFieldValue(t, sb.toString());
+                else
+                {
+                    dataTypeCollection.get(e.getKey()).setEntityFieldValue(t, e.getValue());
+                }
             }
-            else
-            {
-                dataTypeCollection.get(e.getKey()).setEntityFieldValue(t, e.getValue());
-            }
+        }
+        catch (Throwable e1)
+        {
+            e1.printStackTrace();
         }
         return t;
     }

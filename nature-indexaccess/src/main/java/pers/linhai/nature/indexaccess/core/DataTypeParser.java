@@ -23,7 +23,6 @@ import pers.linhai.nature.indexaccess.model.core.DataTypeCollection;
 import pers.linhai.nature.indexaccess.model.datatypes.DataType;
 import pers.linhai.nature.indexaccess.model.datatypes.DataTypeMap;
 import pers.linhai.nature.indexaccess.model.datatypes.quote.ObjectType.ObjectField;
-import pers.linhai.nature.reflect.MethodAccess;
 import pers.linhai.nature.utils.NamerUtils;
 
 /**
@@ -48,8 +47,6 @@ public final class DataTypeParser
      */
     public static final DataTypeCollection parse(Class<?> clazz) throws FieldParseException
     {
-        MethodAccess access = MethodAccess.get(clazz);
-        
         // 获取MethodMap集合
         Map<String, Method> methodMap = getMethodMap(clazz);
         
@@ -85,9 +82,8 @@ public final class DataTypeParser
             
             DataType dt = DataType.transfer(field);
             dt.setName(NamerUtils.propertyToColumn(field.getName()));
-            dt.setAccess(access);
-            dt.setGetterIndex(access.getIndex(getMethod.getName()));
-            dt.setSetterIndex(access.getIndex(setMethod.getName()));
+            dt.setGetMethod(getMethod);
+            dt.setSetMethod(setMethod);
             dataTypeCollection.add(dt);
         }
         
@@ -167,6 +163,7 @@ public final class DataTypeParser
             String name = method.getName();
             if (name.startsWith("get") || name.startsWith("set"))
             {
+                method.setAccessible(true);
                 methodMap.put(method.getName(), method);
             }
         }

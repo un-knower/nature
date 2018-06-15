@@ -11,6 +11,7 @@
 package pers.linhai.nature.indexaccess.core.impls;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -21,7 +22,6 @@ import pers.linhai.nature.indexaccess.interfaces.ObjectFieldConverter;
 import pers.linhai.nature.indexaccess.model.core.DataTypeCollection;
 import pers.linhai.nature.indexaccess.model.datatypes.DataType;
 import pers.linhai.nature.indexaccess.model.datatypes.quote.ObjectType.ObjectField;
-import pers.linhai.nature.reflect.ConstructorAccess;
 
 /**
  * 数据转换器
@@ -39,7 +39,7 @@ public class ObjectFieldConverterImpl<T extends ObjectField> implements ObjectFi
     /**
      * 数据entity的构造器，以便用于查询的时候，直接返回该类型的数据
      */
-    private ConstructorAccess<T> entityConstructor;
+    private Constructor<T> entityConstructor;
 
     /**
      * 
@@ -48,7 +48,7 @@ public class ObjectFieldConverterImpl<T extends ObjectField> implements ObjectFi
      * @param dataTypeCollection
      * @param entityConstructor
      */
-    public ObjectFieldConverterImpl(DataTypeCollection dataTypeCollection, ConstructorAccess<T> entityConstructor)
+    public ObjectFieldConverterImpl(DataTypeCollection dataTypeCollection, Constructor<T> entityConstructor)
     {
         this.dataTypeCollection = dataTypeCollection;
         this.entityConstructor = entityConstructor;
@@ -84,8 +84,16 @@ public class ObjectFieldConverterImpl<T extends ObjectField> implements ObjectFi
      */
     public T convert(Map<String, Object> valueMap)
     {
-        T t = entityConstructor.newInstance();
-        mapping(t, valueMap);
+        T t = null;
+        try
+        {
+            t = entityConstructor.newInstance();
+            mapping(t, valueMap);
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+        }
         return t;
     }
     

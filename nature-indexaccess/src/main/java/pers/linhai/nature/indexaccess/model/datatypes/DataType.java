@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,7 +24,6 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import pers.linhai.nature.indexaccess.exception.DataTypeNonsupportException;
 import pers.linhai.nature.indexaccess.exception.DataTypeParseException;
 import pers.linhai.nature.indexaccess.model.datatypes.quote.ObjectType.ObjectField;
-import pers.linhai.nature.reflect.MethodAccess;
 
 /**
  * <pre>
@@ -63,20 +63,15 @@ public abstract class DataType
     private String name;
     
     /**
-     * 方法访问者
+     * get方法反射调用
      */
-    private MethodAccess access;
-
-    /**
-     * 数据pojo对应成员的get方法
-     */
-    private int getterIndex;
-
-    /**
-     * 数据pojo对应成员的set方法
-     */
-    private int setterIndex;
+    private Method getMethod;
     
+    /**
+     * set方法反射调用
+     */
+    private Method setMethod;
+
     /** 
      * <默认构造函数>
      *
@@ -105,59 +100,6 @@ public abstract class DataType
         this.name = name;
     }
 
-    /**
-     * 获取 access
-     * @return 返回 access
-     */
-    public MethodAccess getAccess()
-    {
-        return access;
-    }
-
-    /**
-     * 设置 access
-     * @param 对access进行赋值
-     */
-    public void setAccess(MethodAccess access)
-    {
-        this.access = access;
-    }
-
-    /**
-     * 获取 getterIndex
-     * @return 返回 getterIndex
-     */
-    public int getGetterIndex()
-    {
-        return getterIndex;
-    }
-
-    /**
-     * 设置 getterIndex
-     * @param 对getterIndex进行赋值
-     */
-    public void setGetterIndex(int getterIndex)
-    {
-        this.getterIndex = getterIndex;
-    }
-
-    /**
-     * 获取 setterIndex
-     * @return 返回 setterIndex
-     */
-    public int getSetterIndex()
-    {
-        return setterIndex;
-    }
-
-    /**
-     * 设置 setterIndex
-     * @param 对setterIndex进行赋值
-     */
-    public void setSetterIndex(int setterIndex)
-    {
-        this.setterIndex = setterIndex;
-    }
     
     /**
      * 获取指定的注解
@@ -200,13 +142,38 @@ public abstract class DataType
     public abstract Builder getMappingParams();
     
     /**
+     * <p>Set Method   :   getMethod Method</p>
+     * @param getMethod
+     */
+    public void setGetMethod(Method getMethod)
+    {
+        this.getMethod = getMethod;
+    }
+
+    /**
+     * <p>Set Method   :   setMethod Method</p>
+     * @param setMethod
+     */
+    public void setSetMethod(Method setMethod)
+    {
+        this.setMethod = setMethod;
+    }
+
+    /**
      * 反射set方法
      * @param t
      * @param args void
      */
     protected <T> void invoke(T t, Object... args)
     {
-        access.invoke(t, setterIndex, args);
+        try
+        {
+            setMethod.invoke(t, args);
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+        }
     }
     
     /**
@@ -216,7 +183,15 @@ public abstract class DataType
      */
     protected <T> Object invoke(T t)
     {
-        return access.invoke(t, getterIndex);
+        try
+        {
+            return getMethod.invoke(t);
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
     
     /**

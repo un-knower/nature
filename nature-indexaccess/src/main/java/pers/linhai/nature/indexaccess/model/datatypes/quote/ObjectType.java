@@ -13,6 +13,7 @@ package pers.linhai.nature.indexaccess.model.datatypes.quote;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,6 @@ import pers.linhai.nature.indexaccess.model.datatypes.DataType;
 import pers.linhai.nature.indexaccess.model.datatypes.quote.ObjectType.ObjectField;
 import pers.linhai.nature.indexaccess.model.enumer.Dynamic;
 import pers.linhai.nature.indexaccess.model.enumer.Enabled;
-import pers.linhai.nature.reflect.ConstructorAccess;
 
 /**
  * @Description: 对象类型，该对象里面的属性是任意字段类型的组合。对象里面的字段也可以是对象类型
@@ -67,21 +67,29 @@ public class ObjectType<OF extends ObjectField> extends DataType
      */
     public ObjectType(Class<OF> clazz, List<Annotation> annoList)
     {
-        type = "object";
-        
-        pers.linhai.nature.indexaccess.annotation.datatypes.ObjectField objectField
-            = getAnnotation(annoList, pers.linhai.nature.indexaccess.annotation.datatypes.ObjectField.class);
-        if(objectField != null)
+        try
         {
-            dynamic = objectField.dynamic();
-            enabled = objectField.enabled();
+            type = "object";
+            
+            pers.linhai.nature.indexaccess.annotation.datatypes.ObjectField objectField
+                = getAnnotation(annoList, pers.linhai.nature.indexaccess.annotation.datatypes.ObjectField.class);
+            if(objectField != null)
+            {
+                dynamic = objectField.dynamic();
+                enabled = objectField.enabled();
+            }
+            
+            //数据entity的构造器，以便用于查询的时候，直接返回该类型的数据
+            Constructor<OF> entityConstructor = clazz.getConstructor();
+            
+            dataTypeCollection = DataTypeParser.parse(clazz);
+            objectFieldConverter = new ObjectFieldConverterImpl<OF>(dataTypeCollection, entityConstructor);
         }
-        
-        
-        //数据entity的构造器，以便用于查询的时候，直接返回该类型的数据
-        ConstructorAccess<OF> entityConstructor = ConstructorAccess.get(clazz);
-        dataTypeCollection = DataTypeParser.parse(clazz);
-        objectFieldConverter = new ObjectFieldConverterImpl<OF>(dataTypeCollection, entityConstructor);
+        catch (Throwable e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
     
     /**

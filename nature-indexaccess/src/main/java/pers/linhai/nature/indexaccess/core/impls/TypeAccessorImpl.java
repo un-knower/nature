@@ -41,7 +41,6 @@ import pers.linhai.nature.indexaccess.interfaces.TypeAccessor;
 import pers.linhai.nature.indexaccess.model.bulk.BulkProcessorConfiguration;
 import pers.linhai.nature.indexaccess.model.type.MappingConfiguration;
 import pers.linhai.nature.indexaccess.model.type.Type;
-import pers.linhai.nature.reflect.ConstructorAccess;
 
 /**
  * DAO实现
@@ -73,19 +72,25 @@ public class TypeAccessorImpl<T extends Type> implements TypeAccessor<T>
      */
     public TypeAccessorImpl(MappingConfiguration<T> tec, TransportClientProcessor transportClientProcessor)
     {
-        // 初始化EsPojoDAO
-        long l_start = System.currentTimeMillis();
-        
-        //数据entity的构造器，以便用于查询的时候，直接返回该类型的数据
-        ConstructorAccess<T> entityConstructor = ConstructorAccess.get(tec.getTypeClass());
-        
-        this.dataConverter = new DataConverterImpl<T>(tec.getDataTypeCollection(), entityConstructor);
-        this.transportClientProcessor = transportClientProcessor;
-        
-        AccessorFactory.add(tec.getTypeClass(), this);
-        
-        // 控制台打印初始化完成信息
-        LOG.info("TypeAccessor<".concat(tec.getTypeClass().getSimpleName()).concat("> Initialized successfully in ").concat(String.valueOf(System.currentTimeMillis() - l_start)).concat(" ms !"));
+        try
+        {
+            // 初始化EsPojoDAO
+            long l_start = System.currentTimeMillis();
+            
+            //数据entity的构造器，以便用于查询的时候，直接返回该类型的数据
+            this.dataConverter = new DataConverterImpl<T>(tec.getDataTypeCollection(), tec.getTypeClass().getConstructor());
+            
+            this.transportClientProcessor = transportClientProcessor;
+            
+            AccessorFactory.add(tec.getTypeClass(), this);
+            
+            // 控制台打印初始化完成信息
+            LOG.info("TypeAccessor<".concat(tec.getTypeClass().getSimpleName()).concat("> Initialized successfully in ").concat(String.valueOf(System.currentTimeMillis() - l_start)).concat(" ms !"));
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+        }
     }
     
     /**
