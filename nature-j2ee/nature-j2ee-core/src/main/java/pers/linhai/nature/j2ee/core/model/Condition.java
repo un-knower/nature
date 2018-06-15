@@ -71,19 +71,7 @@ public class Condition extends SqlField
     {
         this.id = id;
     }
-    
-    /**
-     * <p>Set Method   :   fieldName String</p>
-     * please use setField
-     * @param fieldName
-     */
-    @ApiModelProperty(value = "【即将废弃】实体属性名，注：该属性后期将废弃，请使用新属性field", name="field", example="username")
-    @Deprecated
-    public void setFieldName(String fieldName)
-    {
-        setField(fieldName);
-    }
-    
+
     /**
      * <p>Get Method   :   operator String</p>
      * @return operator

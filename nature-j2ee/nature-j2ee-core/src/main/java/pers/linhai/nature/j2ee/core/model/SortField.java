@@ -11,7 +11,6 @@ package pers.linhai.nature.j2ee.core.model;
 
 import java.util.Locale;
 
-import io.swagger.annotations.ApiModelProperty;
 import pers.linhai.nature.j2ee.core.model.enumer.Direction;
 
 /**
@@ -27,18 +26,6 @@ public class SortField extends SqlField
      * 排序方向
      */
     private String direction = Direction.ASC.name().toLowerCase(Locale.ENGLISH);
-    
-    /**
-     * <p>Set Method   :   fieldName String</p>
-     * please use setField
-     * @param fieldName
-     */
-    @ApiModelProperty(value="【即将废弃】实体属性名，注：该属性后期将废弃，请使用新属性field", name="field", example="username")
-    @Deprecated
-    public void setFieldName(String fieldName)
-    {
-        setField(fieldName);
-    }
     
     /**
      * <p>Get Method   :   direction Direction</p>
