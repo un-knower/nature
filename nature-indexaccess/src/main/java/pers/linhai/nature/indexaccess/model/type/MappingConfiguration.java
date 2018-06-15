@@ -19,7 +19,7 @@ import pers.linhai.nature.indexaccess.exception.XContentBuilderException;
 import pers.linhai.nature.indexaccess.model.core.DataTypeCollection;
 import pers.linhai.nature.indexaccess.model.datatypes.DataType;
 import pers.linhai.nature.indexaccess.model.index.Index;
-import pers.linhai.nature.indexaccess.utils.NamingUtils;
+import pers.linhai.nature.utils.NamerUtils;
 import pers.linhai.nature.utils.StringUtils;
 
 /**
@@ -94,7 +94,7 @@ public class MappingConfiguration<T extends Type>
             enabledAll = t.enabledAll();
         }
         
-        typeName = StringUtils.isEmpty(typeName) ? NamingUtils.fieldName(typeClass.getSimpleName()) : typeName;
+        typeName = StringUtils.isEmpty(typeName) ? NamerUtils.propertyToColumn(typeClass.getSimpleName()) : typeName;
         
         // 解析该type实体的注解字段
         parse();

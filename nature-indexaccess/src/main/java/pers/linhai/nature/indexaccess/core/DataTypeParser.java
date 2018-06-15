@@ -23,8 +23,8 @@ import pers.linhai.nature.indexaccess.model.core.DataTypeCollection;
 import pers.linhai.nature.indexaccess.model.datatypes.DataType;
 import pers.linhai.nature.indexaccess.model.datatypes.DataTypeMap;
 import pers.linhai.nature.indexaccess.model.datatypes.quote.ObjectType.ObjectField;
-import pers.linhai.nature.indexaccess.utils.NamingUtils;
 import pers.linhai.nature.reflect.MethodAccess;
+import pers.linhai.nature.utils.NamerUtils;
 
 /**
  * mapping映射解析器
@@ -84,7 +84,7 @@ public final class DataTypeParser
             }
             
             DataType dt = DataType.transfer(field);
-            dt.setName(NamingUtils.fieldName(field.getName()));
+            dt.setName(NamerUtils.propertyToColumn(field.getName()));
             dt.setAccess(access);
             dt.setGetterIndex(access.getIndex(getMethod.getName()));
             dt.setSetterIndex(access.getIndex(setMethod.getName()));

@@ -23,7 +23,7 @@ import pers.linhai.nature.indexaccess.core.processor.TransportClientProcessor;
 import pers.linhai.nature.indexaccess.interfaces.TypeAccessorInitialization;
 import pers.linhai.nature.indexaccess.model.type.MappingConfiguration;
 import pers.linhai.nature.indexaccess.model.type.Type;
-import pers.linhai.nature.indexaccess.utils.NamingUtils;
+import pers.linhai.nature.utils.NamerUtils;
 
 /**
  * 
@@ -84,7 +84,7 @@ public class TypeAccessorInitializationSpringImpl implements TypeAccessorInitial
         //添加构造函数参数，需要顺序添加
         bdb.addConstructorArgValue(tec);
         bdb.addConstructorArgValue(typeProcessor);
-        String name = NamingUtils.accessorName(tec.getTypeClass());
+        String name = NamerUtils.classToProperty(tec.getTypeClass());
         
         // 可以自动生成name
         BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(bdb.getRawBeanDefinition(), name);

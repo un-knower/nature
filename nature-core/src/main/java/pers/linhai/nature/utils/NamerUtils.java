@@ -177,6 +177,17 @@ public abstract class NamerUtils
         return s.toString();
     }
     
+    /**
+     * 将类名转换成变量名：把首字母大写转换成小写
+     * 
+     * @param name
+     * @return
+     */
+    public static final String classToProperty(Class<?> c)
+    {
+        return classToProperty(c.getSimpleName());
+    }
+    
     public static String methodToProperty(String name)
     {
         if (name.startsWith("is"))

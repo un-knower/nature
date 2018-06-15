@@ -33,7 +33,7 @@ import pers.linhai.nature.indexaccess.model.index.section.IndexSection.DynamicSe
 import pers.linhai.nature.indexaccess.model.index.section.IndexSection.StaticSettings;
 import pers.linhai.nature.indexaccess.model.type.MappingConfiguration;
 import pers.linhai.nature.indexaccess.model.type.Type;
-import pers.linhai.nature.indexaccess.utils.NamingUtils;
+import pers.linhai.nature.utils.NamerUtils;
 import pers.linhai.nature.utils.StringUtils;
 
 /**
@@ -89,7 +89,7 @@ public abstract class Index
         
         if (StringUtils.isEmpty(name))
         {
-            name = NamingUtils.fieldName(indexClass.getSimpleName());
+            name = NamerUtils.propertyToColumn(indexClass.getSimpleName());
         }
         
         if (StringUtils.isEmpty(alias))
