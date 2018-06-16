@@ -10,6 +10,9 @@
  */
 package pers.linhai.nature.indexaccess.bak;
 
+import java.io.ByteArrayOutputStream;
+
+import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 
@@ -31,6 +34,6 @@ public class Test
         jsonBuild.field("c", 3232);
         jsonBuild.field("d", 3.3);
         jsonBuild.endObject();
-        System.out.println(jsonBuild.string());
+        System.out.println(new String(((ByteArrayOutputStream) jsonBuild.getOutputStream()).toByteArray(), "utf-8"));
     }
 }

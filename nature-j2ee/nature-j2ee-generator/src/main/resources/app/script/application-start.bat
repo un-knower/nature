@@ -3,6 +3,14 @@ color 0E
 setlocal
 set curdir=%~dp0
 
+echo test am i admin? > %SystemRoot%\System32\ThinkVenus.test
+if not exist "%SystemRoot%\System32\ThinkVenus.test" (
+    echo  Warning: please run as an administrator!
+    pause
+    exit
+)
+del %SystemRoot%\System32\ThinkVenus.test
+
 rem Detects whether the java_home environment variable is defined
 if not "%JAVA_HOME%" == "" goto foundJavaHome
 echo WARNING: The operating system does not install the Java running environment, and begin to find java-home from installation package

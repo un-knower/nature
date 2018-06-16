@@ -10,6 +10,7 @@
  */
 package pers.linhai.nature.indexaccess.model.index;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.common.xcontent.XContentType;
 
+import pers.linhai.nature.constant.Charsets;
 import pers.linhai.nature.indexaccess.exception.IndexConfigurationException;
 import pers.linhai.nature.indexaccess.model.core.RolloverStrategy;
 import pers.linhai.nature.indexaccess.model.index.section.AnalysisSection;
@@ -233,7 +235,8 @@ public abstract class Index
             jsonBuilder.startObject();
             indexSettings.indexSection().dynamicSettings().build(jsonBuilder);
             jsonBuilder.endObject();
-            updateSettingsRequest.settings(Settings.builder().loadFromSource(jsonBuilder.string(), XContentType.JSON).build());
+            jsonBuilder.close();
+            updateSettingsRequest.settings(Settings.builder().loadFromSource(((ByteArrayOutputStream) jsonBuilder.getOutputStream()).toString(Charsets.UTF_8), XContentType.JSON).build());
         }
         
         return updateSettingsRequest;
