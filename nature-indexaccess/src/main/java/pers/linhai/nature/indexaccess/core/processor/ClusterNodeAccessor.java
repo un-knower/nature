@@ -10,8 +10,6 @@
  */
 package pers.linhai.nature.indexaccess.core.processor;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.elasticsearch.Version;
 import org.elasticsearch.client.AdminClient;
 import org.elasticsearch.client.ClusterAdminClient;
@@ -20,6 +18,8 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.settings.Settings.Builder;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import pers.linhai.nature.indexaccess.core.ConfigurationParser;
 import pers.linhai.nature.indexaccess.exception.EsClientInitializationException;
@@ -38,7 +38,7 @@ public abstract class ClusterNodeAccessor
     /**
      * java logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(ClusterNodeAccessor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClusterNodeAccessor.class);
     
     /**
      * ES client link single object
