@@ -31,16 +31,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pers.linhai.nature.utils.Assert;
+import pers.linhai.nature.utils.StringUtils;
 
 /**
  * <p>ClassName      : TransportClientFactoryBean</p>
  * @author lilinhai 2018年6月17日 下午5:31:20
  * @version 1.0
  */
-public class TransportClientFactory
+public class TransportClientBuilder
 {
     
-    private static final Logger logger = LoggerFactory.getLogger(TransportClientFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(TransportClientBuilder.class);
     
     private String clusterNodes = "127.0.0.1:9300";
     
@@ -62,7 +63,7 @@ public class TransportClientFactory
     
     static final String COMMA = ",";
     
-    public void destroy() throws Exception
+    public void destroy()
     {
         try
         {
@@ -78,25 +79,9 @@ public class TransportClientFactory
         }
     }
     
-    public TransportClient getTransportClient() throws Exception
+    private void buildClient() throws Exception
     {
-        return client;
-    }
-    
-    public Class<TransportClient> getObjectType()
-    {
-        return TransportClient.class;
-    }
-    
-    public boolean isSingleton()
-    {
-        return false;
-    }
-    
-    public void buildClient() throws Exception
-    {
-        
-        client = new PreBuiltTransportClient(settings());
+        client = new PreBuiltTransportClient(getSettings());
         Assert.hasText(clusterNodes, "[Assertion failed] clusterNodes settings missing.");
         for (String clusterNode : split(clusterNodes, COMMA))
         {
@@ -110,18 +95,18 @@ public class TransportClientFactory
         client.connectedNodes();
     }
     
-    private Settings settings()
+    private Settings getSettings()
     {
+        Settings.Builder builder = Settings.builder();
         if (properties != null)
         {
-            Settings.Builder builder = Settings.builder();
             for (Entry<String, String> property : properties.entrySet())
             {
                 builder.put(property.getKey(), property.getValue());
             }
             return builder.build();
         }
-        return Settings.builder()
+        return builder
                 .put("cluster.name", clusterName)
                 .put("client.transport.sniff", clientTransportSniff)
                 .put("client.transport.ignore_cluster_name", clientIgnoreClusterName)
@@ -130,48 +115,35 @@ public class TransportClientFactory
                 .build();
     }
     
-    public void setClientTransportSniff(Boolean clientTransportSniff)
+    /**
+     * 生成一个TransportClient对象
+     * <p>Title         : build Administrator 2018年6月17日 下午9:27:21</p>
+     * @param clusterName
+     * @param clusterNodes
+     * @param properties
+     * @return 
+     * TransportClient
+     */
+    public static TransportClient build(String clusterName, String clusterNodes, Map<String, String> properties)
     {
-        this.clientTransportSniff = clientTransportSniff;
+        try
+        {
+            TransportClientBuilder factory = new TransportClientBuilder();
+            factory.clusterName = StringUtils.isEmpty(clusterName) ? factory.clusterName : clusterName;
+            factory.clusterNodes = clusterNodes;
+            factory.properties = properties;
+            factory.buildClient();
+            return factory.client;
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
     
-    public String getClientNodesSamplerInterval()
+    public static TransportClient build(String clusterNodes, Map<String, String> properties)
     {
-        return clientNodesSamplerInterval;
-    }
-    
-    public void setClientNodesSamplerInterval(String clientNodesSamplerInterval)
-    {
-        this.clientNodesSamplerInterval = clientNodesSamplerInterval;
-    }
-    
-    public String getClientPingTimeout()
-    {
-        return clientPingTimeout;
-    }
-    
-    public void setClientPingTimeout(String clientPingTimeout)
-    {
-        this.clientPingTimeout = clientPingTimeout;
-    }
-    
-    public Boolean getClientIgnoreClusterName()
-    {
-        return clientIgnoreClusterName;
-    }
-    
-    public void setClientIgnoreClusterName(Boolean clientIgnoreClusterName)
-    {
-        this.clientIgnoreClusterName = clientIgnoreClusterName;
-    }
-    
-    public static void build(String clusterName, String clusterNodes, Map<String, String> properties)
-    {
-        
-    }
-    
-    public static void build(String clusterNodes, Map<String, String> properties)
-    {
-        
+        return build(null, clusterNodes, properties);
     }
 }

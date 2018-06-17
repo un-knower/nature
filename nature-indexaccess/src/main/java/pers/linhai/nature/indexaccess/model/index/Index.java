@@ -27,7 +27,7 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.common.xcontent.XContentType;
 
-import pers.linhai.nature.constant.Charsets;
+import pers.linhai.nature.constant.CharEncoding;
 import pers.linhai.nature.indexaccess.exception.IndexConfigurationException;
 import pers.linhai.nature.indexaccess.model.core.RolloverStrategy;
 import pers.linhai.nature.indexaccess.model.index.section.AnalysisSection;
@@ -236,7 +236,7 @@ public abstract class Index
             indexSettings.indexSection().dynamicSettings().build(jsonBuilder);
             jsonBuilder.endObject();
             jsonBuilder.close();
-            updateSettingsRequest.settings(Settings.builder().loadFromSource(((ByteArrayOutputStream) jsonBuilder.getOutputStream()).toString(Charsets.UTF_8), XContentType.JSON).build());
+            updateSettingsRequest.settings(Settings.builder().loadFromSource(((ByteArrayOutputStream) jsonBuilder.getOutputStream()).toString(CharEncoding.UTF_8), XContentType.JSON).build());
         }
         
         return updateSettingsRequest;
