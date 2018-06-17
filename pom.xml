@@ -332,9 +332,9 @@
 
     <modules>
         <module>nature-ui</module>
-        <module>nature-indexaccess</module>
-        <module>nature-indexaccess-log4jappender</module>
-        <module>nature-indexaccess-spring</module>
+        <module>nature-esaccessor</module>
+        <module>nature-esaccessor-log4jappender</module>
+        <module>nature-esaccessor-spring</module>
         <module>nature-core</module>
         <module>nature-j2ee</module>
     </modules>

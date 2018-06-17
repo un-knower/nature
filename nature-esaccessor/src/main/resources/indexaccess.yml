@@ -1,0 +1,8 @@
+indexaccess: 
+  settings: 
+    client.transport.sniff: true
+    cluster.name: "elasticsearch"
+    client.transport.ignore_cluster_name: false
+    client.transport.ping_timeout: 5s
+    client.transport.nodes_sampler_interval: 5s
+  clusterNodes: "127.0.0.1:9300"
