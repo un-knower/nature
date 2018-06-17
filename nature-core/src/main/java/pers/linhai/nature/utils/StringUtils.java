@@ -44,6 +44,99 @@ public abstract class StringUtils
     
     private static final char EXTENSION_SEPARATOR = '.';
     
+    /**
+     * An empty immutable <code>String</code> array.
+     */
+    public static final String[] EMPTY_STRING_ARRAY = new String[0];
+    
+    /**
+     * <p>Gets the substring before the last occurrence of a separator.
+     * The separator is not returned.</p>
+     *
+     * <p>A <code>null</code> string input will return <code>null</code>.
+     * An empty ("") string input will return the empty string.
+     * An empty or <code>null</code> separator will return the input string.</p>
+     *
+     * <p>If nothing is found, the string input is returned.</p>
+     *
+     * <pre>
+     * StringUtils.substringBeforeLast(null, *)      = null
+     * StringUtils.substringBeforeLast("", *)        = ""
+     * StringUtils.substringBeforeLast("abcba", "b") = "abc"
+     * StringUtils.substringBeforeLast("abc", "c")   = "ab"
+     * StringUtils.substringBeforeLast("a", "a")     = ""
+     * StringUtils.substringBeforeLast("a", "z")     = "a"
+     * StringUtils.substringBeforeLast("a", null)    = "a"
+     * StringUtils.substringBeforeLast("a", "")      = "a"
+     * </pre>
+     *
+     * @param str  the String to get a substring from, may be null
+     * @param separator  the String to search for, may be null
+     * @return the substring before the last occurrence of the separator,
+     *  <code>null</code> if null String input
+     * @since 2.0
+     */
+    public static String substringBeforeLast(String str, String separator)
+    {
+        if (isEmpty(str) || isEmpty(separator))
+        {
+            return str;
+        }
+        int pos = str.lastIndexOf(separator);
+        if (pos == -1)
+        {
+            return str;
+        }
+        return str.substring(0, pos);
+    }
+    
+    /**
+     * <p>Gets the substring after the last occurrence of a separator.
+     * The separator is not returned.</p>
+     *
+     * <p>A <code>null</code> string input will return <code>null</code>.
+     * An empty ("") string input will return the empty string.
+     * An empty or <code>null</code> separator will return the empty string if
+     * the input string is not <code>null</code>.</p>
+     *
+     * <p>If nothing is found, the empty string is returned.</p>
+     *
+     * <pre>
+     * StringUtils.substringAfterLast(null, *)      = null
+     * StringUtils.substringAfterLast("", *)        = ""
+     * StringUtils.substringAfterLast(*, "")        = ""
+     * StringUtils.substringAfterLast(*, null)      = ""
+     * StringUtils.substringAfterLast("abc", "a")   = "bc"
+     * StringUtils.substringAfterLast("abcba", "b") = "a"
+     * StringUtils.substringAfterLast("abc", "c")   = ""
+     * StringUtils.substringAfterLast("a", "a")     = ""
+     * StringUtils.substringAfterLast("a", "z")     = ""
+     * </pre>
+     *
+     * @param str  the String to get a substring from, may be null
+     * @param separator  the String to search for, may be null
+     * @return the substring after the last occurrence of the separator,
+     *  <code>null</code> if null String input
+     * @since 2.0
+     */
+    public static String substringAfterLast(String str, String separator)
+    {
+        if (isEmpty(str))
+        {
+            return str;
+        }
+        if (isEmpty(separator))
+        {
+            return "";
+        }
+        int pos = str.lastIndexOf(separator);
+        if (pos == -1 || pos == (str.length() - separator.length()))
+        {
+            return "";
+        }
+        return str.substring(pos + separator.length());
+    }
+    
     //---------------------------------------------------------------------
     // General convenience methods for working with Strings
     //---------------------------------------------------------------------
@@ -1382,5 +1475,4 @@ public abstract class StringUtils
     {
         return arrayToDelimitedString(arr, ",");
     }
-    
 }

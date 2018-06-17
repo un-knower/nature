@@ -12,7 +12,6 @@
 		<Entry name="client.transport.sniff" value="true" />
 	</Settings>
 	
-	<TransportAddresses>
-		<TransportAddress ip="127.0.0.1" port="9300" />
-	</TransportAddresses>
+    <!-- 多个用都好隔开 -->
+	<ClusterNodes value="127.0.0.1:9300" />
 </Configuration>

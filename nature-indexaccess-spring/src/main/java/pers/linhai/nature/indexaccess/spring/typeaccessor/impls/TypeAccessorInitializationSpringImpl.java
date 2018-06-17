@@ -84,7 +84,7 @@ public class TypeAccessorInitializationSpringImpl implements TypeAccessorInitial
         //添加构造函数参数，需要顺序添加
         bdb.addConstructorArgValue(tec);
         bdb.addConstructorArgValue(typeProcessor);
-        String name = NamerUtils.classToProperty(tec.getTypeClass());
+        String name = NamerUtils.classToProperty(tec.getTypeClass()) + "Accessor";
         
         // 可以自动生成name
         BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(bdb.getRawBeanDefinition(), name);

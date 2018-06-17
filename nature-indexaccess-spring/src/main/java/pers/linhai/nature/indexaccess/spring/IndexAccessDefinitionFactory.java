@@ -93,7 +93,7 @@ public class IndexAccessDefinitionFactory implements BeanDefinitionRegistryPostP
 
                 // 需要在依赖注入分析逻辑执行之前将自定义bean进行注册，否则会出现泛型对象注入错误问题
                 bdb.addConstructorArgValue(IndicesAdminClientProcessor.newInstance(index, typeAccessorInitialization));
-                String name = NamerUtils.classToProperty(indexClass);
+                String name = NamerUtils.classToProperty(indexClass) + "Accessor";
 
                 // 可以自动生成name
                 BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(bdb.getRawBeanDefinition(), name);
