@@ -11,6 +11,7 @@
 package pers.linhai.nature.indexaccess.core.impls;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
@@ -24,13 +25,8 @@ import pers.linhai.nature.indexaccess.model.type.Type;
  * @author  shinelon
  * @version  V100R001C00
  */
-class HitCollectionImpl<T extends Type> implements HitCollection<T>, Iterator<T>
+class HitCollectionImpl<T extends Type> implements HitCollection<T>
 {
-    
-    /**
-     * 迭代器下标
-     */
-    private int index;
     
     /**
      * 返回的记录数
@@ -56,43 +52,14 @@ class HitCollectionImpl<T extends Type> implements HitCollection<T>, Iterator<T>
     /** 
      * <p>Overriding Method: lilinhai 2018年1月6日 下午4:09:45</p>
      * <p>Title: iterator</p>
-     * <p>Description: TODO</p>
      * @return 
      * @see java.lang.Iterable#iterator()
-     */ 
-    @Override
+     */
     public Iterator<T> iterator()
     {
-        return this;
+        return new Itr();
     }
-
-    /** 
-     * <p>Overriding Method: lilinhai 2018年1月6日 下午4:02:55</p>
-     * <p>Title: hasNext</p>
-     * @return 
-     * @see java.util.Iterator#hasNext()
-     */ 
-    public boolean hasNext()
-    {
-        return index < length();
-    }
-
-    /** 
-     * <p>Overriding Method: lilinhai 2018年1月6日 下午4:02:55</p>
-     * <p>Title: next</p>
-     * <p>Description: TODO</p>
-     * @return 
-     * @see java.util.Iterator#next()
-     */ 
-    public T next()
-    {
-        if (!hasNext())
-        {
-            return null;
-        }
-        return get(index++);
-    }
-
+    
     /**
      * 迭代
      * @param ec void
@@ -147,5 +114,47 @@ class HitCollectionImpl<T extends Type> implements HitCollection<T>, Iterator<T>
         t.setVersion(searchHit.getVersion());
         t.setId(searchHit.getId());
         t.setScore(searchHit.getScore());
+    }
+    
+    /**
+     * 迭代器
+     * <p>ClassName      : Itr</p>
+     * @author lilinhai 2018年6月17日 下午12:13:48
+     * @version 1.0
+     */
+    private class Itr implements Iterator<T>
+    {
+        
+        /**
+         * 迭代器下标
+         */
+        private int index;
+        
+        /** 
+         * <p>Overriding Method: lilinhai 2018年6月17日 下午12:08:49</p>
+         * <p>Title: hasNext</p>
+         * @return 
+         * @see java.util.Iterator#hasNext()
+         */
+        public boolean hasNext()
+        {
+            return index < length();
+        }
+        
+        /** 
+         * <p>Overriding Method: lilinhai 2018年6月17日 下午12:08:49</p>
+         * <p>Title: next</p>
+         * @return 
+         * @see java.util.Iterator#next()
+         */
+        public T next()
+        {
+            if (!hasNext())
+            {
+                throw new NoSuchElementException();
+            }
+            return get(index++);
+        }
+        
     }
 }
