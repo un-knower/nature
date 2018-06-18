@@ -83,15 +83,6 @@ class BulkOperationImpl<T extends Type> implements BulkOperation<T>
     }
     
     /**
-     * 删除单个记录
-     * @param t T
-     */
-    public void delete(T t)
-    {
-        delete(t.getId());
-    }
-    
-    /**
      * 返回 isClosed
      *
      * @return isClosed

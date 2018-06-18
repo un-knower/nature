@@ -34,12 +34,6 @@ public interface BulkOperation<T extends Type>
     void delete(String id);
     
     /**
-     * 删除单个记录
-     * @param t T
-     */
-    void delete(T t);
-    
-    /**
      * 刷缓冲区操作
      * void
      */
