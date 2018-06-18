@@ -57,7 +57,7 @@ public class IndexAccessShutdownHook extends Thread
                 logInfoBulkOperation.flush();
                 sleep(100);
                 logInfoBulkOperation.close();
-                ClusterNodeAccessor.instance().shutdown();
+                ClusterNodeAccessor.instance().destroy();
             }
             catch (Throwable e)
             {

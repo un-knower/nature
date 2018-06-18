@@ -15,14 +15,12 @@ import org.elasticsearch.client.AdminClient;
 import org.elasticsearch.client.ClusterAdminClient;
 import org.elasticsearch.client.IndicesAdminClient;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.settings.Settings.Builder;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pers.linhai.nature.esaccessor.core.ConfigurationParser;
 import pers.linhai.nature.esaccessor.exception.EsClientInitializationException;
+import pers.linhai.nature.esaccessor.model.client.Configuration;
+import pers.linhai.nature.esaccessor.model.client.TransportClientBuilder;
 import pers.linhai.nature.esaccessor.model.core.ClientConfiguration;
 import pers.linhai.nature.utils.IOUtils;
 import pers.linhai.nature.utils.ResourceUtils;
@@ -38,7 +36,7 @@ public abstract class ClusterNodeAccessor
     /**
      * java logger
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ClusterNodeAccessor.class);
+    private final Logger logger = LoggerFactory.getLogger(ClusterNodeAccessor.class);
     
     /**
      * ES client link single object
@@ -82,16 +80,10 @@ public abstract class ClusterNodeAccessor
             String bigVersion = esVersion.substring(0, 1);
             String middleVersion = esVersion.substring(2, 3);
             String smallVersion = esVersion.substring(4, 5);
-            LOGGER.info("Elasticsearch-ClusterAccessor is in initializing, elasticsearch-version: " + bigVersion + "." + middleVersion + "." + smallVersion);
-            
-            //Parse the elastic-search-client configuration
-            new ConfigurationParser().parse();
-            
-            Builder builder = Settings.builder();
-            ClientConfiguration.getSettings().configure(builder);
+            logger.info("Elasticsearch-ClusterAccessor is in initializing, elasticsearch-version: " + bigVersion + "." + middleVersion + "." + smallVersion);
             
             //Create the TransportClient Object
-            transportClient = new PreBuiltTransportClient(builder.build());
+            transportClient = TransportClientBuilder.build(Configuration.getInstance().getClusterNodes(), Configuration.getInstance().getSettings());
 
             //init the client single-object
             ClientConfiguration.getAddresses().configure(transportClient);
@@ -102,9 +94,9 @@ public abstract class ClusterNodeAccessor
             
             clusterAdminClient = adminClient.cluster();
             
-            LOGGER.info("Elasticsearch-ClusterConnector created successfully in " + ( System.currentTimeMillis() - start ) + " ms.");
+            logger.info("Elasticsearch-ClusterConnector created successfully in " + ( System.currentTimeMillis() - start ) + " ms.");
             
-            LOGGER.info(IOUtils.inputStreamToString(ResourceUtils.getURL("classpath:banner").openStream()));
+            logger.info(IOUtils.inputStreamToString(ResourceUtils.getURL("classpath:banner").openStream()));
         }
         catch (Throwable e)
         {
@@ -163,11 +155,23 @@ public abstract class ClusterNodeAccessor
     }
     
     /**
-     * 关闭客户端
+     * 销毁客户端
      * void
      */
-    public void shutdown()
+    public void destroy()
     {
         transportClient.close();
+        try
+        {
+            logger.info("Closing elasticSearch  client");
+            if (transportClient != null)
+            {
+                transportClient.close();
+            }
+        }
+        catch (final Exception e)
+        {
+            logger.error("Error closing ElasticSearch client: ", e);
+        }
     }
 }

@@ -31,7 +31,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pers.linhai.nature.utils.Assert;
-import pers.linhai.nature.utils.StringUtils;
 
 /**
  * <p>ClassName      : TransportClientFactoryBean</p>
@@ -41,10 +40,13 @@ import pers.linhai.nature.utils.StringUtils;
 public class TransportClientBuilder
 {
     
-    private static final Logger logger = LoggerFactory.getLogger(TransportClientBuilder.class);
+    private final Logger logger = LoggerFactory.getLogger(TransportClientBuilder.class);
     
     private String clusterNodes = "127.0.0.1:9300";
     
+    /**
+     * Elastic-search cluster default name.
+     */
     private String clusterName = "elasticsearch";
     
     private Boolean clientTransportSniff = true;
@@ -124,12 +126,11 @@ public class TransportClientBuilder
      * @return 
      * TransportClient
      */
-    public static TransportClient build(String clusterName, String clusterNodes, Map<String, String> properties)
+    public static TransportClient build(String clusterNodes, Map<String, String> properties)
     {
         try
         {
             TransportClientBuilder factory = new TransportClientBuilder();
-            factory.clusterName = StringUtils.isEmpty(clusterName) ? factory.clusterName : clusterName;
             factory.clusterNodes = clusterNodes;
             factory.properties = properties;
             factory.buildClient();
@@ -140,10 +141,5 @@ public class TransportClientBuilder
             e.printStackTrace();
             return null;
         }
-    }
-    
-    public static TransportClient build(String clusterNodes, Map<String, String> properties)
-    {
-        return build(null, clusterNodes, properties);
     }
 }
