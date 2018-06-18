@@ -332,9 +332,9 @@
 
     <modules>
         <module>nature-ui</module>
-        <module>nature-esaccessor</module>
-        <module>nature-esaccessor-log4jappender</module>
-        <module>nature-esaccessor-spring</module>
+        <module>nature-esmapper</module>
+        <module>nature-esmapper-log4jappender</module>
+        <module>nature-esmapper-autoconfigure</module>
         <module>nature-core</module>
         <module>nature-j2ee</module>
     </modules>
