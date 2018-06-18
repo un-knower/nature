@@ -65,6 +65,11 @@ public class TransportClientBuilder
     
     static final String COMMA = ",";
     
+    private TransportClientBuilder()
+    {
+        
+    }
+    
     public void destroy()
     {
         try

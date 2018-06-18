@@ -13,7 +13,7 @@ package pers.linhai.nature.esmapper.core;
 import java.util.HashMap;
 import java.util.Map;
 
-import pers.linhai.nature.esmapper.core.impls.IndexAccessorImpl;
+import pers.linhai.nature.esmapper.core.impls.IndexMapperImpl;
 import pers.linhai.nature.esmapper.exception.IndexAccessorNotFoundException;
 import pers.linhai.nature.esmapper.exception.TypeAccessorNotFoundException;
 import pers.linhai.nature.esmapper.interfaces.IndexMapper;
@@ -33,13 +33,13 @@ public abstract class MapperFactory
     /**
      * 单例对象.
      */
-    private static final MapperFactory ACCESSOR_FACTORY = new MapperFactory()
+    private static final MapperFactory FACTORY = new MapperFactory()
     {
     };
     
-    private final Map<Class<? extends Index>, IndexMapper<? extends Index>> indexAccessorMap = new HashMap<Class<? extends Index>, IndexMapper<? extends Index>>();
+    private final Map<Class<? extends Index>, IndexMapper<? extends Index>> indexMapperMap = new HashMap<Class<? extends Index>, IndexMapper<? extends Index>>();
     
-    private Map<Class<? extends Type>, TypeMapper<? extends Type>> typeAccessorMap = new HashMap<Class<? extends Type>, TypeMapper<? extends Type>>();
+    private Map<Class<? extends Type>, TypeMapper<? extends Type>> typeMapperMap = new HashMap<Class<? extends Type>, TypeMapper<? extends Type>>();
     
     private MapperFactory()
     {
@@ -59,7 +59,7 @@ public abstract class MapperFactory
             //实例化一个索引对象
             T index = indexClass.getDeclaredConstructor().newInstance();
             
-            IndexMapper<T> indexAccessor = new IndexAccessorImpl<T>(index);
+            IndexMapper<T> indexAccessor = new IndexMapperImpl<T>(index);
             add(indexClass, indexAccessor);
         }
         catch (Throwable e)
@@ -70,12 +70,12 @@ public abstract class MapperFactory
     
     private <T extends Index> void add0(Class<T> index, IndexMapper<T> indexAccessor)
     {
-        indexAccessorMap.put(index, indexAccessor);
+        indexMapperMap.put(index, indexAccessor);
     }
     
     private <T extends Type> void add0(Class<T> type, TypeMapper<T> typeAccessor)
     {
-        typeAccessorMap.put(type, typeAccessor);
+        typeMapperMap.put(type, typeAccessor);
     }
     
     /**
@@ -86,7 +86,7 @@ public abstract class MapperFactory
     @SuppressWarnings("unchecked")
     private <T extends Index> IndexMapper<T> indexAccessor0(Class<T> index)
     {
-        IndexMapper<T> ia = (IndexMapper<T>)indexAccessorMap.get(index);
+        IndexMapper<T> ia = (IndexMapper<T>)indexMapperMap.get(index);
         if(ia == null)
         {
             throw new IndexAccessorNotFoundException(index.getSimpleName());
@@ -102,7 +102,7 @@ public abstract class MapperFactory
     @SuppressWarnings("unchecked")
     private <T extends Type> TypeMapper<T> typeAccessor0(Class<T> type)
     {
-        TypeMapper<T> ta = (TypeMapper<T>)typeAccessorMap.get(type);
+        TypeMapper<T> ta = (TypeMapper<T>)typeMapperMap.get(type);
         if(ta == null)
         {
             throw new TypeAccessorNotFoundException(type.getSimpleName());
@@ -119,17 +119,17 @@ public abstract class MapperFactory
      */
     public static <T extends Index> void load(Class<T> index)
     {
-        ACCESSOR_FACTORY.load0(index);
+        FACTORY.load0(index);
     }
     
     public static <T extends Index> void add(Class<T> index, IndexMapper<T> indexAccessor)
     {
-        ACCESSOR_FACTORY.add0(index, indexAccessor);
+        FACTORY.add0(index, indexAccessor);
     }
     
     public static <T extends Type> void add(Class<T> type, TypeMapper<T> typeAccessor)
     {
-        ACCESSOR_FACTORY.add0(type, typeAccessor);
+        FACTORY.add0(type, typeAccessor);
     }
     
     /**
@@ -139,7 +139,7 @@ public abstract class MapperFactory
      */
     public static <T extends Index> IndexMapper<T> indexAccessor(Class<T> index)
     {
-        return ACCESSOR_FACTORY.indexAccessor0(index);
+        return FACTORY.indexAccessor0(index);
     }
     
     /**
@@ -149,6 +149,6 @@ public abstract class MapperFactory
      */
     public static <T extends Type> TypeMapper<T> typeAccessor(Class<T> type)
     {
-        return ACCESSOR_FACTORY.typeAccessor0(type);
+        return FACTORY.typeAccessor0(type);
     }
 }

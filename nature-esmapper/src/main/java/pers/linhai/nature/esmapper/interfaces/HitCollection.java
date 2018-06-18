@@ -25,7 +25,7 @@ public interface HitCollection<T extends Type> extends Iterable<T>
      * 迭代
      * @param ec void
      */
-    void each(Consumer<T> ec);
+    void foreach(Consumer<T> ec);
     
     /**
      * 返回命中的总记录数
@@ -56,6 +56,6 @@ public interface HitCollection<T extends Type> extends Iterable<T>
     public static interface Consumer<T extends Type>
     {
         
-        void consume(T t);
+        void process(T t);
     }
 }

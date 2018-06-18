@@ -31,7 +31,7 @@ import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.util.ClassUtils;
 
 import pers.linhai.nature.esmapper.autoconfigure.typeaccessor.impls.TypeAccessorInitializationSpringImpl;
-import pers.linhai.nature.esmapper.core.impls.IndexAccessorImpl;
+import pers.linhai.nature.esmapper.core.impls.IndexMapperImpl;
 import pers.linhai.nature.esmapper.core.processor.IndicesAdminClientProcessor;
 import pers.linhai.nature.esmapper.exception.IndexScanException;
 import pers.linhai.nature.esmapper.interfaces.TypeAccessorInitialization;
@@ -85,7 +85,7 @@ public class IndexAccessDefinitionFactory implements BeanDefinitionRegistryPostP
             TypeAccessorInitialization typeAccessorInitialization = new TypeAccessorInitializationSpringImpl(registry);
             for (Class<? extends Index> indexClass : indexClassList)
             {
-                BeanDefinitionBuilder bdb = BeanDefinitionBuilder.genericBeanDefinition(IndexAccessorImpl.class);
+                BeanDefinitionBuilder bdb = BeanDefinitionBuilder.genericBeanDefinition(IndexMapperImpl.class);
                 Index index = indexClass.getDeclaredConstructor().newInstance();
 
                 // 添加构造函数参数，需要顺序添加

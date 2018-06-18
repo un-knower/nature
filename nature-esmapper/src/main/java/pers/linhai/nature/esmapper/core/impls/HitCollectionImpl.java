@@ -64,12 +64,12 @@ class HitCollectionImpl<T extends Type> implements HitCollection<T>
      * 迭代
      * @param ec void
      */
-    public void each(Consumer<T> ec)
+    public void foreach(Consumer<T> ec)
     {
         SearchHit[] searchHits = this.searchHits.getHits();
         for (SearchHit searchHit : searchHits)
         {
-            ec.consume(transfer(searchHit));
+            ec.process(transfer(searchHit));
         }
     }
     

@@ -22,7 +22,7 @@ import pers.linhai.nature.esmapper.model.index.Index;
  * @version  V100R001C00
  */
 @SuppressWarnings("unchecked")
-public class IndexAccessorImpl<T extends Index> implements IndexMapper<T>
+public class IndexMapperImpl<T extends Index> implements IndexMapper<T>
 {
     
     private static final TypeAccessorInitialization DEFAULT_TYPE_ACCESSOR_INITIALIZATION = new DefaultTypeAccessInitializationImpl();
@@ -36,7 +36,7 @@ public class IndexAccessorImpl<T extends Index> implements IndexMapper<T>
      *
      * @param index
      */
-    public IndexAccessorImpl(T index)
+    public IndexMapperImpl(T index)
     {
         this(index, DEFAULT_TYPE_ACCESSOR_INITIALIZATION);
     }
@@ -47,7 +47,7 @@ public class IndexAccessorImpl<T extends Index> implements IndexMapper<T>
      * @param index T
      * @param typeAccessorInitialization TypeAccessorInitialization
      */
-    public IndexAccessorImpl(T index, TypeAccessorInitialization typeAccessorInitialization)
+    public IndexMapperImpl(T index, TypeAccessorInitialization typeAccessorInitialization)
     {
         this(index, IndicesAdminClientProcessor.newInstance(index, typeAccessorInitialization));
     }
@@ -57,7 +57,7 @@ public class IndexAccessorImpl<T extends Index> implements IndexMapper<T>
      * @param index
      * @param indicesAdminClientProcessor
      */
-    public IndexAccessorImpl(T index, IndicesAdminClientProcessor indicesAdminClientProcessor)
+    public IndexMapperImpl(T index, IndicesAdminClientProcessor indicesAdminClientProcessor)
     {
         this.index = index;
         this.indicesAdminClientProcessor = indicesAdminClientProcessor;

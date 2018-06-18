@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import pers.linhai.nature.esmapper.exception.EsClientInitializationException;
 import pers.linhai.nature.esmapper.model.client.Configuration;
 import pers.linhai.nature.esmapper.model.client.TransportClientBuilder;
-import pers.linhai.nature.esmapper.model.core.ClientConfiguration;
 import pers.linhai.nature.utils.IOUtils;
 import pers.linhai.nature.utils.ResourceUtils;
 
@@ -84,9 +83,6 @@ public abstract class ClusterNodeAccessor
             
             //Create the TransportClient Object
             transportClient = TransportClientBuilder.build(Configuration.getInstance().getClusterNodes(), Configuration.getInstance().getSettings());
-
-            //init the client single-object
-            ClientConfiguration.getAddresses().configure(transportClient);
             
             adminClient = transportClient.admin();
             
@@ -94,7 +90,7 @@ public abstract class ClusterNodeAccessor
             
             clusterAdminClient = adminClient.cluster();
             
-            logger.info("Elasticsearch-ClusterConnector created successfully in " + ( System.currentTimeMillis() - start ) + " ms.");
+            logger.info("Elasticsearch-transportClient created successfully in " + ( System.currentTimeMillis() - start ) + " ms.");
             
             logger.info(IOUtils.inputStreamToString(ResourceUtils.getURL("classpath:banner").openStream()));
         }

@@ -67,9 +67,9 @@ public class Test4
                         sleep(5 * 1000);
                         
                         HitCollection<UserInfo> userInfoHitCollection = userInfoAccessor.query(new MatchAllQueryBuilder(), 0, 10);
-                        userInfoHitCollection.each(new Consumer<UserInfo>()
+                        userInfoHitCollection.foreach(new Consumer<UserInfo>()
                         {
-                            public void consume(UserInfo t)
+                            public void process(UserInfo t)
                             {
                                 System.out.println(t);
                             }
