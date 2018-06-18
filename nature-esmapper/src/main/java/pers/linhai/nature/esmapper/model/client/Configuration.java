@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 
 import pers.linhai.nature.utils.IOUtils;
@@ -113,7 +114,9 @@ public abstract class Configuration
             {
                 return;
             }
-            Yaml yaml = new Yaml();
+            LoaderOptions loaderOptions = new LoaderOptions();
+            loaderOptions.setAllowDuplicateKeys(false);
+            Yaml yaml = new Yaml(loaderOptions);
             Map<?, ?> mapConf = yaml.loadAs(in, Map.class);
             this.clusterNodes = ((Map<?, ?>)mapConf.get("esmapper")).get("clusterNodes").toString();
             this.settings = (Map<String, String>)((Map<?, ?>)mapConf.get("esmapper")).get("settings");
