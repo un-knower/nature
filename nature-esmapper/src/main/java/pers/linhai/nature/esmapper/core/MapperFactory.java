@@ -18,6 +18,7 @@ import pers.linhai.nature.esmapper.exception.IndexAccessorNotFoundException;
 import pers.linhai.nature.esmapper.exception.TypeAccessorNotFoundException;
 import pers.linhai.nature.esmapper.interfaces.IndexMapper;
 import pers.linhai.nature.esmapper.interfaces.TypeMapper;
+import pers.linhai.nature.esmapper.model.client.Configuration;
 import pers.linhai.nature.esmapper.model.index.Index;
 import pers.linhai.nature.esmapper.model.type.Type;
 
@@ -119,6 +120,8 @@ public abstract class MapperFactory
      */
     public static <T extends Index> void load(Class<T> index)
     {
+        // 加载es配置文件
+        Configuration.getInstance().load();
         FACTORY.load0(index);
     }
     
@@ -137,7 +140,7 @@ public abstract class MapperFactory
      * @param index
      * @return IndexAccessor<T>
      */
-    public static <T extends Index> IndexMapper<T> indexAccessor(Class<T> index)
+    public static <T extends Index> IndexMapper<T> indexMapper(Class<T> index)
     {
         return FACTORY.indexAccessor0(index);
     }
@@ -147,7 +150,7 @@ public abstract class MapperFactory
      * @param type
      * @return TypeAccessor<? extends MappingType>
      */
-    public static <T extends Type> TypeMapper<T> typeAccessor(Class<T> type)
+    public static <T extends Type> TypeMapper<T> typeMapper(Class<T> type)
     {
         return FACTORY.typeAccessor0(type);
     }

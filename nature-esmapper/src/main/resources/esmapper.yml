@@ -1,4 +1,4 @@
-esaccessor: 
+esmapper: 
   settings: 
     client.transport.sniff: true
     cluster.name: "elasticsearch"

@@ -25,11 +25,4 @@ public interface TypeAccessorInitialization
      * @param mappingConfigurationlist void
      */
     void initialize(IndicesAdminClientProcessor indicesAdminClientProcessor);
-    
-    /**
-     * 初始化配置信息
-     * <p>Title         : initializeConfiguration lilinhai 2018年6月18日 上午12:42:06</p>
-     * void
-     */
-    void initializeConfiguration();
 }

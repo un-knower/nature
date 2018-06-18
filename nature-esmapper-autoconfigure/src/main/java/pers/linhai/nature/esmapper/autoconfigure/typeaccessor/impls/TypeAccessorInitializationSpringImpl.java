@@ -21,7 +21,6 @@ import pers.linhai.nature.esmapper.core.impls.TypeMapperImpl;
 import pers.linhai.nature.esmapper.core.processor.IndicesAdminClientProcessor;
 import pers.linhai.nature.esmapper.core.processor.TransportClientProcessor;
 import pers.linhai.nature.esmapper.interfaces.TypeAccessorInitialization;
-import pers.linhai.nature.esmapper.model.client.Configuration;
 import pers.linhai.nature.esmapper.model.type.MappingConfiguration;
 import pers.linhai.nature.esmapper.model.type.Type;
 import pers.linhai.nature.utils.NamerUtils;
@@ -49,16 +48,6 @@ public class TypeAccessorInitializationSpringImpl implements TypeAccessorInitial
     {
         super();
         this.registry = registry;
-    }
-    
-    /** 
-     * <p>Overriding Method: lilinhai 2018年6月18日 上午12:42:18</p>
-     * <p>Title: initializeConfiguration</p>
-     * @see pers.linhai.nature.esmapper.interfaces.TypeAccessorInitialization#initializeConfiguration()
-     */ 
-    public void initializeConfiguration()
-    {
-        Configuration.getInstance().load();
     }
 
     /**

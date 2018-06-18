@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.yaml.snakeyaml.Yaml;
 
+import pers.linhai.nature.utils.IOUtils;
 import pers.linhai.nature.utils.ResourceUtils;
 
 /**
@@ -42,7 +43,12 @@ public abstract class Configuration
     /**
      * Additional properties used to configure the client.
      */
-    private Map<String, String> settings = new HashMap<>();
+    private Map<String, String> settings = new HashMap<String, String>();
+    
+    /**
+     * 是否初始化
+     */
+    private boolean isInited;
 
     public String getClusterNodes()
     {
@@ -86,7 +92,11 @@ public abstract class Configuration
     {
         try
         {
-            load(ResourceUtils.getURL("classpath:esaccessor.yml").openStream());
+            if (isInited)
+            {
+                return;
+            }
+            load(ResourceUtils.getURL("classpath:esmapper.yml").openStream());
         }
         catch (Throwable e)
         {
@@ -97,9 +107,25 @@ public abstract class Configuration
     @SuppressWarnings("unchecked")
     public void load(InputStream in)
     {
-        Yaml yaml = new Yaml();
-        Map<?, ?> mapConf = yaml.loadAs(in, Map.class);
-        this.clusterNodes = ((Map<?, ?>)mapConf.get("esaccessor")).get("clusterNodes").toString();
-        this.settings = (Map<String, String>)((Map<?, ?>)mapConf.get("esaccessor")).get("settings");
+        try
+        {
+            if (isInited)
+            {
+                return;
+            }
+            Yaml yaml = new Yaml();
+            Map<?, ?> mapConf = yaml.loadAs(in, Map.class);
+            this.clusterNodes = ((Map<?, ?>)mapConf.get("esmapper")).get("clusterNodes").toString();
+            this.settings = (Map<String, String>)((Map<?, ?>)mapConf.get("esmapper")).get("settings");
+            this.isInited = true;
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            IOUtils.close(in);
+        }
     }
 }

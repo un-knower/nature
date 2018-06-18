@@ -35,7 +35,7 @@ public class Test4
     public static void main(String[] args) throws IOException
     {
         MapperFactory.load(UserIndex.class);
-        final TypeMapper<UserInfo> userInfoAccessor = MapperFactory.typeAccessor(UserInfo.class);
+        final TypeMapper<UserInfo> userInfoAccessor = MapperFactory.typeMapper(UserInfo.class);
         new Thread()
         {
 

@@ -35,6 +35,7 @@ import pers.linhai.nature.esmapper.core.impls.IndexMapperImpl;
 import pers.linhai.nature.esmapper.core.processor.IndicesAdminClientProcessor;
 import pers.linhai.nature.esmapper.exception.IndexScanException;
 import pers.linhai.nature.esmapper.interfaces.TypeAccessorInitialization;
+import pers.linhai.nature.esmapper.model.client.Configuration;
 import pers.linhai.nature.esmapper.model.index.Index;
 import pers.linhai.nature.utils.NamerUtils;
 
@@ -74,6 +75,9 @@ public class IndexAccessDefinitionFactory implements BeanDefinitionRegistryPostP
             {
                 throw new IndexScanException("The package for the indexScan can't be null.");
             }
+            
+            // 加载es配置文件
+            Configuration.getInstance().load();
 
             List<Class<? extends Index>> indexClassList = scan();
             if (indexClassList.isEmpty())

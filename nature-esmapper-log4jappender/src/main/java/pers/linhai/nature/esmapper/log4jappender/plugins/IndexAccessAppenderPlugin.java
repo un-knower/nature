@@ -197,7 +197,7 @@ public class IndexAccessAppenderPlugin extends AbstractAppender
                 LogIndex.setIndexDynamicSettings(indexDynamicSettings);
                 LogIndex.setIndexStaticSettings(indexStaticSettings);
                 MapperFactory.load(LogIndex.class);
-                logInfoAccessor = MapperFactory.typeAccessor(LogInfo.class);
+                logInfoAccessor = MapperFactory.typeMapper(LogInfo.class);
                 
                 if (logInfoBulkOperation == null)
                 {

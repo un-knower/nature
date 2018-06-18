@@ -23,19 +23,6 @@ import pers.linhai.nature.esmapper.model.type.Type;
 public class DefaultTypeAccessInitializationImpl implements TypeAccessorInitialization
 {
     
-    
-    
-    /** 
-     * <p>Overriding Method: lilinhai 2018年6月18日 上午12:42:54</p>
-     * <p>Title: initializeConfiguration</p>
-     * <p>Description: TODO</p> 
-     * @see pers.linhai.nature.esmapper.interfaces.TypeAccessorInitialization#initializeConfiguration()
-     */ 
-    public void initializeConfiguration()
-    {
-        
-    }
-
     /**
      *
      * @param writingIndexName
